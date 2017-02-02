@@ -9,6 +9,9 @@ project(simox-cgal)
 
 find_package(Simox REQUIRED)
 find_package(CGAL REQUIRED)
+FIND_PACKAGE(Boost 1.46.0 COMPONENTS unit_test_framework REQUIRED)
+SET (Boost_TEST_LIB "${Boost_LIBRARIES}")
+# disable boost auto linking
 
 setupSimoxExternalLibraries()
 include(${CGAL_USE_FILE})
@@ -37,6 +40,51 @@ set(HEADER_FILES
     ObjectPart.h
     )
 
+#######################################################################
+# OS specific options
+#######################################################################
+IF(UNIX)
+    # We are on Linux
+    SET(SimoxCGAL_TEST_DIR ${CMAKE_BINARY_DIR}/tests)
+ELSE(UNIX)
+    # We are on Windows
+    SET(SimoxCGAL_TEST_DIR ${CMAKE_BINARY_DIR})
+    # On MSVC we compile with /MP flag (use multiple threads)
+    IF(MSVC)
+        ADD_DEFINITIONS(/MP)
+    ENDIF(MSVC)
+ENDIF(UNIX)
+
+#######################################################################
+# Setup for testing
+#######################################################################
+ENABLE_TESTING()
+INCLUDE(CTest)
+MESSAGE(STATUS "** Test output directory: ${SimoxCGAL_TEST_DIR}")
+#ADD_DEFINITIONS(-DSimoxCGAL_TEST_DIR=\"${SimoxCGAL_TEST_DIR}/\")
+MACRO(ADD_SIMOX_CGAL_TEST TEST_NAME)
+    INCLUDE_DIRECTORIES(${Simox_EXTERNAL_INCLUDE_DIRS})
+    INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
+    MESSAGE("Simox_EXTERNAL_LIBRARY_FLAGS: ${Simox_EXTERNAL_LIBRARY_FLAGS}")
+
+    if (NOT Boost_USE_STATIC_LIBS)
+        # enable dynamic linking for boost test libraries
+        ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
+    endif (Boost_USE_STATIC_LIBS)
+    ADD_DEFINITIONS(${Simox_EXTERNAL_LIBRARY_FLAGS})
+    add_definitions(-DCGAL_EIGEN3_ENABLED)
+    ADD_EXECUTABLE(${TEST_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}.cpp)
+    TARGET_LINK_LIBRARIES(${TEST_NAME} VirtualRobot simox-cgal ${Simox_EXTERNAL_LIBRARIES} ${CGAL_LIBRARIES} ${Boost_TEST_LIB})
+    SET_TARGET_PROPERTIES(${TEST_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${SimoxCGAL_TEST_DIR})
+    SET_TARGET_PROPERTIES(${TEST_NAME} PROPERTIES FOLDER "VirtualRobot Tests")
+    ADD_TEST(NAME SimoxCGAL_${TEST_NAME}
+        COMMAND ${SimoxCGAL_TEST_DIR}/${TEST_NAME} --output_format=XML --log_level=all --report_level=no)
+ENDMACRO()
+
+if(BUILD_TESTING)
+    # include unit tests
+    ADD_SUBDIRECTORY(tests/)
+endif()
 
 ########################################
 ###           Setup build            ###

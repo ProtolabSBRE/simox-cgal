@@ -1,0 +1,2 @@
+
+ADD_SIMOX_CGAL_TEST( SimoxCGALMeshTest )

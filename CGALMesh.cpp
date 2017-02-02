@@ -11,4 +11,15 @@ CGALMesh::CGALMesh(TriangleMeshPtr m)
 
 }
 
+
+CGALMesh::~CGALMesh()
+{
+
+}
+
+TriangleMeshPtr CGALMesh::getMesh()
+{
+    return mesh;
+}
+
 }

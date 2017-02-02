@@ -49,7 +49,7 @@ namespace SimoxCGAL
 
         void addParameterString(const std::string &key, const std::string &value);
         bool hasParamterString(const std::string &key);
-        bool getParameterString(const std::string &key, std::string  &storeValue);
+        bool getParameterString(const std::string &key, std::string &storeValue);
 
     protected:
 

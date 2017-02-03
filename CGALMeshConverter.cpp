@@ -89,6 +89,57 @@ SimoxCGAL::CGALMeshPtr SimoxCGAL::CGALMeshConverter::ConvertTrimesh(VirtualRobot
    return m;
 }
 
+TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALMeshPtr m)
+{
+    VR_ASSERT(m);
+
+    TriangleMeshPtr mesh = m->getMesh();
+    TriMeshModelPtr res(new TriMeshModel());
+    std::map<size_t,size_t> idMap;
+    size_t i = 0;
+
+    BOOST_FOREACH(TriangleMesh::vertex_index index, mesh->vertices())
+    {
+        Point a = mesh->point(index);
+        size_t indxCGAL = index.operator size_type();
+        Eigen::Vector3f v;
+        v << a[0],  a[1],  a[2];
+        res->addVertex(v);
+        size_t indxSimox = i;
+        i++;
+        idMap[indxCGAL] = indxSimox;
+    }
+    TriangleMesh::Vertex_around_face_iterator fb, fe;
+    TriangleMesh::Halfedge_index hi;
+
+    BOOST_FOREACH(TriangleMesh::face_index index , mesh->faces())
+    {
+        hi = mesh->halfedge(index);
+        fb = mesh->vertices_around_face(hi).begin();
+        fe = mesh->vertices_around_face(hi).end();
+        std::vector<int> polIndex;
+
+        for (; fb != fe; ++fb)
+        {
+            polIndex.push_back(fb->operator size_type());
+
+        }
+        if (polIndex.size()!=3)
+        {
+            VR_ERROR << "polygon with # endes!=3 is not supported: edge count " << polIndex.size() << endl;
+            continue;
+        }
+
+        MathTools::TriangleFace f;
+        f.id1 = polIndex.at(0);
+        f.id2 = polIndex.at(1);
+        f.id3 = polIndex.at(2);
+
+        res->addFace(f);
+    }
+    return res;
+}
+
 VirtualRobot::TriMeshModelPtr SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCompatible(VirtualRobot::TriMeshModelPtr tm)
 {
     VR_ASSERT (tm);

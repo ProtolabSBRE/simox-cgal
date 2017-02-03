@@ -46,6 +46,16 @@ namespace SimoxCGAL
 
         TriangleMeshPtr getMesh();
 
+        unsigned int getNrOfVertices();
+        unsigned int getNrOfEdges();
+        unsigned int getNrOfFaces();
+
+        void print();
+
+        std::string toXML(int nrTabs = 1);
+
+        static boost::shared_ptr<CGALMesh> fromXML(const std::string &xml);
+
     protected:
         TriangleMeshPtr mesh;
 

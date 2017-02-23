@@ -25,7 +25,8 @@
 #define _SimoxCGAL_MeshSDF_h_
 
 #include "SimoxCGAL.h"
-#include "CGALSurfaceMesh.h"
+#include "CGALPolyhedronMesh.h"
+#include <CGAL/property_map.h>
 
 namespace SimoxCGAL
 {
@@ -36,17 +37,35 @@ namespace SimoxCGAL
     {
     public:
 
-        MeshSDF(CGALSurfaceMeshPtr mesh);
+        MeshSDF(CGALPolyhedronMeshPtr mesh,
+                size_t paramNrRays = 25,
+                double paramConeAngle = 2.0 / 3.0 * M_PI,
+                size_t paramNrClusters = 5);
 
         /*!
         */
         virtual ~MeshSDF();
 
+
     protected:
+        bool checkMeshValid();
 
         bool buildSkeleton();
 
-        CGALSurfaceMeshPtr mesh;
+
+        //PolyhedronFacetDoubleMap facetMap;
+        //boost::associative_property_map<PolyhedronFacetDoubleMap> sdf_raw_property_map;
+        PolyhedronFacetIntMap internal_segment_map;
+        boost::associative_property_map<PolyhedronFacetIntMap> segment_property_map;
+        size_t number_of_segments;
+        int segmentationTimeMS;
+
+        CGALPolyhedronMeshPtr mesh;
+        size_t paramNrRays;
+        double paramConeAngle;
+        size_t paramNrClusters;
+
+        std::pair<double, double> min_max_sdf;
 
     };
 

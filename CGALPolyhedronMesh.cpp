@@ -107,7 +107,7 @@ std::string CGALPolyhedronMesh::toXML(int nrTabs)
     int k=0;
     for ( PolyhedronMesh::Vertex_iterator v = mesh->vertices_begin(); v != mesh->vertices_end(); ++v)
     {
-        Point a = v->point();
+        PointPoly a = v->point();
         ss << t << ta << "<Vertex index='" << k << "'>\n";
         ss << t << ta << ta << "<Point x='" << a[0] << "' y='" << a[1] << "' z='" << a[2] << "'/>\n";
         ss << t << ta << "</Vertex>\n";

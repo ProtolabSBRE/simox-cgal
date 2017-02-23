@@ -34,6 +34,7 @@
 #include <CGAL/Mean_curvature_flow_skeletonization.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Polyhedron_items_with_id_3.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 
 #include <VirtualRobot/VirtualRobot.h>
 #include "SimoxCGALImportExport.h"
@@ -52,10 +53,6 @@ typedef boost::shared_ptr<SurfaceMesh>                                  SurfaceM
 //typedef boost::graph_traits<SurfaceMesh>::vertex_descriptor             SurfaceMeshVertexDescriptor;
 //typedef boost::graph_traits<SurfaceMesh>::face_descriptor               SurfaceMeshFaceDesriptor;
 
-// CGAL mesh defined as polyhedron_3 mesh
-typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3>    PolyhedronMesh;
-typedef boost::shared_ptr<PolyhedronMesh>                               PolyhedronMeshPtr;
-
 typedef CGAL::Mean_curvature_flow_skeletonization<SurfaceMesh>          Skeletonization;
 typedef Skeletonization::Skeleton                          				Skeleton;
 typedef boost::shared_ptr<Skeleton>                                     SkeletonPtr;
@@ -65,14 +62,21 @@ typedef boost::graph_traits<Skeleton>::adjacency_iterator      			SkeletonAdjace
 typedef Skeleton::edge_descriptor                             			SkeletonEdge;
 
 
+// CGAL mesh defined as polyhedron_3 mesh
+typedef CGAL::Exact_predicates_inexact_constructions_kernel             KernelPolyhedron;
+typedef CGAL::Polyhedron_3<KernelPolyhedron>                            PolyhedronMesh;
+typedef boost::shared_ptr<PolyhedronMesh>                               PolyhedronMeshPtr;
 //typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3>	Polyhedron;
 //typedef boost::shared_ptr<Polyhedron>                                   PolyhedronPtr;
+typedef KernelPolyhedron::Point_3                                       PointPoly;
 typedef PolyhedronMesh::Vertex_iterator                             	PolyVertexIterator;
 typedef PolyhedronMesh::Facet_iterator                              	PolyFacetIterator;
 typedef PolyhedronMesh::Halfedge_around_facet_circulator                PolyHalfedgeFacetCirculator;
 typedef PolyhedronMesh::Halfedge_handle                             	PolyHalfedgeHandle;
 typedef boost::graph_traits<PolyhedronMesh>::face_descriptor            PolyFaceDescriptor;
 typedef boost::graph_traits<PolyhedronMesh>::halfedge_descriptor        PolyHalfedgeDescriptor;
+typedef std::map<PolyhedronMesh::Facet_const_handle, double>            PolyhedronFacetDoubleMap;
+typedef std::map<PolyhedronMesh::Facet_const_handle, int>               PolyhedronFacetIntMap;
 
 }
 

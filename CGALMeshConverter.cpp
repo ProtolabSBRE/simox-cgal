@@ -229,7 +229,7 @@ TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALPolyhedronMeshPtr m)
 
         do
         {
-            Point tmp_in_point = half_it->vertex()->point();
+            PointPoly tmp_in_point = half_it->vertex()->point();
             Eigen::Vector3f tmp_out_point(tmp_in_point.x(), tmp_in_point.y(), tmp_in_point.z());
             vertices.push_back(tmp_out_point);
         }

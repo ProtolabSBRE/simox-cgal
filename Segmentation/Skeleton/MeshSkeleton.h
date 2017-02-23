@@ -21,47 +21,32 @@
 *
 */
 
-#ifndef _SimoxCGAL_CGALMesh_h_
-#define _SimoxCGAL_CGALMesh_h_
+#ifndef _SimoxCGAL_MeshSkeleton_h_
+#define _SimoxCGAL_MeshSkeleton_h_
 
 #include "SimoxCGAL.h"
-
 
 namespace SimoxCGAL
 {
     /*!
 
     */
-    class SIMOX_CGAL_IMPORT_EXPORT CGALMesh
+    class SIMOX_CGAL_IMPORT_EXPORT MeshSkeleton
     {
     public:
 
-        /*!
-        */
-        CGALMesh(TriangleMeshPtr m);
+        MeshSkeleton();
 
         /*!
         */
-        virtual ~CGALMesh();
-
-        TriangleMeshPtr getMesh();
-
-        unsigned int getNrOfVertices();
-        unsigned int getNrOfEdges();
-        unsigned int getNrOfFaces();
-
-        void print();
-
-        std::string toXML(int nrTabs = 1);
-
-        static boost::shared_ptr<CGALMesh> fromXML(const std::string &xml);
+        virtual ~MeshSkeleton();
 
     protected:
-        TriangleMeshPtr mesh;
 
     };
 
-    typedef boost::shared_ptr<CGALMesh> CGALMeshPtr;
+    typedef boost::shared_ptr<MeshSkeleton> MeshSkeletonPtr;
 }
 
-#endif // _SimoxCGAL_CGALMesh_h_
+#endif
+

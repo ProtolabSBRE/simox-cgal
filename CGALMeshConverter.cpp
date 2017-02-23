@@ -5,40 +5,113 @@ using namespace VirtualRobot;
 
 namespace SimoxCGAL {
 
-SimoxCGAL::CGALMeshPtr SimoxCGAL::CGALMeshConverter::ConvertTrimesh(VirtualRobot::TriMeshModelPtr tm, bool trimeshAlreadyCGALCompatible)
+
+CGALPolyhedronMeshBuilder::CGALPolyhedronMeshBuilder(VirtualRobot::TriMeshModelPtr &tm)
+    :tm(tm)
 {
+}
+
+void CGALPolyhedronMeshBuilder::operator()(PolyhedronMesh::HalfedgeDS &hds)
+{
+    if (!tm)
+        return;
+    CGAL::Polyhedron_incremental_builder_3<PolyhedronMesh::HalfedgeDS> B(hds, true);
+    //B.ABSOLUTE_INDEXING; macht keinen Unterschied!?! nicht wichtig?
+    std::size_t numberVertices =tm->vertices.size();
+    std::size_t numberFaces =tm->faces.size();
+
+    typedef typename PolyhedronMesh::HalfedgeDS::Vertex Vertex;
+    typedef typename Vertex::Point Point;
+
+    B.begin_surface(numberVertices,numberFaces);
+    //add all vertex to cgal
+    for(std::vector<Eigen::Vector3f>::iterator itVertices=tm->vertices.begin();itVertices!=tm->vertices.end();itVertices++)
+    {
+        Eigen::Vector3f tmp=*itVertices;
+        Point p1=Point(tmp(0),tmp(1),tmp(2));
+        B.add_vertex(p1);
+    }
+
+    int nrWrongFacet=0;
+
+    //add face structure
+    for(std::vector<VirtualRobot::MathTools::TriangleFace>::iterator itFace=tm->faces.begin();itFace!=tm->faces.end();itFace++)
+    {
+        // write new InputIterator to test if facet is valid
+        std::vector<std::size_t> test_facet;
+        test_facet.push_back(itFace->id1);
+        test_facet.push_back(itFace->id2);
+        test_facet.push_back(itFace->id3);
+        if(B.test_facet(test_facet.begin(),test_facet.end()))
+        {
+            B.begin_facet();
+            B.add_vertex_to_facet(itFace->id1);
+            B.add_vertex_to_facet(itFace->id2);
+            B.add_vertex_to_facet(itFace->id3);
+            B.end_facet();
+        }
+        else
+            nrWrongFacet++;
+    }
+    B.end_surface();
+    //std::cout << "Nummer der nicht hinzugefuegten Facet ist: " << nrWrongFacet << std::endl;
+}
+
+SimoxCGAL::CGALPolyhedronMeshPtr SimoxCGAL::CGALMeshConverter::ConvertToPolyhedronMesh(VirtualRobot::TriMeshModelPtr tm, bool trimeshAlreadyCGALCompatible)
+{
+    VirtualRobot::TriMeshModelPtr tm2 = tm;
     if (!trimeshAlreadyCGALCompatible)
     {
         VR_INFO << "Converting tm to compatible structure" << endl;
-        tm = SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCompatible(tm);
+        tm2 = SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCompatible(tm);
         VR_INFO << "Converting tm to compatible structure...done" << endl;
     }
 
-    VR_INFO << "Converting tm to cgal data structure" << endl;
+    VR_INFO << "Converting tm to cgal polyhedron mesh structure" << endl;
 
 
-    TriangleMeshPtr mesh(new TriangleMesh());
-/*
-    std::map<Point, TriangleMesh::vertex_index> id_map;
+    CGALPolyhedronMeshPtr res(new CGALPolyhedronMesh(PolyhedronMeshPtr(new PolyhedronMesh())));
+    CGALPolyhedronMeshBuilder b(tm2);
+    PolyhedronMeshPtr mesh = res->getMesh();
+    mesh->delegate(b);
 
-    for (int i = 0; i < tm->vertices.size(); i++)
+    return res;
+}
+
+SimoxCGAL::CGALSurfaceMeshPtr SimoxCGAL::CGALMeshConverter::ConvertToSurfaceMesh(VirtualRobot::TriMeshModelPtr tm, bool trimeshAlreadyCGALCompatible)
+{
+    VirtualRobot::TriMeshModelPtr tm2 = tm;
+    if (!trimeshAlreadyCGALCompatible)
     {
-        Eigen::Vector3f p = tm->vertices.at(i);
+        VR_INFO << "Converting tm to compatible structure" << endl;
+        tm2 = SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCompatible(tm);
+        VR_INFO << "Converting tm to compatible structure...done" << endl;
+    }
+
+    VR_INFO << "Converting tm to cgal surface mesh structure" << endl;
+
+    SurfaceMeshPtr mesh(new SurfaceMesh());
+/*
+    std::map<Point, SurfaceMesh::vertex_index> id_map;
+
+    for (int i = 0; i < tm2->vertices.size(); i++)
+    {
+        Eigen::Vector3f p = tm2->vertices.at(i);
         Point point(p[0], p[1], p[2]);
-        TriangleMesh::vertex_index index = mesh->add_vertex(point);
+        SurfaceMesh::vertex_index index = mesh->add_vertex(point);
         id_map[point] = index;
     }*/
 
-    std::map<unsigned int, TriangleMesh::vertex_index> id_map;
+    std::map<unsigned int, SurfaceMesh::vertex_index> id_map;
 
-   for (size_t f = 0; f < tm->faces.size(); f++)
+   for (size_t f = 0; f < tm2->faces.size(); f++)
    {
-       unsigned int id1 = tm->faces.at(f).id1;
-       TriangleMesh::Vertex_index v1;
+       unsigned int id1 = tm2->faces.at(f).id1;
+       SurfaceMesh::Vertex_index v1;
        if (id_map.find(id1) == id_map.end())
        {
            // insert
-           Eigen::Vector3f p = tm->vertices.at(id1);
+           Eigen::Vector3f p = tm2->vertices.at(id1);
            Point point(p[0], p[1], p[2]);
            v1 = mesh->add_vertex(point);
            id_map[id1] = v1;
@@ -49,12 +122,12 @@ SimoxCGAL::CGALMeshPtr SimoxCGAL::CGALMeshConverter::ConvertTrimesh(VirtualRobot
        }
 
 
-       unsigned int id2 = tm->faces.at(f).id2;
-       TriangleMesh::Vertex_index v2;
+       unsigned int id2 = tm2->faces.at(f).id2;
+       SurfaceMesh::Vertex_index v2;
        if (id_map.find(id2) == id_map.end())
        {
            // insert
-           Eigen::Vector3f p = tm->vertices.at(id2);
+           Eigen::Vector3f p = tm2->vertices.at(id2);
            Point point(p[0], p[1], p[2]);
            v2 = mesh->add_vertex(point);
            id_map[id2] = v2;
@@ -65,12 +138,12 @@ SimoxCGAL::CGALMeshPtr SimoxCGAL::CGALMeshConverter::ConvertTrimesh(VirtualRobot
        }
 
 
-       unsigned int id3 = tm->faces.at(f).id3;
-       TriangleMesh::Vertex_index v3;
+       unsigned int id3 = tm2->faces.at(f).id3;
+       SurfaceMesh::Vertex_index v3;
        if (id_map.find(id3) == id_map.end())
        {
            // insert
-           Eigen::Vector3f p = tm->vertices.at(id3);
+           Eigen::Vector3f p = tm2->vertices.at(id3);
            Point point(p[0], p[1], p[2]);
            v3 = mesh->add_vertex(point);
            id_map[id3] = v3;
@@ -85,20 +158,20 @@ SimoxCGAL::CGALMeshPtr SimoxCGAL::CGALMeshConverter::ConvertTrimesh(VirtualRobot
 
    VR_INFO << "Converting tm to cgal data structure...done" << endl;
 
-   CGALMeshPtr m(new CGALMesh(mesh));
+   CGALSurfaceMeshPtr m(new CGALSurfaceMesh(mesh));
    return m;
 }
 
-TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALMeshPtr m)
+TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALSurfaceMeshPtr m)
 {
     VR_ASSERT(m);
 
-    TriangleMeshPtr mesh = m->getMesh();
+    SurfaceMeshPtr mesh = m->getMesh();
     TriMeshModelPtr res(new TriMeshModel());
     std::map<size_t,size_t> idMap;
     size_t i = 0;
 
-    BOOST_FOREACH(TriangleMesh::vertex_index index, mesh->vertices())
+    BOOST_FOREACH(SurfaceMesh::vertex_index index, mesh->vertices())
     {
         Point a = mesh->point(index);
         size_t indxCGAL = index.operator size_type();
@@ -109,10 +182,10 @@ TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALMeshPtr m)
         i++;
         idMap[indxCGAL] = indxSimox;
     }
-    TriangleMesh::Vertex_around_face_iterator fb, fe;
-    TriangleMesh::Halfedge_index hi;
+    SurfaceMesh::Vertex_around_face_iterator fb, fe;
+    SurfaceMesh::Halfedge_index hi;
 
-    BOOST_FOREACH(TriangleMesh::face_index index , mesh->faces())
+    BOOST_FOREACH(SurfaceMesh::face_index index , mesh->faces())
     {
         hi = mesh->halfedge(index);
         fb = mesh->vertices_around_face(hi).begin();
@@ -136,6 +209,36 @@ TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALMeshPtr m)
         f.id3 = polIndex.at(2);
 
         res->addFace(f);
+    }
+    return res;
+}
+
+TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALPolyhedronMeshPtr m)
+{
+    VR_ASSERT(m);
+    VR_ASSERT(m->getMesh());
+
+    TriMeshModelPtr res(new TriMeshModel);
+
+    for (PolyhedronMesh::Facet_const_iterator facet_it = m->getMesh()->facets_begin(); facet_it != m->getMesh()->facets_end(); ++facet_it)
+    {
+
+        //access vertices
+        std::vector<Eigen::Vector3f> vertices;
+        PolyhedronMesh::Halfedge_around_facet_const_circulator half_it = facet_it->facet_begin();
+
+        do
+        {
+            Point tmp_in_point = half_it->vertex()->point();
+            Eigen::Vector3f tmp_out_point(tmp_in_point.x(), tmp_in_point.y(), tmp_in_point.z());
+            vertices.push_back(tmp_out_point);
+        }
+        while (++half_it != facet_it->facet_begin());
+        if (vertices.size() > 2)
+        {
+            res->addTriangleWithFace(vertices.at(0), vertices.at(1), vertices.at(2));
+            //TODO write to a right structure with neighboorhood relationships
+        }
     }
     return res;
 }

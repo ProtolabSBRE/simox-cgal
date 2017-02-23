@@ -21,31 +21,47 @@
 *
 */
 
-#ifndef _SimoxCGAL_CGALMeshIO_h_
-#define _SimoxCGAL_CGALMeshIO_h_
+#ifndef _SimoxCGAL_CGALPolyhedronMesh_h_
+#define _SimoxCGAL_CGALPolyhedronMesh_h_
 
 #include "SimoxCGAL.h"
-#include "CGALSurfaceMesh.h"
+
 
 namespace SimoxCGAL
 {
     /*!
 
     */
-    class SIMOX_CGAL_IMPORT_EXPORT CGALMeshIO
+    class SIMOX_CGAL_IMPORT_EXPORT CGALPolyhedronMesh
     {
     public:
 
-        static CGALSurfaceMeshPtr Load(const std::string &filename);
-        static bool Save(CGALSurfaceMeshPtr o, const std::string &filename);
+        /*!
+        */
+        CGALPolyhedronMesh(PolyhedronMeshPtr m);
 
-        virtual ~CGALMeshIO();
+        /*!
+        */
+        virtual ~CGALPolyhedronMesh();
 
-    private:
-        // no need to instanciate this class
-        CGALMeshIO();
+        PolyhedronMeshPtr getMesh();
+
+        unsigned int getNrOfVertices();
+        unsigned int getNrOfEdges();
+        unsigned int getNrOfFaces();
+
+        void print();
+
+        std::string toXML(int nrTabs = 1);
+
+        static boost::shared_ptr<CGALPolyhedronMesh> fromXML(const std::string &xml);
+
+    protected:
+        PolyhedronMeshPtr mesh;
+
     };
 
+    typedef boost::shared_ptr<CGALPolyhedronMesh> CGALPolyhedronMeshPtr;
 }
 
-#endif // _SimoxCGAL_CGALMeshIO_h_
+#endif

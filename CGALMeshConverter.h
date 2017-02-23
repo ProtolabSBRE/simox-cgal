@@ -25,11 +25,26 @@
 #define _SimoxCGAL_CGALMeshConverter_h_
 
 #include "SimoxCGAL.h"
-#include "CGALMesh.h"
+#include "CGALSurfaceMesh.h"
+#include "CGALPolyhedronMesh.h"
 #include <VirtualRobot/Visualization/TriMeshModel.h>
 
 namespace SimoxCGAL
 {
+
+
+    class CGALPolyhedronMeshBuilder : public CGAL::Modifier_base<PolyhedronMesh::HalfedgeDS>
+    {
+    public:
+        CGALPolyhedronMeshBuilder(VirtualRobot::TriMeshModelPtr &tm);
+        void operator()(PolyhedronMesh::HalfedgeDS& hds);
+
+    private:
+        VirtualRobot::TriMeshModelPtr tm;
+
+    };
+
+
     /*!
 
     */
@@ -37,8 +52,10 @@ namespace SimoxCGAL
     {
     public:
 
-        static CGALMeshPtr ConvertTrimesh(VirtualRobot::TriMeshModelPtr tm, bool trimeshAlreadyCGALCompatible = false);
-        static VirtualRobot::TriMeshModelPtr ConvertCGALMesh(CGALMeshPtr m);
+        static CGALSurfaceMeshPtr ConvertToSurfaceMesh(VirtualRobot::TriMeshModelPtr tm, bool trimeshAlreadyCGALCompatible = false);
+        static CGALPolyhedronMeshPtr ConvertToPolyhedronMesh(VirtualRobot::TriMeshModelPtr tm, bool trimeshAlreadyCGALCompatible = false);
+        static VirtualRobot::TriMeshModelPtr ConvertCGALMesh(CGALSurfaceMeshPtr m);
+        static VirtualRobot::TriMeshModelPtr ConvertCGALMesh(CGALPolyhedronMeshPtr m);
 
         /*!
          * \brief ConvertTrimeshCGALCompatible Make internal trimesh structure compatible to cgal
@@ -47,11 +64,10 @@ namespace SimoxCGAL
          */
         static VirtualRobot::TriMeshModelPtr ConvertTrimeshCGALCompatible(VirtualRobot::TriMeshModelPtr tm);
 
-        virtual ~CGALMeshConverter();
-
     private:
         // no need to instanciate this class
         CGALMeshConverter();
+        virtual ~CGALMeshConverter();
     };
 
 }

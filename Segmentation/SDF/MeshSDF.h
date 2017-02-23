@@ -21,8 +21,8 @@
 *
 */
 
-#ifndef _SimoxCGAL_CGALMeshIO_h_
-#define _SimoxCGAL_CGALMeshIO_h_
+#ifndef _SimoxCGAL_MeshSDF_h_
+#define _SimoxCGAL_MeshSDF_h_
 
 #include "SimoxCGAL.h"
 #include "CGALSurfaceMesh.h"
@@ -32,20 +32,25 @@ namespace SimoxCGAL
     /*!
 
     */
-    class SIMOX_CGAL_IMPORT_EXPORT CGALMeshIO
+    class SIMOX_CGAL_IMPORT_EXPORT MeshSDF
     {
     public:
 
-        static CGALSurfaceMeshPtr Load(const std::string &filename);
-        static bool Save(CGALSurfaceMeshPtr o, const std::string &filename);
+        MeshSDF(CGALSurfaceMeshPtr mesh);
 
-        virtual ~CGALMeshIO();
+        /*!
+        */
+        virtual ~MeshSDF();
 
-    private:
-        // no need to instanciate this class
-        CGALMeshIO();
+    protected:
+
+        bool buildSkeleton();
+
+        CGALSurfaceMeshPtr mesh;
+
     };
 
+    typedef boost::shared_ptr<MeshSDF> MeshSDFPtr;
 }
 
-#endif // _SimoxCGAL_CGALMeshIO_h_
+#endif // _SimoxCGAL_MeshSDF_h_

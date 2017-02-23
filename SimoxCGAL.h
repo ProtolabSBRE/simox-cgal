@@ -43,15 +43,20 @@ namespace SimoxCGAL
 
 typedef CGAL::Simple_cartesian<double>									Kernel;
 
-typedef Kernel::Point_3													Point;
+typedef Kernel::Point_3                                                 Point;
 
-typedef CGAL::Surface_mesh<Point>										TriangleMesh;
-typedef boost::shared_ptr<TriangleMesh>                                 TriangleMeshPtr;
+// CGAL mesh defined as surface_mesh
+typedef CGAL::Surface_mesh<Point>										SurfaceMesh;
+typedef boost::shared_ptr<SurfaceMesh>                                  SurfaceMeshPtr;
 
-typedef boost::graph_traits<TriangleMesh>::vertex_descriptor			MeshVertexDescriptor;
-typedef boost::graph_traits<TriangleMesh>::face_descriptor				MeshFaceDesriptor;
+//typedef boost::graph_traits<SurfaceMesh>::vertex_descriptor             SurfaceMeshVertexDescriptor;
+//typedef boost::graph_traits<SurfaceMesh>::face_descriptor               SurfaceMeshFaceDesriptor;
 
-typedef CGAL::Mean_curvature_flow_skeletonization<TriangleMesh>         Skeletonization;
+// CGAL mesh defined as polyhedron_3 mesh
+typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3>    PolyhedronMesh;
+typedef boost::shared_ptr<PolyhedronMesh>                               PolyhedronMeshPtr;
+
+typedef CGAL::Mean_curvature_flow_skeletonization<SurfaceMesh>          Skeletonization;
 typedef Skeletonization::Skeleton                          				Skeleton;
 typedef boost::shared_ptr<Skeleton>                                     SkeletonPtr;
 typedef Skeleton::vertex_descriptor                             		SkeletonVertex;
@@ -60,13 +65,14 @@ typedef boost::graph_traits<Skeleton>::adjacency_iterator      			SkeletonAdjace
 typedef Skeleton::edge_descriptor                             			SkeletonEdge;
 
 
-typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3>	Polyhedron;
-typedef boost::shared_ptr<Polyhedron>                                   PolyhedronPtr;
-typedef Polyhedron::Vertex_iterator                             		PolyVertexIterator;
-typedef Polyhedron::Facet_iterator                              		PolyFacetIterator;
-typedef Polyhedron::Halfedge_handle                             		HalfedgeHandle;
-typedef boost::graph_traits<Polyhedron>::face_descriptor        		FaceDescriptor;
-typedef boost::graph_traits<Polyhedron>::halfedge_descriptor    		HalfedgeDescriptor;
+//typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3>	Polyhedron;
+//typedef boost::shared_ptr<Polyhedron>                                   PolyhedronPtr;
+typedef PolyhedronMesh::Vertex_iterator                             	PolyVertexIterator;
+typedef PolyhedronMesh::Facet_iterator                              	PolyFacetIterator;
+typedef PolyhedronMesh::Halfedge_around_facet_circulator                PolyHalfedgeFacetCirculator;
+typedef PolyhedronMesh::Halfedge_handle                             	PolyHalfedgeHandle;
+typedef boost::graph_traits<PolyhedronMesh>::face_descriptor            PolyFaceDescriptor;
+typedef boost::graph_traits<PolyhedronMesh>::halfedge_descriptor        PolyHalfedgeDescriptor;
 
 }
 

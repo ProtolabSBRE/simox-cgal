@@ -1,4 +1,4 @@
-#include "CGALMesh.h"
+#include "CGALSurfaceMesh.h"
 #include <VirtualRobot/Visualization/TriMeshModel.h>
 #include <VirtualRobot/XML/rapidxml.hpp>
 #include <VirtualRobot/VirtualRobotException.h>
@@ -8,31 +8,31 @@ using namespace VirtualRobot;
 
 namespace SimoxCGAL {
 
-CGALMesh::CGALMesh(TriangleMeshPtr m)
+CGALSurfaceMesh::CGALSurfaceMesh(SurfaceMeshPtr m)
     : mesh(m)
 {
 
 }
 
 
-CGALMesh::~CGALMesh()
+CGALSurfaceMesh::~CGALSurfaceMesh()
 {
 
 }
 
-TriangleMeshPtr CGALMesh::getMesh()
+SurfaceMeshPtr CGALSurfaceMesh::getMesh()
 {
     return mesh;
 }
 
-unsigned int CGALMesh::getNrOfVertices()
+unsigned int CGALSurfaceMesh::getNrOfVertices()
 {
     if (!mesh)
         return 0;
     return mesh->number_of_vertices();
 }
 
-unsigned int CGALMesh::getNrOfFaces()
+unsigned int CGALSurfaceMesh::getNrOfFaces()
 {
     if (!mesh)
         return 0;
@@ -40,7 +40,7 @@ unsigned int CGALMesh::getNrOfFaces()
 
 }
 
-unsigned int CGALMesh::getNrOfEdges()
+unsigned int CGALSurfaceMesh::getNrOfEdges()
 {
     if (!mesh)
         return 0;
@@ -48,9 +48,9 @@ unsigned int CGALMesh::getNrOfEdges()
 
 }
 
-void CGALMesh::print()
+void CGALSurfaceMesh::print()
 {
-    cout << "Simox CGAL Mesh" << endl;
+    cout << "Simox CGAL Surface Mesh" << endl;
     if (!mesh)
     {
         cout << "No mesh data" << endl;
@@ -59,17 +59,17 @@ void CGALMesh::print()
     cout << "Nr vertices:" << getNrOfVertices() << endl;
     cout << "Nr faces:" << getNrOfFaces() << endl;
 
-    BOOST_FOREACH(TriangleMesh::vertex_index index, mesh->vertices())
+    BOOST_FOREACH(SurfaceMesh::vertex_index index, mesh->vertices())
     {
         Point a = mesh->point(index);
         cout << "Vertex " << index.operator size_type() << ":" << a[0] << ", " << a[1] << ", " << a[2] << endl;
     }
 
 
-    TriangleMesh::Vertex_around_face_iterator fb, fe;
-    TriangleMesh::Halfedge_index hi;
+    SurfaceMesh::Vertex_around_face_iterator fb, fe;
+    SurfaceMesh::Halfedge_index hi;
 
-    BOOST_FOREACH(TriangleMesh::face_index index , mesh->faces())
+    BOOST_FOREACH(SurfaceMesh::face_index index , mesh->faces())
     {
         int i = 0;
 
@@ -90,7 +90,7 @@ void CGALMesh::print()
 
 }
 
-std::string CGALMesh::toXML(int nrTabs)
+std::string CGALSurfaceMesh::toXML(int nrTabs)
 {
     std::string t;
     std::string ta = "\t";
@@ -98,7 +98,7 @@ std::string CGALMesh::toXML(int nrTabs)
         t += "\t";
     std::stringstream ss;
 
-    ss << t << "<SimoxCGAL-TriangleMesh>\n";
+    ss << t << "<SimoxCGAL-SurfaceMesh>\n";
 
     ss << t <<"<NumberOfVertices vertices='" << mesh->number_of_vertices() << "'/>\n";
 
@@ -106,7 +106,7 @@ std::string CGALMesh::toXML(int nrTabs)
 
     ss << t << "<Vertices>\n";
 
-    BOOST_FOREACH(TriangleMesh::vertex_index index, mesh->vertices())
+    BOOST_FOREACH(SurfaceMesh::vertex_index index, mesh->vertices())
     {
         Point a = mesh->point(index);
         ss << t << ta << "<Vertex index='" << index.operator size_type() << "'>\n";
@@ -118,12 +118,12 @@ std::string CGALMesh::toXML(int nrTabs)
 
     ss << t << "<Faces>\n";
 
-    TriangleMesh::Vertex_around_face_iterator fb, fe;
-    TriangleMesh::Halfedge_index hi;
+    SurfaceMesh::Vertex_around_face_iterator fb, fe;
+    SurfaceMesh::Halfedge_index hi;
     std::string value = "index";
     int i = 0;
 
-    BOOST_FOREACH(TriangleMesh::face_index index , mesh->faces())
+    BOOST_FOREACH(SurfaceMesh::face_index index , mesh->faces())
     {
         i = 0;
 
@@ -156,15 +156,15 @@ std::string CGALMesh::toXML(int nrTabs)
 
     ss << t << ta << "</Faces>\n";
 
-    ss << t << "</SimoxCGAL-TriangleMesh>\n";
+    ss << t << "</SimoxCGAL-SurfaceMesh>\n";
 
     return ss.str();
 }
 
-boost::shared_ptr<CGALMesh> CGALMesh::fromXML(const std::string &xml)
+boost::shared_ptr<CGALSurfaceMesh> CGALSurfaceMesh::fromXML(const std::string &xml)
 {
-    CGALMeshPtr res(new CGALMesh(TriangleMeshPtr(new TriangleMesh())));
-    TriangleMeshPtr mesh = res->getMesh();
+    CGALSurfaceMeshPtr res(new CGALSurfaceMesh(SurfaceMeshPtr(new SurfaceMesh())));
+    SurfaceMeshPtr mesh = res->getMesh();
 
     int number_of_vertices = 0;
     int number_of_faces = 0;
@@ -176,8 +176,8 @@ boost::shared_ptr<CGALMesh> CGALMesh::fromXML(const std::string &xml)
 
         rapidxml::xml_document<char> doc;    // character type defaults to char
         doc.parse<0>(y);    // 0 means default parse flags
-        rapidxml::xml_node<char>* xml = doc.first_node("SimoxCGAL-TriangleMesh");
-        THROW_VR_EXCEPTION_IF(!xml, "No <SimoxCGAL-TriangleMesh> tag in XML definition");
+        rapidxml::xml_node<char>* xml = doc.first_node("SimoxCGAL-SurfaceMesh");
+        THROW_VR_EXCEPTION_IF(!xml, "No <SimoxCGAL-SurfaceMesh> tag in XML definition");
 
         //vertices
         rapidxml::xml_node<>* tmp_number_vertices_node = xml->first_node("NumberOfVertices", 0, false);
@@ -216,9 +216,9 @@ boost::shared_ptr<CGALMesh> CGALMesh::fromXML(const std::string &xml)
             int i_v1 = BaseIO::convertToInt(index_v1->value());
             int i_v2 = BaseIO::convertToInt(index_v2->value());
 
-            TriangleMesh::Vertex_index a(i_v0);
-            TriangleMesh::Vertex_index b(i_v1);
-            TriangleMesh::Vertex_index c(i_v2);
+            SurfaceMesh::Vertex_index a(i_v0);
+            SurfaceMesh::Vertex_index b(i_v1);
+            SurfaceMesh::Vertex_index c(i_v2);
 
             mesh->add_face(a,b,c);
         }

@@ -16,28 +16,38 @@ SET (Boost_TEST_LIB "${Boost_LIBRARIES}")
 setupSimoxExternalLibraries()
 include(${CGAL_USE_FILE})
 
+set (SimoxCGAL_BUILD_Tests TRUE CACHE BOOL "Build tests")
+set (SimoxCGAL_BUILD_Tools TRUE CACHE BOOL "Build tools")
+
+
 ########################################
 ###      Define files for build      ###
 ########################################
 
 # (glob should not be used here, for rationale see https://cmake.org/cmake/help/v3.0/command/file.html @ "We do not recommend using GLOB to...")
 set(SOURCE_FILES
-    CGALMesh.cpp
+    CGALSurfaceMesh.cpp
+    CGALPolyhedronMesh.cpp
     CGALMeshIO.cpp
     CGALMeshConverter.cpp
     SegmentedObjectIO.cpp
     SegmentedObject.cpp
     ObjectPart.cpp
+    Segmentation/Skeleton/MeshSkeleton.cpp
+    Segmentation/SDF/MeshSDF.cpp
     )
 set(HEADER_FILES
     SimoxCGAL.h
     SimoxCGALImportExport.h
-    CGALMesh.h
+    CGALSurfaceMesh.h
+    CGALPolyhedronMesh.h
     CGALMeshIO.h
     CGALMeshConverter.h
     SegmentedObjectIO.h
     SegmentedObject.h
     ObjectPart.h
+    Segmentation/Skeleton/MeshSkeleton.h
+    Segmentation/SDF/MeshSDF.h
     )
 
 #######################################################################
@@ -65,12 +75,11 @@ MESSAGE(STATUS "** Test output directory: ${SimoxCGAL_TEST_DIR}")
 MACRO(ADD_SIMOX_CGAL_TEST TEST_NAME)
     INCLUDE_DIRECTORIES(${Simox_EXTERNAL_INCLUDE_DIRS})
     INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
-    MESSAGE("Simox_EXTERNAL_LIBRARY_FLAGS: ${Simox_EXTERNAL_LIBRARY_FLAGS}")
 
     if (NOT Boost_USE_STATIC_LIBS)
         # enable dynamic linking for boost test libraries
         ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
-    endif (Boost_USE_STATIC_LIBS)
+    endif ()
     ADD_DEFINITIONS(${Simox_EXTERNAL_LIBRARY_FLAGS})
     add_definitions(-DCGAL_EIGEN3_ENABLED)
     ADD_EXECUTABLE(${TEST_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}.cpp)
@@ -81,9 +90,9 @@ MACRO(ADD_SIMOX_CGAL_TEST TEST_NAME)
         COMMAND ${SimoxCGAL_TEST_DIR}/${TEST_NAME} --output_format=XML --log_level=all --report_level=no)
 ENDMACRO()
 
-if(BUILD_TESTING)
+if(SimoxCGAL_BUILD_Tests)
     # include unit tests
-    ADD_SUBDIRECTORY(tests/)
+    ADD_SUBDIRECTORY(tests)
 endif()
 
 ########################################
@@ -106,6 +115,15 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+
+########################################
+###           Setup tools            ###
+########################################
+
+if(SimoxCGAL_BUILD_Tools)
+    # include unit tests
+    ADD_SUBDIRECTORY(Tools)
+endif()
 
 ########################################
 ###    Version support               ###

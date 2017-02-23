@@ -8,7 +8,7 @@ using namespace VirtualRobot;
 namespace SimoxCGAL {
 
 
-CGALMeshPtr CGALMeshIO::Load(const std::string &filename)
+CGALSurfaceMeshPtr CGALMeshIO::Load(const std::string &filename)
 {
     std::ifstream in(filename.c_str());
     THROW_VR_EXCEPTION_IF(!in.is_open(), "Could not open XML file:" << filename);
@@ -18,10 +18,10 @@ CGALMeshPtr CGALMeshIO::Load(const std::string &filename)
     std::string objectXML(buffer.str());
     in.close();
 
-    return CGALMesh::fromXML(objectXML);
+    return CGALSurfaceMesh::fromXML(objectXML);
 }
 
-bool CGALMeshIO::Save(CGALMeshPtr o, const std::string &filename)
+bool CGALMeshIO::Save(CGALSurfaceMeshPtr o, const std::string &filename)
 {
     if (!o)
         return false;

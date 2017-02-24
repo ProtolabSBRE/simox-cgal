@@ -26,6 +26,7 @@
 
 #include "SimoxCGAL.h"
 #include "CGALSurfaceMesh.h"
+#include "CGALPolyhedronMesh.h"
 
 namespace SimoxCGAL
 {
@@ -36,14 +37,15 @@ namespace SimoxCGAL
     {
     public:
 
-        static CGALSurfaceMeshPtr Load(const std::string &filename);
+        static CGALSurfaceMeshPtr LoadSurfaceMesh(const std::string &filename);
+        static CGALPolyhedronMeshPtr LoadPolyhedronMesh(const std::string &filename);
         static bool Save(CGALSurfaceMeshPtr o, const std::string &filename);
-
-        virtual ~CGALMeshIO();
+        static bool Save(CGALPolyhedronMeshPtr o, const std::string &filename);
 
     private:
         // no need to instanciate this class
         CGALMeshIO();
+        virtual ~CGALMeshIO();
     };
 
 }

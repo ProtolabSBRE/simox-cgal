@@ -99,24 +99,24 @@ std::string CGALPolyhedronMesh::toXML(int nrTabs)
 
     ss << t << "<SimoxCGAL-PolyhedronMesh>\n";
 
-    ss << t <<"<NumberOfVertices vertices='" << getNrOfVertices() << "'/>\n";
+    ss << t << ta << "<NumberOfVertices vertices='" << getNrOfVertices() << "'/>\n";
 
-    ss << t <<"<NumberOfFaces faces='" << getNrOfFaces() << "'/>\n";
+    ss << t << ta << "<NumberOfFaces faces='" << getNrOfFaces() << "'/>\n";
 
-    ss << t << "<Vertices>\n";
+    ss << t <<  ta << "<Vertices>\n";
     int k=0;
     for ( PolyhedronMesh::Vertex_iterator v = mesh->vertices_begin(); v != mesh->vertices_end(); ++v)
     {
         PointPoly a = v->point();
-        ss << t << ta << "<Vertex index='" << k << "'>\n";
-        ss << t << ta << ta << "<Point x='" << a[0] << "' y='" << a[1] << "' z='" << a[2] << "'/>\n";
-        ss << t << ta << "</Vertex>\n";
+        ss << t << ta << ta  << "<Vertex index='" << k << "'>\n";
+        ss << t << ta << ta  << ta << "<Point x='" << a[0] << "' y='" << a[1] << "' z='" << a[2] << "'/>\n";
+        ss << t << ta << ta  << "</Vertex>\n";
         k++;
     }
 
-    ss << t << "</Vertices>\n";
+    ss << t << ta << "</Vertices>\n";
 
-    ss << t << "<Faces>\n";
+    ss << t << ta << "<Faces>\n";
 
     std::string value = "index";
     int i = 0;
@@ -124,9 +124,9 @@ std::string CGALPolyhedronMesh::toXML(int nrTabs)
     for ( PolyFacetIterator it = mesh->facets_begin(); it != mesh->facets_end(); ++it)
     {
         i = 0;
-        ss << t << ta << "<Face index='" << k << "'>\n";
+        ss << t << ta <<  ta << "<Face index='" << k << "'>\n";
         PolyHalfedgeFacetCirculator j = it->facet_begin();
-        ss << t << ta << ta << "<VerticesIndex ";
+        ss << t << ta << ta <<  ta << "<VerticesIndex ";
 
         do
         {
@@ -143,7 +143,7 @@ std::string CGALPolyhedronMesh::toXML(int nrTabs)
 
         ss << "/>\n";
 
-        ss << t << ta << "</Face>\n";
+        ss << t << ta <<  ta << "</Face>\n";
 
     }
 
@@ -159,8 +159,8 @@ boost::shared_ptr<CGALPolyhedronMesh> CGALPolyhedronMesh::fromXML(const std::str
     CGALPolyhedronMeshPtr res(new CGALPolyhedronMesh(PolyhedronMeshPtr(new PolyhedronMesh())));
     VirtualRobot::TriMeshModelPtr tm(new VirtualRobot::TriMeshModel());
 
-    int number_of_vertices = 0;
-    int number_of_faces = 0;
+    int number_of_vertices;
+    int number_of_faces;
 
     char* y = new char[xml.size() + 1];
     strncpy(y, xml.c_str(), xml.size() + 1);

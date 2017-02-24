@@ -69,6 +69,8 @@ typedef boost::shared_ptr<PolyhedronMesh>                               Polyhedr
 //typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3>	Polyhedron;
 //typedef boost::shared_ptr<Polyhedron>                                   PolyhedronPtr;
 typedef KernelPolyhedron::Point_3                                       PointPoly;
+typedef PolyhedronMesh::Vertex                                          PolyVertex;
+typedef PolyhedronMesh::Vertex_const_handle                             PolyVertexConstHandle;
 typedef PolyhedronMesh::Vertex_iterator                             	PolyVertexIterator;
 typedef PolyhedronMesh::Facet_iterator                              	PolyFacetIterator;
 typedef PolyhedronMesh::Halfedge_around_facet_circulator                PolyHalfedgeFacetCirculator;

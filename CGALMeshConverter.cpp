@@ -219,24 +219,36 @@ TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALPolyhedronMeshPtr m)
     VR_ASSERT(m->getMesh());
 
     TriMeshModelPtr res(new TriMeshModel);
+    std::map<PolyVertexConstHandle, unsigned int> pointMap;
 
     for (PolyhedronMesh::Facet_const_iterator facet_it = m->getMesh()->facets_begin(); facet_it != m->getMesh()->facets_end(); ++facet_it)
     {
 
         //access vertices
-        std::vector<Eigen::Vector3f> vertices;
+        std::vector<unsigned int> vertices;
         PolyhedronMesh::Halfedge_around_facet_const_circulator half_it = facet_it->facet_begin();
 
         do
         {
-            PointPoly tmp_in_point = half_it->vertex()->point();
-            Eigen::Vector3f tmp_out_point(tmp_in_point.x(), tmp_in_point.y(), tmp_in_point.z());
-            vertices.push_back(tmp_out_point);
+
+            if (pointMap.find(half_it->vertex()) != pointMap.end())
+                vertices.push_back(pointMap.at(half_it->vertex()));
+            else
+            {
+                PointPoly tmp_in_point = half_it->vertex()->point();
+                Eigen::Vector3f tmp_out_point(tmp_in_point.x(), tmp_in_point.y(), tmp_in_point.z());
+                unsigned int vid = res->addVertex(tmp_out_point);
+                vertices.push_back(vid);
+                pointMap[half_it->vertex()] = vid;
+            }
+            //PointPoly tmp_in_point = half_it->vertex()->point();
+            //Eigen::Vector3f tmp_out_point(tmp_in_point.x(), tmp_in_point.y(), tmp_in_point.z());
+            //vertices.push_back(tmp_out_point);
         }
         while (++half_it != facet_it->facet_begin());
         if (vertices.size() > 2)
         {
-            res->addTriangleWithFace(vertices.at(0), vertices.at(1), vertices.at(2));
+            res->addFace(vertices.at(0), vertices.at(1), vertices.at(2)); // addTriangleWithFace
             //TODO write to a right structure with neighboorhood relationships
         }
     }

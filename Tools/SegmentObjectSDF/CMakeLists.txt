@@ -1,0 +1,10 @@
+
+IF(Simox_USE_COIN_VISUALIZATION)
+  #include(${CGAL_USE_FILE})
+  SET(SRCS ${CMAKE_CURRENT_SOURCE_DIR}/SegmentObjectSDFWindow.cpp ${CMAKE_CURRENT_SOURCE_DIR}/SegmentObjectSDF.cpp)
+  SET(INCS ${CMAKE_CURRENT_SOURCE_DIR}/SegmentObjectSDFWindow.h)
+  set(GUI_MOC_HDRS ${CMAKE_CURRENT_SOURCE_DIR}/SegmentObjectSDFWindow.h)
+  set(GUI_UIS ${CMAKE_CURRENT_SOURCE_DIR}/SegmentObjectSDF.ui)
+  SimoxQtApplication(SegmentObjectSDF "${SRCS}" "${INCS}" "${GUI_MOC_HDRS}" "${GUI_UIS}")
+  target_link_libraries(SegmentObjectSDF VirtualRobot simox-cgal ${Simox_EXTERNAL_LIBRARIES} ${CGAL_LIBRARIES})
+ENDIF()

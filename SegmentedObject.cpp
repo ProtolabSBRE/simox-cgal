@@ -15,6 +15,27 @@ SegmentedObject::~SegmentedObject()
 }
 
 
+void SegmentedObject::addObjectPart(ObjectPartPtr part)
+{
+    parts.push_back(part);
+}
+
+void SegmentedObject::addObjectParts(std::vector<ObjectPartPtr> parts)
+{
+    for (auto p:parts)
+    {
+        this->parts.push_back(p);
+    }
+}
+
+
+std::vector<ObjectPartPtr> SegmentedObject::getObjectParts()
+{
+    return parts;
+}
+
+
+
 void SegmentedObject::addParameterDouble(const std::string &key, double value)
 {
     parametersDouble[key] = value;

@@ -1,22 +1,22 @@
 
-#include "SegmentedObjectViewerWindow.h"
-#include "GraspPlanning/Visualization/CoinVisualization/CoinConvexHullVisualization.h"
-#include "GraspPlanning/ContactConeGenerator.h"
-#include "VirtualRobot/EndEffector/EndEffector.h"
-#include "VirtualRobot/Workspace/Reachability.h"
-#include "VirtualRobot/ManipulationObject.h"
-#include "VirtualRobot/Grasping/Grasp.h"
-#include "VirtualRobot/IK/GenericIKSolver.h"
-#include "VirtualRobot/Grasping/GraspSet.h"
-#include "VirtualRobot/CollisionDetection/CDManager.h"
-#include "VirtualRobot/XML/ObjectIO.h"
-#include "VirtualRobot/XML/RobotIO.h"
-#include "VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h"
-#include "VirtualRobot/Visualization/TriMeshModel.h"
+#include "SegmentObjectSDFWindow.h"
+//#include "GraspPlanning/Visualization/CoinVisualization/CoinConvexHullVisualization.h"
+//#include "GraspPlanning/ContactConeGenerator.h"
+//#include "VirtualRobot/EndEffector/EndEffector.h"
+//#include "VirtualRobot/Workspace/Reachability.h"
+#include <VirtualRobot/ManipulationObject.h>
+//#include "VirtualRobot/Grasping/Grasp.h"
+//#include "VirtualRobot/IK/GenericIKSolver.h"
+//#include "VirtualRobot/Grasping/GraspSet.h"
+//#include "VirtualRobot/CollisionDetection/CDManager.h"
+#include <VirtualRobot/XML/ObjectIO.h>
+#include <VirtualRobot/XML/RobotIO.h>
+#include <VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h>
+#include <VirtualRobot/Visualization/TriMeshModel.h>
 #include <QFileDialog>
 #include <QInputDialog>
 #include <Eigen/Geometry>
-#include "VirtualRobot/ManipulationObject.h"
+#include "CGALMeshConverter.h"
 
 #include <time.h>
 #include <vector>
@@ -41,12 +41,12 @@ using namespace SimoxCGAL;
 
 float TIMER_MS = 30.0f;
 
-SegmentedObjectViewerWindow::SegmentedObjectViewerWindow(const std::string& objFile)
+SegmentObjectSDFWindow::SegmentObjectSDFWindow(const std::string& objFile)
     : QMainWindow(NULL)
 {
     VR_INFO << " start " << endl;
 
-    this->segmentedFilename = objFile;
+    this->objectFilename = objFile;
 
     //boost::filesystem::path p(objFile);
     //save_dir = p.parent_path().string();
@@ -55,21 +55,25 @@ SegmentedObjectViewerWindow::SegmentedObjectViewerWindow(const std::string& objF
     sceneSep->ref();
     segObjectSep = new SoSeparator;
     sceneSep->addChild(segObjectSep);
+    sdfObjectSep = new SoSeparator;
+    sceneSep->addChild(sdfObjectSep);
+    objectSep = new SoSeparator;
+    sceneSep->addChild(objectSep);
 
     setupUI();
 
-    loadSegmentedObject();
+    loadObject();
     buildVisu();
     viewer->viewAll();
 }
 
 
-SegmentedObjectViewerWindow::~SegmentedObjectViewerWindow()
+SegmentObjectSDFWindow::~SegmentObjectSDFWindow()
 {
     sceneSep->unref();
 }
 
-void SegmentedObjectViewerWindow::setupUI()
+void SegmentObjectSDFWindow::setupUI()
 {
     UI.setupUi(this);
     viewer = new SoQtExaminerViewer(UI.frameViewer, "", TRUE, SoQtExaminerViewer::BUILD_POPUP);
@@ -85,9 +89,14 @@ void SegmentedObjectViewerWindow::setupUI()
     viewer->viewAll();
     viewer->setAntialiasing(true, 8);
 
-    //connect(UI.pushButtonReset, SIGNAL(clicked()), this, SLOT(resetSceneryAll()));
-    connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
-    connect(UI.pushButtonLoadSegmented, SIGNAL(clicked()), this, SLOT(reloadSegmentedObject()));
+    connect(UI.checkBoxManip, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxSDF, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxSegments, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.radioButtonFullModel, SIGNAL(clicked()), this, SLOT(colModel()));
+    connect(UI.radioButtonColModel, SIGNAL(clicked()), this, SLOT(colModel()));
+    connect(UI.pushButtonLoad, SIGNAL(clicked()), this, SLOT(reloadObject()));
+    connect(UI.pushButtonBuild, SIGNAL(clicked()), this, SLOT(buildObject()));
+    connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(saveSegmentedObject()));
     //connect(UI.comboBoxSegments, SIGNAL(currentIndexChanged(int)), this, SLOT(showSegmentedObject()));
     //connect(UI.radioButtonShowSegment, SIGNAL(clicked()), this, SLOT(showSegmentedObject()));
     //connect(UI.pushButtonChoseSegment, SIGNAL(clicked()), this, SLOT(choseSegments()));
@@ -95,21 +104,32 @@ void SegmentedObjectViewerWindow::setupUI()
 }
 
 
-void SegmentedObjectViewerWindow::resetSceneryAll()
+void SegmentObjectSDFWindow::resetSceneryAll()
 {
 }
 
 
-void SegmentedObjectViewerWindow::closeEvent(QCloseEvent* event)
+void SegmentObjectSDFWindow::closeEvent(QCloseEvent* event)
 {
     quit();
     QMainWindow::closeEvent(event);
 }
 
 
-void SegmentedObjectViewerWindow::buildVisu()
+void SegmentObjectSDFWindow::buildVisu()
 {
-    //SceneObject::VisualizationType colModel = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
+    SceneObject::VisualizationType colModel = (UI.radioButtonColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
+
+    objectSep->removeAllChildren();
+    if (manipObject && UI.checkBoxManip->isChecked())
+    {
+        SoNode* n = CoinVisualizationFactory::getCoinVisualization(manipObject, colModel);
+        if (n)
+        {
+            objectSep->addChild(n);
+        }
+
+    }
 
     segObjectSep->removeAllChildren();
     if (segObjectsPtr)
@@ -202,7 +222,7 @@ void SegmentedObjectViewerWindow::buildVisu()
     viewer->scheduleRedraw();
 }
 
-int SegmentedObjectViewerWindow::main()
+int SegmentObjectSDFWindow::main()
 {
     SoQt::show(this);
     SoQt::mainLoop();
@@ -210,76 +230,71 @@ int SegmentedObjectViewerWindow::main()
 }
 
 
-void SegmentedObjectViewerWindow::quit()
+void SegmentObjectSDFWindow::quit()
 {
-    std::cout << "SegmentedObjectViewerWindow: Closing" << std::endl;
+    std::cout << "SegmentObjectSDFWindow: Closing" << std::endl;
     this->close();
     SoQt::exitMainLoop();
 }
 
-void SegmentedObjectViewerWindow::loadSegmentedObject()
+void SegmentObjectSDFWindow::saveSegmentedObject()
 {
-/*
-    std::string objectName;
-    if (!segmentedFilename.empty())
-    {
-        boost::filesystem::path completePath(segmentedFilename);
-        boost::filesystem::path branch = completePath.branch_path();
-        segObjectsPtr = SegmentedObjectIO::loadManipulationObject(segmentedFilename, branch.string());
-    }
-    segObjectsPtr->setMemberforGraspPlanning(-1);
 
+}
 
-    if (segObjectsPtr->members.empty())
-    {
-        return;
-    }
-    //build combo box
-    UI.comboBoxSegments->clear();
-    for (int i = 0; i < segObjectsPtr->members.size(); i++)
-    {
-        UI.comboBoxSegments->addItem(QString::fromStdString((segObjectsPtr->members.at(i)->name)));
-    }
-    unsigned int clusters = segObjectsPtr->getNumberofCluster();
-    UI.comboBoxCluster->clear();
-    for (int i = 0; i < clusters; i++)
-    {
-        UI.comboBoxCluster->addItem(QString::number(i));
-    }
-*/
+void SegmentObjectSDFWindow::loadObject()
+{
+    manipObject = ObjectIO::loadManipulationObject(objectFilename);
+
     buildVisu();
     viewer->viewAll();
 }
-/*
-void SegmentedObjectViewerWindow::showSegmentedObject()
-{
-    buildVisu();
-}
-*/
 
 
-void SegmentedObjectViewerWindow::colModel()
+void SegmentObjectSDFWindow::colModel()
 {
     buildVisu();
 }
 
 
-void SegmentedObjectViewerWindow::reloadSegmentedObject()
+void SegmentObjectSDFWindow::reloadObject()
 {
-    QString fi = QFileDialog::getOpenFileName(this, tr("Open Segmented Object"), QString(), tr("XML Files (*.xml)"));
-    segmentedFilename = std::string(fi.toAscii());
-    if (segmentedFilename.empty())
+    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
+    objectFilename = std::string(fi.toAscii());
+    if (objectFilename.empty())
     {
         return;
     }
 
-    //boost::filesystem::path p(segmentedFilename);
-    //save_dir = p.parent_path().string();
-
-    loadSegmentedObject();
+    loadObject();
 }
 
-void SegmentedObjectViewerWindow::screenshot()
+
+void SegmentObjectSDFWindow::buildObject()
+{
+    if (!manipObject)
+    {
+        VR_ERROR << "no manipulation obejct" << endl;
+        return;
+    }
+    if (!manipObject->getCollisionModel())
+    {
+        VR_ERROR << "no collision model of manipulation obejct" << endl;
+        return;
+    }
+
+    VR_INFO << "Converting mesh to cgal structure..." << endl;
+
+    polyMesh = CGALMeshConverter::ConvertToPolyhedronMesh(manipObject->getCollisionModel()->getTriMeshModel());
+
+    VR_INFO << "Segmenting mesh..." << endl;
+
+    sdfMesh.reset(new SimoxCGAL::MeshSDF(polyMesh));
+
+    VR_INFO << "done." << endl;
+}
+
+void SegmentObjectSDFWindow::screenshot()
 {
     //SoCamera* camera = viewer->getCamera();
     //Fit to object representation

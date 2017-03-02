@@ -25,19 +25,19 @@
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/nodes/SoSeparator.h>
 #include "IO/SegmentedObjectIO.h"
-#include "CGALPolyhedronMesh.h"
-#include "Segmentation/SDF/MeshSDF.h"
+#include "CGALSurfaceMesh.h"
+#include "SkeletonPolyhedron.h"
 
 #include <vector>
 
-#include "ui_SegmentObjectSDF.h"
+#include "ui_SkeletonViewer.h"
 
-class SegmentObjectSDFWindow : public QMainWindow
+class SkeletonViewerWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    SegmentObjectSDFWindow(const std::string& objectFile);
-    ~SegmentObjectSDFWindow();
+    SkeletonViewerWindow(const std::string& objectFile);
+    ~SkeletonViewerWindow();
 
     /*!< Executes the SoQt mainLoop. You need to call this in order to execute the application. */
     int main();
@@ -67,13 +67,13 @@ protected:
     void setupUI();
 
     //static void timerCB(void* data, SoSensor* sensor);
-    Ui::SegmentObjectSDF UI;
+    Ui::SkeletonViewer UI;
     SoQtExaminerViewer* viewer;
 
     SoSeparator* sceneSep;
     SoSeparator* objectSep;
-    SoSeparator* segObjectSep;
-    SoSeparator* sdfObjectSep;
+    SoSeparator* skeletonSep;
+    SoSeparator* segmentationSep;
 
     std::string objectFile;
 
@@ -81,9 +81,8 @@ protected:
 
     VirtualRobot::ManipulationObjectPtr manipObject;
 
-    SimoxCGAL::MeshSDFPtr sdfMesh;
-    SimoxCGAL::CGALPolyhedronMeshPtr polyMesh;
-    SimoxCGAL::SegmentedObjectPtr segObjectsPtr;
+    SimoxCGAL::CGALSurfaceMeshPtr surfaceMesh;
+    SkeletonPolyhedronPtr skeleton;
     std::string segmentedFilename;
     std::string objectFilename;
 };

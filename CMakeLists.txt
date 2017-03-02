@@ -28,9 +28,9 @@ set (SimoxCGAL_BUILD_Tools TRUE CACHE BOOL "Build tools")
 set(SOURCE_FILES
     CGALSurfaceMesh.cpp
     CGALPolyhedronMesh.cpp
-    CGALMeshIO.cpp
+    IO/CGALMeshIO.cpp
     CGALMeshConverter.cpp
-    SegmentedObjectIO.cpp
+    IO/SegmentedObjectIO.cpp
     SegmentedObject.cpp
     ObjectPart.cpp
     Segmentation/Skeleton/MeshSkeleton.cpp
@@ -41,9 +41,9 @@ set(HEADER_FILES
     SimoxCGALImportExport.h
     CGALSurfaceMesh.h
     CGALPolyhedronMesh.h
-    CGALMeshIO.h
+    IO/CGALMeshIO.h
     CGALMeshConverter.h
-    SegmentedObjectIO.h
+    IO/SegmentedObjectIO.h
     SegmentedObject.h
     ObjectPart.h
     Segmentation/Skeleton/MeshSkeleton.h

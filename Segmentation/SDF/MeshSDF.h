@@ -50,7 +50,7 @@ namespace SimoxCGAL
     protected:
         bool checkMeshValid();
 
-        bool buildSkeleton();
+        bool segmentationSDF();
 
 
         //PolyhedronFacetDoubleMap facetMap;

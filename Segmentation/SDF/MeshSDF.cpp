@@ -13,7 +13,7 @@ MeshSDF::MeshSDF(CGALPolyhedronMeshPtr mesh,
 {
     VR_ASSERT(mesh);
 
-    buildSkeleton();
+    segmentationSDF();
 }
 
 MeshSDF::~MeshSDF()
@@ -50,7 +50,7 @@ bool MeshSDF::checkMeshValid()
 
 
 
-bool MeshSDF::buildSkeleton()
+bool MeshSDF::segmentationSDF()
 {
     if (!checkMeshValid())
     {

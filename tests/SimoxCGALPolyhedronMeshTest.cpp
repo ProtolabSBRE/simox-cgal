@@ -14,7 +14,7 @@
 #include <Eigen/Geometry>
 
 #include "SimoxCGAL.h"
-#include "CGALMeshIO.h"
+#include "IO/CGALMeshIO.h"
 #include "CGALMeshConverter.h"
 
 using namespace VirtualRobot;

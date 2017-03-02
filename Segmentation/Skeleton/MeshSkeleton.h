@@ -43,6 +43,12 @@ namespace SimoxCGAL
 
     protected:
 
+        bool segmentationSkeleton();
+
+
+        int segmentationTimeMS;
+
+
     };
 
     typedef boost::shared_ptr<MeshSkeleton> MeshSkeletonPtr;

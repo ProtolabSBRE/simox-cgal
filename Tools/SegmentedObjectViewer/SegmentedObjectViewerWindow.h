@@ -24,7 +24,7 @@
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/nodes/SoSeparator.h>
-#include "SegmentedObjectIO.h"
+#include "IO/SegmentedObjectIO.h"
 
 #include <vector>
 

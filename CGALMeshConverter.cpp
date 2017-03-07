@@ -1,5 +1,8 @@
 #include "CGALMeshConverter.h"
 #include <VirtualRobot/Visualization/TriMeshModel.h>
+#include <CGAL/Polygon_mesh_processing/orient_polygon_soup.h>
+#include <CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h>
+#include <CGAL/Polygon_mesh_processing/orientation.h>
 
 using namespace VirtualRobot;
 
@@ -281,7 +284,7 @@ VirtualRobot::TriMeshModelPtr SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCo
         Eigen::Vector3f candidateVertex3 = *(itVerticesOld + itFacesOld->id3);
         for (std::vector<Eigen::Vector3f>::iterator itVerticesNew = result->vertices.begin(); itVerticesNew != result->vertices.end(); itVerticesNew++)
         {
-            if ((*itVerticesNew - candidateVertex1).norm() < 0.01)  //check if New Vertices are exiting
+            if ((*itVerticesNew - candidateVertex1).norm() < 0.01)
             {
                 found1 = true;
                 newPos1 = std::distance(result->vertices.begin(), itVerticesNew);
@@ -357,5 +360,39 @@ VirtualRobot::TriMeshModelPtr SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCo
 
     return result;
 }
+
+/*
+CGALPolyhedronMeshPtr CGALMeshConverter::PolygonSoupToPolyhedronMesh(TriMeshModelPtr tm)
+{
+    std::vector<KernelPolyhedron::Point_3> points;
+    std::vector< std::vector<std::size_t> > polygons;
+
+    for (size_t i=0;i<tm->vertices.size();i++)
+    {
+        Eigen::Vector3f &r = tm->vertices.at(i);
+        KernelPolyhedron::Point_3 p(r[0],r[1],r[2]);
+        points.push_back(p);
+    }
+
+    for (size_t i=0;i<tm->faces.size();i++)
+    {
+        MathTools::TriangleFace &f = tm->faces.at(i);
+        std::vector<std::size_t> pol;
+        pol.push_back(f.id1);
+        pol.push_back(f.id2);
+        pol.push_back(f.id3);
+        polygons.push_back(pol);
+    }
+
+    CGAL::Polygon_mesh_processing::orient_polygon_soup(points, polygons);
+    PolyhedronMeshPtr mesh(new PolyhedronMesh);
+    CGAL::Polygon_mesh_processing::polygon_soup_to_polygon_mesh(points, polygons, *mesh);
+    if (CGAL::is_closed(*mesh) && (!CGAL::Polygon_mesh_processing::is_outward_oriented(*mesh)))
+      CGAL::Polygon_mesh_processing::reverse_face_orientations(*mesh);
+
+    CGALPolyhedronMeshPtr res(new CGALPolyhedronMesh(mesh));
+
+    return res;
+}*/
 
 }

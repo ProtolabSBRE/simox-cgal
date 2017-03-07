@@ -46,6 +46,14 @@ namespace SimoxCGAL
         */
         virtual ~MeshSDF();
 
+        float getMinSDF();
+        float getMaxSDF();
+
+        boost::associative_property_map<PolyhedronFacetDoubleMap>& getSDFMap();
+
+        boost::associative_property_map<PolyhedronFacetIntMap> &getSegmentMap();
+
+        size_t getNrSegments();
 
     protected:
         bool checkMeshValid();
@@ -54,6 +62,7 @@ namespace SimoxCGAL
 
 
         //PolyhedronFacetDoubleMap facetMap;
+
         //boost::associative_property_map<PolyhedronFacetDoubleMap> sdf_raw_property_map;
         PolyhedronFacetIntMap internal_segment_map;
         boost::associative_property_map<PolyhedronFacetIntMap> segment_property_map;
@@ -66,6 +75,10 @@ namespace SimoxCGAL
         size_t paramNrClusters;
 
         std::pair<double, double> min_max_sdf;
+        PolyhedronFacetDoubleMap internal_seg_sdf_map;
+        boost::associative_property_map<PolyhedronFacetDoubleMap> sdfMap;
+
+        float minSDF,maxSDF;
 
     };
 

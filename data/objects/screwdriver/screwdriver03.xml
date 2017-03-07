@@ -1,0 +1,10 @@
+<ManipulationObject name='screwdriver03'>
+	<Visualization>
+		<File type='inventor'>iv/screwdriver03.wrl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>iv/screwdriver03.wrl</File>
+	</CollisionModel>
+
+
+</ManipulationObject>

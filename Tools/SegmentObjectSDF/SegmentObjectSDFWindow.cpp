@@ -1,14 +1,6 @@
 
 #include "SegmentObjectSDFWindow.h"
-//#include "GraspPlanning/Visualization/CoinVisualization/CoinConvexHullVisualization.h"
-//#include "GraspPlanning/ContactConeGenerator.h"
-//#include "VirtualRobot/EndEffector/EndEffector.h"
-//#include "VirtualRobot/Workspace/Reachability.h"
 #include <VirtualRobot/ManipulationObject.h>
-//#include "VirtualRobot/Grasping/Grasp.h"
-//#include "VirtualRobot/IK/GenericIKSolver.h"
-//#include "VirtualRobot/Grasping/GraspSet.h"
-//#include "VirtualRobot/CollisionDetection/CDManager.h"
 #include <VirtualRobot/XML/ObjectIO.h>
 #include <VirtualRobot/XML/RobotIO.h>
 #include <VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h>
@@ -17,16 +9,14 @@
 #include <QInputDialog>
 #include <Eigen/Geometry>
 #include "CGALMeshConverter.h"
-
+#include "Visualization/CoinVisualization/CGALCoinVisualization.h"
 #include <time.h>
 #include <vector>
 #include <iostream>
 #include <cmath>
 #include <algorithm>
 
-
-
-#include "Inventor/actions/SoLineHighlightRenderAction.h"
+#include <Inventor/actions/SoLineHighlightRenderAction.h>
 #include <Inventor/nodes/SoShapeHints.h>
 #include <Inventor/nodes/SoLightModel.h>
 #include <Inventor/sensors/SoTimerSensor.h>
@@ -132,6 +122,19 @@ void SegmentObjectSDFWindow::buildVisu()
     }
 
     segObjectSep->removeAllChildren();
+    if (sdfMesh && polyMesh && UI.checkBoxSegments->isChecked())
+    {
+        SoNode *n = CGALCoinVisualization::CreateCoinVisualizationSegments(polyMesh, sdfMesh->getSegmentMap(), sdfMesh->getNrSegments());
+        segObjectSep->addChild(n);
+    }
+
+    sdfObjectSep->removeAllChildren();
+    if (sdfMesh && UI.checkBoxSDF->isChecked())
+    {
+        SoNode *n = CGALCoinVisualization::CreateCoinVisualizationSDF(polyMesh, sdfMesh->getSDFMap(), sdfMesh->getMaxSDF());
+        sdfObjectSep->addChild(n);
+    }
+
     if (segObjectsPtr)
     {
      /*   if (segObjectsPtr->getMemberforGraspPlanning() != -1 && segObjectsPtr->members.size() > segObjectsPtr->getMemberforGraspPlanning())
@@ -292,6 +295,8 @@ void SegmentObjectSDFWindow::buildObject()
     sdfMesh.reset(new SimoxCGAL::MeshSDF(polyMesh));
 
     VR_INFO << "done." << endl;
+
+    buildVisu();
 }
 
 void SegmentObjectSDFWindow::screenshot()

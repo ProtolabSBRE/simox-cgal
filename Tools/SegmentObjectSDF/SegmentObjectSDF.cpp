@@ -21,7 +21,10 @@ int main(int argc, char* argv[])
     SoQt::init(argc, argv, "SegmentObjectSDF");
     cout << " --- START --- " << endl;
 
-    std::string object("objects/LegoXWing.xml");
+    RuntimeEnvironment::addDataPath(std::string(Simox_CGAL_DATA_PATH));
+
+
+    std::string object("objects/screwdriver/screwdriver01.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
   
     VirtualRobot::RuntimeEnvironment::considerKey("object");

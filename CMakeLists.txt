@@ -20,6 +20,10 @@ set (SimoxCGAL_BUILD_Tests TRUE CACHE BOOL "Build tests")
 set (SimoxCGAL_BUILD_Tools TRUE CACHE BOOL "Build tools")
 
 
+if (NOT Simox_USE_COIN_VISUALIZATION)
+    message( FATAL_ERROR "SIMOX must be compiled with COIN3D support, exiting..." )
+endif()
+
 ########################################
 ###      Define files for build      ###
 ########################################
@@ -35,6 +39,7 @@ set(SOURCE_FILES
     ObjectPart.cpp
     Segmentation/Skeleton/MeshSkeleton.cpp
     Segmentation/SDF/MeshSDF.cpp
+    Visualization/CoinVisualization/CGALCoinVisualization.cpp
     )
 set(HEADER_FILES
     SimoxCGAL.h
@@ -48,6 +53,7 @@ set(HEADER_FILES
     ObjectPart.h
     Segmentation/Skeleton/MeshSkeleton.h
     Segmentation/SDF/MeshSDF.h
+    Visualization/CoinVisualization/CGALCoinVisualization.h
     )
 
 #######################################################################
@@ -94,6 +100,14 @@ if(SimoxCGAL_BUILD_Tests)
     # include unit tests
     ADD_SUBDIRECTORY(tests)
 endif()
+########################################
+###           Setup data dir         ###
+########################################
+# todo: installation data dir
+GET_FILENAME_COMPONENT (CurrentSimoxCGALPath ${CMAKE_CURRENT_LIST_FILE} PATH)
+MESSAGE (STATUS "** SimoxCGAL_DIR: ${CurrentSimoxCGALPath}")
+SET(Simox-CGAL_DATA_DIR ${CurrentSimoxCGALPath}/data)
+ADD_DEFINITIONS("-DSimox_CGAL_DATA_PATH=\"${Simox-CGAL_DATA_DIR}\"")
 
 ########################################
 ###           Setup build            ###

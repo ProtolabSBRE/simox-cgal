@@ -1,0 +1,8 @@
+<ManipulationObject name="screwdriver15">
+    <Visualization>
+        <File type="inventor">iv/screwdriver15.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">iv/screwdriver15.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

@@ -13,12 +13,39 @@ MeshSDF::MeshSDF(CGALPolyhedronMeshPtr mesh,
 {
     VR_ASSERT(mesh);
 
+    minSDF = 0;
+    maxSDF = 0;
+
     segmentationSDF();
 }
 
 MeshSDF::~MeshSDF()
 {
 
+}
+
+float MeshSDF::getMinSDF()
+{
+    return minSDF;
+}
+float MeshSDF::getMaxSDF()
+{
+    return maxSDF;
+}
+
+boost::associative_property_map<PolyhedronFacetDoubleMap> &MeshSDF::getSDFMap()
+{
+    return sdfMap;
+}
+
+boost::associative_property_map<PolyhedronFacetIntMap>& MeshSDF::getSegmentMap()
+{
+    return segment_property_map;
+}
+
+size_t MeshSDF::getNrSegments()
+{
+    return number_of_segments;
 }
 
 bool MeshSDF::checkMeshValid()
@@ -59,6 +86,7 @@ bool MeshSDF::segmentationSDF()
     }
 
     internal_segment_map.clear();
+    internal_seg_sdf_map.clear();
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
@@ -70,12 +98,14 @@ bool MeshSDF::segmentationSDF()
     //this->min_max_sdf = CGAL::sdf_values(mesh, sdf_raw_property_map, paramConeAngle, paramNrRays, false);
 
     // create a property-map for SDF values
-    PolyhedronFacetDoubleMap internal_seg_sdf_map;
-    boost::associative_property_map<PolyhedronFacetDoubleMap> sdf_property_map(internal_seg_sdf_map);
-
+    //PolyhedronFacetDoubleMap internal_seg_sdf_map;
+    boost::associative_property_map<PolyhedronFacetDoubleMap> tmp1(internal_seg_sdf_map);
+    sdfMap = tmp1;
 
     //calulate segmentation
-    std::pair<double, double> min_max = CGAL::sdf_values(*(mesh->getMesh()), sdf_property_map, paramConeAngle, paramNrRays, true);
+    std::pair<double, double> min_max = CGAL::sdf_values(*(mesh->getMesh()), sdfMap, paramConeAngle, paramNrRays, true);
+    minSDF = min_max.first;
+    maxSDF = min_max.second;
 
     // create a property-map for segment-ids
 
@@ -86,7 +116,7 @@ bool MeshSDF::segmentationSDF()
     // segment the mesh using default parameters for number of levels, and smoothing lambda
     // Any other scalar values can be used instead of using SDF values computed using the CGAL function
     //number_of_cluster = UI.spinBoxMaxCluster->value();
-    number_of_segments = CGAL::segmentation_from_sdf_values(*(mesh->getMesh()), sdf_property_map, segment_property_map, paramNrClusters);//, 0.26, false);
+    number_of_segments = CGAL::segmentation_from_sdf_values(*(mesh->getMesh()), sdfMap, segment_property_map, paramNrClusters);//, 0.26, false);
     //number_of_cluster = CGAL::segmentation_from_sdf_values(cgalObject, sdf_property_map, cluster_property_map, number_of_cluster, 0.26, true);
 
     bool print = true;

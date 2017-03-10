@@ -51,6 +51,8 @@ typedef CGAL::Surface_mesh<Point>										SurfaceMesh;
 typedef boost::shared_ptr<SurfaceMesh>                                  SurfaceMeshPtr;
 
 typedef boost::graph_traits<SurfaceMesh>::vertex_descriptor             SurfaceMeshVertexDescriptor;
+typedef boost::graph_traits<SurfaceMesh>::halfedge_descriptor           SurfaceMeshHalfedgeDescriptor;
+typedef boost::graph_traits<SurfaceMesh>::face_descriptor               SurfaceMeshFaceDescriptor;
 //typedef boost::graph_traits<SurfaceMesh>::face_descriptor               SurfaceMeshFaceDesriptor;
 
 typedef CGAL::Mean_curvature_flow_skeletonization<SurfaceMesh>          Skeletonization;

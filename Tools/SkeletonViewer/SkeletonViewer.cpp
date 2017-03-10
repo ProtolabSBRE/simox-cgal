@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     SoQt::init(argc, argv, "SkeletonViewer");
     cout << " --- START --- " << endl;
 
-    std::string object("objects/LegoXWing.xml");
+    std::string object("/common/homes/students/koch/Dokumente/ba_eduard_koch/objects/Airplane/gut/airplane0.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
   
     VirtualRobot::RuntimeEnvironment::considerKey("object");

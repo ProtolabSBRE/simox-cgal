@@ -1,5 +1,9 @@
 #include "SkeletonPolyhedron.h"
 
+#include "Inventor/nodes/SoIndexedLineSet.h"
+#include "Inventor/nodes/SoMaterial.h"
+
+
 #include "SkeletonVisualization.h"
 
 
@@ -39,8 +43,6 @@ void SkeletonPolyhedron::initParameters(int a1, double a2, double a3, double a4,
 
 void SkeletonPolyhedron::calculateSkeleton()
 {
-    VR_INFO << "Calculation started of " << name << " : ...\n";
-
     Skeletonization mcs(*mesh);
 
     //Parameter einstellen für Skelettberechnung.
@@ -57,13 +59,12 @@ void SkeletonPolyhedron::calculateSkeleton()
     mcs.contract_until_convergence();
     Skeleton ske;
     mcs.convert_to_skeleton(ske);
-    skeleton = SkeletonPtr(new Skeleton(ske));
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-    skeletonTimeMS = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count(); //milliseconds
 
-    VR_INFO << "Calculation of "<< name << " done with " << num_vertices(*skeleton) << " vertices.\n";
-    VR_INFO << "Time: " << skeletonTimeMS << " ms\n";
+    skeleton = SkeletonPtr(new Skeleton(ske));
+
+    skeletonTimeMS = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count(); //milliseconds
 }
 
 void SkeletonPolyhedron::clear()
@@ -147,101 +148,51 @@ string SkeletonPolyhedron::toXML()
     return ss.str();
 }
 
-//SoSeparator* SkeletonPolyhedron::calculateSegmentSkeleton(Triangle_mesh& mesh, int number, int width, bool show_lines)
-//{
-//    SoSeparator* segment = new SoSeparator();
-//    SoSeparator* skel_segment = new SoSeparator();
-//    SoSeparator* show_linesSep = new SoSeparator();
-//    vector<Eigen::Vector3f> skeleton_lines;
 
-//    segment->ref();
-//    SoUnits* u = new SoUnits();
-//    u->units = SoUnits::MILLIMETERS;
-//    segment->addChild(u);
+SoSeparator* SkeletonPolyhedron::showPoint(int point)
+{
+    SoSeparator* s = new SoSeparator;
+    s->ref();
 
-//    SoMaterial* color_skeleton = new SoMaterial();
-//    SoMaterial* color_lines = new SoMaterial();
+    SoUnits* u = new SoUnits();
+    u->units = SoUnits::MILLIMETERS;
+    s->addChild(u);
 
-//    color_skeleton->diffuseColor.setValue(1.f, 0.f, 0.f);
-//    color_lines->diffuseColor.setValue(0.f, 1.f, 0.f);
+    if (!skeleton)
+    {
+        return s;
+    }
 
-//    skel_segment->addChild(color_skeleton);
-//    show_linesSep->addChild(color_lines);
-
-//    vector<Skeleton_vertex> segment_vertex;
-//    Skeleton_vertex vertex = boost::vertex(number, skeleton);
-//    Point a = skeleton[vertex].point;
-//    Eigen::Vector3f aa(a[0], a[1], a[2]);
-//    skel_segment->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(aa, 1.f, 0.f, 1.f, 1.f, 0.f));
-
-//    rekursion(segment_vertex, vertex, vertex, width);
-
-//    vector<Eigen::Vector3f> tri_lines;
-
-//    for (int i = 0; i < segment_vertex.size(); i++)
-//    {
-//        Skeleton_vertex id = segment_vertex.at(i);
-//        Eigen::Vector3f center(skeleton[id].point[0], skeleton[id].point[1], skeleton[id].point[2]);
-
-//        if(show_lines)
-//        {
-//            SoIndexedLineSet* p = SkeletonVisualization::createConnectionVisualization(id, skeleton, mesh);
-//            show_linesSep->addChild(p);
-//        }
-
-//        tri_lines.clear();
-
-//        Skeleton_adjacency ai, ai_end;
-
-//        for (boost::tie(ai, ai_end) = boost::adjacent_vertices(id, skeleton); ai != ai_end; ++ai)
-//        {
-//            Eigen::Vector3f point(skeleton[*ai].point[0], skeleton[*ai].point[1], skeleton[*ai].point[2]);
-//            skeleton_lines.push_back(point);
-//        }
+    if (point >= num_vertices(*skeleton))
+    {
+        return s;
+    }
 
 
-//        SoIndexedLineSet* lineSet = SkeletonVisualization::createPolylinesVisualization(center, skeleton_lines);
-//        skel_segment->addChild(lineSet);
-//        skeleton_lines.clear();
-//    }
+    SkeletonVertex vertex = boost::vertex(point, *skeleton);
+    Point a = (*skeleton)[vertex].point;
+    Eigen::Vector3f aa(a[0], a[1], a[2]);
+    s->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(aa, 1.f, 0.f, 1.f, 0.f, 0.f));
 
-//    segment->unrefNoDelete();
-//    segment->addChild(show_linesSep);
-//    segment->addChild(skel_segment);
-//    return segment;
+    SoSeparator* l = new SoSeparator;
+    SoMaterial* color = new SoMaterial;
+    color->diffuseColor.setValue(0.f, 1.f, 0.f);
+    l->addChild(color);
+    SoIndexedLineSet* lines = SkeletonVisualization::createConnectionVisualization(vertex, skeleton, mesh);
+    l->addChild(lines);
 
-//}
+    s->addChild(l);
 
-//void SkeletonPolyhedron::rekursion(vector<Skeleton_vertex>& segment_global, Skeleton_vertex vertex_center, Skeleton_vertex vertex_not, int depth)
-//{
-//    vector<Skeleton_vertex> segment_local;
+    return s;
+}
 
-//    Skeleton_adjacency ai, ai_end;
-
-//    for (boost::tie(ai, ai_end) = boost::adjacent_vertices(vertex_center, skeleton); ai != ai_end; ++ai) {
-//        if (*ai != vertex_not)
-//        {
-//            double tmp = std::sqrt(CGAL::squared_distance(skeleton[vertex_center].point, skeleton[*ai].point));
-//            distances.push_back(tmp);
-//            segment_local.push_back(*ai);
-//        }
-
-//    }
-
-
-//    if (depth != 1)
-//    {
-//        for (int i = 0; i < segment_local.size(); i++)
-//        {
-//            rekursion(segment_global, segment_local.at(i), vertex_center, depth - 1);
-//        }
-//    }
-
-//    segment_global.push_back(vertex_center);
-
-//}
 
 SkeletonPtr SkeletonPolyhedron::getSkeleton()
 {
     return skeleton;
+}
+
+int SkeletonPolyhedron::getTime()
+{
+    return skeletonTimeMS;
 }

@@ -202,7 +202,7 @@ TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALSurfaceMeshPtr m)
         }
         if (polIndex.size()!=3)
         {
-            VR_ERROR << "polygon with # endes!=3 is not supported: edge count " << polIndex.size() << endl;
+            VR_ERROR << "polygon with # edges!=3 is not supported: edge count " << polIndex.size() << endl;
             continue;
         }
 

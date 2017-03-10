@@ -75,13 +75,13 @@
         <string>Save</string>
        </property>
       </widget>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="groupBoxVisualization">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>250</y>
-         <width>181</width>
-         <height>261</height>
+         <x>10</x>
+         <y>350</y>
+         <width>201</width>
+         <height>331</height>
         </rect>
        </property>
        <property name="title">
@@ -91,7 +91,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>160</y>
+          <y>80</y>
           <width>171</width>
           <height>21</height>
          </rect>
@@ -103,24 +103,11 @@
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QCheckBox" name="checkBoxSegments">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>220</y>
-          <width>141</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Segments</string>
-        </property>
-       </widget>
        <widget class="QRadioButton" name="radioButtonFullModel">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>50</y>
+          <x>0</x>
+          <y>30</y>
           <width>161</width>
           <height>22</height>
          </rect>
@@ -129,14 +116,14 @@
          <string>Full model</string>
         </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
        <widget class="QRadioButton" name="radioButtonColModel">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>70</y>
+          <x>0</x>
+          <y>50</y>
           <width>171</width>
           <height>22</height>
          </rect>
@@ -148,14 +135,15 @@
        <widget class="QCheckBox" name="checkBoxLines">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>200</y>
-          <width>171</width>
-          <height>21</height>
+          <x>30</x>
+          <y>180</y>
+          <width>151</width>
+          <height>41</height>
          </rect>
         </property>
         <property name="text">
-         <string>show lines</string>
+         <string>show associated 
+mesh points</string>
         </property>
         <property name="checked">
          <bool>false</bool>
@@ -164,14 +152,71 @@
        <widget class="QCheckBox" name="checkBoxSkeleton">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>180</y>
+          <x>30</x>
+          <y>110</y>
           <width>171</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>show skeleton</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="spinBoxSkeletonPoint">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>130</y>
+          <width>41</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>100000</number>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="checkBoxSkeletonPoint">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>130</y>
+          <width>131</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>show 
+skeleton point</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBoxSegmentation">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>230</y>
+          <width>191</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="checkBoxSegment">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>270</y>
+          <width>141</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>pigment surface 
+of segments</string>
         </property>
         <property name="checked">
          <bool>false</bool>
@@ -191,18 +236,76 @@
         <string>Load</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButtonBuild">
+      <widget class="QGroupBox" name="groupBoxSegmentation">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>200</y>
-         <width>201</width>
-         <height>31</height>
+         <width>211</width>
+         <height>141</height>
         </rect>
        </property>
-       <property name="text">
+       <property name="title">
         <string>Segmentation</string>
        </property>
+       <widget class="QPushButton" name="pushButtonBuild">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>181</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Segmentation</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="pushButtonR5">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>50</y>
+          <width>171</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>remesh 10mm</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButtonR10">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>30</y>
+          <width>161</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>remesh 5mm</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="pushButtonRNone">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>70</y>
+          <width>171</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>not remeshing</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

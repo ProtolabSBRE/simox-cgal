@@ -38,6 +38,7 @@ set(SOURCE_FILES
     SegmentedObject.cpp
     ObjectPart.cpp
     Segmentation/Skeleton/MeshSkeleton.cpp
+    Segmentation/Skeleton/Subpart.cpp
     Segmentation/SDF/MeshSDF.cpp
     Visualization/CoinVisualization/CGALCoinVisualization.cpp
     )
@@ -52,6 +53,8 @@ set(HEADER_FILES
     SegmentedObject.h
     ObjectPart.h
     Segmentation/Skeleton/MeshSkeleton.h
+    Segmentation/Skeleton/Subpart.h
+    Segmentation/Skeleton/SkeletonPoint.h
     Segmentation/SDF/MeshSDF.h
     Visualization/CoinVisualization/CGALCoinVisualization.h
     )

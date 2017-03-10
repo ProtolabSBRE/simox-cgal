@@ -24,9 +24,11 @@
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/nodes/SoSeparator.h>
+
 #include "IO/SegmentedObjectIO.h"
 #include "CGALSurfaceMesh.h"
 #include "SkeletonPolyhedron.h"
+#include "Segmentation/Skeleton/MeshSkeleton.h"
 
 #include <vector>
 
@@ -74,6 +76,7 @@ protected:
     SoSeparator* objectSep;
     SoSeparator* skeletonSep;
     SoSeparator* segmentationSep;
+    SoSeparator* surfaceSep;
 
     std::string objectFile;
 
@@ -81,6 +84,7 @@ protected:
 
     VirtualRobot::ManipulationObjectPtr manipObject;
 
+    SimoxCGAL::MeshSkeletonPtr segSkeleton;
     SimoxCGAL::CGALSurfaceMeshPtr surfaceMesh;
     SkeletonPolyhedronPtr skeleton;
     std::string segmentedFilename;

@@ -28,6 +28,8 @@
 #include <iostream>
 #include <algorithm>
 
+#include "Inventor/nodes/SoSeparator.h"
+
 
 using namespace std;
 using namespace SimoxCGAL;
@@ -55,11 +57,10 @@ public:
 
     string toXML();
 
-//    SoSeparator* calculateSegmentSkeleton(Triangle_mesh &mesh, int number, int width, bool show_lines);
-//    void rekursion(vector<Skeleton_vertex>& segment_global, Skeleton_vertex vertex_center, Skeleton_vertex vertex_not, int depth);
+    SoSeparator* showPoint(int point);
 
     SkeletonPtr getSkeleton();
-
+    int getTime();
 
 
 private:

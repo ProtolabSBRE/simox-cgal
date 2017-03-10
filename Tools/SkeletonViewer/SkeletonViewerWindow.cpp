@@ -35,6 +35,7 @@
 #include <Inventor/nodes/SoScale.h>
 
 #include "SkeletonVisualization.h"
+#include "Segmentation/Skeleton/Subpart.h"
 
 #include <sstream>
 using namespace std;
@@ -64,6 +65,9 @@ SkeletonViewerWindow::SkeletonViewerWindow(const std::string& objFile)
 
     segmentationSep = new SoSeparator;
     sceneSep->addChild(segmentationSep);
+
+    surfaceSep = new SoSeparator;
+    sceneSep->addChild(surfaceSep);
 
 
     setupUI();
@@ -98,12 +102,15 @@ void SkeletonViewerWindow::setupUI()
     connect(UI.checkBoxManip, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxSkeleton, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxLines, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxSegment, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxSkeletonPoint, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.radioButtonFullModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.radioButtonColModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.pushButtonLoadObject, SIGNAL(clicked()), this, SLOT(reloadObject()));
     connect(UI.pushButtonBuild, SIGNAL(clicked()), this, SLOT(buildObject()));
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(saveSegmentedObject()));
     connect(UI.pushButtonScreenshot, SIGNAL(clicked()), this, SLOT(screenshot()));
+    connect(UI.comboBoxSegmentation, SIGNAL(currentIndexChanged(int)), this, SLOT(buildVisu()));
 }
 
 
@@ -140,16 +147,78 @@ void SkeletonViewerWindow::buildVisu()
 
     skeletonSep->removeAllChildren();
 
-    if (skeleton && UI.checkBoxSkeleton->isChecked() && UI.radioButtonFullModel->isChecked())
+    if (skeleton && UI.radioButtonFullModel->isChecked())
     {
-        SoSeparator* s = new SoSeparator();
-        SoMaterial* color = new SoMaterial();
-        color->diffuseColor.setValue(1.f, 0.f, 0.f);
-        s->addChild(color);
-        s->addChild(SkeletonVisualization::createSkeletonVisualization(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.checkBoxLines->isChecked()));
-        skeletonSep->addChild(s);
+        if (UI.checkBoxSkeleton->isChecked())
+        {
+            SoSeparator* s = new SoSeparator();
+            SoMaterial* color = new SoMaterial();
+            color->diffuseColor.setValue(1.f, 0.f, 0.f);
+            s->addChild(color);
+            s->addChild(SkeletonVisualization::createSkeletonVisualization(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.checkBoxLines->isChecked()));
+            skeletonSep->addChild(s);
+        }
+
+
+        if (UI.checkBoxSkeletonPoint->isChecked())
+        {
+            skeletonSep->addChild(skeleton->showPoint(UI.spinBoxSkeletonPoint->value()));
+        }
 
     }
+
+    segmentationSep->removeAllChildren();
+
+
+    int number_segmentation = UI.comboBoxSegmentation->count();
+    int index_segmentation = UI.comboBoxSegmentation->currentIndex();
+    bool lines = UI.checkBoxLines->isChecked();
+    bool pigment = UI.checkBoxSegment->isChecked();
+
+    SoMaterial* partColor = new SoMaterial;
+    partColor->diffuseColor.setValue(1.f, 0.f, 0.f);
+
+
+    if ((number_segmentation != 0) && UI.checkBoxManip->isChecked())
+    {
+        SkeletonPtr s = skeleton->getSkeleton();
+        std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();
+
+        if (index_segmentation < members.size())
+        {
+            segmentationSep->addChild(partColor);
+            SubpartPtr subpart = boost::static_pointer_cast<Subpart>(members.at(index_segmentation));
+            SoSeparator* segment = SkeletonVisualization::createSegmentVisualization(s, surfaceMesh->getMesh(), subpart, lines);
+            segmentationSep->addChild(segment);
+
+        } else if (index_segmentation == members.size()){
+
+            SoSeparator* all = SkeletonVisualization::createSegmentationVisualization(s, surfaceMesh->getMesh(), members, lines);
+            segmentationSep->addChild(all);
+        }
+    }
+
+    surfaceSep->removeAllChildren();
+    if (pigment)
+    {
+        SkeletonPtr s = skeleton->getSkeleton();
+        std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();
+
+        if (index_segmentation < members.size())
+        {
+//            surfaceSep->addChild(partColor);
+            SubpartPtr subpart = boost::static_pointer_cast<Subpart>(members.at(index_segmentation));
+            SoNode* segment = SkeletonVisualization::createPigmentedSubpartVisualization(s, surfaceMesh->getMesh(), subpart, VirtualRobot::VisualizationFactory::Color(1.f, 0.f, 0.f));
+            surfaceSep->addChild(segment);
+
+        } else if (index_segmentation == members.size()){
+
+            SoSeparator* all = SkeletonVisualization::createPigmentedMeshVisualization(s, surfaceMesh->getMesh(), members, members.size());
+            surfaceSep->addChild(all);
+        }
+
+    }
+
 
     viewer->scheduleRedraw();
 }
@@ -191,6 +260,10 @@ void SkeletonViewerWindow::colModel()
 
 void SkeletonViewerWindow::reloadObject()
 {
+    segSkeleton.reset();
+    surfaceMesh.reset();
+    skeleton.reset();
+
     QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
     objectFilename = std::string(fi.toAscii());
     if (objectFilename.empty())
@@ -225,11 +298,30 @@ void SkeletonViewerWindow::buildObject()
     skeleton->initParameters();
     skeleton->calculateSkeleton();
 
-    VR_INFO << "done." << endl;
+    VR_INFO << "Done in " << skeleton->getTime() << " ms " << endl;
 
-    //create segmentation
 
-//    VR_INFO << "done." << endl;
+    VR_INFO << "Calculatin skeleton segmentation ..." << endl;
+
+    segSkeleton = MeshSkeletonPtr(new MeshSkeleton(surfaceMesh, skeleton->getSkeleton(), 20.0));
+
+    VR_INFO << "Done in " << segSkeleton->getTime() << " ms " << endl;
+
+
+    UI.comboBoxSegmentation->clear();
+    vector<ObjectPartPtr> seg = segSkeleton->getSegmentedObject()->getObjectParts();
+    for (int i = 0; i < segSkeleton->getSegmentedObject()->getObjectParts().size(); i++)
+    {
+
+        SubpartPtr tmp = boost::static_pointer_cast<Subpart>(seg.at(i));
+        string s = tmp->name;
+        UI.comboBoxSegmentation->addItem(QString(s.c_str()));
+    }
+
+    UI.comboBoxSegmentation->addItem(QString("All segment"));
+    UI.comboBoxSegmentation->addItem(QString("No segment"));
+
+    UI.comboBoxSegmentation->setCurrentIndex(segSkeleton->getSegmentedObject()->getObjectParts().size() + 1);
 }
 
 void SkeletonViewerWindow::screenshot()

@@ -25,6 +25,10 @@
 #define _SimoxCGAL_MeshSkeleton_h_
 
 #include "SimoxCGAL.h"
+#include "CGALSurfaceMesh.h"
+#include "SkeletonPoint.h"
+#include "../SegmentedObject.h"
+#include "Subpart.h"
 
 namespace SimoxCGAL
 {
@@ -35,19 +39,39 @@ namespace SimoxCGAL
     {
     public:
 
-        MeshSkeleton();
+        MeshSkeleton(CGALSurfaceMeshPtr mesh, SkeletonPtr skeleton, double width = 0.0);
 
         /*!
         */
         virtual ~MeshSkeleton();
 
+        SimoxCGAL::SegmentedObjectPtr getSegmentedObject();
+
+        int getTime();
+
     protected:
 
         bool segmentationSkeleton();
+        bool searchBranches();
+        void recursionBranchSegmentation(SkeletonPtr skeleton, SkeletonVertex center, float width);
+        void recursionEndpointSegmentation(SkeletonVertex center, SubpartPtr subpart);
+        void updateVertices();
 
 
         int segmentationTimeMS;
 
+
+        std::vector<int> id_map;
+        std::vector<SimoxCGAL::SkeletonVertex> branchList;
+        std::list<SimoxCGAL::SkeletonVertex> endpointList;
+        std::vector<SkeletonPointPtr> pointMap;
+
+
+        CGALSurfaceMeshPtr mesh;
+        SkeletonPtr skeleton;
+        int width;
+
+        SimoxCGAL::SegmentedObjectPtr segmentedObject;
 
     };
 

@@ -75,6 +75,39 @@ bool SegmentedObject::getParameterString(const std::string &key, std::string &st
     return true;
 }
 
+std::string SegmentedObject::toXML(int nrTabs)
+{
+
+    std::string t;
+    std::string ta = "\t";
+    for (int i=0;i<nrTabs;i++)
+        t += "\t";
+    std::stringstream ss;
+
+    ss << t << "<SimoxCGAL-SegmentedObject>\n";
+
+    std::string key = "method";
+    std::string method;
+
+    if (!getParameterString(key, method))
+    {
+        VR_ERROR << "No segmentation method found." << endl;
+    }
+
+    ss << t << ta << "<Method method='" << method << "'/>\n";
+
+
+    for (int i = 0; i < parts.size(); i++)
+    {
+        ss << parts.at(i)->toXML(nrTabs + 1);
+    }
+
+
+    ss << t << "</SimoxCGAL-SegmentedObject>\n";
+
+    return ss.str();
+}
+
 
 
 }

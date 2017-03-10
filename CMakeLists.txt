@@ -32,13 +32,15 @@ endif()
 set(SOURCE_FILES
     CGALSurfaceMesh.cpp
     CGALPolyhedronMesh.cpp
-    IO/CGALMeshIO.cpp
     CGALMeshConverter.cpp
+    IO/CGALMeshIO.cpp
     IO/SegmentedObjectIO.cpp
+    IO/SkeletonIO.cpp
     SegmentedObject.cpp
     ObjectPart.cpp
+    CGALSkeleton.cpp
     Segmentation/Skeleton/MeshSkeleton.cpp
-    Segmentation/Skeleton/Subpart.cpp
+    Segmentation/Skeleton/SkeletonPart.cpp
     Segmentation/SDF/MeshSDF.cpp
     Visualization/CoinVisualization/CGALCoinVisualization.cpp
     )
@@ -47,13 +49,15 @@ set(HEADER_FILES
     SimoxCGALImportExport.h
     CGALSurfaceMesh.h
     CGALPolyhedronMesh.h
-    IO/CGALMeshIO.h
     CGALMeshConverter.h
+    IO/CGALMeshIO.h
+    IO/SkeletonIO.h
     IO/SegmentedObjectIO.h
     SegmentedObject.h
     ObjectPart.h
+    CGALSkeleton.h
     Segmentation/Skeleton/MeshSkeleton.h
-    Segmentation/Skeleton/Subpart.h
+    Segmentation/Skeleton/SkeletonPart.h
     Segmentation/Skeleton/SkeletonPoint.h
     Segmentation/SDF/MeshSDF.h
     Visualization/CoinVisualization/CGALCoinVisualization.h

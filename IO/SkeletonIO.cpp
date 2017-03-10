@@ -18,7 +18,7 @@ SkeletonIO::~SkeletonIO()
 
 }
 
-Skeleton SkeletonIO::loadSkeleton(const std::string &file)
+SkeletonPtr SkeletonIO::loadSkeleton(const std::string &file)
 {
     // load file
     std::ifstream in(file.c_str());
@@ -35,15 +35,16 @@ Skeleton SkeletonIO::loadSkeleton(const std::string &file)
 
     rapidxml::xml_document<char> doc;    // character type defaults to char
     doc.parse<0>(y);    // 0 means default parse flags
-    rapidxml::xml_node<char>* objectXMLFile = doc.first_node("Skeleton");
+    rapidxml::xml_node<char>* objectXMLFile = doc.first_node("CGAL-Skeleton");
     return createSkeletonObject(objectXMLFile);
 
 
 }
 
 
-Skeleton SkeletonIO::createSkeletonObject(rapidxml::xml_node<char> *skeletonNode)
+SkeletonPtr SkeletonIO::createSkeletonObject(rapidxml::xml_node<char> *skeletonNode)
 {
+
     std::map<Skeleton::vertex_descriptor, Point> debug_vertices;
     int number_of_vertices = 0;
     int number_of_edges = 0;
@@ -129,16 +130,16 @@ Skeleton SkeletonIO::createSkeletonObject(rapidxml::xml_node<char> *skeletonNode
     cout << "\tedges_number: should be (" << number_of_edges << "), actual: " << boost::num_edges(skeleton) << endl;
     cout << "\n";
 
-    return skeleton;
+    return SkeletonPtr(new Skeleton(skeleton));
 }
 
-std::string SkeletonIO::saveSkeletonObject(const std::string &name, const std::string &object, const std::string &basePath)
+bool SkeletonIO::saveSkeletonObject(CGALSkeletonPtr s, const std::string &filename)
 {
-    std::string xmlFile = basePath;
-    xmlFile += "/skeletons/" + name + ".xml";
-    bool ok = false;
-    ok = BaseIO::writeXMLFile(xmlFile, object);
-    THROW_VR_EXCEPTION_IF(!ok, "couldn't save skeleton");
-    std::cout << "Saving Skeleton '" << name << "' in: " << xmlFile << std::endl;
-    return xmlFile;
+
+    if (!s)
+        return false;
+
+    std::string xml = s->toXML();
+    bool res = BaseIO::writeXMLFile(filename, xml, true);
+    return res;
 }

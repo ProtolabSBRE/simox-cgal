@@ -116,7 +116,7 @@
          <string>Full model</string>
         </property>
         <property name="checked">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QRadioButton" name="radioButtonColModel">
@@ -261,7 +261,7 @@ of segments</string>
          <string>Segmentation</string>
         </property>
        </widget>
-       <widget class="QRadioButton" name="pushButtonR5">
+       <widget class="QRadioButton" name="radioButtonR5">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -290,7 +290,7 @@ of segments</string>
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QRadioButton" name="pushButtonRNone">
+       <widget class="QRadioButton" name="radioButtonRNone">
         <property name="geometry">
          <rect>
           <x>30</x>

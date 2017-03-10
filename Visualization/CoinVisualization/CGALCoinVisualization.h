@@ -28,6 +28,11 @@
 #include "SimoxCGAL.h"
 #include "CGALSurfaceMesh.h"
 #include "CGALPolyhedronMesh.h"
+#include "ObjectPart.h"
+#include "CGALSkeleton.h"
+#include "Segmentation/Skeleton/SkeletonPart.h"
+
+#include <Inventor/nodes/SoIndexedLineSet.h>
 
 #include <VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h>
 
@@ -54,6 +59,22 @@ namespace SimoxCGAL
                                                size_t number_of_segments,
                                                bool showLines,
                                                bool showNormals);
+
+
+
+        static SoSeparator* CreateSegmentationVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, std::vector<ObjectPartPtr> members, bool show_lines);
+        static SoSeparator* CreateSegmentVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart, bool show_lines);
+
+        static SoSeparator* CreatePigmentedMeshVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, std::vector<ObjectPartPtr> members, int part);
+        static SoNode* CreatePigmentedSubpartVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart, VirtualRobot::VisualizationFactory::Color color);
+
+        static SoSeparator* CreateSkeletonVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, bool showLines);
+        static SoSeparator* ShowSkeletonPoint(SkeletonPtr skeleton, SurfaceMeshPtr mesh, int pointPosition);
+
+        static SoIndexedLineSet* CreateConnectionVisualization(SkeletonVertex &vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh);
+        static SoIndexedLineSet* CreatePolylinesVisualization(Eigen::Vector3f center, std::vector<Eigen::Vector3f> lines);
+
+
 
     protected:
         static SoSeparator* CreatePolygonVisualization(const std::vector<Eigen::Vector3f>& points, VirtualRobot::VisualizationFactory::PhongMaterial mat, VirtualRobot::VisualizationFactory::Color colorLine, float lineSize);

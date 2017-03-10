@@ -28,7 +28,7 @@
 #include "CGALSurfaceMesh.h"
 #include "SkeletonPoint.h"
 #include "../SegmentedObject.h"
-#include "Subpart.h"
+#include "SkeletonPart.h"
 
 namespace SimoxCGAL
 {
@@ -54,7 +54,7 @@ namespace SimoxCGAL
         bool segmentationSkeleton();
         bool searchBranches();
         void recursionBranchSegmentation(SkeletonPtr skeleton, SkeletonVertex center, float width);
-        void recursionEndpointSegmentation(SkeletonVertex center, SubpartPtr subpart);
+        void recursionEndpointSegmentation(SkeletonVertex center, SkeletonPartPtr subpart);
         void updateVertices();
 
 

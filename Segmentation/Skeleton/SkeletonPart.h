@@ -16,12 +16,15 @@ typedef std::map<SimoxCGAL::SkeletonVertex, SimoxCGAL::SkeletonPointPtr>::iterat
 
 namespace SimoxCGAL {
 
-class SIMOX_CGAL_IMPORT_EXPORT Subpart : public ObjectPart
+class SIMOX_CGAL_IMPORT_EXPORT SkeletonPart : public ObjectPart
 {
 
 public:
 
-    std::string toXML();
+    SkeletonPart();
+    ~SkeletonPart();
+
+    std::string toXML(int nrTabs = 1);
     void calculateLengthOfSegment(SimoxCGAL::SkeletonPtr skeleton);
     bool calculateInterval(SimoxCGAL::SkeletonPtr skeleton, int position, float length, Interval &storeInterval);
 
@@ -43,7 +46,7 @@ protected:
 
 };
 
-typedef boost::shared_ptr<Subpart> SubpartPtr;
+typedef boost::shared_ptr<SkeletonPart> SkeletonPartPtr;
 
 }
 

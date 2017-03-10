@@ -13,6 +13,9 @@ MeshSkeleton::MeshSkeleton(CGALSurfaceMeshPtr mesh, SkeletonPtr skeleton, double
     VR_ASSERT(skeleton);
 
     segmentationSkeleton();
+    string key = "method";
+    string value = "skeleton";
+    segmentedObject->addParameterString(key,value);
 
 }
 
@@ -41,7 +44,7 @@ bool MeshSkeleton::segmentationSkeleton()
     //build Segment
     for(int i = 0; i< branchList.size(); i++)
     {
-        SubpartPtr subpart(new Subpart);
+        SkeletonPartPtr subpart(new SkeletonPart);
         subpart->palpable = false;
         SkeletonVertex center = branchList.at(i);
         subpart->segmentNumber = id_map[center];
@@ -90,7 +93,7 @@ bool MeshSkeleton::segmentationSkeleton()
             continue;
         }
 
-        SubpartPtr segment(new Subpart);
+        SkeletonPartPtr segment(new SkeletonPart);
         segment->palpable = true;
         id_map[vertex] = id;
 
@@ -155,7 +158,7 @@ void MeshSkeleton::recursionBranchSegmentation(SkeletonPtr skeleton, SkeletonVer
     }
 }
 
-void MeshSkeleton::recursionEndpointSegmentation(SkeletonVertex center, SubpartPtr subpart)
+void MeshSkeleton::recursionEndpointSegmentation(SkeletonVertex center, SkeletonPartPtr subpart)
 {
 
     if (pointMap[center]->neighbor.size() == 1)

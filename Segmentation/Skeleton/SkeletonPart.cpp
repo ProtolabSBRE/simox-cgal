@@ -1,10 +1,9 @@
-#include "Subpart.h"
+#include "SkeletonPart.h"
 
 #include <utility>
 #include <limits>
 
 
-//test
 #include <Inventor/nodes/SoSeparator.h>
 #include <VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h>
 
@@ -12,42 +11,57 @@ using namespace std;
 
 namespace SimoxCGAL {
 
-string Subpart::toXML()
+SkeletonPart::SkeletonPart()
 {
-    std::string t = "\t";
+
+}
+
+SkeletonPart::~SkeletonPart()
+{
+
+}
+
+string SkeletonPart::toXML(int nrTabs)
+{
+
+    std::string t;
+    std::string ta = "\t";
+    for (int i=0;i<nrTabs;i++)
+        t += "\t";
     std::stringstream ss;
-    ss << "<Subpart name='" << name << "'>\n";
-    ss << t << "<SegmentNumber number='" << segmentNumber << "'/>\n";
-    ss << t << "<Palpable bool='" << palpable << "'/>\n";
-    ss << t << "<NumberOfSkeletonPoints number='" << skeletonPart.size() << "'/>\n";
-    ss << t << "<LengthOfSegment length='" << lengthOfSegment << "'/>\n";
+
+    ss << t << "<SkeletonPart name='" << name << "'>\n";
+    ss << t << ta << "<SegmentNumber number='" << segmentNumber << "'/>\n";
+    ss << t << ta << "<Palpable bool='" << palpable << "'/>\n";
+    ss << t << ta << "<NumberOfSkeletonPoints number='" << skeletonPart.size() << "'/>\n";
+    ss << t << ta << "<LengthOfSegment length='" << lengthOfSegment << "'/>\n";
 
 
-    ss << t  << "<SortedSkeletonSegmentIndex>\n";
+    ss << t  << ta << "<SortedSkeletonSegmentIndex>\n";
 
     for (int i = 0; i < sortedSkeletonPartIndex.size(); i++)
     {
-        ss << t << t << "<Vertex value='" << sortedSkeletonPartIndex.at(i) << "'/>\n";
+        ss << t << ta << ta << "<Vertex value='" << sortedSkeletonPartIndex.at(i) << "'/>\n";
     }
 
-    ss << t << "</SortedSkeletonSegmentIndex>\n";
+    ss << t << ta << "</SortedSkeletonSegmentIndex>\n";
 
-    ss << t << "<SkeletonSegment>\n";
+    ss << t << ta << "<SkeletonSegment>\n";
 
     std::map<SkeletonVertex, SkeletonPointPtr>::iterator p;
     for (p = skeletonPart.begin(); p != skeletonPart.end(); p++)
     {
-        ss << t << t << p->second->toXML();
+        ss << p->second->toXML(nrTabs + 2);
     }
 
-    ss << t << "</SkeletonSegment>\n";
+    ss << t << ta << "</SkeletonSegment>\n";
 
-    ss << "</Subpart>\n";
+    ss << t << "</SkeletonPart>\n";
     return ss.str();
 }
 
 
-void Subpart::calculateLengthOfSegment(SkeletonPtr skeleton)
+void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
 {
     if (skeletonPart.size() <= 1)
     {
@@ -93,7 +107,7 @@ void Subpart::calculateLengthOfSegment(SkeletonPtr skeleton)
     std::cout << "length of segment "<< segmentNumber << ": " << lengthOfSegment << std::endl;
 }
 
-bool Subpart::calculateInterval(SkeletonPtr skeleton, int position, float length, Interval &storeInterval)
+bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float length, Interval &storeInterval)
 {
 
     if (skeletonPart.size() <= 1 || length > lengthOfSegment)
@@ -145,7 +159,7 @@ bool Subpart::calculateInterval(SkeletonPtr skeleton, int position, float length
     return true;
 }
 
-bool Subpart::fillInterval(SkeletonPtr skeleton, SkeletonVertex &center, SkeletonVertex &not_vertex, Interval &interval, float& length)
+bool SkeletonPart::fillInterval(SkeletonPtr skeleton, SkeletonVertex &center, SkeletonVertex &not_vertex, Interval &interval, float& length)
 {
 
     SkeletonPointPtr point = skeletonPart[center];

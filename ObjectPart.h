@@ -51,6 +51,8 @@ namespace SimoxCGAL
         bool hasParamterString(const std::string &key);
         bool getParameterString(const std::string &key, std::string &storeValue);
 
+        virtual std::string toXML(int nrTabs = 1) = 0;
+
     protected:
 
         std::map<std::string, double> parametersDouble;

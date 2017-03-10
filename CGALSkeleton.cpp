@@ -1,36 +1,37 @@
-#include "SkeletonPolyhedron.h"
+#include "CGALSkeleton.h"
 
 #include "Inventor/nodes/SoIndexedLineSet.h"
 #include "Inventor/nodes/SoMaterial.h"
 
 
-#include "SkeletonVisualization.h"
+#include "Visualization/CoinVisualization/CGALCoinVisualization.h"
 
 
 using namespace std;
 using namespace VirtualRobot;
-using namespace SimoxCGAL;
+
+namespace SimoxCGAL {
 
 
-SkeletonPolyhedron::SkeletonPolyhedron(const string &name, SurfaceMeshPtr mesh)
+CGALSkeleton::CGALSkeleton(const string &name, SurfaceMeshPtr mesh)
 {
     this->name = name;
     this->mesh = mesh;
 }
 
-SkeletonPolyhedron::SkeletonPolyhedron(const string &name, SurfaceMeshPtr mesh, SkeletonPtr skeleton)
+CGALSkeleton::CGALSkeleton(const string &name, SurfaceMeshPtr mesh, SkeletonPtr skeleton)
 {
     this->name = name;
     this->mesh = mesh;
     this->skeleton = skeleton;
 }
 
-SkeletonPolyhedron::~SkeletonPolyhedron()
+CGALSkeleton::~CGALSkeleton()
 {
 
 }
 
-void SkeletonPolyhedron::initParameters(int a1, double a2, double a3, double a4, int a5, bool a6, double a7)
+void CGALSkeleton::initParameters(int a1, double a2, double a3, double a4, int a5, bool a6, double a7)
 {
     max_triangle_angle = a1 * (CGAL_PI / 180.0);
     quality_speed_tradeoff = a2;
@@ -41,7 +42,7 @@ void SkeletonPolyhedron::initParameters(int a1, double a2, double a3, double a4,
     min_edge_length = a7;
 }
 
-void SkeletonPolyhedron::calculateSkeleton()
+void CGALSkeleton::calculateSkeleton()
 {
     Skeletonization mcs(*mesh);
 
@@ -67,20 +68,12 @@ void SkeletonPolyhedron::calculateSkeleton()
     skeletonTimeMS = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count(); //milliseconds
 }
 
-void SkeletonPolyhedron::clear()
+void CGALSkeleton::clear()
 {
-    //name.clear();
     skeleton->clear();
-//    mesh.clear();
-    //distances.clear();
-//    dist_to_faces.clear();
-//    segmentid_of_faces.clear();
-    //id_map.clear();
-    //id_facets.clear();
-    //number_of_segments = 0;
 }
 
-string SkeletonPolyhedron::toXML()
+string CGALSkeleton::toXML()
 {
     string t = "\t";
     string tt = t + "\t";
@@ -88,7 +81,7 @@ string SkeletonPolyhedron::toXML()
     stringstream ss;
     std::map<Point, int> vertices_map;
 
-    ss << "<Skeleton>\n";
+    ss << "<CGAL-Skeleton>\n";
     ss << t << "<NumberOfVertices vertices='" << num_vertices(*skeleton) <<"'/>\n";
     ss << t << "<NumberOfEdges edges='" << num_edges(*skeleton) << "'/>\n";
     ss << t << "<Parameters>\n";
@@ -144,55 +137,19 @@ string SkeletonPolyhedron::toXML()
     ss << t << "</Edges>\n";
 
 
-    ss << "</Skeleton>\n";
+    ss << "</CGAL-Skeleton>\n";
     return ss.str();
 }
 
 
-SoSeparator* SkeletonPolyhedron::showPoint(int point)
-{
-    SoSeparator* s = new SoSeparator;
-    s->ref();
-
-    SoUnits* u = new SoUnits();
-    u->units = SoUnits::MILLIMETERS;
-    s->addChild(u);
-
-    if (!skeleton)
-    {
-        return s;
-    }
-
-    if (point >= num_vertices(*skeleton))
-    {
-        return s;
-    }
-
-
-    SkeletonVertex vertex = boost::vertex(point, *skeleton);
-    Point a = (*skeleton)[vertex].point;
-    Eigen::Vector3f aa(a[0], a[1], a[2]);
-    s->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(aa, 1.f, 0.f, 1.f, 0.f, 0.f));
-
-    SoSeparator* l = new SoSeparator;
-    SoMaterial* color = new SoMaterial;
-    color->diffuseColor.setValue(0.f, 1.f, 0.f);
-    l->addChild(color);
-    SoIndexedLineSet* lines = SkeletonVisualization::createConnectionVisualization(vertex, skeleton, mesh);
-    l->addChild(lines);
-
-    s->addChild(l);
-
-    return s;
-}
-
-
-SkeletonPtr SkeletonPolyhedron::getSkeleton()
+SkeletonPtr CGALSkeleton::getSkeleton()
 {
     return skeleton;
 }
 
-int SkeletonPolyhedron::getTime()
+int CGALSkeleton::getTime()
 {
     return skeletonTimeMS;
+}
+
 }

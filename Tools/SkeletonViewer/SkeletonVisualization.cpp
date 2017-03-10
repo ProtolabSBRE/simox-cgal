@@ -63,7 +63,7 @@ SoSeparator* SkeletonVisualization::createSegmentationVisualization(SkeletonPtr 
 
     for (int i = 0; i < members.size(); i++)
     {
-        SubpartPtr subpart = boost::static_pointer_cast<Subpart>(members.at(i));
+        SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(i));
 
         SoSeparator* segment = new SoSeparator();
         SoMaterial* color = new SoMaterial();
@@ -95,7 +95,7 @@ SoSeparator* SkeletonVisualization::createSegmentationVisualization(SkeletonPtr 
 
 
 
-SoSeparator* SkeletonVisualization::createSegmentVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SubpartPtr subpart, bool show_lines)
+SoSeparator* SkeletonVisualization::createSegmentVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart, bool show_lines)
 {
 
     SoSeparator* visu = new SoSeparator;
@@ -155,7 +155,7 @@ SoSeparator* SkeletonVisualization::createPigmentedMeshVisualization(SkeletonPtr
 
         for (int i = 0; i < members.size(); i++)
         {
-            SubpartPtr subpart = boost::static_pointer_cast<Subpart>(members.at(i));
+            SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(i));
 
             SoSeparator* segment = new SoSeparator();
             VirtualRobot::VisualizationFactory::Color color;
@@ -186,7 +186,7 @@ SoSeparator* SkeletonVisualization::createPigmentedMeshVisualization(SkeletonPtr
     } else {
 
         // "part" Segment einfärben
-        SubpartPtr subpart = boost::static_pointer_cast<Subpart>(members.at(part));
+        SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(part));
         SoNode* s = createPigmentedSubpartVisualization(skeleton, mesh, subpart, VirtualRobot::VisualizationFactory::Color(1.f, 0.f, 0.f));
         visu->addChild(s);
 
@@ -195,7 +195,7 @@ SoSeparator* SkeletonVisualization::createPigmentedMeshVisualization(SkeletonPtr
     return visu;
 }
 
-SoNode* SkeletonVisualization::createPigmentedSubpartVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SubpartPtr subpart, VirtualRobot::VisualizationFactory::Color color)
+SoNode* SkeletonVisualization::createPigmentedSubpartVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart, VirtualRobot::VisualizationFactory::Color color)
 {
     map<SurfaceMeshVertexDescriptor, int> surfaceIndices;
     map<SurfaceMeshFaceDescriptor, vector<int>> faceVertices;

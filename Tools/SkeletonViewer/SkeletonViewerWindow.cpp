@@ -1,18 +1,12 @@
 
 #include "SkeletonViewerWindow.h"
-//#include "GraspPlanning/Visualization/CoinVisualization/CoinConvexHullVisualization.h"
-//#include "GraspPlanning/ContactConeGenerator.h"
-//#include "VirtualRobot/EndEffector/EndEffector.h"
-//#include "VirtualRobot/Workspace/Reachability.h"
 #include <VirtualRobot/ManipulationObject.h>
-//#include "VirtualRobot/Grasping/Grasp.h"
-//#include "VirtualRobot/IK/GenericIKSolver.h"
-//#include "VirtualRobot/Grasping/GraspSet.h"
-//#include "VirtualRobot/CollisionDetection/CDManager.h"
 #include <VirtualRobot/XML/ObjectIO.h>
 #include <VirtualRobot/XML/RobotIO.h>
+#include <VirtualRobot/XML/rapidxml.hpp>
 #include <VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h>
 #include <VirtualRobot/Visualization/TriMeshModel.h>
+#include <GraspPlanning/MeshConverter.h>
 #include <QFileDialog>
 #include <QInputDialog>
 #include <Eigen/Geometry>
@@ -34,8 +28,11 @@
 #include <Inventor/nodes/SoMatrixTransform.h>
 #include <Inventor/nodes/SoScale.h>
 
-#include "SkeletonVisualization.h"
-#include "Segmentation/Skeleton/Subpart.h"
+#include "Visualization/CoinVisualization/CGALCoinVisualization.h"
+#include "Segmentation/Skeleton/SkeletonPart.h"
+#include "IO/SkeletonIO.h"
+#include "IO/CGALMeshIO.h"
+#include "SkeletonViewerWindowIO.h"
 
 #include <sstream>
 using namespace std;
@@ -109,8 +106,10 @@ void SkeletonViewerWindow::setupUI()
     connect(UI.pushButtonLoadObject, SIGNAL(clicked()), this, SLOT(reloadObject()));
     connect(UI.pushButtonBuild, SIGNAL(clicked()), this, SLOT(buildObject()));
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(saveSegmentedObject()));
+    connect(UI.pushButtonLoad, SIGNAL(clicked()), this, SLOT(loadData()));
     connect(UI.pushButtonScreenshot, SIGNAL(clicked()), this, SLOT(screenshot()));
     connect(UI.comboBoxSegmentation, SIGNAL(currentIndexChanged(int)), this, SLOT(buildVisu()));
+    connect(UI.spinBoxSkeletonPoint, SIGNAL(currentIndexChanged(int)), this, SLOT(buildVisu()));
 }
 
 
@@ -155,14 +154,14 @@ void SkeletonViewerWindow::buildVisu()
             SoMaterial* color = new SoMaterial();
             color->diffuseColor.setValue(1.f, 0.f, 0.f);
             s->addChild(color);
-            s->addChild(SkeletonVisualization::createSkeletonVisualization(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.checkBoxLines->isChecked()));
+            s->addChild(CGALCoinVisualization::CreateSkeletonVisualization(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.checkBoxLines->isChecked()));
             skeletonSep->addChild(s);
         }
 
 
         if (UI.checkBoxSkeletonPoint->isChecked())
         {
-            skeletonSep->addChild(skeleton->showPoint(UI.spinBoxSkeletonPoint->value()));
+            skeletonSep->addChild(CGALCoinVisualization::ShowSkeletonPoint(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.spinBoxSkeletonPoint->value()));
         }
 
     }
@@ -187,13 +186,13 @@ void SkeletonViewerWindow::buildVisu()
         if (index_segmentation < members.size())
         {
             segmentationSep->addChild(partColor);
-            SubpartPtr subpart = boost::static_pointer_cast<Subpart>(members.at(index_segmentation));
-            SoSeparator* segment = SkeletonVisualization::createSegmentVisualization(s, surfaceMesh->getMesh(), subpart, lines);
+            SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(index_segmentation));
+            SoSeparator* segment = CGALCoinVisualization::CreateSegmentVisualization(s, surfaceMesh->getMesh(), subpart, lines);
             segmentationSep->addChild(segment);
 
         } else if (index_segmentation == members.size()){
 
-            SoSeparator* all = SkeletonVisualization::createSegmentationVisualization(s, surfaceMesh->getMesh(), members, lines);
+            SoSeparator* all = CGALCoinVisualization::CreateSegmentationVisualization(s, surfaceMesh->getMesh(), members, lines);
             segmentationSep->addChild(all);
         }
     }
@@ -206,14 +205,13 @@ void SkeletonViewerWindow::buildVisu()
 
         if (index_segmentation < members.size())
         {
-//            surfaceSep->addChild(partColor);
-            SubpartPtr subpart = boost::static_pointer_cast<Subpart>(members.at(index_segmentation));
-            SoNode* segment = SkeletonVisualization::createPigmentedSubpartVisualization(s, surfaceMesh->getMesh(), subpart, VirtualRobot::VisualizationFactory::Color(1.f, 0.f, 0.f));
+            SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(index_segmentation));
+            SoNode* segment = CGALCoinVisualization::CreatePigmentedSubpartVisualization(s, surfaceMesh->getMesh(), subpart, VirtualRobot::VisualizationFactory::Color(1.f, 0.f, 0.f));
             surfaceSep->addChild(segment);
 
         } else if (index_segmentation == members.size()){
 
-            SoSeparator* all = SkeletonVisualization::createPigmentedMeshVisualization(s, surfaceMesh->getMesh(), members, members.size());
+            SoSeparator* all = CGALCoinVisualization::CreatePigmentedMeshVisualization(s, surfaceMesh->getMesh(), members, members.size());
             surfaceSep->addChild(all);
         }
 
@@ -240,6 +238,59 @@ void SkeletonViewerWindow::quit()
 
 void SkeletonViewerWindow::saveSegmentedObject()
 {
+    if (!skeleton || !segSkeleton || !surfaceMesh)
+    {
+        VR_INFO << "Data not created. Press button 'segmentation' first." << endl;
+        return;
+    }
+
+    string object_dir = objectFilename;
+
+    cout << "objectFile: " << object_dir << endl;
+
+    QString fi = QFileDialog::getSaveFileName(this, tr("Save SegmentedObject"), QString(objectFilename.c_str()), tr("XML Files (*.xml)"));
+    objectFile = std::string(fi.toLatin1());
+
+    bool save = SkeletonViewerWindowIO::saveSkeletonViewerData(objectFile, object_dir, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
+
+    if (!save)
+    {
+        return;
+    }
+}
+
+
+void SkeletonViewerWindow::loadData()
+{
+
+    VR_INFO << "Loading skeleton ...\n";
+
+    QString fi = QFileDialog::getOpenFileName(this, tr("Open Skeleton File"), QString(), tr("XML Files (*.xml)"));
+    string file(fi.toLatin1());
+
+    cout << "file: " << file << endl;
+
+    try {
+        LoadedData data = SkeletonViewerWindowIO::loadSkeletonViewerData(file);
+        manipObject = data.manipObject;
+        surfaceMesh = data.surfaceMesh;
+        skeleton = data.skeleton;
+//        segSkeleton = data.segSkeleton;
+
+    } catch(rapidxml::parse_error& e)
+    {
+        THROW_VR_EXCEPTION("Could not parse data in xml definition" << endl
+                           << "Error message:" << e.what() << endl
+                           << "Position: " << endl << e.where<char>() << endl);
+    }
+    catch (VirtualRobotException& e)
+    {
+        cout << " ERROR while loading object" << endl;
+        cout << e.what();
+        return;
+    }
+
+    VR_INFO << "Loading complete.\n";
 
 }
 
@@ -288,13 +339,33 @@ void SkeletonViewerWindow::buildObject()
         return;
     }
 
+    VirtualRobot::TriMeshModelPtr model = manipObject->getCollisionModel()->getTriMeshModel();
+
+     VR_INFO << "Remeshing ..." << endl;
+
+     if (UI.radioButtonR5->isChecked())
+     {
+         VirtualRobot::ObstaclePtr p = GraspStudio::MeshConverter::RefineObjectSurface(manipObject, 5.f);
+         model = p->getCollisionModel()->getTriMeshModel();
+
+     } else if (UI.radioButtonR10->isChecked())
+     {
+         VirtualRobot::ObstaclePtr p = GraspStudio::MeshConverter::RefineObjectSurface(manipObject, 10.f);
+         model = p->getCollisionModel()->getTriMeshModel();
+
+     }
+
+     VR_INFO << "Remeshing done." << endl;
+
+
+
     VR_INFO << "Converting mesh to cgal structure..." << endl;
 
-    surfaceMesh = CGALMeshConverter::ConvertToSurfaceMesh(manipObject->getCollisionModel()->getTriMeshModel());
+    surfaceMesh = CGALMeshConverter::ConvertToSurfaceMesh(model);
 
     VR_INFO << "Calculatin skeleton ..." << endl;
 
-    skeleton = SkeletonPolyhedronPtr(new SkeletonPolyhedron(manipObject->getName(), surfaceMesh->getMesh()));
+    skeleton = CGALSkeletonPtr(new CGALSkeleton(manipObject->getName(), surfaceMesh->getMesh()));
     skeleton->initParameters();
     skeleton->calculateSkeleton();
 
@@ -313,7 +384,7 @@ void SkeletonViewerWindow::buildObject()
     for (int i = 0; i < segSkeleton->getSegmentedObject()->getObjectParts().size(); i++)
     {
 
-        SubpartPtr tmp = boost::static_pointer_cast<Subpart>(seg.at(i));
+        SkeletonPartPtr tmp = boost::static_pointer_cast<SkeletonPart>(seg.at(i));
         string s = tmp->name;
         UI.comboBoxSegmentation->addItem(QString(s.c_str()));
     }

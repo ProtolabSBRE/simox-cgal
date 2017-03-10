@@ -27,7 +27,7 @@
 
 #include "IO/SegmentedObjectIO.h"
 #include "CGALSurfaceMesh.h"
-#include "SkeletonPolyhedron.h"
+#include "CGALSkeleton.h"
 #include "Segmentation/Skeleton/MeshSkeleton.h"
 
 #include <vector>
@@ -55,6 +55,7 @@ public slots:
     void colModel();
 
     void saveSegmentedObject();
+    void loadData();
     void reloadObject();
     void screenshot();
 
@@ -65,7 +66,6 @@ public slots:
 protected:
 
     void loadObject();
-
     void setupUI();
 
     //static void timerCB(void* data, SoSensor* sensor);
@@ -86,9 +86,10 @@ protected:
 
     SimoxCGAL::MeshSkeletonPtr segSkeleton;
     SimoxCGAL::CGALSurfaceMeshPtr surfaceMesh;
-    SkeletonPolyhedronPtr skeleton;
+    SimoxCGAL::CGALSkeletonPtr skeleton;
     std::string segmentedFilename;
     std::string objectFilename;
+    std::string save_dir;
 };
 
 

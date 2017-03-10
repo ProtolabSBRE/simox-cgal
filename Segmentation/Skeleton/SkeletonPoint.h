@@ -16,24 +16,29 @@ public:
     std::list<SimoxCGAL::SkeletonVertex> neighbor;
 
 
-    std::string toXML()
+    std::string toXML(int nrTabs = 1)
     {
-        std::string t = "\t";
+
+        std::string t;
+        std::string ta = "\t";
+        for (int i=0;i<nrTabs;i++)
+            t += "\t";
         std::stringstream ss;
-        ss << "<SkeletonPoint vertex='" << vertex << "'>\n";
-        ss << t << "<Endpoint value='" << endpoint << "'/>\n";
-        ss << t << "<Branch value='" << branch << "'/>\n";
-        ss << t << "<Neighbor>\n";
+
+        ss << t << "<SkeletonPoint vertex='" << vertex << "'>\n";
+        ss << t << ta << "<Endpoint value='" << endpoint << "'/>\n";
+        ss << t << ta << "<Branch value='" << branch << "'/>\n";
+        ss << t << ta << "<Neighbor>\n";
 
         std::list<SimoxCGAL::SkeletonVertex>::iterator it;
         for (it = neighbor.begin(); it != neighbor.end(); it++)
         {
             SimoxCGAL::SkeletonVertex n = *it;
-            ss << t << t << "<Vertex value='" << n << "'/>\n";
+            ss << t << ta << ta << "<Vertex value='" << n << "'/>\n";
         }
 
-        ss << t << "</Neighbor>\n";
-        ss << "</SkeletonPoint>\n";
+        ss << t << ta << "</Neighbor>\n";
+        ss << t << "</SkeletonPoint>\n";
 
         return ss.str();
     }

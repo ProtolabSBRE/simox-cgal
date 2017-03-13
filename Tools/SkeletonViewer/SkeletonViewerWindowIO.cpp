@@ -94,15 +94,16 @@ LoadedData SkeletonViewerWindowIO::loadSkeletonViewerData(const std::string &fil
         rapidxml::xml_node<>* m = nodeSegObject->first_node("File", 0, false);
         rapidxml::xml_attribute<>* attribute_file = m->first_attribute("file", 0, false);
         string file(attribute_file->value());
-//        data.skeleton = SkeletonIO::loadSkeleton(file);
+        SegmentedObjectPtr p = SegmentedObjectIO::Load(file);
+        string key = "method";
+        string value = "skeleton";
+        p->addParameterString(key, value);
+        data.segSkeleton = MeshSkeletonPtr(new MeshSkeleton(data.surfaceMesh, data.skeleton->getSkeleton(), p));
 
     }else
     {
         THROW_VR_EXCEPTION("No segmented skeleton found.\n");
     }
-
-    //load segmentedObject
-//    data.segSkeleton =
 
 
     VR_INFO << "Loading complete." << endl;

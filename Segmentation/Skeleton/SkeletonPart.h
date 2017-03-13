@@ -28,7 +28,6 @@ public:
     void calculateLengthOfSegment(SimoxCGAL::SkeletonPtr skeleton);
     bool calculateInterval(SimoxCGAL::SkeletonPtr skeleton, int position, float length, Interval &storeInterval);
 
-
     std::map<SimoxCGAL::SkeletonVertex,SkeletonPointPtr> skeletonPart;
     std::vector<SimoxCGAL::SkeletonVertex> sortedSkeletonPartIndex;
     std::vector<Interval> intervalSet;
@@ -38,11 +37,13 @@ public:
     bool palpable;
     double lengthOfSegment;
 
+    static ObjectPartPtr fromXML(rapidxml::xml_node<> *node);
+
 protected:
 
-
-
     bool fillInterval(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SkeletonVertex &center, SimoxCGAL::SkeletonVertex &not_vertex, Interval &interval, float& length);
+    static std::vector<SkeletonVertex> loadSortedSegment(rapidxml::xml_node<char> *node, bool palpaple);
+    static SkeletonPointPtr loadSkeletonPoint(rapidxml::xml_node<char> *node);
 
 };
 

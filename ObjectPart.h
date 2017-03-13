@@ -24,7 +24,10 @@
 #ifndef _SimoxCGAL_ObjectPart_h_
 #define _SimoxCGAL_ObjectPart_h_
 
+#include "VirtualRobot/XML/rapidxml.hpp"
+
 #include "SimoxCGAL.h"
+
 
 
 namespace SimoxCGAL
@@ -52,6 +55,7 @@ namespace SimoxCGAL
         bool getParameterString(const std::string &key, std::string &storeValue);
 
         virtual std::string toXML(int nrTabs = 1) = 0;
+        static boost::shared_ptr<ObjectPart> fromXML(rapidxml::xml_node<>* node);
 
     protected:
 

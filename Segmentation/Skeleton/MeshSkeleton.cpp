@@ -19,6 +19,14 @@ MeshSkeleton::MeshSkeleton(CGALSurfaceMeshPtr mesh, SkeletonPtr skeleton, double
 
 }
 
+MeshSkeleton::MeshSkeleton(CGALSurfaceMeshPtr mesh, SkeletonPtr skeleton, SegmentedObjectPtr segmentedObject)
+    : mesh(mesh), skeleton(skeleton), segmentedObject(segmentedObject)
+{
+    VR_ASSERT(mesh);
+    VR_ASSERT(skeleton);
+    VR_ASSERT(segmentedObject);
+}
+
 MeshSkeleton::~MeshSkeleton()
 {
 

@@ -6,8 +6,10 @@
 
 #include <Inventor/nodes/SoSeparator.h>
 #include <VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h>
+#include <VirtualRobot/XML/BaseIO.h>
 
 using namespace std;
+using namespace VirtualRobot;
 
 namespace SimoxCGAL {
 
@@ -206,5 +208,124 @@ bool SkeletonPart::fillInterval(SkeletonPtr skeleton, SkeletonVertex &center, Sk
     }
 
 }
+
+ObjectPartPtr SkeletonPart::fromXML(rapidxml::xml_node<> *node)
+
+//SkeletonPartPtr SkeletonPart::fromXML(rapidxml::xml_node<> *node)
+{
+    SkeletonPartPtr subpart(new SkeletonPart);
+
+    //name
+    string name(BaseIO::processNameAttribute(node));
+    subpart->name = name;
+
+
+    //segmentNumber
+    rapidxml::xml_node<>* segNumber = node->first_node("SegmentNumber", 0, false);
+    rapidxml::xml_attribute<>* tmp_segNumber = segNumber->first_attribute();
+    subpart->segmentNumber = BaseIO::convertToInt(tmp_segNumber->value());
+
+    //palpable
+    rapidxml::xml_node<>* p = node->first_node("Palpable", 0, false);
+    rapidxml::xml_attribute<>* tmp_p = p->first_attribute();
+    subpart->palpable = BaseIO::convertToInt(tmp_p->value()) != 0;
+
+    //numberOfSkeletonPoints
+    rapidxml::xml_node<>* num_points = node->first_node("NumberOfSkeletonPoints", 0, false);
+    rapidxml::xml_attribute<>* tmp_num_points = num_points->first_attribute();
+    int number_points = BaseIO::convertToInt(tmp_num_points->value());
+
+
+    //lengthOfSegment
+    rapidxml::xml_node<>* length = node->first_node("LengthOfSegment", 0, false);
+    rapidxml::xml_attribute<>* tmp_length = length->first_attribute();
+    subpart->lengthOfSegment = BaseIO::convertToFloat(tmp_length->value());
+
+    //sortedSkeletonPart
+    rapidxml::xml_node<>* sortedSkeleton = node->first_node("SortedSkeletonSegmentIndex", 0, false);
+    std::vector<SkeletonVertex> sorted = loadSortedSegment(sortedSkeleton, subpart->palpable);
+    subpart->sortedSkeletonPartIndex = sorted;
+
+
+    //skeletonSegment
+    rapidxml::xml_node<>* segments = node->first_node("SkeletonSegment", 0, false);
+
+    std::map<SkeletonVertex,SkeletonPointPtr> points;
+
+    for (rapidxml::xml_node<>* child = segments->first_node(); child != NULL; child = child->next_sibling())
+    {
+
+        SkeletonPointPtr point = loadSkeletonPoint(child);
+        points[point->vertex] = point;
+    }
+
+    subpart->skeletonPart = points;
+
+    THROW_VR_EXCEPTION_IF(number_points != points.size(), "Wrong number of skeletonPoints");
+
+    return subpart;
+
+}
+
+vector<SkeletonVertex> SkeletonPart::loadSortedSegment(rapidxml::xml_node<char> *node, bool palpaple)
+{
+    vector<SkeletonVertex> sorted;
+
+    if (!palpaple)
+    {
+        return sorted;
+    }
+
+    for (rapidxml::xml_node<>* child = node->first_node(); child != NULL; child = child->next_sibling())
+    {
+
+        rapidxml::xml_attribute<>* vertex = child->first_attribute("value");
+        SkeletonVertex v(BaseIO::convertToInt(vertex->value()));
+        sorted.push_back(v);
+    }
+
+    return sorted;
+
+}
+
+SkeletonPointPtr SkeletonPart::loadSkeletonPoint(rapidxml::xml_node<char> *node)
+{
+
+    SkeletonPointPtr point(new SkeletonPoint);
+
+    //vertex
+    rapidxml::xml_attribute<>* vertex = node->first_attribute("vertex");
+    SkeletonVertex v(BaseIO::convertToInt(vertex->value()));
+    point->vertex = v;
+
+
+    //endpoint
+    rapidxml::xml_node<>* endpoint = node->first_node("Endpoint", 0, false);
+    rapidxml::xml_attribute<>* tmp_endpoint = endpoint->first_attribute("value", 0, false);
+    point->endpoint = BaseIO::convertToInt(tmp_endpoint->value()) != 0;
+
+
+    //branch
+    rapidxml::xml_node<>* branch = node->first_node("Branch", 0, false);
+    rapidxml::xml_attribute<>* tmp_branch = branch->first_attribute("value", 0, false);
+    point->branch = BaseIO::convertToInt(tmp_branch->value()) != 0;
+
+
+    //neighbor
+    rapidxml::xml_node<>* neighbor = node->first_node("Neighbor", 0, false);
+
+    for(rapidxml::xml_node<>* child = neighbor->first_node(); child != NULL; child = child->next_sibling())
+    {
+        rapidxml::xml_attribute<>* n_vertex = child->first_attribute("value", 0, false);
+        SkeletonVertex s_vertex(BaseIO::convertToInt(n_vertex->value()));
+        point->neighbor.push_back(s_vertex);
+
+
+    }
+
+    return point;
+}
+
+
 
 }

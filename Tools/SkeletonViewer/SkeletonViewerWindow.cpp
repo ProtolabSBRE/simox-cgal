@@ -275,7 +275,7 @@ void SkeletonViewerWindow::loadData()
         manipObject = data.manipObject;
         surfaceMesh = data.surfaceMesh;
         skeleton = data.skeleton;
-//        segSkeleton = data.segSkeleton;
+        segSkeleton = data.segSkeleton;
 
     } catch(rapidxml::parse_error& e)
     {
@@ -289,6 +289,23 @@ void SkeletonViewerWindow::loadData()
         cout << e.what();
         return;
     }
+
+
+
+    vector<ObjectPartPtr> seg = segSkeleton->getSegmentedObject()->getObjectParts();
+    for (int i = 0; i < segSkeleton->getSegmentedObject()->getObjectParts().size(); i++)
+    {
+
+        SkeletonPartPtr tmp = boost::static_pointer_cast<SkeletonPart>(seg.at(i));
+        string s = tmp->name;
+        UI.comboBoxSegmentation->addItem(QString(s.c_str()));
+    }
+
+    UI.comboBoxSegmentation->addItem(QString("All segment"));
+    UI.comboBoxSegmentation->addItem(QString("No segment"));
+
+    UI.comboBoxSegmentation->setCurrentIndex(segSkeleton->getSegmentedObject()->getObjectParts().size() + 1);
+
 
     VR_INFO << "Loading complete.\n";
 

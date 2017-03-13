@@ -37,7 +37,7 @@ namespace SimoxCGAL
     {
     public:
 
-        static SegmentedObjectPtr Load(const std::string &filename);
+        static SegmentedObjectPtr Load(const std::string &file);
         static bool Save(SegmentedObjectPtr o, const std::string &filename);
 
         virtual ~SegmentedObjectIO();

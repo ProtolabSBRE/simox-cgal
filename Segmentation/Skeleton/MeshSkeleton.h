@@ -41,6 +41,8 @@ namespace SimoxCGAL
 
         MeshSkeleton(CGALSurfaceMeshPtr mesh, SkeletonPtr skeleton, double width = 0.0);
 
+        MeshSkeleton(CGALSurfaceMeshPtr mesh, SkeletonPtr skeleton, SegmentedObjectPtr segmentedObject);
+
         /*!
         */
         virtual ~MeshSkeleton();

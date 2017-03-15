@@ -37,6 +37,7 @@
 #include <Inventor/nodes/SoMaterial.h>
 
 
+#include "SkeletonGraspPlanerViewerIO.h"
 #include "GraspPlaner/Math.h"
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
 
@@ -52,7 +53,7 @@ using namespace SimoxCGAL;
 float TIMER_MS = 30.0f;
 
 SkeletonGraspPlanerWindow::SkeletonGraspPlanerWindow(std::string& robFile, std::string& eefName, std::string& preshape, std::string& objFile)
-    : QMainWindow(NULL), skeleton(new Skeleton), segmentation(new SegmentedObject)
+    : QMainWindow(NULL), skeleton(new Skeleton), segmentation(new SegmentedObject())
 {
     VR_INFO << " start " << endl;
 
@@ -88,6 +89,7 @@ SkeletonGraspPlanerWindow::SkeletonGraspPlanerWindow(std::string& robFile, std::
 
     loadRobot();
 //    loadObject();
+//    loadPlanner();
     buildVisu();
     viewer->viewAll();
 }
@@ -145,26 +147,22 @@ void SkeletonGraspPlanerWindow::setupUI()
     viewer->setSceneGraph(sceneSep);
     viewer->viewAll();
 
-//    viewer->setAccumulationBuffer(true);
-//    viewer->setAntialiasing(true, 8);
-
 
     connect(UI.radioButtonNothing, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.radioButtonSkeleton, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.radioButtonSegmentation, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxHand, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxGCP, SIGNAL(clicked()), this, SLOT(buildVisu()));
 
     connect(UI.pushButtonReset, SIGNAL(clicked()), this, SLOT(resetSceneryAll()));
     connect(UI.pushButtonPlan, SIGNAL(clicked()), this, SLOT(plan()));
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(save()));
     connect(UI.pushButtonOpen, SIGNAL(clicked()), this, SLOT(openEEF()));
     connect(UI.pushButtonClose, SIGNAL(clicked()), this, SLOT(closeEEF()));
-    connect(UI.pushButtonLoadData, SIGNAL(clicked()), this, SLOT(load()));
+    connect(UI.pushButtonLoadData, SIGNAL(clicked()), this, SLOT(loadData()));
 //    connect(UI.radioButtonPreshapeAll, SIGNAL(clicked()), this, SLOT(setPreshape()));
 //    connect(UI.radioButtonPreshapePrecision, SIGNAL(clicked()), this, SLOT(setPreshape()));
 //    connect(UI.radioButtonPreshapePower, SIGNAL(clicked()), this, SLOT(setPreshape()));
-//    connect(UI.pushButtonInfo, SIGNAL(clicked()), this, SLOT(info()));
-
 
 
     connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
@@ -201,17 +199,12 @@ void SkeletonGraspPlanerWindow::buildVisu()
 
     if (eefCloned && UI.checkBoxHand->isChecked())
     {
+        if (eefCloned->getEndEffector(eefName)->hasPreshape(preshape))
+        {
+//            eefCloned->getEndEffector(eefName)->getPreshape(peshape)->print();
+            eefCloned->getEndEffector(eefName)->getGCP()->showCoordinateSystem(UI.checkBoxGCP->isChecked(), 0.5f);
 
-//        if (eefCloned->getEndEffector(eefName)->hasPreshape(preshape))
-//        {
-//            RobotConfigPtr config = eefCloned->getEndEffector(eefName)->getPreshape(preshape);
-
-//            std::string gcp = "GCP";
-//            config->getTCP()->showCoordinateSystem(UI.checkBoxGCP->isChecked(), 0.5f, &gcp);
-
-//        }
-
-
+        }
 
         visualizationRobot = eefCloned->getVisualization<CoinVisualization>(colModel);
         SoNode* visualisationNode = visualizationRobot->getCoinVisualization();
@@ -219,7 +212,7 @@ void SkeletonGraspPlanerWindow::buildVisu()
         if (visualisationNode)
         {
             robotSep->addChild(visualisationNode);
-//            visualizationRobot->highlight(UI.checkBoxHighlight->isChecked());
+            visualizationRobot->highlight(UI.checkBoxHighlight->isChecked());
         }
     }
 
@@ -281,7 +274,6 @@ void SkeletonGraspPlanerWindow::buildVisu()
     }
 
 
-
     if (UI.groupBoxSkeleton->isEnabled())
     {
         skeletonSep->removeAllChildren();
@@ -308,9 +300,6 @@ void SkeletonGraspPlanerWindow::buildVisu()
             skeletonSep->addChild(g);
         }
 
-
-
-
     }
 
     viewer->scheduleRedraw();
@@ -331,57 +320,50 @@ void SkeletonGraspPlanerWindow::quit()
     SoQt::exitMainLoop();
 }
 
-void SkeletonGraspPlanerWindow::info()
-{
-
-}
-
 void SkeletonGraspPlanerWindow::loadObject()
 {
     if (!objectFile.empty())
     {
         object = ObjectIO::loadManipulationObject(objectFile);
     }
+}
 
-    if (!object)
+void SkeletonGraspPlanerWindow::loadData()
+{
+    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
+    string file = std::string(fi.toAscii());
+    if (file.empty())
     {
-        object = Obstacle::createBox(50.0f, 50.0f, 10.0f);
+        return;
     }
 
+    LoadedData data = SkeletonGraspPlanerViewerIO::loadSkeletonViewerData(file);
+    object = data.manipObject;
+    mesh = data.surfaceMesh;
+    skeleton = data.skeleton->getSkeleton();
+    segmentation = data.segSkeleton->getSegmentedObject();
+
+    //verschiebe Endeffector
+    Eigen::Vector3f min = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMin();
+    Eigen::Vector3f max = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMax();
+
+
+    loadPlanner();
+
+
+    UI.groupBoxSkeleton->setEnabled(true);
+    UI.radioButtonNothing->setChecked(true);
+
+    buildVisu();
 }
 
 void SkeletonGraspPlanerWindow::loadPlanner()
 {
-    //Eigen::Vector3f minS,maxS;
-    //object->getCollisionModel()->getTriMeshModel()->getSize(minS,maxS);
-    //cout << "minS: \n" << minS << "\nMaxS:\n" << maxS << endl;
-    qualityMeasure.reset(new GraspStudio::GraspQualityMeasureWrenchSpace(object));
-    //qualityMeasure->setVerbose(true);
+    qualityMeasure.reset(new GraspQualityMeasureWrenchSpace(object));
     qualityMeasure->calculateObjectProperties();
-
-//    if (UI.radioButtonPreshapePrecision->isChecked())
-//    {
-//        preshape = "Precision Preshape";
-//        approach.reset(new ApproachMovementSkeleton(object, skeleton, mesh, segmentation, eef, preshape));
-//        approach->setPrecisionGrasp(true);
-//        approach->setPowerGrasp(false);
-
-//    } else if (UI.radioButtonPreshapePower->isChecked())
-//    {
-//        preshape = "Power Preshape";
-//        approach.reset(new ApproachMovementSkeleton(object, skeleton, mesh, segmentation, eef, preshape));
-//        approach->setPrecisionGrasp(false);
-//        approach->setPowerGrasp(true);
-
-//    } else {
-
-//    }
 
     preshape = "";
     approach.reset(new ApproachMovementSkeleton(object, skeleton, mesh->getMesh(), segmentation, eef, preshape));
-    approach->setPrecisionGrasp(true);
-    approach->setPowerGrasp(true);
-
     eefCloned = approach->getEEFRobotClone();
 
     if (robot && eef)
@@ -397,76 +379,34 @@ void SkeletonGraspPlanerWindow::loadPlanner()
 
 void SkeletonGraspPlanerWindow::loadRobot()
 {
-//    robot.reset();
-//    robot = RobotIO::loadRobot(robotFile);
-
-//    if (!robot)
-//    {
-//        VR_ERROR << " no robot at " << robotFile << endl;
-//        return;
-//    }
-
-//    eef = robot->getEndEffector(eefName);
-
-//    if (!preshape.empty())
-//    {
-//        eef->setPreshape(preshape);
-//    }
-
-//    eefVisu = CoinVisualizationFactory::CreateEndEffectorVisualization(eef);
-//    eefVisu->ref();
-
-
-    robotSep->removeAllChildren();
-    cout << "Loading Robot from " << robotFile << endl;
     robot.reset();
-
-    try
-    {
-        QFileInfo fileInfo(robotFile.c_str());
-        std::string suffix(fileInfo.suffix().toLatin1());
-        RobotImporterFactoryPtr importer = RobotImporterFactory::fromFileExtension(suffix, NULL);
-
-        if (!importer)
-        {
-            cout << " ERROR while grabbing importer" << endl;
-            return;
-        }
-
-        robot = importer->loadFromFile(robotFile, RobotIO::eFull);
-        eef = robot->getEndEffector(eefName);
-
-        if (!preshape.empty())
-        {
-            eef->setPreshape(preshape);
-        }
-
-
-    }
-    catch (VirtualRobotException& e)
-    {
-        cout << " ERROR while creating robot" << endl;
-        cout << e.what();
-        return;
-    }
+    robot = RobotIO::loadRobot(robotFile);
 
     if (!robot)
     {
-        cout << " ERROR while creating robot" << endl;
+        VR_ERROR << " no robot at " << robotFile << endl;
         return;
     }
 
+    eef = robot->getEndEffector(eefName);
+
+    if (!eef->hasPreshape(POWER_GRASP)) {
+        VR_ERROR << "no power preshape defined in endeffector: " << eef->getName() << " of robot: " << robot->getName() << endl;
+    }
+
+
+    if (!eef->hasPreshape(PRECISION_GRASP)) {
+        VR_ERROR << "no precision preshape defined in endeffector: " << eef->getName() << " of robot: " << robot->getName() << endl;
+    }
+
+    eefCloned = eef->createEefRobot(eef->getName(), eef->getName());
+
     eefVisu = CoinVisualizationFactory::CreateEndEffectorVisualization(eef);
     eefVisu->ref();
-
-
 }
 
 void SkeletonGraspPlanerWindow::plan()
 {
-
-    approach->clear();
-
     float timeout = UI.spinBoxTimeOut->value() * 1000.0f;
     bool forceClosure = UI.checkBoxFoceClosure->isChecked();
     float quality = (float)UI.doubleSpinBoxQuality->value();
@@ -765,14 +705,4 @@ void SkeletonGraspPlanerWindow::setPreshape()
     loadPlanner();
     buildVisu();
 
-}
-
-void SkeletonGraspPlanerWindow::testM()
-{
-
-    VR_INFO << "Test\n";
-
-    //test method
-
-    VR_INFO << "Test done.\n";
 }

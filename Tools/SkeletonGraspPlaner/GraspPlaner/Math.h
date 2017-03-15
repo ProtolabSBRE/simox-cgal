@@ -42,10 +42,10 @@ class Math
 public:
 
 
-    static bool calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f& dir1, Eigen::Vector3f& dir2, Eigen::Vector3f& result, SoSeparator* sep);
+    static bool calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f& dir1, Eigen::Vector3f& dir2, Eigen::Vector3f& result);
     static Eigen::Vector3f pointToVector(SimoxCGAL::Point point);
     static std::vector<Eigen::Vector3f> projectPointsToPlane(std::vector<VirtualRobot::MathTools::Plane> v_planes, std::vector<std::vector<Eigen::Vector3f>> v_points);
-    static PrincipalAxis3D calculatePCA(std::vector<Eigen::Vector3f> points, SoSeparator *sep);
+    static bool calculatePCA(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh, const int &indexVertex, SimoxCGAL::SkeletonPartPtr part, const float &length, PrincipalAxis3D &pca, VirtualRobot::MathTools::Plane &plane);
     static Eigen::Vector3f createMidVector(const Eigen::Vector3f &vec1, const Eigen::Vector3f &vec2);
     static Diameter calculateDiameter(Eigen::Vector3f &pos, std::vector<Eigen::Vector3f> &points);
     static Diameter getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh,/* SubpartPtr &subpart, */std::vector<SimoxCGAL::SkeletonVertex> &interval, VirtualRobot::MathTools::Plane &splane, std::vector<Eigen::Vector3f> &storePoints);

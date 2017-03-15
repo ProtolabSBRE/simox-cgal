@@ -402,6 +402,7 @@ void SkeletonViewerWindow::buildObject()
     {
 
         SkeletonPartPtr tmp = boost::static_pointer_cast<SkeletonPart>(seg.at(i));
+        tmp->calculateLengthOfSegment(skeleton->getSkeleton());
         string s = tmp->name;
         UI.comboBoxSegmentation->addItem(QString(s.c_str()));
     }

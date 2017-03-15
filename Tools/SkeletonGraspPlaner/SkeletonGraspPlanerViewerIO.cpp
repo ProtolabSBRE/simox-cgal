@@ -13,7 +13,7 @@ using namespace std;
 using namespace SimoxCGAL;
 using namespace VirtualRobot;
 
-LoadedData SkeletonViewerWindowIO::loadSkeletonViewerData(const std::string &filename)
+LoadedData SkeletonGraspPlanerViewerIO::loadSkeletonViewerData(const std::string &filename)
 {
 
     VR_INFO << "Begin loading ... \n";
@@ -111,7 +111,7 @@ LoadedData SkeletonViewerWindowIO::loadSkeletonViewerData(const std::string &fil
     return data;
 }
 
-bool SkeletonViewerWindowIO::saveSkeletonViewerData(const string& basePath, const string& objectFile, CGALSkeletonPtr skeleton, CGALSurfaceMeshPtr mesh, SegmentedObjectPtr segmentedObject)
+bool SkeletonGraspPlanerViewerIO::saveSkeletonViewerData(const string& basePath, const string& objectFile, CGALSkeletonPtr skeleton, CGALSurfaceMeshPtr mesh, SegmentedObjectPtr segmentedObject)
 {
 
     boost::filesystem::path filenameBaseComplete(basePath);

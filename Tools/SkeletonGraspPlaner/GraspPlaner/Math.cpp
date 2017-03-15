@@ -5,6 +5,7 @@
 using namespace SimoxCGAL;
 using namespace std;
 using namespace Eigen;
+using namespace VirtualRobot;
 
 /*!
  * \brief Math::calculateApproachDir
@@ -20,7 +21,7 @@ using namespace Eigen;
  * \return          true, wenn ein Vektor gefunden wurde, false otherwise
  */
 
-bool Math::calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f &dir1, Eigen::Vector3f &dir2, Eigen::Vector3f &result, SoSeparator *sep)
+bool Math::calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f &dir1, Eigen::Vector3f &dir2, Eigen::Vector3f &result)
 {
 
     Eigen::Vector3f d1 = dir1 - pos;
@@ -51,9 +52,9 @@ bool Math::calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f &dir1, E
     result = (line.d).cross(mid);
     result.normalize();
 
-    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, d1, 40.f, 0.5f, false, 0.f, 0.f, 1.f));
-    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, d2, 40.f, 0.5f, false, 0.f, 0.f, 1.f));
-    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, result, 50.f, 0.5f, false, 1.f, 0.f, 0.f));
+//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, d1, 40.f, 0.5f, false, 0.f, 0.f, 1.f));
+//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, d2, 40.f, 0.5f, false, 0.f, 0.f, 1.f));
+//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, result, 50.f, 0.5f, false, 1.f, 0.f, 0.f));
 
     return true;
 
@@ -80,10 +81,43 @@ std::vector<Eigen::Vector3f> Math::projectPointsToPlane(std::vector<VirtualRobot
 
 }
 
-PrincipalAxis3D Math::calculatePCA(std::vector<Eigen::Vector3f> points, SoSeparator* sep)
+bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &indexVertex, SkeletonPartPtr part, const float &length, PrincipalAxis3D &pca, MathTools::Plane &plane)
 {
-    PrincipalAxis3D pca;
-//    cout << "\tcalculatePCA begin." << endl;
+
+    vector<SkeletonVertex> interval;
+    vector<Vector3f> points;
+
+    bool valid = part->calculateInterval(skeleton, indexVertex, length, interval);
+
+    if (!valid)
+    {
+        return false;
+    }
+
+    SkeletonPointPtr point = part->skeletonPart[part->sortedSkeletonPartIndex.at(indexVertex)];
+    Point pos = (*skeleton)[interval.at(0)].point;
+    Eigen::Vector3f posE(pos[0], pos[1], pos[2]);
+
+    plane.p = posE;
+    cout << "position : " << plane.p << endl;
+
+    Point n1 = (*skeleton)[point->neighbor.front()].point;
+    Point n2 = (*skeleton)[point->neighbor.back()].point;
+
+    Eigen::Vector3f n1e(n1[0], n1[1], n1[2]);
+    Eigen::Vector3f n2e(n2[0], n2[1], n2[2]);
+
+
+    calculateApproachPlane(plane.p, n1e, n2e, plane.n);
+
+    getPlanesWithMeshPoints(skeleton, mesh, interval, plane, points);
+
+    if (points.size() == 0)
+    {
+        cout << "FEHLER" << endl;
+        return false;
+    }
+
 
     Eigen::Vector3f mean(0.f, 0.f, 0.f);
 
@@ -104,15 +138,11 @@ PrincipalAxis3D Math::calculatePCA(std::vector<Eigen::Vector3f> points, SoSepara
         matrix.block(i, 0, 1, 3) = points.at(i).transpose();
     }
 
-
     Eigen::JacobiSVD<Eigen::MatrixXf> svd(matrix, Eigen::ComputeThinU | Eigen::ComputeThinV);
     Eigen::Vector3f eigenvalues = svd.singularValues();
 
 //    cout << "Its singular values are:" << svd.singularValues().transpose() << endl;
 //    cout << "Its right singular vectors are the columns of the thin V matrix:" << endl << svd.matrixV() << endl;
-
-
-
 
     pca.pca1 = svd.matrixV().col(0);
     pca.pca2 = svd.matrixV().col(1);
@@ -139,7 +169,7 @@ PrincipalAxis3D Math::calculatePCA(std::vector<Eigen::Vector3f> points, SoSepara
 //     sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(t, 3.5f, 0.f, 0.f, 1.f, 0.f));
 //     sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(x, 3.5f, 0.f, 0.f, 1.f, 0.f));
 
-    return pca;
+    return true;
 }
 
 

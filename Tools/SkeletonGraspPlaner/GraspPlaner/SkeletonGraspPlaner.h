@@ -9,6 +9,9 @@
 #include "SimoxCGAL.h"
 #include "SegmentedObject.h"
 
+#include <iostream>
+#include <sstream>
+
     /*!
     *
     *
@@ -52,14 +55,14 @@ protected:
     VirtualRobot::EndEffectorPtr eef;
     std::string preshape;
 
-//    clock_t startTime;
-//    int timeOutMS;
     VirtualRobot::EndEffector::ContactInfoVector contacts;
     GraspStudio::GraspQualityMeasurePtr graspQuality;
     ApproachMovementSkeletonPtr approach;
 
     float minQuality;
     bool forceClosure;
+    std::clock_t startTime;
+    int timeOutMS;
 };
 
 typedef boost::shared_ptr<SkeletonGraspPlanner> SkeletonGraspPlannerPtr;

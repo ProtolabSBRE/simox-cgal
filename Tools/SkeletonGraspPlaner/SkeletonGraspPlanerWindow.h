@@ -82,10 +82,8 @@ public slots:
 
     void plan();
     void save();
-//    void load();
+    void loadData();
     void setPreshape();
-    void testM();
-    void info();
 
 protected:
 
@@ -108,7 +106,8 @@ protected:
 
     VirtualRobot::RobotPtr robot;
     VirtualRobot::RobotPtr eefCloned;
-    VirtualRobot::ObstaclePtr object;
+//    VirtualRobot::ObstaclePtr object;
+    VirtualRobot::ManipulationObjectPtr object;
     VirtualRobot::EndEffectorPtr eef;
 
     VirtualRobot::GraspSetPtr grasps;

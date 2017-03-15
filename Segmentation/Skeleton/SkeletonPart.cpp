@@ -74,12 +74,12 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
     std::vector<Edge> edges;
     std::vector<double> length;
 
-
-    std::map<SkeletonVertex, SkeletonPointPtr>::iterator pair;
     std::list<SkeletonVertex>::iterator vd;
-    for (pair = skeletonPart.begin(); pair != skeletonPart.end(); pair++)
+
+    for (int i = 0; i < sortedSkeletonPartIndex.size(); i++)
     {
-        SkeletonPointPtr point = pair->second;
+        SkeletonVertex vertex = sortedSkeletonPartIndex.at(i);
+        SkeletonPointPtr point = skeletonPart.at(vertex);
 
         for (vd = point->neighbor.begin(); vd != point->neighbor.end(); vd++)
         {
@@ -96,6 +96,7 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
                 length.push_back(tmp);
             }
         }
+
 
     }
 

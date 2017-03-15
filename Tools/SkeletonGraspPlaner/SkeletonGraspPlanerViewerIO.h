@@ -16,20 +16,22 @@ struct LoadedData
     SimoxCGAL::CGALSkeletonPtr skeleton;
 };
 
-class SkeletonViewerWindowIO
+class SkeletonGraspPlanerViewerIO
 {
 
 public:
 
     static bool saveSkeletonViewerData(const std::string& basePath, const std::string& objectFile, SimoxCGAL::CGALSkeletonPtr skeleton, SimoxCGAL::CGALSurfaceMeshPtr mesh, SimoxCGAL::SegmentedObjectPtr segmentedObject);
     static LoadedData loadSkeletonViewerData(const std::string& filename);
+//    static bool saveGrasps();
+//    static VirtualRobot::GraspSetPtr loadGrasps();
 
 
 protected:
 
     //no instace needed
-    SkeletonViewerWindowIO();
-    ~SkeletonViewerWindowIO();
+    SkeletonGraspPlanerViewerIO();
+    ~SkeletonGraspPlanerViewerIO();
 };
 
 #endif // SKELETONVIEWERWINDOWIO_H

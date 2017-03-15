@@ -13,6 +13,16 @@
 #include "DeciderGraspPreshape.h"
 #include "Segmentation/Skeleton/SkeletonPoint.h"
 
+#define POWER_GRASP "Power Preshape"
+#define POWER_INTERVALL 94.f
+
+#define PRECISION_GRASP "Precision Preshape"
+#define PRECISION_INTERVALL 47.f
+
+#define RATIO_THREASHOLD 1.3f
+
+#define SAMPLING_LENGTH 0.f
+
 
 //!
 //! \brief DirAndPos
@@ -20,22 +30,6 @@
 //!
 typedef std::pair<Eigen::Vector3f, Eigen::Vector3f> DirAndPos;
 typedef std::map<SimoxCGAL::SkeletonVertex,SimoxCGAL::SkeletonPointPtr>::iterator SkeletonVertexIterator;
-
-
-struct GraspInterval{
-    std::vector<SimoxCGAL::SkeletonVertex> interval;
-    std::vector<Eigen::Vector3f> points;
-    VirtualRobot::MathTools::Plane plane;
-
-    void print()
-    {
-        std::cout << "GraspInterval\n";
-        std::cout << "intervalSize: " << interval.size() << std::endl;
-        std::cout << "pointsSize: " << points.size() << std::endl;
-//        std::cout << "intervalSize: " << interval.size() << std::endl;
-    }
-
-};
 
     /*!
     *
@@ -53,11 +47,11 @@ class ApproachMovementSkeleton : public GraspStudio::ApproachMovementGenerator
 public:
     //        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-    struct GraspPoint{
-        VirtualRobot::MathTools::Plane plane;
-        std::vector<Eigen::Vector3f> approachDirs;
-        std::string decideGraspPreshape;
-    };
+//    struct GraspPoint{
+//        VirtualRobot::MathTools::Plane plane;
+//        std::vector<Eigen::Vector3f> approachDirs;
+//        std::string decideGraspPreshape;
+//    };
 
     /*!
             To generate approach movements an object and an end effector has to be specified.
@@ -75,7 +69,7 @@ public:
 
     //! Return approach direction and position on skeleton
 //    bool getApproachDirection(Eigen::Vector3f &storePos, Eigen::Vector3f& storeApproachDir);
-    bool getApproachDirection();
+    bool calculateApproachDirection();
 
 
     //! Sets EEF to a position so that the Z component of the GCP coord system is aligned with -approachDir
@@ -88,10 +82,10 @@ public:
     void next();
 
     bool isValid();
-    bool areMoreValidGrasps();
+    bool setNextIndex();
+    int getApproachesNumber();
 
     SoSeparator* getSep();
-    void clear();
 
     VirtualRobot::RobotNodePtr getTCP();
 
@@ -99,11 +93,7 @@ public:
     bool updateEEFPose(const Eigen::Vector3f& deltaPosition);
     bool updateEEFPose(const Eigen::Matrix4f& deltaPose);
     Eigen::Matrix4f getEEFPose();
-    VirtualRobot::RobotPtr getEEFRobotClone();
 
-    void setPowerGrasp(bool state);
-    void setPrecisionGrasp(bool state);
-    bool done();
     bool areMoreSegments();
     SoSeparator* getPlanes();
 
@@ -113,30 +103,30 @@ protected:
     SimoxCGAL::SurfaceMeshPtr mesh;
     SimoxCGAL::SegmentedObjectPtr segmentation;
     DeciderGraspPreshapePtr decider;
-    PrincipalAxis3D pca;
-    GraspInterval precisionInterval;
-    GraspInterval powerInterval;
 
-    GraspPoint graspsPoint;
+    PrincipalAxis3D pca;
+    VirtualRobot::MathTools::Plane plane;
+    std::vector<Eigen::Vector3f> approachDirs;
 
     int currentSubpart;
     int currentSkeletonVertex;
+    bool calculatedApproaches;
 
-    bool useAllGrasps;
-    bool powerGrasp;
-    bool precisionGrasp;
     bool noMoreGrasps;
     bool validGrasp;
 
-
+    void calculateApproaches();
     void calculateApproachDirRound(PrincipalAxis3D &pca);
     void calculateApproachDirRectangular(PrincipalAxis3D &pca);
-    int distSkeleton(float &dist);
+    int samplingSkeleton(float dist);
 
 
     //test
     SoSeparator* sep;
     Eigen::Vector3f testV;
+
+private:
+    bool init();
 
 };
 

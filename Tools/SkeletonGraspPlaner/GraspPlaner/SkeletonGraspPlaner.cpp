@@ -67,8 +67,6 @@ int SkeletonGraspPlanner::plan(int nrGrasps, int timeOutMS, SceneObjectSetPtr ob
             }
         }
 
-
-
         //generiere Griff
         GraspPtr g = planGrasp(obstacles);
 

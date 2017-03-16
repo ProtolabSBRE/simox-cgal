@@ -99,16 +99,23 @@ bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &in
     Eigen::Vector3f posE(pos[0], pos[1], pos[2]);
 
     plane.p = posE;
-    cout << "position : " << plane.p << endl;
 
-    Point n1 = (*skeleton)[point->neighbor.front()].point;
-    Point n2 = (*skeleton)[point->neighbor.back()].point;
+    if (point->endpoint)
+    {
+        Point end = (*skeleton)[point->neighbor.front()].point;
+        plane.n = Eigen::Vector3f(end[0], end[1], end[2]);
 
-    Eigen::Vector3f n1e(n1[0], n1[1], n1[2]);
-    Eigen::Vector3f n2e(n2[0], n2[1], n2[2]);
+    } else {
 
+        Point n1 = (*skeleton)[point->neighbor.front()].point;
+        Point n2 = (*skeleton)[point->neighbor.back()].point;
 
-    calculateApproachPlane(plane.p, n1e, n2e, plane.n);
+        Eigen::Vector3f n1e(n1[0], n1[1], n1[2]);
+        Eigen::Vector3f n2e(n2[0], n2[1], n2[2]);
+
+        calculateApproachPlane(plane.p, n1e, n2e, plane.n);
+    }
+
 
     getPlanesWithMeshPoints(skeleton, mesh, interval, plane, points);
 

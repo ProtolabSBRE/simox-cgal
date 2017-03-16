@@ -372,7 +372,7 @@ void SkeletonViewerWindow::buildObject()
 
      }
 
-     VR_INFO << "Remeshing done." << endl;
+     VR_INFO << "Remeshing done.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
 
 
 

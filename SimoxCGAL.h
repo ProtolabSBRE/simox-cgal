@@ -24,9 +24,6 @@
 #ifndef _SimoxCGAL_SimoxCGAL_H
 #define _SimoxCGAL_SimoxCGAL_H
 
-// now defined via cmake
-//#define CGAL_EIGEN3_ENABLED
-
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Surface_mesh.h>
 #include <CGAL/boost/graph/graph_traits_Surface_mesh.h>

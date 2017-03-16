@@ -12,6 +12,10 @@
 #include <Inventor/nodes/SoTranslation.h>
 #include <Inventor/nodes/SoUnits.h>
 #include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoIndexedLineSet.h>
+#include <Inventor/nodes/SoCoordinate3.h>
+#include <Inventor/SbColor.h>
+#include <Inventor/nodes/SoTransform.h>
 
 #include <Segmentation/Skeleton/SkeletonPart.h>
 
@@ -525,18 +529,18 @@ SoIndexedLineSet* CGALCoinVisualization::CreatePolylinesVisualization(Eigen::Vec
     SbVec3f pt(center[0], center[1], center[2]);
     vp->vertex.set1Value(0, pt);
 
-    int j = 0;
+//    int j = 0;
     int k = 1;
 
     for (int i = 0; i < lines.size(); i++) {
         Eigen::Vector3f p = lines.at(i);
 
         SbVec3f pt1(p[0], p[1], p[2]);
-        inLineSet->coordIndex.set1Value(3*j, 0);
-        inLineSet->coordIndex.set1Value(3*j + 1, k);
-        inLineSet->coordIndex.set1Value(3*j + 2, -1);
+        inLineSet->coordIndex.set1Value(3*i, 0);
+        inLineSet->coordIndex.set1Value(3*i + 1, k);
+        inLineSet->coordIndex.set1Value(3*i + 2, -1);
         vp->vertex.set1Value(k, pt1);
-        j++;
+//        j++;
         k++;
 
     }
@@ -581,6 +585,90 @@ SoSeparator* CGALCoinVisualization::ShowSkeletonPoint(SkeletonPtr skeleton, Surf
     s->addChild(l);
 
     return s;
+}
+
+SoSeparator* CGALCoinVisualization::CreateGraspVisualization(GraspPtr grasp, ManipulationObjectPtr object)
+{
+    SoSeparator* sep = new SoSeparator;
+    sep->ref();
+    SoUnits* u = new SoUnits();
+    u->units = SoUnits::MILLIMETERS;
+    sep->addChild(u);
+
+    Eigen::Matrix4f m = grasp->getTcpPoseGlobal(object->getGlobalPose());
+    Eigen::Vector3f pos = m.block(0,3,3,1);
+
+    Eigen::Vector3f x = m.block(0, 0, 3, 1);
+    Eigen::Vector3f y = m.block(0, 1, 3, 1);
+    Eigen::Vector3f z = m.block(0, 2, 3, 1);
+
+    SoTransform* trans = new SoTransform;
+    SbMatrix mt;
+    SbVec3f vec(pos[0],pos[1], pos[2]);
+    mt.setTranslate(vec);
+    trans->setMatrix(mt);
+    sep->addChild(trans);
+
+    SbVec3f* vertexPositions = new SbVec3f[4];
+    vertexPositions[0].setValue(x[0], x[1], x[2]);
+    vertexPositions[1].setValue(y[0], y[1], y[2]);
+    vertexPositions[2].setValue(z[0], z[1], z[2]);
+    vertexPositions[3].setValue(0, 0, 0);
+
+    SoCoordinate3* coord = new SoCoordinate3;
+    coord->point.setValues(0, 4, vertexPositions);
+    sep->addChild(coord);
+
+
+    SoIndexedLineSet* set = new SoIndexedLineSet;
+
+    SoMaterialBinding* binding = new SoMaterialBinding;
+    binding->value = binding->PER_PART_INDEXED;
+    sep->addChild(binding);
+
+    SoMaterial* material = new SoMaterial;
+    SoBaseColor* color = new SoBaseColor;
+
+    SbColor* c = new SbColor[3];
+    c[0].setValue(1.f, 0.f, 0.f);
+    c[1].setValue(0.f, 1.f, 0.f);
+    c[2].setValue(0.f, 0.f, 1.f);
+    color->rgb.setValues(0, 3, c);
+    sep->addChild(color);
+
+    material->diffuseColor.setValues(0, 3, c);
+    sep->addChild(material);
+
+
+
+    int32_t* coordIndex = new int32_t[9];
+    int32_t* colorIndex = new int32_t[3];
+
+    coordIndex[0] = 0;
+    coordIndex[1] = 3;
+    coordIndex[2] = SO_END_LINE_INDEX;
+    coordIndex[3] = 1;
+    coordIndex[4] = 3;
+    coordIndex[5] = SO_END_LINE_INDEX;
+    coordIndex[6] = 2;
+    coordIndex[7] = 3;
+    coordIndex[8] = SO_END_LINE_INDEX;
+
+    colorIndex[0] = (int32_t)0;
+    colorIndex[1] = (int32_t)1;
+    colorIndex[2] = (int32_t)2;
+
+    set->coordIndex.setValues(0, 9, coordIndex);
+    set->materialIndex.setValues(0, 3, colorIndex);
+    sep->addChild(set);
+
+
+    delete[] vertexPositions;
+    delete[] c;
+    delete[] coordIndex;
+    delete[] colorIndex;
+
+    return sep;
 }
 
 }

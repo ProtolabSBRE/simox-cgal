@@ -47,12 +47,6 @@ class ApproachMovementSkeleton : public GraspStudio::ApproachMovementGenerator
 public:
     //        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-//    struct GraspPoint{
-//        VirtualRobot::MathTools::Plane plane;
-//        std::vector<Eigen::Vector3f> approachDirs;
-//        std::string decideGraspPreshape;
-//    };
-
     /*!
             To generate approach movements an object and an end effector has to be specified.
             \param object The object.
@@ -68,14 +62,24 @@ public:
     Eigen::Matrix4f createNewApproachPose();
 
     //! Return approach direction and position on skeleton
-//    bool getApproachDirection(Eigen::Vector3f &storePos, Eigen::Vector3f& storeApproachDir);
     bool calculateApproachDirection();
-
 
     //! Sets EEF to a position so that the Z component of the GCP coord system is aligned with -approachDir
     bool setEEFToApproachPose(const Eigen::Vector3f& position, const Eigen::Vector3f& approachDir);
 
-    void moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops = 1000);
+    //! Move endeffector away until valid position.
+    bool moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops = 1000);
+
+    //! Set EndEffector to predefined position at prehsape
+    bool setEEFPose(const Eigen::Matrix4f &pose);
+
+    bool updateEEFPose(const Eigen::Matrix4f& deltaPose);
+    bool updateEEFPose(const Eigen::Vector3f& deltaPosition);
+
+
+    SoSeparator* getVisualization();
+
+
 
     std::string getGraspPreshape();
 
@@ -85,19 +89,17 @@ public:
     bool setNextIndex();
     int getApproachesNumber();
 
-    SoSeparator* getSep();
 
     VirtualRobot::RobotNodePtr getTCP();
 
-    bool setEEFPose(const Eigen::Matrix4f &pose);
-    bool updateEEFPose(const Eigen::Vector3f& deltaPosition);
-    bool updateEEFPose(const Eigen::Matrix4f& deltaPose);
     Eigen::Matrix4f getEEFPose();
 
     bool areMoreSegments();
     SoSeparator* getPlanes();
 
 protected:
+
+    std::vector<Eigen::Vector3f> approachDirs;
 
     SimoxCGAL::SkeletonPtr skeleton;
     SimoxCGAL::SurfaceMeshPtr mesh;
@@ -106,24 +108,20 @@ protected:
 
     PrincipalAxis3D pca;
     VirtualRobot::MathTools::Plane plane;
-    std::vector<Eigen::Vector3f> approachDirs;
 
     int currentSubpart;
     int currentSkeletonVertex;
     bool calculatedApproaches;
 
-    bool noMoreGrasps;
-    bool validGrasp;
-
-    void calculateApproaches();
-    void calculateApproachDirRound(PrincipalAxis3D &pca);
-    void calculateApproachDirRectangular(PrincipalAxis3D &pca);
+    void calculateApproachesConnectionPoint();
+    void calculateApproachDirRound(PrincipalAxis3D &pca, bool endpoint = false);
+    void calculateApproachDirRectangular(PrincipalAxis3D &pca, bool endpoint = false);
+    void calculateApproachesEndpoint();
     int samplingSkeleton(float dist);
 
 
-    //test
-    SoSeparator* sep;
-    Eigen::Vector3f testV;
+    //visu
+    SoSeparator* visu;
 
 private:
     bool init();

@@ -35,6 +35,8 @@
 #include <Inventor/nodes/SoIndexedLineSet.h>
 
 #include <VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h>
+#include <VirtualRobot/Grasping/Grasp.h>
+#include <VirtualRobot/ManipulationObject.h>
 
 
 class SoNode;
@@ -73,6 +75,8 @@ namespace SimoxCGAL
 
         static SoIndexedLineSet* CreateConnectionVisualization(SkeletonVertex &vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh);
         static SoIndexedLineSet* CreatePolylinesVisualization(Eigen::Vector3f center, std::vector<Eigen::Vector3f> lines);
+
+        static SoSeparator* CreateGraspVisualization(VirtualRobot::GraspPtr grasp, VirtualRobot::ManipulationObjectPtr object);
 
 
 

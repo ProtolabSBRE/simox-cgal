@@ -130,10 +130,21 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
 
     SkeletonPointPtr sk_point = skeletonPart[sortedSkeletonPartIndex.at(position)];
 
+    float oneSize = length / 2.f;
+
     if (sk_point->endpoint)
     {
-        std::cout << "Endpoint not supported.\n";
-        return false;
+        SkeletonVertex n1 = sk_point->neighbor.front();
+        storeInterval.push_back(sk_point->vertex);
+        bool valid = fillInterval(skeleton, n1, sk_point->vertex, storeInterval, oneSize);
+
+        if (!valid)
+        {
+            cout << "Endpoint" << endl;
+            return false;
+        }
+
+        return true;
     }
 
     if (sk_point->neighbor.size() != 2)
@@ -146,7 +157,6 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
     SkeletonVertex n2 = sk_point->neighbor.back();
 
     storeInterval.push_back(sk_point->vertex);
-    float oneSize = length / 2.f;
 
     bool validRight = false;
     bool validLeft = false;

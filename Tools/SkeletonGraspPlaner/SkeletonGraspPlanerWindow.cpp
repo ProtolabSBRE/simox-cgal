@@ -176,7 +176,11 @@ void SkeletonGraspPlanerWindow::setupUI()
 
 void SkeletonGraspPlanerWindow::resetSceneryAll()
 {
-    grasps->removeAllGrasps();
+    if (grasps)
+    {
+        grasps->removeAllGrasps();
+    }
+
     graspsSep->removeAllChildren();
 
     //if (rns)
@@ -201,8 +205,9 @@ void SkeletonGraspPlanerWindow::buildVisu()
     {
         if (eefCloned->getEndEffector(eefName)->hasPreshape(preshape))
         {
-//            eefCloned->getEndEffector(eefName)->getPreshape(peshape)->print();
-            eefCloned->getEndEffector(eefName)->getGCP()->showCoordinateSystem(UI.checkBoxGCP->isChecked(), 0.5f);
+            RobotConfigPtr config = eefCloned->getEndEffector(eefName)->getPreshape(preshape);
+            std::string gcp = "GCP";
+            config->getTCP()->showCoordinateSystem(UI.checkBoxGCP->isChecked(), 0.5f, &gcp);
 
         }
 
@@ -293,7 +298,7 @@ void SkeletonGraspPlanerWindow::buildVisu()
         }
 
 
-        SoSeparator* g = this->approach->getSep();
+        SoSeparator* g = this->approach->getVisualization();
 
         if (g)
         {
@@ -330,6 +335,7 @@ void SkeletonGraspPlanerWindow::loadObject()
 
 void SkeletonGraspPlanerWindow::loadData()
 {
+    resetSceneryAll();
     QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
     string file = std::string(fi.toAscii());
     if (file.empty())
@@ -349,7 +355,6 @@ void SkeletonGraspPlanerWindow::loadData()
 
 
     loadPlanner();
-
 
     UI.groupBoxSkeleton->setEnabled(true);
     UI.radioButtonNothing->setChecked(true);
@@ -407,6 +412,11 @@ void SkeletonGraspPlanerWindow::loadRobot()
 
 void SkeletonGraspPlanerWindow::plan()
 {
+    if (!mesh || !skeleton || !segmentation)
+    {
+        return;
+    }
+
     float timeout = UI.spinBoxTimeOut->value() * 1000.0f;
     bool forceClosure = UI.checkBoxFoceClosure->isChecked();
     float quality = (float)UI.doubleSpinBoxQuality->value();
@@ -429,12 +439,12 @@ void SkeletonGraspPlanerWindow::plan()
         // keine Griffe mehr möglich!
         for (int i = start; i < (int)grasps->getSize() - 1; i++)
         {
-            Eigen::Matrix4f m = grasps->getGrasp(i)->getTcpPoseGlobal(object->getGlobalPose());
-            SoSeparator* sep1 = new SoSeparator();
-            SoMatrixTransform* mt = CoinVisualizationFactory::getMatrixTransformScaleMM2M(m);
-            sep1->addChild(mt);
-            sep1->addChild(eefVisu);
-            graspsSep->addChild(sep1);
+//            Eigen::Matrix4f m = grasps->getGrasp(i)->getTcpPoseGlobal(object->getGlobalPose());
+//            SoSeparator* sep1 = new SoSeparator();
+//            SoMatrixTransform* mt = CoinVisualizationFactory::getMatrixTransformScaleMM2M(m);
+//            sep1->addChild(mt);
+//            sep1->addChild(eefVisu);
+            graspsSep->addChild(CGALCoinVisualization::CreateGraspVisualization(grasps->getGrasp(i), object));
         }
     }
 
@@ -460,7 +470,7 @@ void SkeletonGraspPlanerWindow::closeEEF()
 {
     contacts.clear();
 
-    if (eefCloned && eefCloned->getEndEffector(eefName))
+    if (eefCloned && eefCloned->getEndEffector(eefName) && object)
     {
         contacts = eefCloned->getEndEffector(eefName)->closeActors(object);
         float qual = qualityMeasure->getGraspQuality();

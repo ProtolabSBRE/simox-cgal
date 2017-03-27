@@ -56,7 +56,7 @@ class SkeletonGraspPlanerWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    SkeletonGraspPlanerWindow(std::string& robotFile, std::string& eefName, std::string& preshape, std::string& objectFile);
+    SkeletonGraspPlanerWindow(std::string& robotFile, std::string& eefName, std::string& preshape, std::string& segmentedObjectFile);
     ~SkeletonGraspPlanerWindow();
 
     /*!< Executes the SoQt mainLoop. You need to call this in order to execute the application. */
@@ -88,8 +88,8 @@ public slots:
 protected:
 
     void loadRobot();
-    void loadObject();
-    void loadPlanner();
+    void loadSegmentedObject(const std::string & filename);
+    void initPlanner();
 
     void setupUI();
 
@@ -117,7 +117,7 @@ protected:
 
 
     std::string robotFile;
-    std::string objectFile;
+    std::string segmentedObjectFile;
     std::string eefName;
     std::string preshape;
 
@@ -133,8 +133,8 @@ protected:
 
     //data for skeleton
     VirtualRobot::TriMeshModelPtr triMeshRefined;
-    SimoxCGAL::SegmentedObjectPtr segmentation;
     SimoxCGAL::SkeletonPtr skeleton;
+    SimoxCGAL::SegmentedObjectPtr segmentation;
     SimoxCGAL::CGALSurfaceMeshPtr mesh;
 
 

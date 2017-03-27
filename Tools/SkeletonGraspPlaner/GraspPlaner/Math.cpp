@@ -103,7 +103,8 @@ bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &in
     if (point->endpoint)
     {
         Point end = (*skeleton)[point->neighbor.front()].point;
-        plane.n = Eigen::Vector3f(end[0], end[1], end[2]);
+        plane.n = Eigen::Vector3f(end[0] - pos[0], end[1] - pos[1], end[2] - pos[2]);
+        plane.n.normalize();
 
     } else {
 
@@ -128,7 +129,7 @@ bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &in
 
     Eigen::Vector3f mean(0.f, 0.f, 0.f);
 
-    for (int i = 0; i < points.size(); i++)
+    for (size_t i = 0; i < points.size(); i++)
     {
         mean += points.at(i);
     }

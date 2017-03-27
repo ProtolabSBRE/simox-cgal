@@ -37,10 +37,10 @@
 #include <Inventor/nodes/SoMaterial.h>
 
 
-#include "SkeletonGraspPlanerViewerIO.h"
+//#include "SkeletonGraspPlanerViewerIO.h"
 #include "GraspPlaner/Math.h"
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
-
+#include "Segmentation/Skeleton/MeshSkeletonData.h"
 
 #include <sstream>
 
@@ -52,7 +52,7 @@ using namespace SimoxCGAL;
 
 float TIMER_MS = 30.0f;
 
-SkeletonGraspPlanerWindow::SkeletonGraspPlanerWindow(std::string& robFile, std::string& eefName, std::string& preshape, std::string& objFile)
+SkeletonGraspPlanerWindow::SkeletonGraspPlanerWindow(std::string& robFile, std::string& eefName, std::string& preshape, std::string& segmentedObjectFile)
     : QMainWindow(NULL), skeleton(new Skeleton), segmentation(new SegmentedObject())
 {
     VR_INFO << " start " << endl;
@@ -61,7 +61,7 @@ SkeletonGraspPlanerWindow::SkeletonGraspPlanerWindow(std::string& robFile, std::
     srand(time(NULL));
 
     this->robotFile = robFile;
-    this->objectFile = objFile;
+    this->segmentedObjectFile = segmentedObjectFile;
     this->eefName = eefName;
     this->preshape = preshape;
     eefVisu = NULL;
@@ -88,8 +88,8 @@ SkeletonGraspPlanerWindow::SkeletonGraspPlanerWindow(std::string& robFile, std::
 
 
     loadRobot();
-//    loadObject();
-//    loadPlanner();
+    loadSegmentedObject(segmentedObjectFile);
+//    initPlanner();
     buildVisu();
     viewer->viewAll();
 }
@@ -324,7 +324,7 @@ void SkeletonGraspPlanerWindow::quit()
     this->close();
     SoQt::exitMainLoop();
 }
-
+/*
 void SkeletonGraspPlanerWindow::loadObject()
 {
     if (!objectFile.empty())
@@ -332,7 +332,7 @@ void SkeletonGraspPlanerWindow::loadObject()
         object = ObjectIO::loadManipulationObject(objectFile);
     }
 }
-
+*/
 void SkeletonGraspPlanerWindow::loadData()
 {
     resetSceneryAll();
@@ -342,19 +342,35 @@ void SkeletonGraspPlanerWindow::loadData()
     {
         return;
     }
+    loadSegmentedObject(file);
+}
 
-    LoadedData data = SkeletonGraspPlanerViewerIO::loadSkeletonViewerData(file);
-    object = data.manipObject;
-    mesh = data.surfaceMesh;
-    skeleton = data.skeleton->getSkeleton();
-    segmentation = data.segSkeleton->getSegmentedObject();
+void SkeletonGraspPlanerWindow::loadSegmentedObject(const std::string & filename)
+{
+    segmentedObjectFile = filename;
+
+    try
+    {
+        MeshSkeletonDataPtr data = MeshSkeletonData::loadSkeletonData(segmentedObjectFile);
+        if (data)
+        {
+            object = data->manipObject;
+            mesh = data->surfaceMesh;
+            skeleton = data->skeleton->getSkeleton();
+            segmentation = data->segSkeleton->getSegmentedObject();
+        }
+    } catch (...)
+    {
+        VR_ERROR << "could not load file " << segmentedObjectFile << endl;
+        return;
+    }
 
     //verschiebe Endeffector
-    Eigen::Vector3f min = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMin();
-    Eigen::Vector3f max = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMax();
+    //Eigen::Vector3f min = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMin();
+    //Eigen::Vector3f max = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMax();
 
 
-    loadPlanner();
+    initPlanner();
 
     UI.groupBoxSkeleton->setEnabled(true);
     UI.radioButtonNothing->setChecked(true);
@@ -362,7 +378,7 @@ void SkeletonGraspPlanerWindow::loadData()
     buildVisu();
 }
 
-void SkeletonGraspPlanerWindow::loadPlanner()
+void SkeletonGraspPlanerWindow::initPlanner()
 {
     qualityMeasure.reset(new GraspQualityMeasureWrenchSpace(object));
     qualityMeasure->calculateObjectProperties();
@@ -661,7 +677,7 @@ void SkeletonGraspPlanerWindow::showGrasps()
 //        return;
 //    }
 
-//    loadPlanner();
+//    initPlanner();
 //    loadTriMesh();
 
 //    std::cout << "\tremesh: " <<  remesh << std::endl;
@@ -689,7 +705,7 @@ void SkeletonGraspPlanerWindow::save()
 //    objectM->setCollisionModel(object->getCollisionModel()->clone());
     objectM->addGraspSet(grasps);
     QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
-    objectFile = std::string(fi.toLatin1());
+    std::string objectFile = std::string(fi.toLatin1());
     bool ok = false;
 
     try
@@ -712,7 +728,7 @@ void SkeletonGraspPlanerWindow::save()
 
 void SkeletonGraspPlanerWindow::setPreshape()
 {
-    loadPlanner();
+    initPlanner();
     buildVisu();
 
 }

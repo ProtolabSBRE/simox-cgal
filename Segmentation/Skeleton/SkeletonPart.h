@@ -10,11 +10,11 @@
 #include "ObjectPart.h"
 
 
-typedef std::vector<SimoxCGAL::SkeletonVertex>         Interval;
-typedef std::pair<SimoxCGAL::SkeletonVertex, SimoxCGAL::SkeletonVertex>     Edge;
-typedef std::map<SimoxCGAL::SkeletonVertex, SimoxCGAL::SkeletonPointPtr>::iterator SkeletonVertexIterator;
-
 namespace SimoxCGAL {
+
+typedef std::vector<SimoxCGAL::SkeletonVertex>                              SkeletonInterval;
+typedef std::pair<SimoxCGAL::SkeletonVertex, SimoxCGAL::SkeletonVertex>     SkeletonIntervalEdge;
+//typedef std::map<SimoxCGAL::SkeletonVertex, SimoxCGAL::SkeletonPointPtr>::iterator SkeletonVertexIterator;
 
 class SIMOX_CGAL_IMPORT_EXPORT SkeletonPart : public ObjectPart
 {
@@ -26,11 +26,11 @@ public:
 
     std::string toXML(int nrTabs = 1);
     void calculateLengthOfSegment(SimoxCGAL::SkeletonPtr skeleton);
-    bool calculateInterval(SimoxCGAL::SkeletonPtr skeleton, int position, float length, Interval &storeInterval);
+    bool calculateInterval(SimoxCGAL::SkeletonPtr skeleton, int position, float length, SkeletonInterval &storeInterval);
 
     std::map<SimoxCGAL::SkeletonVertex,SkeletonPointPtr> skeletonPart;
     std::vector<SimoxCGAL::SkeletonVertex> sortedSkeletonPartIndex;
-    std::vector<Interval> intervalSet;
+    std::vector<SkeletonInterval> intervalSet;
     std::vector<SimoxCGAL::SkeletonVertex> intervalCenter;
     std::string name;
     int segmentNumber;
@@ -41,7 +41,7 @@ public:
 
 protected:
 
-    bool fillInterval(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SkeletonVertex &center, SimoxCGAL::SkeletonVertex &not_vertex, Interval &interval, float& length);
+    bool fillInterval(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SkeletonVertex &center, SimoxCGAL::SkeletonVertex &not_vertex, SkeletonInterval &interval, float& length);
     static std::vector<SkeletonVertex> loadSortedSegment(rapidxml::xml_node<char> *node, bool palpaple);
     static SkeletonPointPtr loadSkeletonPoint(rapidxml::xml_node<char> *node);
 

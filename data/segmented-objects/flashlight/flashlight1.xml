@@ -1,0 +1,14 @@
+<SimoxCGAL-SkeletonTool>
+	<Object>
+		<File file='/common/homes/staff/vahrenka/coding/simox-cgal/data/objects/flashlight/flashlight1.xml'/>
+	</Object>
+	<CGAL-Mesh>
+		<File file='/common/homes/staff/vahrenka/coding/simox-cgal/data/segmented-objects/flashlight/CGALSkeleton//mesh/CGALSkeleton-flashlight1.xml'/>
+	</CGAL-Mesh>
+	<CGAL-Skeleton>
+		<File file='/common/homes/staff/vahrenka/coding/simox-cgal/data/segmented-objects/flashlight/CGALSkeleton//skeleton/CGALMesh-flashlight1.xml'/>
+	</CGAL-Skeleton>
+	<CGAL-SkeletonSegmentation>
+		<File file='/common/homes/staff/vahrenka/coding/simox-cgal/data/segmented-objects/flashlight/CGALSkeleton//segmentation/CGALSkeletonSegmentation-flashlight1.xml'/>
+	</CGAL-SkeletonSegmentation>
+</SimoxCGAL-SkeletonTool>

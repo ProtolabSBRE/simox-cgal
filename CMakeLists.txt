@@ -41,6 +41,7 @@ set(SOURCE_FILES
     ObjectPart.cpp
     CGALSkeleton.cpp
     Segmentation/Skeleton/MeshSkeleton.cpp
+    Segmentation/Skeleton/MeshSkeletonData.cpp
     Segmentation/Skeleton/SkeletonPart.cpp
     Segmentation/SDF/MeshSDF.cpp
     Visualization/CoinVisualization/CGALCoinVisualization.cpp
@@ -58,6 +59,7 @@ set(HEADER_FILES
     ObjectPart.h
     CGALSkeleton.h
     Segmentation/Skeleton/MeshSkeleton.h
+    Segmentation/Skeleton/MeshSkeletonData.h
     Segmentation/Skeleton/SkeletonPart.h
     Segmentation/Skeleton/SkeletonPoint.h
     Segmentation/SDF/MeshSDF.h

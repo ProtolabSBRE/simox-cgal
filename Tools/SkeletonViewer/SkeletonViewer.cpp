@@ -18,8 +18,6 @@ using namespace VirtualRobot;
 int main(int argc, char* argv[])
 {
     SimoxCGAL::init(argc, argv, "SkeletonViewer");
-    //SoDB::init();
-    //SoQt::init(argc, argv, "SkeletonViewer");
     cout << " --- START --- " << endl;
 
     std::string object("objects/flashlight/flashlight1.xml");

@@ -30,9 +30,10 @@
 
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
 #include "Segmentation/Skeleton/SkeletonPart.h"
+#include "Segmentation/Skeleton/MeshSkeletonData.h"
 #include "IO/SkeletonIO.h"
 #include "IO/CGALMeshIO.h"
-#include "SkeletonViewerWindowIO.h"
+//#include "SkeletonViewerWindowIO.h"
 
 #include <sstream>
 using namespace std;
@@ -189,14 +190,14 @@ void SkeletonViewerWindow::buildVisu()
         SkeletonPtr s = skeleton->getSkeleton();
         std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();
 
-        if (index_segmentation < members.size())
+        if (size_t(index_segmentation) < members.size())
         {
             segmentationSep->addChild(partColor);
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(index_segmentation));
             SoSeparator* segment = CGALCoinVisualization::CreateSegmentVisualization(s, surfaceMesh->getMesh(), subpart, lines);
             segmentationSep->addChild(segment);
 
-        } else if (index_segmentation == members.size()){
+        } else if (size_t(index_segmentation) == members.size()){
 
             SoSeparator* all = CGALCoinVisualization::CreateSegmentationVisualization(s, surfaceMesh->getMesh(), members, lines);
             segmentationSep->addChild(all);
@@ -209,13 +210,13 @@ void SkeletonViewerWindow::buildVisu()
         SkeletonPtr s = skeleton->getSkeleton();
         std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();
 
-        if (index_segmentation < members.size())
+        if (size_t(index_segmentation) < members.size())
         {
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(index_segmentation));
             SoNode* segment = CGALCoinVisualization::CreatePigmentedSubpartVisualization(s, surfaceMesh->getMesh(), subpart, VirtualRobot::VisualizationFactory::Color(1.f, 0.f, 0.f));
             surfaceSep->addChild(segment);
 
-        } else if (index_segmentation == members.size()){
+        } else if (size_t(index_segmentation) == members.size()){
 
             SoSeparator* all = CGALCoinVisualization::CreatePigmentedMeshVisualization(s, surfaceMesh->getMesh(), members, members.size());
             surfaceSep->addChild(all);
@@ -257,7 +258,7 @@ void SkeletonViewerWindow::saveSegmentedObject()
     QString fi = QFileDialog::getSaveFileName(this, tr("Save SegmentedObject"), QString(objectFilename.c_str()), tr("XML Files (*.xml)"));
     objectFile = std::string(fi.toLatin1());
 
-    bool save = SkeletonViewerWindowIO::saveSkeletonViewerData(objectFile, object_dir, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
+    bool save = MeshSkeletonData::saveSkeletonData(objectFile, object_dir, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
 
     if (!save)
     {
@@ -277,12 +278,14 @@ void SkeletonViewerWindow::loadData()
     cout << "file: " << file << endl;
 
     try {
-        LoadedData data = SkeletonViewerWindowIO::loadSkeletonViewerData(file);
-        manipObject = data.manipObject;
-        surfaceMesh = data.surfaceMesh;
-        skeleton = data.skeleton;
-        segSkeleton = data.segSkeleton;
-
+        MeshSkeletonDataPtr data = MeshSkeletonData::loadSkeletonData(file);
+        if (data)
+        {
+            manipObject = data->manipObject;
+            surfaceMesh = data->surfaceMesh;
+            skeleton = data->skeleton;
+            segSkeleton = data->segSkeleton;
+        }
     } catch(rapidxml::parse_error& e)
     {
         THROW_VR_EXCEPTION("Could not parse data in xml definition" << endl
@@ -299,7 +302,7 @@ void SkeletonViewerWindow::loadData()
 
 
     vector<ObjectPartPtr> seg = segSkeleton->getSegmentedObject()->getObjectParts();
-    for (int i = 0; i < segSkeleton->getSegmentedObject()->getObjectParts().size(); i++)
+    for (size_t i = 0; i < segSkeleton->getSegmentedObject()->getObjectParts().size(); i++)
     {
 
         SkeletonPartPtr tmp = boost::static_pointer_cast<SkeletonPart>(seg.at(i));
@@ -307,7 +310,7 @@ void SkeletonViewerWindow::loadData()
         UI.comboBoxSegmentation->addItem(QString(s.c_str()));
     }
 
-    UI.comboBoxSegmentation->addItem(QString("All segment"));
+    UI.comboBoxSegmentation->addItem(QString("All segments"));
     UI.comboBoxSegmentation->addItem(QString("No segment"));
 
     UI.comboBoxSegmentation->setCurrentIndex(segSkeleton->getSegmentedObject()->getObjectParts().size() + 1);
@@ -404,7 +407,7 @@ void SkeletonViewerWindow::buildObject()
 
     UI.comboBoxSegmentation->clear();
     vector<ObjectPartPtr> seg = segSkeleton->getSegmentedObject()->getObjectParts();
-    for (int i = 0; i < segSkeleton->getSegmentedObject()->getObjectParts().size(); i++)
+    for (size_t i = 0; i < segSkeleton->getSegmentedObject()->getObjectParts().size(); i++)
     {
 
         SkeletonPartPtr tmp = boost::static_pointer_cast<SkeletonPart>(seg.at(i));
@@ -413,7 +416,7 @@ void SkeletonViewerWindow::buildObject()
         UI.comboBoxSegmentation->addItem(QString(s.c_str()));
     }
 
-    UI.comboBoxSegmentation->addItem(QString("All segment"));
+    UI.comboBoxSegmentation->addItem(QString("All segments"));
     UI.comboBoxSegmentation->addItem(QString("No segment"));
 
     UI.comboBoxSegmentation->setCurrentIndex(segSkeleton->getSegmentedObject()->getObjectParts().size() + 1);

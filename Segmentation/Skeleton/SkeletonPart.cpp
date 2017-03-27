@@ -71,7 +71,7 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
         return;
     }
 
-    std::vector<Edge> edges;
+    std::vector<SkeletonIntervalEdge> edges;
     std::vector<double> length;
 
     std::list<SkeletonVertex>::iterator vd;
@@ -84,8 +84,8 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
         for (vd = point->neighbor.begin(); vd != point->neighbor.end(); vd++)
         {
             SkeletonVertex v = *vd;
-            Edge edge1(point->vertex, v);
-            Edge edge2(v, point->vertex);
+            SkeletonIntervalEdge edge1(point->vertex, v);
+            SkeletonIntervalEdge edge2(v, point->vertex);
             bool found1 = std::find(edges.begin(), edges.end(), edge1) != edges.end();
             bool found2 = std::find(edges.begin(), edges.end(), edge2) != edges.end();
             double tmp = std::sqrt(CGAL::squared_distance((*skeleton)[point->vertex].point, (*skeleton)[v].point));
@@ -110,7 +110,7 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
     std::cout << "length of segment "<< segmentNumber << ": " << lengthOfSegment << std::endl;
 }
 
-bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float length, Interval &storeInterval)
+bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float length, SkeletonInterval &storeInterval)
 {
 
     if (skeletonPart.size() <= 1 || length > lengthOfSegment)
@@ -172,7 +172,7 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
     return true;
 }
 
-bool SkeletonPart::fillInterval(SkeletonPtr skeleton, SkeletonVertex &center, SkeletonVertex &not_vertex, Interval &interval, float& length)
+bool SkeletonPart::fillInterval(SkeletonPtr skeleton, SkeletonVertex &center, SkeletonVertex &not_vertex, SkeletonInterval &interval, float& length)
 {
 
     SkeletonPointPtr point = skeletonPart[center];
@@ -272,7 +272,7 @@ ObjectPartPtr SkeletonPart::fromXML(rapidxml::xml_node<> *node)
 
     subpart->skeletonPart = points;
 
-    THROW_VR_EXCEPTION_IF(number_points != points.size(), "Wrong number of skeletonPoints");
+    THROW_VR_EXCEPTION_IF(size_t(number_points) != points.size(), "Wrong number of skeletonPoints");
 
     return subpart;
 

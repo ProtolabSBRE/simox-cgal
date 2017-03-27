@@ -81,6 +81,12 @@ typedef std::map<PolyhedronMesh::Facet_const_handle, double>            Polyhedr
 typedef std::map<PolyhedronMesh::Facet_const_handle, int>               PolyhedronFacetIntMap;
 typedef std::map<int, int>                                              SkeletonIdMap;
 
+    /*!
+        Initialize the runtime envionment and add data paths.
+    */
+    void SIMOX_CGAL_IMPORT_EXPORT init(int &argc, char* argv[], const std::string &appName);
+    void SIMOX_CGAL_IMPORT_EXPORT init(const std::string &appName);
+
 }
 
 #endif // _SimoxCGAL_SimoxCGAL_H

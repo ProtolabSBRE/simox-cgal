@@ -113,7 +113,8 @@ GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacl
     VR_ASSERT(tcp);
 
     Eigen::Matrix4f p = approach->createNewApproachPose();
-    bool bRes = approach->setEEFPose(p);
+    //bool bRes =
+    approach->setEEFPose(p);
 
     eef->setPreshape(approach->getGraspPreshape());
     contacts = eef->closeActors(object);

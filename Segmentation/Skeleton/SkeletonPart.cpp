@@ -41,7 +41,7 @@ string SkeletonPart::toXML(int nrTabs)
 
     ss << t  << ta << "<SortedSkeletonSegmentIndex>\n";
 
-    for (int i = 0; i < sortedSkeletonPartIndex.size(); i++)
+    for (size_t i = 0; i < sortedSkeletonPartIndex.size(); i++)
     {
         ss << t << ta << ta << "<Vertex value='" << sortedSkeletonPartIndex.at(i) << "'/>\n";
     }
@@ -76,7 +76,7 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
 
     std::list<SkeletonVertex>::iterator vd;
 
-    for (int i = 0; i < sortedSkeletonPartIndex.size(); i++)
+    for (size_t i = 0; i < sortedSkeletonPartIndex.size(); i++)
     {
         SkeletonVertex vertex = sortedSkeletonPartIndex.at(i);
         SkeletonPointPtr point = skeletonPart.at(vertex);
@@ -102,7 +102,7 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
 
     lengthOfSegment = 0.0;
 
-    for (int i = 0; i < length.size(); i++)
+    for (size_t i = 0; i < length.size(); i++)
     {
         lengthOfSegment += length.at(i);
     }

@@ -312,7 +312,7 @@ Diameter Math::getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGA
     result.maxDiameter = 0.f;
     result.minDiameter = 0.f;
 
-    for (int i = 0; i < diameters.size(); i++)
+    for (size_t i = 0; i < diameters.size(); i++)
     {
         result.averageDiameter += diameters.at(i).averageDiameter;
         result.maxDiameter += diameters.at(i).maxDiameter;

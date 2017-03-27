@@ -97,7 +97,7 @@ std::string SegmentedObject::toXML(int nrTabs)
     ss << t << ta << "<Method method='" << method << "'/>\n";
 
 
-    for (int i = 0; i < parts.size(); i++)
+    for (size_t i = 0; i < parts.size(); i++)
     {
         ss << parts.at(i)->toXML(nrTabs + 1);
     }

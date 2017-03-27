@@ -1,0 +1,8 @@
+<ManipulationObject name="flashlight3">
+    <Visualization>
+        <File type="inventor">wrl/flashlight3.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">wrl/flashlight3.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

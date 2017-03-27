@@ -30,6 +30,7 @@ endif()
 
 # (glob should not be used here, for rationale see https://cmake.org/cmake/help/v3.0/command/file.html @ "We do not recommend using GLOB to...")
 set(SOURCE_FILES
+    SimoxCGAL.cpp
     CGALSurfaceMesh.cpp
     CGALPolyhedronMesh.cpp
     CGALMeshConverter.cpp

@@ -159,8 +159,8 @@ boost::shared_ptr<CGALPolyhedronMesh> CGALPolyhedronMesh::fromXML(const std::str
     CGALPolyhedronMeshPtr res(new CGALPolyhedronMesh(PolyhedronMeshPtr(new PolyhedronMesh())));
     VirtualRobot::TriMeshModelPtr tm(new VirtualRobot::TriMeshModel());
 
-    int number_of_vertices;
-    int number_of_faces;
+    int number_of_vertices = 0;
+    int number_of_faces = 0;
 
     char* y = new char[xml.size() + 1];
     strncpy(y, xml.c_str(), xml.size() + 1);

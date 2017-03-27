@@ -39,7 +39,7 @@ using namespace std;
 using namespace VirtualRobot;
 using namespace SimoxCGAL;
 
-float TIMER_MS = 30.0f;
+//float TIMER_MS = 30.0f;
 
 SkeletonViewerWindow::SkeletonViewerWindow(const std::string& objFile)
     : QMainWindow(NULL)
@@ -109,7 +109,7 @@ void SkeletonViewerWindow::setupUI()
     connect(UI.pushButtonLoad, SIGNAL(clicked()), this, SLOT(loadData()));
     connect(UI.pushButtonScreenshot, SIGNAL(clicked()), this, SLOT(screenshot()));
     connect(UI.comboBoxSegmentation, SIGNAL(currentIndexChanged(int)), this, SLOT(buildVisu()));
-    connect(UI.spinBoxSkeletonPoint, SIGNAL(currentIndexChanged(int)), this, SLOT(buildVisu()));
+    connect(UI.spinBoxSkeletonPoint, SIGNAL(valueChanged(int)), this, SLOT(buildVisu()));
 }
 
 
@@ -132,13 +132,19 @@ void SkeletonViewerWindow::buildVisu()
     objectSep->removeAllChildren();
     if (manipObject && UI.checkBoxManip->isChecked())
     {
-//        SoNode* n = CoinVisualizationFactory::getCoinVisualization(manipObject, colModel);
-        visualizationObject = manipObject->getVisualization<CoinVisualization>();
-        visualizationObject->setTransparency(0.7f);
-        SoNode* n = visualizationObject->getCoinVisualization();
+        SoNode* n = CoinVisualizationFactory::getCoinVisualization(manipObject, colModel);
+        //visualizationObject = manipObject->getVisualization<CoinVisualization>();
+        //visualizationObject->setTransparency(0.7f);
+        //SoNode* n = visualizationObject->getCoinVisualization();
 
         if (n)
         {
+            SoMaterial* color = new SoMaterial();
+            color->transparency = 0.7f;
+            color->diffuseColor.setIgnored(TRUE);
+            color->setOverride(TRUE);
+            objectSep->addChild(color);
+
             objectSep->addChild(n);
         }
 
@@ -198,7 +204,7 @@ void SkeletonViewerWindow::buildVisu()
     }
 
     surfaceSep->removeAllChildren();
-    if (pigment)
+    if (pigment && skeleton)
     {
         SkeletonPtr s = skeleton->getSkeleton();
         std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();

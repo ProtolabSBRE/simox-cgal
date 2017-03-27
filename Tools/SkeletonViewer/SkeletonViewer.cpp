@@ -11,17 +11,18 @@ using namespace VirtualRobot;
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
-
+#include "SimoxCGAL.h"
 #include "SkeletonViewerWindow.h"
 
 
 int main(int argc, char* argv[])
 {
-    SoDB::init();
-    SoQt::init(argc, argv, "SkeletonViewer");
+    SimoxCGAL::init(argc, argv, "SkeletonViewer");
+    //SoDB::init();
+    //SoQt::init(argc, argv, "SkeletonViewer");
     cout << " --- START --- " << endl;
 
-    std::string object("/common/homes/students/koch/Dokumente/ba_eduard_koch/objects/flashlight/gut/flashlight1.xml");
+    std::string object("objects/flashlight/flashlight1.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
   
     VirtualRobot::RuntimeEnvironment::considerKey("object");

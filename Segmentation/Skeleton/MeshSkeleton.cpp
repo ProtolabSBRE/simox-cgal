@@ -50,7 +50,7 @@ bool MeshSkeleton::segmentationSkeleton()
 
 
     //build Segment
-    for(int i = 0; i< branchList.size(); i++)
+    for(size_t i = 0; i< branchList.size(); i++)
     {
         SkeletonPartPtr subpart(new SkeletonPart);
         subpart->palpable = false;
@@ -64,7 +64,7 @@ bool MeshSkeleton::segmentationSkeleton()
 
         recursionBranchSegmentation(skeleton, center, width);
 
-        for (int j = 0; j < pointMap.size(); j++)
+        for (size_t j = 0; j < pointMap.size(); j++)
         {
 
             if (id_map[pointMap.at(j)->vertex] == id_map[center])

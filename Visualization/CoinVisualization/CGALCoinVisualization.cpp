@@ -286,7 +286,7 @@ SoSeparator* CGALCoinVisualization::CreateSegmentationVisualization(SkeletonPtr 
     u->units = SoUnits::MILLIMETERS;
     visu->addChild(u);
 
-    for (int i = 0; i < members.size(); i++)
+    for (size_t i = 0; i < members.size(); i++)
     {
         SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(i));
 
@@ -374,11 +374,11 @@ SoSeparator* CGALCoinVisualization::CreatePigmentedMeshVisualization(SkeletonPtr
 //    visu->addChild(u);
 
 
-    if (part >= members.size())
+    if ((size_t)part >= members.size())
     {
         //alle Segmente einfärben
 
-        for (int i = 0; i < members.size(); i++)
+        for (size_t i = 0; i < members.size(); i++)
         {
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(i));
 
@@ -532,7 +532,7 @@ SoIndexedLineSet* CGALCoinVisualization::CreatePolylinesVisualization(Eigen::Vec
 //    int j = 0;
     int k = 1;
 
-    for (int i = 0; i < lines.size(); i++) {
+    for (size_t i = 0; i < lines.size(); i++) {
         Eigen::Vector3f p = lines.at(i);
 
         SbVec3f pt1(p[0], p[1], p[2]);

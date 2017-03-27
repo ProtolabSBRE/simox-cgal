@@ -34,6 +34,11 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
     std::ifstream in(filename.c_str());
     THROW_VR_EXCEPTION_IF(!in.is_open(), "Could not open XML file:" << filename);
 
+
+    boost::filesystem::path filenameBaseComplete(filename);
+    boost::filesystem::path filenameBasePath = filenameBaseComplete.branch_path();
+    std::string baseDir = filenameBasePath.string();
+
     std::stringstream buffer;
     buffer << in.rdbuf();
     std::string objectXML(buffer.str());
@@ -57,6 +62,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
         rapidxml::xml_node<>* m = objectNode->first_node("File", 0, false);
         rapidxml::xml_attribute<>* m_att = m->first_attribute("file", 0, false);
         string file(m_att->value());
+        VirtualRobot::BaseIO::makeAbsolutePath(baseDir,file);
         data->manipObject = ObjectIO::loadManipulationObject(file);
 
     } else
@@ -73,6 +79,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
         rapidxml::xml_node<>* m = nodeMesh->first_node("File", 0, false);
         rapidxml::xml_attribute<>* attribute_file = m->first_attribute("file", 0, false);
         string file(attribute_file->value());
+        VirtualRobot::BaseIO::makeAbsolutePath(baseDir,file);
         data->surfaceMesh = CGALMeshIO::LoadSurfaceMesh(file);
 
     } else
@@ -89,6 +96,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
         rapidxml::xml_node<>* m = nodeSkeleton->first_node("File", 0, false);
         rapidxml::xml_attribute<>* attribute_file = m->first_attribute("file", 0, false);
         string file(attribute_file->value());
+        VirtualRobot::BaseIO::makeAbsolutePath(baseDir,file);
         SkeletonPtr skeleton = SkeletonIO::loadSkeleton(file);
         data->skeleton = CGALSkeletonPtr(new CGALSkeleton(data->manipObject->getName(), data->surfaceMesh->getMesh(), skeleton));
 
@@ -106,6 +114,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
         rapidxml::xml_node<>* m = nodeSegObject->first_node("File", 0, false);
         rapidxml::xml_attribute<>* attribute_file = m->first_attribute("file", 0, false);
         string file(attribute_file->value());
+        VirtualRobot::BaseIO::makeAbsolutePath(baseDir,file);
         SegmentedObjectPtr p = SegmentedObjectIO::Load(file);
         string key = "method";
         string value = "skeleton";
@@ -123,10 +132,9 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
     return data;
 }
 
-bool MeshSkeletonData::saveSkeletonData(const string& basePath, const string& objectFile, CGALSkeletonPtr skeleton, CGALSurfaceMeshPtr mesh, SegmentedObjectPtr segmentedObject)
+bool MeshSkeletonData::saveSkeletonData(const std::string& basePath, const std::string& segObjectFile, const std::string& manipObjectFile, CGALSkeletonPtr skeleton, CGALSurfaceMeshPtr mesh, SegmentedObjectPtr segmentedObject)
 {
-
-    boost::filesystem::path filenameBaseComplete(basePath);
+    boost::filesystem::path filenameBaseComplete(segObjectFile);
     cout << "Filename: " << filenameBaseComplete.filename() << endl;
     boost::filesystem::path filenameBasePath = filenameBaseComplete.branch_path();
     std::string base = filenameBasePath.string();
@@ -178,6 +186,15 @@ bool MeshSkeletonData::saveSkeletonData(const string& basePath, const string& ob
         return false;
     }
 
+    // make paths relative
+    std::string objectFile = manipObjectFile;
+    std::string baseDir = filenameBasePath.string();
+
+    VirtualRobot::BaseIO::makeRelativePath(baseDir,objectFile);
+    VirtualRobot::BaseIO::makeRelativePath(baseDir,fileMesh);
+    VirtualRobot::BaseIO::makeRelativePath(baseDir,fileSkeleton);
+    VirtualRobot::BaseIO::makeRelativePath(baseDir,fileSeg);
+
     ss << "<SimoxCGAL-SkeletonTool>\n";
 
     ss << t << "<Object>\n";
@@ -199,7 +216,7 @@ bool MeshSkeletonData::saveSkeletonData(const string& basePath, const string& ob
     ss << "</SimoxCGAL-SkeletonTool>\n";
 
     // save file
-    bool ok_save = BaseIO::writeXMLFile(basePath, ss.str(), true);
+    bool ok_save = BaseIO::writeXMLFile(segObjectFile, ss.str(), true);
 
     if (!ok_save)
     {

@@ -78,7 +78,7 @@ protected:
     SoSeparator* segmentationSep;
     SoSeparator* surfaceSep;
 
-    std::string objectFile;
+    //std::string objectFile;
 
     boost::shared_ptr<VirtualRobot::CoinVisualization> visualizationObject;
 

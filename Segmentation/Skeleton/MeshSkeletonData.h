@@ -38,7 +38,7 @@ namespace SimoxCGAL
         SimoxCGAL::CGALSurfaceMeshPtr surfaceMesh;
         SimoxCGAL::CGALSkeletonPtr skeleton;
 
-        static bool saveSkeletonData(const std::string& basePath, const std::string& objectFile, SimoxCGAL::CGALSkeletonPtr skeleton, SimoxCGAL::CGALSurfaceMeshPtr mesh, SimoxCGAL::SegmentedObjectPtr segmentedObject);
+        static bool saveSkeletonData(const std::string& basePath, const std::string& segObjectFile, const std::string& manipObjectFile, SimoxCGAL::CGALSkeletonPtr skeleton, SimoxCGAL::CGALSurfaceMeshPtr mesh, SimoxCGAL::SegmentedObjectPtr segmentedObject);
         static boost::shared_ptr<MeshSkeletonData> loadSkeletonData(const std::string& filename);
 
         MeshSkeletonData();

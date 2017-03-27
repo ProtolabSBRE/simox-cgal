@@ -251,14 +251,28 @@ void SkeletonViewerWindow::saveSegmentedObject()
         return;
     }
 
-    string object_dir = objectFilename;
+    string manipObjectFile = objectFilename;
+    cout << "manipObjectFile: " << manipObjectFile << endl;
 
-    cout << "objectFile: " << object_dir << endl;
+    QString fi = QFileDialog::getSaveFileName(this, tr("Save Segmented Object"), QString(manipObjectFile.c_str()), tr("XML Files (*.xml)"));
+    std::string segObjectFile = std::string(fi.toLatin1());
 
-    QString fi = QFileDialog::getSaveFileName(this, tr("Save SegmentedObject"), QString(objectFilename.c_str()), tr("XML Files (*.xml)"));
-    objectFile = std::string(fi.toLatin1());
+    std::string relPath;
 
-    bool save = MeshSkeletonData::saveSkeletonData(objectFile, object_dir, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
+    char* simox_cgal_data_path = getenv("SIMOX_CGAL_DATA_PATH");
+    if (simox_cgal_data_path)
+    {
+        relPath = std::string(simox_cgal_data_path);
+    } else
+    {
+#ifdef Simox_CGAL_DATA_PATH
+            relPath = std::string(Simox_CGAL_DATA_PATH);
+#endif
+    }
+    if (relPath.empty())
+        relPath = std::string(getenv("HOME"));
+
+    bool save = MeshSkeletonData::saveSkeletonData(relPath, segObjectFile, manipObjectFile, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
 
     if (!save)
     {

@@ -344,6 +344,7 @@ VirtualRobot::TriMeshModelPtr SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCo
             else
             {
                 VR_INFO << "Error cross product is equal to zero" << endl;
+                temp.set(newPos1, newPos3, newPos2);
             }
 
         }

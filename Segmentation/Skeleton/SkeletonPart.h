@@ -26,7 +26,7 @@ public:
 
     std::string toXML(int nrTabs = 1);
     void calculateLengthOfSegment(SimoxCGAL::SkeletonPtr skeleton);
-    bool calculateInterval(SimoxCGAL::SkeletonPtr skeleton, int position, float length, bool endpoint, SkeletonInterval &storeInterval);
+    bool calculateInterval(SimoxCGAL::SkeletonPtr skeleton, int position, float length, bool endpoint, SkeletonInterval &storeInterval, bool verbose = false);
 
     std::map<SimoxCGAL::SkeletonVertex,SkeletonPointPtr> skeletonPart;
     std::vector<SimoxCGAL::SkeletonVertex> sortedSkeletonPartIndex;

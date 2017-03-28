@@ -16,6 +16,8 @@ SkeletonGraspPlanner::SkeletonGraspPlanner(VirtualRobot::GraspSetPtr graspSet, G
     eef = approach->getEEF();
     object = graspQuality->getObject();
     verbose = true;
+    eval.fcCheck = forceClosure;
+    eval.minQuality = minQuality;
 }
 
 SkeletonGraspPlanner::~SkeletonGraspPlanner()
@@ -47,18 +49,17 @@ int SkeletonGraspPlanner::plan(int nrGrasps, int timeOutMS, SceneObjectSetPtr ob
     {
         if (!approach->moreSegmentsAvailable())
         {
-            GRASPSTUDIO_INFO << ": All grasps generated." << endl;
+            if (verbose)
+                GRASPSTUDIO_INFO << ": All grasps generated." << endl;
             break;
         }
 
         if (approach->getApproachesNumber() == 0)
         {
-            //cout << "PRÜFE" << endl;
             a = approach->setNextIndex();
 
             if (!a)
             {
-                cout << "ENDE" << endl;
                 break;
             }
 
@@ -85,8 +86,6 @@ int SkeletonGraspPlanner::plan(int nrGrasps, int timeOutMS, SceneObjectSetPtr ob
         }
 
         nLoop++;
-
-        std::cout << "DONE\n\n" << std::endl;
     }
 
     if (verbose)
@@ -101,16 +100,23 @@ void SkeletonGraspPlanner::setParams(float minQuality, bool forceClosure)
 {
     this->minQuality = minQuality;
     this->forceClosure = forceClosure;
+    eval.fcCheck = forceClosure;
+    eval.minQuality = minQuality;
+}
+
+GraspPlannerEvaluation SkeletonGraspPlanner::getEvaluation()
+{
+    return eval;
 }
 
 GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacles)
 {
+    auto start_time = chrono::high_resolution_clock::now();
     if (!approach->isValid())
     {
         return GraspPtr();
     }
 
-    cout << "planGrasp" << endl;
     string sGraspPlanner("Simox - GraspStudio - ");
     sGraspPlanner += graspQuality->getName();
     string sGraspNameBase = "Grasp ";
@@ -121,7 +127,26 @@ GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacl
     VR_ASSERT(robot);
     VR_ASSERT(tcp);
 
-    Eigen::Matrix4f p = approach->createNewApproachPose();
+    Eigen::Matrix4f p;
+    bool ok = approach->createNewApproachPose(p);
+
+    // basic eval data
+    bool powerG = (approach->getCurrentGraspType() == ApproachMovementSkeleton::PlanningParameters::Power);
+    eval.graspTypePower.push_back(powerG);
+    eval.nrGraspsGenerated++;
+
+    if (!ok)
+    {
+        if (verbose)
+            GRASPSTUDIO_INFO << "Could not build eef approach pose" << endl;
+        auto end_time = chrono::high_resolution_clock::now();
+        float ms = float(chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count());
+        eval.graspScore.push_back(0.0f);
+        eval.graspValid.push_back(false);
+        eval.nrGraspsInvalidCollision++;
+        eval.timeGraspMS.push_back(ms);
+        return GraspPtr();
+    }
     //bool bRes =
     approach->setEEFPose(p);
 
@@ -129,12 +154,20 @@ GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacl
     contacts = eef->closeActors(object);
     eef->addStaticPartContacts(object, contacts, approach->getApproachDirGlobal());
 
+
+
     if (contacts.size() < 2)
     {
         if (verbose)
         {
             GRASPSTUDIO_INFO << ": ignoring grasp hypothesis, low number of contacts" << endl;
         }
+        auto end_time = chrono::high_resolution_clock::now();
+        float ms = float(chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count());
+        eval.graspScore.push_back(0.0f);
+        eval.graspValid.push_back(false);
+        eval.nrGraspsInvalidContacts++;
+        eval.timeGraspMS.push_back(ms);
 
         return GraspPtr();
     }
@@ -142,13 +175,33 @@ GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacl
     graspQuality->setContactPoints(contacts);
     float score = graspQuality->getGraspQuality();
 
-    if (score < minQuality)
+    if (forceClosure && !graspQuality->isGraspForceClosure())
     {
+        if (verbose)
+        {
+            GRASPSTUDIO_INFO << ": ignoring grasp hypothesis, not FC: " << endl;
+        }
+        auto end_time = chrono::high_resolution_clock::now();
+        float ms = float(chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count());
+        eval.graspScore.push_back(0.0f);
+        eval.graspValid.push_back(false);
+        eval.nrGraspsInvalidFC++;
+        eval.timeGraspMS.push_back(ms);
         return GraspPtr();
     }
 
-    if (forceClosure && !graspQuality->isGraspForceClosure())
+    if (score < minQuality)
     {
+        if (verbose)
+        {
+            GRASPSTUDIO_INFO << ": ignoring grasp hypothesis, grasp score too low: " << score << endl;
+        }
+        auto end_time = chrono::high_resolution_clock::now();
+        float ms = float(chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count());
+        eval.graspScore.push_back(score);
+        eval.graspValid.push_back(false);
+        eval.nrGraspsInvalidFC++;
+        eval.timeGraspMS.push_back(ms);
         return GraspPtr();
     }
 
@@ -168,8 +221,19 @@ GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacl
     RobotConfigPtr config = eef->getConfiguration();
     map<string, float> configValues = config->getRobotNodeJointValueMap();
     g->setConfiguration(configValues);
-    return g;
 
+    auto end_time = chrono::high_resolution_clock::now();
+    float ms = float(chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count());
+    eval.graspScore.push_back(score);
+    eval.graspValid.push_back(true);
+    eval.nrGraspsValid++;
+    if (powerG)
+        eval.nrGraspsValidPower++;
+    else
+        eval.nrGraspsValidPrecision++;
+    eval.timeGraspMS.push_back(ms);
+
+    return g;
 }
 
 bool SkeletonGraspPlanner::timeout()

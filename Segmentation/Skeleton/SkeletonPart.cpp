@@ -110,7 +110,7 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
     std::cout << "length of segment "<< segmentNumber << ": " << lengthOfSegment << std::endl;
 }
 
-bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float length, bool endpoint, SkeletonInterval &storeInterval)
+bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float length, bool endpoint, SkeletonInterval &storeInterval, bool verbose)
 {
 
     if (skeletonPart.size() <= 1 || length > lengthOfSegment)
@@ -146,7 +146,8 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
 
         if (!valid)
         {
-            cout << "Endpoint not valid" << endl;
+            if (verbose)
+                VR_INFO << "Endpoint not valid" << endl;
             return false;
         }
 
@@ -155,7 +156,8 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
 
     if (sk_point->neighbor.size() != 2)
     {
-        std::cout << "End of segment" << std::endl;
+        if (verbose)
+            VR_INFO << "End of segment" << std::endl;
         return false;
     }
 
@@ -171,7 +173,8 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
 
     if (!validRight || !validLeft)
     {
-        std::cout << "Intervall not valid.\n";
+        if (verbose)
+            VR_INFO << "Interval not valid.\n";
         return false;
     }
 
@@ -229,8 +232,6 @@ bool SkeletonPart::fillInterval(SkeletonPtr skeleton, SkeletonVertex &center, Sk
 }
 
 ObjectPartPtr SkeletonPart::fromXML(rapidxml::xml_node<> *node)
-
-//SkeletonPartPtr SkeletonPart::fromXML(rapidxml::xml_node<> *node)
 {
     SkeletonPartPtr subpart(new SkeletonPart);
 

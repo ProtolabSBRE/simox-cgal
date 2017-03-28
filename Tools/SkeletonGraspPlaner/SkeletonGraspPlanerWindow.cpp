@@ -153,16 +153,15 @@ void SkeletonGraspPlanerWindow::setupUI()
     connect(UI.radioButtonSegmentation, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxHand, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxGCP, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxVerbose, SIGNAL(clicked()), this, SLOT(setVerbose()));
 
     connect(UI.pushButtonReset, SIGNAL(clicked()), this, SLOT(resetSceneryAll()));
     connect(UI.pushButtonPlan, SIGNAL(clicked()), this, SLOT(plan()));
+    connect(UI.pushButtonPlanAll, SIGNAL(clicked()), this, SLOT(planAll()));
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(save()));
     connect(UI.pushButtonOpen, SIGNAL(clicked()), this, SLOT(openEEF()));
     connect(UI.pushButtonClose, SIGNAL(clicked()), this, SLOT(closeEEF()));
     connect(UI.pushButtonLoadData, SIGNAL(clicked()), this, SLOT(loadData()));
-//    connect(UI.radioButtonPreshapeAll, SIGNAL(clicked()), this, SLOT(setPreshape()));
-//    connect(UI.radioButtonPreshapePrecision, SIGNAL(clicked()), this, SLOT(setPreshape()));
-//    connect(UI.radioButtonPreshapePower, SIGNAL(clicked()), this, SLOT(setPreshape()));
 
     connect(UI.spinBoxGraspNumberPlanned, SIGNAL(valueChanged(int)), this, SLOT(selectGrasp()));
 
@@ -216,8 +215,9 @@ void SkeletonGraspPlanerWindow::resetSceneryAll()
 
     graspsSep->removeAllChildren();
 
-    //if (rns)
-    //  rns->setJointValues(startConfig);
+    initPlanner();
+
+    updateSkeletonInfo();
 }
 
 
@@ -431,14 +431,14 @@ void SkeletonGraspPlanerWindow::initPlanner()
         VR_ERROR << "no robot or eef" << endl;
         return;
     }
-
-
+    bool verbose = UI.checkBoxVerbose->isChecked();
 
     qualityMeasure.reset(new GraspQualityMeasureWrenchSpace(object));
     qualityMeasure->calculateObjectProperties();
 
     preshape = "";
     approach.reset(new ApproachMovementSkeleton(object, skeleton, mesh->getMesh(), segmentation, eef, preshape));
+    approach->setVerbose(verbose);
     eefCloned = approach->getEEFRobotClone();
 
     if (robot && eef)
@@ -461,7 +461,7 @@ void SkeletonGraspPlanerWindow::initPlanner()
     }
 
     planner.reset(new SkeletonGraspPlanner(grasps, qualityMeasure, approach));
-    planner->setVerbose(true);
+    planner->setVerbose(verbose);
 }
 
 void SkeletonGraspPlanerWindow::loadRobot()
@@ -483,27 +483,45 @@ void SkeletonGraspPlanerWindow::loadRobot()
     eefVisu->ref();
 }
 
+void SkeletonGraspPlanerWindow::planAll()
+{
+    float timeout = 0.0f;
+    bool forceClosure = UI.checkBoxFoceClosure->isChecked();
+    float quality = (float)UI.doubleSpinBoxQuality->value();
+    int nrGrasps = 1e8; // all grasps
+
+    planGrasps(timeout, forceClosure, quality, nrGrasps);
+}
+
 void SkeletonGraspPlanerWindow::plan()
+{
+    float timeout = UI.spinBoxTimeOut->value() * 1000.0f;
+    bool forceClosure = UI.checkBoxFoceClosure->isChecked();
+    float quality = (float)UI.doubleSpinBoxQuality->value();
+    int nrGrasps = UI.spinBoxGraspNumber->value();
+    planGrasps(timeout, forceClosure, quality, nrGrasps);
+}
+
+void SkeletonGraspPlanerWindow::planGrasps(float timeout, bool forceClosure, float quality, int nrGrasps)
 {
     if (!mesh || !skeleton || !segmentation)
     {
         return;
     }
 
-    float timeout = UI.spinBoxTimeOut->value() * 1000.0f;
-    bool forceClosure = UI.checkBoxFoceClosure->isChecked();
-    float quality = (float)UI.doubleSpinBoxQuality->value();
-    int nrGrasps = UI.spinBoxGraspNumber->value();
     if (!planner)
     {
         planner.reset(new SkeletonGraspPlanner(grasps, qualityMeasure, approach, quality, forceClosure));
+        planner->setVerbose(UI.checkBoxVerbose->isChecked());
     } else
     {
         planner->setParams(quality, forceClosure);
     }
 
     int nr = planner->plan(nrGrasps, timeout);
-    VR_INFO << " Grasp planned:" << nr << endl;
+    planner->getEvaluation().print();
+    if (UI.checkBoxVerbose->isChecked())
+        VR_INFO << " Grasp planned:" << nr << endl;
     int start = (int)grasps->getSize() - nrGrasps - 1;
 
     if (start < 0)
@@ -512,7 +530,6 @@ void SkeletonGraspPlanerWindow::plan()
     }
 
     preshape = approach->getGraspPreshape();
-//    grasps->setPreshape(preshape);
 
     if (nr != 0) {
         // keine Griffe mehr möglich!
@@ -789,13 +806,6 @@ void SkeletonGraspPlanerWindow::save()
     }
 }
 
-void SkeletonGraspPlanerWindow::setPreshape()
-{
-    initPlanner();
-    buildVisu();
-
-}
-
 void SkeletonGraspPlanerWindow::selectGrasp()
 {
     if (!grasps || !object)
@@ -812,4 +822,13 @@ void SkeletonGraspPlanerWindow::selectGrasp()
 
     openEEF();
     closeEEF();
+}
+
+void SkeletonGraspPlanerWindow::setVerbose()
+{
+    bool v = UI.checkBoxVerbose->isChecked();
+    if (approach)
+        approach->setVerbose(v);
+    if (planner)
+        planner->setVerbose(v);
 }

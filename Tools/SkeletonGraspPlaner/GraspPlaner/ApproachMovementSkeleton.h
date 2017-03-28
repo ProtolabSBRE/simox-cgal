@@ -91,6 +91,8 @@ public:
     ~ApproachMovementSkeleton();
 
     //! Creates a new pose for approaching and set it
+    bool createNewApproachPose(Eigen::Matrix4f &poseResult);
+
     Eigen::Matrix4f createNewApproachPose();
 
     //! Return approach direction and position on skeleton
@@ -100,7 +102,7 @@ public:
     bool setEEFToApproachPose(const Eigen::Vector3f& position, const Eigen::Vector3f& approachDir, const Eigen::Vector3f &dirY);
 
     //! Move endeffector away until valid position.
-    bool moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops = 1000);
+    bool moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops = 100);
 
     //! Set EndEffector to predefined position at prehsape
     bool setEEFPose(const Eigen::Matrix4f &pose);
@@ -109,11 +111,14 @@ public:
     bool updateEEFPose(const Eigen::Vector3f& deltaPosition);
 
 
+    void setVerbose(bool v);
     SoSeparator* getVisualization();
 
 
 
     std::string getGraspPreshape();
+    PlanningParameters::GraspType getCurrentGraspType();
+
 
     /*!
      * \brief next Go to next vertex on skeleton, switch segment if needed
@@ -173,6 +178,7 @@ protected:
     PlanningParameters approachMovementParameters;
     SkeletonVertexResult currentVertexResult;
 
+    bool verbose;
 private:
     bool init();
 

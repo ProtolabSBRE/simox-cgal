@@ -78,16 +78,20 @@ public slots:
     void buildVisu();
 
     void plan();
+    void planAll();
     void save();
     void loadData();
-    void setPreshape();
 
     void selectGrasp();
+
+    void setVerbose();
 
 protected:
 
     void loadRobot();
     void loadSegmentedObject(const std::string & filename);
+
+    void planGrasps(float timeout, bool forceClosure, float quality, int nrGrasps);
     void initPlanner();
 
     void setupUI();

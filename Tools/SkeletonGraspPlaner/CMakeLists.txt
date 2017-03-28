@@ -5,22 +5,16 @@ IF(Simox_USE_COIN_VISUALIZATION)
         ${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlanerWindow.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlaner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/SkeletonVertexAnalyzer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/PartAnalysis.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/ApproachMovementSkeleton.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/DeciderGraspPreshape.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/SkeletonGraspPlaner.cpp)
 
-    #        ${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlanerViewerIO.cpp
-
   SET(INCS 
      	${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlanerWindow.h
         ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/SkeletonVertexAnalyzer.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/PartAnalysis.h
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/ApproachMovementSkeleton.h
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/DeciderGraspPreshape.h
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/SkeletonGraspPlaner.h)
-#      	${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlanerViewerIO.h
-
 
   set(GUI_MOC_HDRS 
 	${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlanerWindow.h)

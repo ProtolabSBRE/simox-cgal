@@ -76,7 +76,7 @@ struct SkeletonVertexResult
 class SkeletonVertexAnalyzer
 {
 public:
-    static SkeletonVertexResult calculatePCA(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh, int indexVertex, SimoxCGAL::SkeletonPartPtr part, float length);
+    static SkeletonVertexResult calculatePCA(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh, int indexVertex, SimoxCGAL::SkeletonPartPtr part, float length, bool verbose);
 
 
     static bool calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f& dir1, Eigen::Vector3f& dir2, Eigen::Vector3f& result);

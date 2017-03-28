@@ -81,7 +81,7 @@ std::vector<Eigen::Vector3f> SkeletonVertexAnalyzer::projectPointsToPlane(std::v
 
 }
 
-SkeletonVertexResult SkeletonVertexAnalyzer::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, int indexVertex, SkeletonPartPtr part, float length)
+SkeletonVertexResult SkeletonVertexAnalyzer::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, int indexVertex, SkeletonPartPtr part, float length, bool verbose)
 {
     SkeletonVertexResult result;
     result.valid = false;
@@ -98,11 +98,12 @@ SkeletonVertexResult SkeletonVertexAnalyzer::calculatePCA(SkeletonPtr skeleton, 
     bool endpoint = point->endpoint;
     result.endpoint = endpoint;
 
-    bool valid = part->calculateInterval(skeleton, indexVertex, length, endpoint, result.interval);
+    bool valid = part->calculateInterval(skeleton, indexVertex, length, endpoint, result.interval, verbose);
 
     if (!valid)
     {
-        VR_INFO << "Intervall not valid";
+        if (verbose)
+            VR_INFO << "Intervall not valid" << endl;
         return result;
     }
 

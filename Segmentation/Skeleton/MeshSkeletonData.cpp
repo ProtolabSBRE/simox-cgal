@@ -63,7 +63,13 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
         rapidxml::xml_attribute<>* m_att = m->first_attribute("file", 0, false);
         string file(m_att->value());
         VirtualRobot::BaseIO::makeAbsolutePath(baseDir,file);
-        data->manipObject = ObjectIO::loadManipulationObject(file);
+        try {
+            data->manipObject = ObjectIO::loadManipulationObject(file);
+        } catch (...)
+        {
+            VR_ERROR << "Failed to load manipulation object from " << file << endl;
+            THROW_VR_EXCEPTION("Invalid object file.\n");
+        }
 
     } else
     {

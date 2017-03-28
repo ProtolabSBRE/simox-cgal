@@ -9,7 +9,7 @@
 
 #include "SimoxCGAL.h"
 #include "SegmentedObject.h"
-#include "Math.h"
+#include "SkeletonVertexAnalyzer.h"
 #include "DeciderGraspPreshape.h"
 #include "Segmentation/Skeleton/SkeletonPoint.h"
 /*
@@ -24,6 +24,8 @@
 #define SAMPLING_LENGTH 0.f
 */
 
+namespace SimoxCGAL
+{
 //!
 //! \brief DirAndPos
 //! Speichert Greifposition und Anrückrichtung
@@ -95,7 +97,7 @@ public:
     bool calculateApproachDirection();
 
     //! Sets EEF to a position so that the Z component of the GCP coord system is aligned with -approachDir
-    bool setEEFToApproachPose(const Eigen::Vector3f& position, const Eigen::Vector3f& approachDir);
+    bool setEEFToApproachPose(const Eigen::Vector3f& position, const Eigen::Vector3f& approachDir, bool invertOrientation, const VirtualRobot::MathTools::Plane &plane);
 
     //! Move endeffector away until valid position.
     bool moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops = 1000);
@@ -151,16 +153,16 @@ protected:
     SimoxCGAL::SegmentedObjectPtr segmentation;
     DeciderGraspPreshapePtr decider;
 
-    PrincipalAxis3D pca;
-    VirtualRobot::MathTools::Plane plane;
+    //PrincipalAxis3D pca;
+    //VirtualRobot::MathTools::Plane plane;
 
     int currentSubpart;
     int currentSkeletonVertex;
     bool approachDirectionsCalculated;
 
-    void calculateApproachesConnectionPoint();
-    void calculateApproachDirRound(PrincipalAxis3D &pca, bool endpoint = false);
-    void calculateApproachDirRectangular(PrincipalAxis3D &pca, bool endpoint = false);
+    void calculateApproachesConnectionPoint(const PrincipalAxis3D &pca);
+    void calculateApproachDirRound(const PrincipalAxis3D &pca, bool endpoint = false);
+    void calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool endpoint = false);
     void calculateApproachesEndpoint();
     int nextVertexOnCurrentSubpart(float dist);
 
@@ -169,6 +171,7 @@ protected:
     SoSeparator* visu;
 
     PlanningParameters approachMovementParameters;
+    SkeletonVertexResult currentVertexResult;
 
 private:
     bool init();
@@ -177,4 +180,5 @@ private:
 
 typedef boost::shared_ptr<ApproachMovementSkeleton> ApproachMovementSkeletonPtr;
 
+}
 #endif /* __APPROACH_MOVEMENT_SKELETON_H__ */

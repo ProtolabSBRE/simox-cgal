@@ -2,12 +2,15 @@
 #define DECIDERGRASPPRESHAPE_H
 
 #include <VirtualRobot/MathTools.h>
-#include "Math.h"
+#include "SkeletonVertexAnalyzer.h"
 #include "SimoxCGAL.h"
 
 #include <string>
 #include <vector>
 #include <Eigen/Dense>
+
+namespace SimoxCGAL
+{
 
 class DeciderGraspPreshape
 {
@@ -20,5 +23,7 @@ public:
 };
 
 typedef boost::shared_ptr<DeciderGraspPreshape> DeciderGraspPreshapePtr;
+
+}
 
 #endif // DECIDERGRASPPRESHAPE_H

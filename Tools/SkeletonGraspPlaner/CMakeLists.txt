@@ -4,7 +4,7 @@ IF(Simox_USE_COIN_VISUALIZATION)
   SET(SRCS 
         ${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlanerWindow.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlaner.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/Math.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/SkeletonVertexAnalyzer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/PartAnalysis.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/ApproachMovementSkeleton.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/DeciderGraspPreshape.cpp
@@ -14,7 +14,7 @@ IF(Simox_USE_COIN_VISUALIZATION)
 
   SET(INCS 
      	${CMAKE_CURRENT_SOURCE_DIR}/SkeletonGraspPlanerWindow.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/Math.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/SkeletonVertexAnalyzer.h
         ${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/PartAnalysis.h
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/ApproachMovementSkeleton.h
 	${CMAKE_CURRENT_SOURCE_DIR}/GraspPlaner/DeciderGraspPreshape.h

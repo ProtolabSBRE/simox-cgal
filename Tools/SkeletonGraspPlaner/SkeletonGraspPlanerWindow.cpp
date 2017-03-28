@@ -38,7 +38,7 @@
 
 
 //#include "SkeletonGraspPlanerViewerIO.h"
-#include "GraspPlaner/Math.h"
+#include "GraspPlaner/SkeletonVertexAnalyzer.h"
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
 #include "Segmentation/Skeleton/MeshSkeletonData.h"
 

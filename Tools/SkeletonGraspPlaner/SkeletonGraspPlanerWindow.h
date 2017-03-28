@@ -125,7 +125,7 @@ protected:
     SoSeparator* eefVisu;
 
     GraspStudio::GraspQualityMeasureWrenchSpacePtr qualityMeasure;
-    ApproachMovementSkeletonPtr approach;
+    SimoxCGAL::ApproachMovementSkeletonPtr approach;
     SimoxCGAL::SkeletonGraspPlannerPtr planner;
 
 

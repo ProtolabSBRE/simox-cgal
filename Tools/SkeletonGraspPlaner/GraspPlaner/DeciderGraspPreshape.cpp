@@ -1,6 +1,7 @@
 #include "DeciderGraspPreshape.h"
 
-using namespace SimoxCGAL;
+namespace SimoxCGAL
+{
 
 DeciderGraspPreshape::DeciderGraspPreshape()
 {
@@ -39,4 +40,5 @@ bool DeciderGraspPreshape::decidePrecisionPreshape(float &thick)
 
     return false;
 
+}
 }

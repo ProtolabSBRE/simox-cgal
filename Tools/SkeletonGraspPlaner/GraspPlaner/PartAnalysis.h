@@ -7,7 +7,7 @@
 
 #include "SimoxCGAL.h"
 #include "SegmentedObject.h"
-#include "Math.h"
+#include "SkeletonVertexAnalyzer.h"
 /*
 #define POWER_GRASP "Power Preshape"
 #define POWER_INTERVALL 94.f
@@ -21,6 +21,10 @@ enum {
     RECTANGULAR
 };
 */
+namespace SimoxCGAL
+{
+
+
 class PartAnalysis
 {
 public:
@@ -71,5 +75,6 @@ protected:
 };
 
 typedef boost::shared_ptr<PartAnalysis> PartAnalysisPtr;
+}
 
 #endif // PARTANALYSIS_H

@@ -1,14 +1,14 @@
-#include "Math.h"
-
+#include "SkeletonVertexAnalyzer.h"
 #include "VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h"
 
-using namespace SimoxCGAL;
 using namespace std;
 using namespace Eigen;
 using namespace VirtualRobot;
 
+namespace SimoxCGAL
+{
 /*!
- * \brief Math::calculateApproachDir
+ * \brief SkeletonVertexAnalyzer::calculateApproachDir
  *
  *  Berechnet die "Mitte" der beiden Vektoren. Dieser wird später für die Ebene als Normalenvektor verwendent.
  *  Die Methode sollte mit gültigen dir1 und dir2 aufgerufen werden! Die Richtungen sollten im lokalen Koordinatensystem
@@ -21,7 +21,7 @@ using namespace VirtualRobot;
  * \return          true, wenn ein Vektor gefunden wurde, false otherwise
  */
 
-bool Math::calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f &dir1, Eigen::Vector3f &dir2, Eigen::Vector3f &result)
+bool SkeletonVertexAnalyzer::calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f &dir1, Eigen::Vector3f &dir2, Eigen::Vector3f &result)
 {
 
     Eigen::Vector3f d1 = dir1 - pos;
@@ -61,15 +61,15 @@ bool Math::calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f &dir1, E
 
 }
 
-std::vector<Eigen::Vector3f> Math::projectPointsToPlane(std::vector<VirtualRobot::MathTools::Plane> v_planes, std::vector<std::vector<Eigen::Vector3f> > v_points)
+std::vector<Eigen::Vector3f> SkeletonVertexAnalyzer::projectPointsToPlane(std::vector<VirtualRobot::MathTools::Plane> v_planes, std::vector<std::vector<Eigen::Vector3f> > v_points)
 {
     VirtualRobot::MathTools::Plane plane = v_planes.at(0);
 
     std::vector<Eigen::Vector3f> result;
 
-    for (int i = 0; i < v_points.size(); i++)
+    for (size_t i = 0; i < v_points.size(); i++)
     {
-        for (int j = 0; j < v_points.at(i).size(); j++)
+        for (size_t j = 0; j < v_points.at(i).size(); j++)
         {
             Eigen::Vector3f p = VirtualRobot::MathTools::projectPointToPlane(v_points.at(i).at(j), plane);
             result.push_back(p);
@@ -81,30 +81,42 @@ std::vector<Eigen::Vector3f> Math::projectPointsToPlane(std::vector<VirtualRobot
 
 }
 
-bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &indexVertex, SkeletonPartPtr part, const float &length, PrincipalAxis3D &pca, MathTools::Plane &plane)
+SkeletonVertexResult SkeletonVertexAnalyzer::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, int indexVertex, SkeletonPartPtr part, float length)
 {
+    SkeletonVertexResult result;
+    result.valid = false;
+    result.skeleton = skeleton;
+    result.part = part;
+    result.indexVertex = indexVertex;
 
-    vector<SkeletonVertex> interval;
+    //vector<SkeletonVertex> interval;
     vector<Vector3f> points;
 
-    bool valid = part->calculateInterval(skeleton, indexVertex, length, interval);
+    SkeletonPointPtr point = part->skeletonPart[part->sortedSkeletonPartIndex.at(indexVertex)];
+    result.skeletonPoint = point;
+
+    bool endpoint = point->endpoint;
+    result.endpoint = endpoint;
+
+    bool valid = part->calculateInterval(skeleton, indexVertex, length, endpoint, result.interval);
 
     if (!valid)
     {
-        return false;
+        VR_INFO << "Intervall not valid";
+        return result;
     }
 
-    SkeletonPointPtr point = part->skeletonPart[part->sortedSkeletonPartIndex.at(indexVertex)];
-    Point pos = (*skeleton)[interval.at(0)].point;
+    //result.interval = interval;
+    Point pos = (*skeleton)[result.interval.at(0)].point; // indexVertex point is first entry of interval
     Eigen::Vector3f posE(pos[0], pos[1], pos[2]);
 
-    plane.p = posE;
+    result.graspingPlane.p = posE;
 
-    if (point->endpoint)
+    if (endpoint)
     {
         Point end = (*skeleton)[point->neighbor.front()].point;
-        plane.n = Eigen::Vector3f(end[0] - pos[0], end[1] - pos[1], end[2] - pos[2]);
-        plane.n.normalize();
+        result.graspingPlane.n = Eigen::Vector3f(end[0] - pos[0], end[1] - pos[1], end[2] - pos[2]);
+        result.graspingPlane.n.normalize();
 
     } else {
 
@@ -114,17 +126,19 @@ bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &in
         Eigen::Vector3f n1e(n1[0], n1[1], n1[2]);
         Eigen::Vector3f n2e(n2[0], n2[1], n2[2]);
 
-        calculateApproachPlane(plane.p, n1e, n2e, plane.n);
+        calculateApproachPlane(result.graspingPlane.p, n1e, n2e, result.graspingPlane.n);
     }
 
 
-    getPlanesWithMeshPoints(skeleton, mesh, interval, plane, points);
+    getPlanesWithMeshPoints(skeleton, mesh, result.interval, result.graspingPlane, points);
 
     if (points.size() == 0)
     {
-        cout << "FEHLER" << endl;
-        return false;
+        VR_ERROR << "zero points?!" << endl;
+        return result;
     }
+
+    int nrPoints = (int)points.size(); // -1?
 
 
     Eigen::Vector3f mean(0.f, 0.f, 0.f);
@@ -134,12 +148,11 @@ bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &in
         mean += points.at(i);
     }
 
-    mean /= (points.size() - 1);
-
+    mean /= nrPoints;
 
     Eigen::MatrixXf matrix(points.size(), 3);
 
-    for (int i  = 0; i < points.size(); i++)
+    for (size_t i  = 0; i < points.size(); i++)
     {
 //        sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(points.at(i), 0.5f, 0.f, 1.f, 1.f, 0.f));
         points.at(i) -= mean;
@@ -152,23 +165,23 @@ bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &in
 //    cout << "Its singular values are:" << svd.singularValues().transpose() << endl;
 //    cout << "Its right singular vectors are the columns of the thin V matrix:" << endl << svd.matrixV() << endl;
 
-    pca.pca1 = svd.matrixV().col(0);
-    pca.pca2 = svd.matrixV().col(1);
-    pca.pca3 = svd.matrixV().col(2);
+    result.pca.pca1 = svd.matrixV().col(0);
+    result.pca.pca2 = svd.matrixV().col(1);
+    result.pca.pca3 = svd.matrixV().col(2);
 
-    pca.eigenvalue1 = eigenvalues[0];
-    pca.eigenvalue2 = eigenvalues[1];
-    pca.eigenvalue3 = eigenvalues[2];
+    result.pca.eigenvalue1 = eigenvalues[0];
+    result.pca.eigenvalue2 = eigenvalues[1];
+    result.pca.eigenvalue3 = eigenvalues[2];
 
 
-    float ev1 =(pca.eigenvalue1 * pca.eigenvalue1) / (points.size() - 1);
-    float ev2 =(pca.eigenvalue2 * pca.eigenvalue2) / (points.size() - 1);
+    float ev1 = (result.pca.eigenvalue1 * result.pca.eigenvalue1) / nrPoints;
+    float ev2 = (result.pca.eigenvalue2 * result.pca.eigenvalue2) / nrPoints;
 
-    Eigen::Vector3f t = pca.pca1 * std::sqrt(ev1);
-    Eigen::Vector3f x = pca.pca2 * std::sqrt(ev2);
+    Eigen::Vector3f t = result.pca.pca1 * std::sqrt(ev1);
+    Eigen::Vector3f x = result.pca.pca2 * std::sqrt(ev2);
 
-    pca.t1 = t.norm();
-    pca.t2 = x.norm();
+    result.pca.t1 = t.norm();
+    result.pca.t2 = x.norm();
 
 //    std::cout << "t: " << t.norm() << std::endl;
 //    std::cout << "x: " << x.norm() << std::endl;
@@ -177,11 +190,12 @@ bool Math::calculatePCA(SkeletonPtr skeleton, SurfaceMeshPtr mesh, const int &in
 //     sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(t, 3.5f, 0.f, 0.f, 1.f, 0.f));
 //     sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(x, 3.5f, 0.f, 0.f, 1.f, 0.f));
 
-    return true;
+    result.valid = true;
+    return result;
 }
 
 
-Vector3f Math::createMidVector(const Vector3f &vec1, const Vector3f &vec2)
+Vector3f SkeletonVertexAnalyzer::createMidVector(const Vector3f &vec1, const Vector3f &vec2)
 {
     Vector3f d1 = vec1;
     Vector3f d2 = vec2;
@@ -195,7 +209,7 @@ Vector3f Math::createMidVector(const Vector3f &vec1, const Vector3f &vec2)
 }
 
 
-Diameter Math::calculateDiameter(Eigen::Vector3f &pos, std::vector<Eigen::Vector3f> &points)
+Diameter SkeletonVertexAnalyzer::calculateDiameter(Eigen::Vector3f &pos, std::vector<Eigen::Vector3f> &points)
 {
     Diameter diameter;
     diameter.maxDiameter = 0.f;
@@ -211,7 +225,7 @@ Diameter Math::calculateDiameter(Eigen::Vector3f &pos, std::vector<Eigen::Vector
     float e3;
 
 
-    for (int i = 0; i < points.size(); i++)
+    for (size_t i = 0; i < points.size(); i++)
     {
         Eigen::Vector3f p = points.at(i);
         e1 = p[0] - pos[0];
@@ -245,11 +259,11 @@ Diameter Math::calculateDiameter(Eigen::Vector3f &pos, std::vector<Eigen::Vector
     return diameter;
 }
 
-Diameter Math::getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh, /*SubpartPtr &subpart, */std::vector<SimoxCGAL::SkeletonVertex> &interval, VirtualRobot::MathTools::Plane &splane, std::vector<Vector3f> &storePoints)
+Diameter SkeletonVertexAnalyzer::getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh, /*SubpartPtr &subpart, */std::vector<SimoxCGAL::SkeletonVertex> &interval, VirtualRobot::MathTools::Plane &splane, std::vector<Vector3f> &storePoints)
 {
     std::vector<Diameter> diameters;
 
-    for (int i = 0; i < interval.size(); i++)
+    for (size_t i = 0; i < interval.size(); i++)
     {
         SkeletonVertex sv = interval.at(i);
 //        SkeletonPointPtr point = subpart->skeletonPart[sv];
@@ -296,7 +310,7 @@ Diameter Math::getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGA
 
         if (points.size() != 0)
         {
-            Diameter s = Math::calculateDiameter(posE, points);
+            Diameter s = SkeletonVertexAnalyzer::calculateDiameter(posE, points);
 //            s.print();
             diameters.push_back(s);
             points.clear();
@@ -330,7 +344,9 @@ Diameter Math::getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGA
 }
 
 
-Eigen::Vector3f Math::pointToVector(Point point)
+Eigen::Vector3f SkeletonVertexAnalyzer::pointToVector(Point point)
 {
     return Eigen::Vector3f(point[0], point[1], point[2]);
+}
+
 }

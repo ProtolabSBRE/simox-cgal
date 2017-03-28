@@ -1,5 +1,5 @@
-#ifndef MATH_H
-#define MATH_H
+#ifndef SimoxCGAL_SkeletonVertexAnalyzer_H
+#define SimoxCGAL_SkeletonVertexAnalyzer_H
 
 #include "Eigen/Dense"
 #include "Inventor/nodes/SoSeparator.h"
@@ -9,7 +9,18 @@
 #include "Segmentation/Skeleton/SkeletonPart.h"
 
 
-struct PrincipalAxis3D{
+
+namespace SimoxCGAL
+{
+
+struct PrincipalAxis3D
+{
+    PrincipalAxis3D()
+    {
+        eigenvalue1 = eigenvalue2 = eigenvalue3 = 0.0f;
+        t1 = t2 = 0.0f;
+    }
+
     Eigen::Vector3f pca1;
     Eigen::Vector3f pca2;
     Eigen::Vector3f pca3;
@@ -22,7 +33,13 @@ struct PrincipalAxis3D{
     float t2;
 };
 
-struct Diameter{
+struct Diameter
+{
+    Diameter()
+    {
+        minDiameter = maxDiameter = averageDiameter = 0.0f;
+    }
+
     float minDiameter;
     float maxDiameter;
     float averageDiameter;
@@ -36,16 +53,35 @@ struct Diameter{
 
 };
 
-class Math
+struct SkeletonVertexResult
 {
+    SkeletonVertexResult()
+    {
+       indexVertex=-1;
+       endpoint = false;
+       valid = false;
+    }
 
+    SimoxCGAL::SkeletonPtr skeleton;
+    SimoxCGAL::SkeletonPartPtr part;
+    PrincipalAxis3D pca;
+    VirtualRobot::MathTools::Plane graspingPlane;
+    SkeletonPointPtr skeletonPoint; // center
+    std::vector<SkeletonVertex> interval;
+    int indexVertex;
+    bool endpoint;
+    bool valid;
+};
+
+class SkeletonVertexAnalyzer
+{
 public:
+    static SkeletonVertexResult calculatePCA(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh, int indexVertex, SimoxCGAL::SkeletonPartPtr part, float length);
 
 
     static bool calculateApproachPlane(Eigen::Vector3f &pos, Eigen::Vector3f& dir1, Eigen::Vector3f& dir2, Eigen::Vector3f& result);
     static Eigen::Vector3f pointToVector(SimoxCGAL::Point point);
     static std::vector<Eigen::Vector3f> projectPointsToPlane(std::vector<VirtualRobot::MathTools::Plane> v_planes, std::vector<std::vector<Eigen::Vector3f>> v_points);
-    static bool calculatePCA(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh, const int &indexVertex, SimoxCGAL::SkeletonPartPtr part, const float &length, PrincipalAxis3D &pca, VirtualRobot::MathTools::Plane &plane);
     static Eigen::Vector3f createMidVector(const Eigen::Vector3f &vec1, const Eigen::Vector3f &vec2);
     static Diameter calculateDiameter(Eigen::Vector3f &pos, std::vector<Eigen::Vector3f> &points);
     static Diameter getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh,/* SubpartPtr &subpart, */std::vector<SimoxCGAL::SkeletonVertex> &interval, VirtualRobot::MathTools::Plane &splane, std::vector<Eigen::Vector3f> &storePoints);
@@ -54,8 +90,10 @@ public:
 
 protected:
 
-    Math();
-    ~Math();
+    SkeletonVertexAnalyzer();
+    ~SkeletonVertexAnalyzer();
 };
 
-#endif // MATH_H
+}
+
+#endif

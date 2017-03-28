@@ -110,7 +110,7 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
     std::cout << "length of segment "<< segmentNumber << ": " << lengthOfSegment << std::endl;
 }
 
-bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float length, SkeletonInterval &storeInterval)
+bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float length, bool endpoint, SkeletonInterval &storeInterval)
 {
 
     if (skeletonPart.size() <= 1 || length > lengthOfSegment)
@@ -132,7 +132,13 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
 
     float oneSize = length / 2.f;
 
-    if (sk_point->endpoint)
+    if (endpoint && !sk_point->endpoint)
+    {
+        VR_ERROR << "requesting endpoint interval, but skeleton point is no endpoint" << endl;
+        return false;
+    }
+
+    if (endpoint)
     {
         SkeletonVertex n1 = sk_point->neighbor.front();
         storeInterval.push_back(sk_point->vertex);
@@ -140,7 +146,7 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
 
         if (!valid)
         {
-            cout << "Endpoint" << endl;
+            cout << "Endpoint not valid" << endl;
             return false;
         }
 
@@ -149,7 +155,7 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
 
     if (sk_point->neighbor.size() != 2)
     {
-        std::cout << "Segmentende!" << std::endl;
+        std::cout << "End of segment" << std::endl;
         return false;
     }
 
@@ -208,6 +214,8 @@ bool SkeletonPart::fillInterval(SkeletonPtr skeleton, SkeletonVertex &center, Sk
 
     if ((float)tmp > length)
     {
+        // we need to add also the center
+        interval.push_back(center);
         interval.push_back(nextNeighbor);
         return true;
 

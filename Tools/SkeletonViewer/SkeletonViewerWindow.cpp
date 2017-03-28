@@ -185,7 +185,7 @@ void SkeletonViewerWindow::buildVisu()
     partColor->diffuseColor.setValue(1.f, 0.f, 0.f);
 
 
-    if ((number_segmentation != 0) && UI.checkBoxManip->isChecked())
+    if (skeleton && segSkeleton && (number_segmentation != 0) && UI.checkBoxManip->isChecked())
     {
         SkeletonPtr s = skeleton->getSkeleton();
         std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();
@@ -313,7 +313,7 @@ void SkeletonViewerWindow::loadData()
         return;
     }
 
-
+    UI.comboBoxSegmentation->clear();
 
     vector<ObjectPartPtr> seg = segSkeleton->getSegmentedObject()->getObjectParts();
     for (size_t i = 0; i < segSkeleton->getSegmentedObject()->getObjectParts().size(); i++)
@@ -336,7 +336,13 @@ void SkeletonViewerWindow::loadData()
 
 void SkeletonViewerWindow::loadObject()
 {
-    manipObject = ObjectIO::loadManipulationObject(objectFilename);
+    try {
+        manipObject = ObjectIO::loadManipulationObject(objectFilename);
+    } catch(...)
+    {
+        VR_ERROR << "Could not load manipulation object from " << objectFilename << endl;
+        manipObject.reset();
+    }
 
     buildVisu();
     viewer->viewAll();
@@ -354,6 +360,8 @@ void SkeletonViewerWindow::reloadObject()
     segSkeleton.reset();
     surfaceMesh.reset();
     skeleton.reset();
+
+    UI.comboBoxSegmentation->clear();
 
     QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
     objectFilename = std::string(fi.toAscii());

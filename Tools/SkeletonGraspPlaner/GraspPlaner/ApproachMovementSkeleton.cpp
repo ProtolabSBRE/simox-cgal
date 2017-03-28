@@ -21,7 +21,7 @@ using namespace SimoxCGAL;
 
 
 ApproachMovementSkeleton::ApproachMovementSkeleton(VirtualRobot::SceneObjectPtr object, SkeletonPtr skeleton, SurfaceMeshPtr mesh, SegmentedObjectPtr segmentation, VirtualRobot::EndEffectorPtr eef, const std::string& graspPreshape)
-    : ApproachMovementGenerator(object, eef, graspPreshape), decider(new DeciderGraspPreshape), skeleton(skeleton), segmentation(segmentation), mesh(mesh)
+    : ApproachMovementGenerator(object, eef, graspPreshape), skeleton(skeleton), mesh(mesh), segmentation(segmentation), decider(new DeciderGraspPreshape)
 {
     name = "ApproachMovementSkeleton";
     visu = new SoSeparator;
@@ -41,8 +41,8 @@ ApproachMovementSkeleton::~ApproachMovementSkeleton()
 bool ApproachMovementSkeleton::init()
 {
 #if PRINT
-        cout << "------START-----" << endl;
-        cout << "Segment size: " << segmentation->getObjectParts().size() << std::endl;
+    cout << "------START-----" << endl;
+    cout << "Segment size: " << segmentation->getObjectParts().size() << std::endl;
 #endif
 
     bool index = false;
@@ -53,7 +53,7 @@ bool ApproachMovementSkeleton::init()
     {
         SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
 
-        if (currentSubpart >= segmentation->getObjectParts().size())
+        if (size_t(currentSubpart) >= segmentation->getObjectParts().size())
         {
             break;
         }
@@ -70,14 +70,15 @@ bool ApproachMovementSkeleton::init()
         }
     }
 
-    calculatedApproaches = false;
+    approachDirectionsCalculated = false;
 
 
 #if PRINT
-        cout << "current segment: " << currentSubpart << endl;
-        cout << "current vertex: " << currentSkeletonVertex << endl;
-        cout << "------DONE-----" << endl;
+    cout << "current segment: " << currentSubpart << endl;
+    cout << "current vertex: " << currentSkeletonVertex << endl;
+    cout << "------DONE-----" << endl;
 #endif
+   return true;
 }
 
 Eigen::Matrix4f ApproachMovementSkeleton::createNewApproachPose()
@@ -104,17 +105,20 @@ Eigen::Matrix4f ApproachMovementSkeleton::createNewApproachPose()
 }
 
 
-int ApproachMovementSkeleton::samplingSkeleton(float dist)
+int ApproachMovementSkeleton::nextVertexOnCurrentSubpart(float dist)
 {
     int cur = currentSkeletonVertex;
     SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
+    int nrVertices = (int)subpart->sortedSkeletonPartIndex.size();
 
+    if (cur >= nrVertices-1)
+        return -1;
+
+    // get next vertex
     if (dist == 0.f)
     {
-        cur++;
-        return cur;
+        return (cur+1);
     }
-
 
     SkeletonVertex index = subpart->sortedSkeletonPartIndex.at(cur);
     SkeletonVertex index_next;
@@ -124,7 +128,7 @@ int ApproachMovementSkeleton::samplingSkeleton(float dist)
     {
         int t = cur + 1;
 
-        if (t < subpart->sortedSkeletonPartIndex.size())
+        if (t < nrVertices)
         {
             index_next = subpart->sortedSkeletonPartIndex.at(t);
             double d = std::sqrt(CGAL::squared_distance((*skeleton)[index].point, (*skeleton)[index_next].point));
@@ -137,52 +141,52 @@ int ApproachMovementSkeleton::samplingSkeleton(float dist)
                 cur++;
 
             } else {
-
                 return t;
             }
 
 
         } else {
-
-            return t;
+            // t == nrVertices -> cur last valid index
+            return cur;
         }
 
     }
 
+    return -1;
 }
 
 bool ApproachMovementSkeleton::calculateApproachDirection()
 {
     SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
 
-    SkeletonVertex vertex = subpart->sortedSkeletonPartIndex.at(currentSkeletonVertex);
+    //SkeletonVertex vertex = subpart->sortedSkeletonPartIndex.at(currentSkeletonVertex);
 //    bool endpoint = !subpart->skeletonPart.at(vertex)->endpoint;
     bool endpoint = false;
 
     if (!endpoint)
     {
         //kein Endpunkt
-        bool valid = Math::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, PRECISION_INTERVALL, pca, plane);
+        bool valid = Math::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Precision], pca, plane);
         bool preshape = decider->decidePrecisionPreshape(pca.t2);
 
         if (valid && preshape)
         {
             //precision
-            graspPreshape = PRECISION_GRASP;
+            graspPreshape = approachMovementParameters.preshapeName[PlanningParameters::Precision];
             calculateApproachesConnectionPoint();
-            calculatedApproaches = true;
+            approachDirectionsCalculated = true;
             return true;
         }
 
-        valid = Math::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, POWER_INTERVALL, pca, plane);
+        valid = Math::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Power], pca, plane);
         preshape = decider->decidePrecisionPreshape(pca.t2);
 
         if (valid && preshape)
         {
             //power
-            graspPreshape = POWER_GRASP;
+            graspPreshape = approachMovementParameters.preshapeName[PlanningParameters::Power];
             calculateApproachesConnectionPoint();
-            calculatedApproaches = true;
+            approachDirectionsCalculated = true;
             return true;
 
         }
@@ -196,7 +200,7 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
     }
 
 
-    calculatedApproaches = true;
+    approachDirectionsCalculated = true;
     return false;
 }
 
@@ -320,7 +324,7 @@ void ApproachMovementSkeleton::calculateApproachesConnectionPoint()
 {
     float ratio = pca.eigenvalue1 / pca.eigenvalue2;
 
-    if (ratio < RATIO_THREASHOLD)
+    if (ratio < approachMovementParameters.roundThreshold)
     {
         calculateApproachDirRound(pca);
 
@@ -351,7 +355,7 @@ bool ApproachMovementSkeleton::isValid()
     {
         SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
 
-        if (currentSkeletonVertex < subpart->sortedSkeletonPartIndex.size())
+        if (size_t(currentSkeletonVertex) < subpart->sortedSkeletonPartIndex.size())
         {
             return true;
         }
@@ -361,54 +365,132 @@ bool ApproachMovementSkeleton::isValid()
     return false;
 }
 
-bool ApproachMovementSkeleton::areMoreSegments()
+bool ApproachMovementSkeleton::moreSegmentsAvailable()
 {
-    return (currentSubpart < segmentation->getObjectParts().size());
+    return (currentSubpart < int(segmentation->getObjectParts().size()));
+}
+
+ApproachMovementSkeleton::PlanningParameters ApproachMovementSkeleton::getParameters()
+{
+    return approachMovementParameters;
+}
+
+void ApproachMovementSkeleton::setParameters(ApproachMovementSkeleton::PlanningParameters &p)
+{
+    approachMovementParameters = p;
 }
 
 bool ApproachMovementSkeleton::setNextIndex()
 {
     //approaches schon generiert?
-    if (!calculatedApproaches && isValid())
+    if (!approachDirectionsCalculated && isValid())
     {
         return true;
     }
 
-    next();
-
-    if (!isValid())
+    while (!finished())
     {
-        cout << currentSubpart << endl;
+
+        bool ok = nextSkeletonVertex();
+        if (ok)
+        {
+            approachDirectionsCalculated = false;
+            return true;
+        }
+
+        if (!ok || !isValid())
+        {
+            cout << "Not valid on subpart " << currentSubpart << endl;
+            //return false;
+        }
+    }
+
+    approachDirectionsCalculated = false;
+    return false;
+}
+
+bool ApproachMovementSkeleton::finished()
+{
+    int nrObjectParts = int(segmentation->getObjectParts().size());
+
+    if (currentSubpart >= nrObjectParts)
+    {
+        return true;
+    }
+
+    if (currentSubpart == nrObjectParts-1)
+    {
+        SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
+        int nrVertices = (int)subpart->sortedSkeletonPartIndex.size();
+        if (currentSkeletonVertex >= nrVertices)
+            return true;
+    }
+    return false;
+}
+
+int ApproachMovementSkeleton::getCurrentSegment()
+{
+    return (int(currentSubpart));
+}
+
+int ApproachMovementSkeleton::getCurrentVertex()
+{
+    return (int(currentSkeletonVertex));
+}
+
+int ApproachMovementSkeleton::getSegmentCount()
+{
+    return int(segmentation->getObjectParts().size());
+}
+
+int ApproachMovementSkeleton::getVertexCount(int segNr)
+{
+    if (!segmentation || segNr < 0 || segNr >= getSegmentCount())
+        return -1;
+    SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
+    if (!subpart)
+        return -1;
+
+    int nrVertices = (int)subpart->sortedSkeletonPartIndex.size();
+
+    return nrVertices;
+}
+
+
+bool ApproachMovementSkeleton::nextSkeletonVertex()
+{
+    if (!segmentation || currentSubpart >= int(segmentation->getObjectParts().size()))
+    {
+        VR_ERROR << "Could not determine next vertex" << endl;
         return false;
     }
 
-    calculatedApproaches = false;
-    return true;
-}
+    //SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
+    approachDirectionsCalculated = false;
 
-void ApproachMovementSkeleton::next()
-{
-    if (currentSubpart >= segmentation->getObjectParts().size())
+    int newIndex = nextVertexOnCurrentSubpart(approachMovementParameters.skeletonSamplingLength);
+    if (newIndex == currentSkeletonVertex)
     {
-        return;
+       VR_WARNING << "Current index == next index on subpart " << currentSubpart << ", indx = " << currentSkeletonVertex << endl;
+    }
+    currentSkeletonVertex = newIndex;
+
+    if (currentSkeletonVertex>=0)
+    {
+        VR_INFO << "SegNr: " << currentSubpart << ", next Index: " << currentSkeletonVertex << endl;
+        return true;
     }
 
-    SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
-    calculatedApproaches = false;
-
-    if (currentSkeletonVertex < subpart->sortedSkeletonPartIndex.size())
-    {
-        currentSkeletonVertex = samplingSkeleton(SAMPLING_LENGTH);
-        return;
-    }
-
+    // no valid vertex on currentr subpart -> next segment
     currentSubpart++;
     currentSkeletonVertex = 0;
+    VR_INFO << "## Next segment: " << currentSubpart << ", index 0" << endl;
 
-    if (!isValid())
+    return isValid();
+    /*if (!isValid())
     {
-        next();
-    }
+        nextSkeletonVertex();
+    }*/
 }
 
 string ApproachMovementSkeleton::getGraspPreshape()

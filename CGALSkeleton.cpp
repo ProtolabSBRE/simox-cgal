@@ -78,6 +78,7 @@ string CGALSkeleton::toXML()
     string t = "\t";
     string tt = t + "\t";
     string ttt = tt + "\t";
+    string tttt = ttt + "\t";
     stringstream ss;
     std::map<Point, int> vertices_map;
 
@@ -104,8 +105,7 @@ string CGALSkeleton::toXML()
         ss << tt << "<Point index='" << i << "'>\n";
         ss << ttt << "<Coordinate x='" << (*skeleton)[v].point[0] << "' ";
         ss << "y='" << (*skeleton)[v].point[1] << "' ";
-        ss << "z='" << (*skeleton)[v].point[2] << "'\n";
-        ss << "/>\n";
+        ss << "z='" << (*skeleton)[v].point[2] << "'/>\n";
         vertices_map[(*skeleton)[v].point] = i;
         i++;
 
@@ -113,12 +113,12 @@ string CGALSkeleton::toXML()
 
         BOOST_FOREACH(SurfaceMeshVertexDescriptor vd, (*skeleton)[v].vertices)
         {
-            ss << "<Index index='" << vd.operator size_type() << "'/>\n";
+            ss << tttt << "<Index index='" << vd.operator size_type() << "'/>\n";
         }
 
         ss << ttt << "</IndexToMesh>\n";
 
-        ss << "</Point>\n";
+        ss << tt << "</Point>\n";
     }
 
     ss  << t << "</Vertices>\n";

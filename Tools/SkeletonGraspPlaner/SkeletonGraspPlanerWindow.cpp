@@ -164,6 +164,7 @@ void SkeletonGraspPlanerWindow::setupUI()
 //    connect(UI.radioButtonPreshapePrecision, SIGNAL(clicked()), this, SLOT(setPreshape()));
 //    connect(UI.radioButtonPreshapePower, SIGNAL(clicked()), this, SLOT(setPreshape()));
 
+    connect(UI.spinBoxGraspNumberPlanned, SIGNAL(valueChanged(int)), this, SLOT(selectGrasp()));
 
     connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.checkBoxCones, SIGNAL(clicked()), this, SLOT(frictionConeVisu()));
@@ -171,6 +172,38 @@ void SkeletonGraspPlanerWindow::setupUI()
 //    connect(UI.checkBoxGCP, SIGNAL(clicked()), this, SLOT(showGrasps()));
 //    connect(UI.checkBoxPoints, SIGNAL(clicked()), this, SLOT(buildVisu()));
 
+}
+
+void SkeletonGraspPlanerWindow::updateSkeletonInfo()
+{
+    std::stringstream ss;
+    ss << std::setprecision(3);
+    int nrSegments = -1;
+    int nrVertices = -1;
+    if (segmentation)
+    {
+        nrSegments = int(segmentation->getObjectParts().size());
+        // get vertex count
+        nrVertices = 0;
+        for (int i=0; i<nrSegments; i++)
+        {
+            SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(i));
+            nrVertices += (int)subpart->sortedSkeletonPartIndex.size();
+        }
+    }
+    ss << "Segments: " << nrSegments << "\nSkeleton Vertices: " << nrVertices <<"\n";
+    int curSeg = -1;
+    int curVert = -1;
+
+    if (approach)
+    {
+        curSeg = approach->getCurrentSegment();
+        curVert = approach->getCurrentVertex();
+    }
+
+    ss << "Current Segment: " << curSeg << "\nCurrent Vertex: " << curVert <<"\n";
+
+    UI.labelSkeleton->setText(QString(ss.str().c_str()));
 }
 
 
@@ -225,9 +258,20 @@ void SkeletonGraspPlanerWindow::buildVisu()
 
     if (object)
     {
-        SceneObject::VisualizationType colModel2 = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
-//        SoNode* visualisationNode = CoinVisualizationFactory::getCoinVisualization(object, colModel2);
-        visualizationObject = object->getVisualization<CoinVisualization>(colModel2);
+        SceneObject::VisualizationType colModel2 = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;       
+        SoNode* n = CoinVisualizationFactory::getCoinVisualization(object, colModel2);
+        if (n)
+        {
+            SoMaterial* color = new SoMaterial();
+            color->transparency = 0.7f;
+            color->diffuseColor.setIgnored(TRUE);
+            color->setOverride(TRUE);
+            objectSep->addChild(color);
+
+            objectSep->addChild(n);
+        }
+
+        /*visualizationObject = object->getVisualization<CoinVisualization>(colModel2);
         visualizationObject->colorize(VisualizationFactory::Color::Gray());
         visualizationObject->setTransparency(0.7f);
         SoNode* visualisationNode = visualizationObject->getCoinVisualization();
@@ -235,7 +279,7 @@ void SkeletonGraspPlanerWindow::buildVisu()
         if (visualisationNode)
         {
             objectSep->addChild(visualisationNode);
-        }
+        }*/
     }
 
     frictionConeSep->removeAllChildren();
@@ -376,10 +420,20 @@ void SkeletonGraspPlanerWindow::loadSegmentedObject(const std::string & filename
     UI.radioButtonNothing->setChecked(true);
 
     buildVisu();
+
+    updateSkeletonInfo();
 }
 
 void SkeletonGraspPlanerWindow::initPlanner()
 {
+    if (!robot || !eef)
+    {
+        VR_ERROR << "no robot or eef" << endl;
+        return;
+    }
+
+
+
     qualityMeasure.reset(new GraspQualityMeasureWrenchSpace(object));
     qualityMeasure->calculateObjectProperties();
 
@@ -392,6 +446,18 @@ void SkeletonGraspPlanerWindow::initPlanner()
         std::string name = "Grasp Planner - ";
         name += eef->getName();
         grasps.reset(new GraspSet(name, robot->getType(), eefName));
+    }
+
+    std::string preshapeNamePrecision = approach->getParameters().preshapeName[ApproachMovementSkeleton::PlanningParameters::Precision];
+    std::string preshapeNamePower = approach->getParameters().preshapeName[ApproachMovementSkeleton::PlanningParameters::Power];
+
+    if (!eef->hasPreshape(preshapeNamePower)) {
+        VR_ERROR << "no power preshape (" << preshapeNamePower << ") defined in endeffector: " << eef->getName() << " of robot: " << robot->getName() << endl;
+    }
+
+
+    if (!eef->hasPreshape(preshapeNamePrecision)) {
+        VR_ERROR << "no precision preshape (" << preshapeNamePrecision << ") defined in endeffector: " << eef->getName() << " of robot: " << robot->getName() << endl;
     }
 
     planner.reset(new SkeletonGraspPlanner(grasps, qualityMeasure, approach));
@@ -411,15 +477,6 @@ void SkeletonGraspPlanerWindow::loadRobot()
 
     eef = robot->getEndEffector(eefName);
 
-    if (!eef->hasPreshape(POWER_GRASP)) {
-        VR_ERROR << "no power preshape defined in endeffector: " << eef->getName() << " of robot: " << robot->getName() << endl;
-    }
-
-
-    if (!eef->hasPreshape(PRECISION_GRASP)) {
-        VR_ERROR << "no precision preshape defined in endeffector: " << eef->getName() << " of robot: " << robot->getName() << endl;
-    }
-
     eefCloned = eef->createEefRobot(eef->getName(), eef->getName());
 
     eefVisu = CoinVisualizationFactory::CreateEndEffectorVisualization(eef);
@@ -437,7 +494,13 @@ void SkeletonGraspPlanerWindow::plan()
     bool forceClosure = UI.checkBoxFoceClosure->isChecked();
     float quality = (float)UI.doubleSpinBoxQuality->value();
     int nrGrasps = UI.spinBoxGraspNumber->value();
-    planner.reset(new SkeletonGraspPlanner(grasps, qualityMeasure, approach, quality, forceClosure));
+    if (!planner)
+    {
+        planner.reset(new SkeletonGraspPlanner(grasps, qualityMeasure, approach, quality, forceClosure));
+    } else
+    {
+        planner->setParams(quality, forceClosure);
+    }
 
     int nr = planner->plan(nrGrasps, timeout);
     VR_INFO << " Grasp planned:" << nr << endl;
@@ -464,20 +527,18 @@ void SkeletonGraspPlanerWindow::plan()
         }
     }
 
-    // set to last valid grasp
-    if (grasps->getSize() > 0 && eefCloned && eefCloned->getEndEffector(eefName))
+    if (grasps->getSize()<=0)
+        UI.spinBoxGraspNumberPlanned->setEnabled(false);
+    else
     {
-        Eigen::Matrix4f mGrasp = grasps->getGrasp(grasps->getSize() - 1)->getTcpPoseGlobal(object->getGlobalPose());
-        eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-        eefCloned->getEndEffector(eefName)->setPreshape(preshape);
+        UI.spinBoxGraspNumberPlanned->setEnabled(true);
+        UI.spinBoxGraspNumberPlanned->setRange(0,grasps->getSize()-1);
+        // set to last valid grasp
+        UI.spinBoxGraspNumberPlanned->setValue(grasps->getSize()-1);
+        selectGrasp();
     }
 
-
-    if (nrGrasps > 0)
-    {
-        openEEF();
-        closeEEF();
-    }
+    updateSkeletonInfo();
 }
 
 
@@ -489,11 +550,13 @@ void SkeletonGraspPlanerWindow::closeEEF()
     if (eefCloned && eefCloned->getEndEffector(eefName) && object)
     {
         contacts = eefCloned->getEndEffector(eefName)->closeActors(object);
+        qualityMeasure->setContactPoints(contacts);
         float qual = qualityMeasure->getGraspQuality();
         bool isFC = qualityMeasure->isGraspForceClosure();
         std::stringstream ss;
         ss << std::setprecision(3);
-        ss << "Grasp Nr " << grasps->getSize() << "\nQuality: " << qual << "\nForce closure: ";
+        int currentGrasp = UI.spinBoxGraspNumberPlanned->value();
+        ss << "Grasp Nr " << currentGrasp << "\nQuality: " << qual << "\nForce closure: ";
 
         if (isFC)
         {
@@ -731,4 +794,22 @@ void SkeletonGraspPlanerWindow::setPreshape()
     initPlanner();
     buildVisu();
 
+}
+
+void SkeletonGraspPlanerWindow::selectGrasp()
+{
+    if (!grasps || !object)
+        return;
+
+    int currentGrasp = UI.spinBoxGraspNumberPlanned->value();
+
+    if (currentGrasp>=0 && currentGrasp<int(grasps->getSize()) && eefCloned && eefCloned->getEndEffector(eefName))
+    {
+        Eigen::Matrix4f mGrasp = grasps->getGrasp(currentGrasp)->getTcpPoseGlobal(object->getGlobalPose());
+        eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
+        eefCloned->getEndEffector(eefName)->setPreshape(preshape);
+    }
+
+    openEEF();
+    closeEEF();
 }

@@ -12,6 +12,8 @@
 #include <iostream>
 #include <sstream>
 
+namespace SimoxCGAL
+{
     /*!
     *
     *
@@ -45,6 +47,8 @@ public:
     virtual int plan(int nrGrasps, int timeOutMS = 0, VirtualRobot::SceneObjectSetPtr obstacles = VirtualRobot::SceneObjectSetPtr());
 
 
+    void setParams(float minQuality, bool forceClosure);
+
 protected:
 
     bool timeout();
@@ -67,4 +71,5 @@ protected:
 
 typedef boost::shared_ptr<SkeletonGraspPlanner> SkeletonGraspPlannerPtr;
 
+}
 #endif /* __GENERIC_GRASP_PLANNER_H__ */

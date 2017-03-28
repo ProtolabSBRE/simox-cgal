@@ -71,7 +71,7 @@ namespace SimoxCGAL
 
         CGALSurfaceMeshPtr mesh;
         SkeletonPtr skeleton;
-        int width;
+        float width;
 
         SimoxCGAL::SegmentedObjectPtr segmentedObject;
 

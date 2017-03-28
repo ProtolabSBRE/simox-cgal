@@ -30,14 +30,11 @@
 #include <QtGui/QtGui>
 #include <QtCore/QtCore>
 
-
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <Inventor/nodes/SoEventCallback.h>
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/nodes/SoSeparator.h>
-
-
 
 #include <boost/foreach.hpp>
 
@@ -85,6 +82,8 @@ public slots:
     void loadData();
     void setPreshape();
 
+    void selectGrasp();
+
 protected:
 
     void loadRobot();
@@ -92,6 +91,8 @@ protected:
     void initPlanner();
 
     void setupUI();
+
+    void updateSkeletonInfo();
 
     static void timerCB(void* data, SoSensor* sensor);
     Ui::SkeletonGraspPlanner UI;
@@ -125,7 +126,7 @@ protected:
 
     GraspStudio::GraspQualityMeasureWrenchSpacePtr qualityMeasure;
     ApproachMovementSkeletonPtr approach;
-    SkeletonGraspPlannerPtr planner;
+    SimoxCGAL::SkeletonGraspPlannerPtr planner;
 
 
     boost::shared_ptr<VirtualRobot::CoinVisualization> visualizationRobot;

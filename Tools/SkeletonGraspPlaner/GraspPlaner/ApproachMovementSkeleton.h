@@ -12,7 +12,7 @@
 #include "Math.h"
 #include "DeciderGraspPreshape.h"
 #include "Segmentation/Skeleton/SkeletonPoint.h"
-
+/*
 #define POWER_GRASP "Power Preshape"
 #define POWER_INTERVALL 94.f
 
@@ -22,7 +22,7 @@
 #define RATIO_THREASHOLD 1.3f
 
 #define SAMPLING_LENGTH 0.f
-
+*/
 
 //!
 //! \brief DirAndPos
@@ -46,6 +46,36 @@ class ApproachMovementSkeleton : public GraspStudio::ApproachMovementGenerator
 {
 public:
     //        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+    struct PlanningParameters
+    {
+        enum GraspType
+        {
+            Power,
+            Precision
+        };
+
+        PlanningParameters()
+        {
+            // ARMAR-III parameters
+            interval[Power] = 94.0f;
+            interval[Precision] = 47.0f;
+            preshapeName[Power] = "Power Preshape";
+            preshapeName[Precision] = "Precision Preshape";
+
+            // pca ratio of first two eigenvalues to identify round vs rectangular objects
+            roundThreshold = 1.3f;
+
+            // 0 -> chose next enughbor when going along the skeleton
+            skeletonSamplingLength = 0.0f;
+        }
+
+        std::map<GraspType, float> interval;
+        std::map<GraspType, std::string> preshapeName;
+
+        float roundThreshold;
+        float skeletonSamplingLength;
+
+    };
 
     /*!
             To generate approach movements an object and an end effector has to be specified.
@@ -83,19 +113,34 @@ public:
 
     std::string getGraspPreshape();
 
-    void next();
+    /*!
+     * \brief next Go to next vertex on skeleton, switch segment if needed
+     */
+    bool nextSkeletonVertex();
 
     bool isValid();
     bool setNextIndex();
     int getApproachesNumber();
+
+    // returns true, if all segments and vertices have been processed
+    bool finished();
+
+    int getCurrentSegment();
+    int getCurrentVertex();
+
+    int getSegmentCount();
+    int getVertexCount(int segNr);
 
 
     VirtualRobot::RobotNodePtr getTCP();
 
     Eigen::Matrix4f getEEFPose();
 
-    bool areMoreSegments();
+    bool moreSegmentsAvailable();
     SoSeparator* getPlanes();
+
+    PlanningParameters getParameters();
+    void setParameters(PlanningParameters &p);
 
 protected:
 
@@ -111,17 +156,19 @@ protected:
 
     int currentSubpart;
     int currentSkeletonVertex;
-    bool calculatedApproaches;
+    bool approachDirectionsCalculated;
 
     void calculateApproachesConnectionPoint();
     void calculateApproachDirRound(PrincipalAxis3D &pca, bool endpoint = false);
     void calculateApproachDirRectangular(PrincipalAxis3D &pca, bool endpoint = false);
     void calculateApproachesEndpoint();
-    int samplingSkeleton(float dist);
+    int nextVertexOnCurrentSubpart(float dist);
 
 
     //visu
     SoSeparator* visu;
+
+    PlanningParameters approachMovementParameters;
 
 private:
     bool init();

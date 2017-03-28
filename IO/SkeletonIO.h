@@ -14,6 +14,7 @@ namespace rapidxml
     template<class Ch>
     class xml_node;
 }
+namespace SimoxCGAL {
 
 class SkeletonIO
 {
@@ -29,4 +30,5 @@ protected:
     virtual ~SkeletonIO();
 };
 
+}
 #endif // SKELETON_H

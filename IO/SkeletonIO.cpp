@@ -7,6 +7,7 @@ using namespace rapidxml;
 using namespace VirtualRobot;
 using namespace SimoxCGAL;
 
+namespace SimoxCGAL {
 
 SkeletonIO::SkeletonIO()
 {
@@ -142,4 +143,6 @@ bool SkeletonIO::saveSkeletonObject(CGALSkeletonPtr s, const std::string &filena
     std::string xml = s->toXML();
     bool res = BaseIO::writeXMLFile(filename, xml, true);
     return res;
+}
+
 }

@@ -6,6 +6,9 @@
 using namespace std;
 using namespace VirtualRobot;
 
+namespace SimoxCGAL
+{
+
 SkeletonGraspPlanner::SkeletonGraspPlanner(VirtualRobot::GraspSetPtr graspSet, GraspStudio::GraspQualityMeasurePtr graspQuality, ApproachMovementSkeletonPtr approach, float minQuality, bool forceClosure)
     : GraspPlanner(graspSet), graspQuality(graspQuality), minQuality(minQuality), forceClosure(forceClosure)
 {
@@ -42,7 +45,7 @@ int SkeletonGraspPlanner::plan(int nrGrasps, int timeOutMS, SceneObjectSetPtr ob
 
     while (!timeout() && nGraspsCreated < nrGrasps && valid)
     {
-        if (!approach->areMoreSegments())
+        if (!approach->moreSegmentsAvailable())
         {
             GRASPSTUDIO_INFO << ": All grasps generated." << endl;
             break;
@@ -50,7 +53,7 @@ int SkeletonGraspPlanner::plan(int nrGrasps, int timeOutMS, SceneObjectSetPtr ob
 
         if (approach->getApproachesNumber() == 0)
         {
-            cout << "PRÜFE" << endl;
+            //cout << "PRÜFE" << endl;
             a = approach->setNextIndex();
 
             if (!a)
@@ -92,6 +95,12 @@ int SkeletonGraspPlanner::plan(int nrGrasps, int timeOutMS, SceneObjectSetPtr ob
     }
 
     return nGraspsCreated;
+}
+
+void SkeletonGraspPlanner::setParams(float minQuality, bool forceClosure)
+{
+    this->minQuality = minQuality;
+    this->forceClosure = forceClosure;
 }
 
 GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacles)
@@ -175,4 +184,4 @@ bool SkeletonGraspPlanner::timeout()
     return (timeMS > timeOutMS);
 }
 
-
+}

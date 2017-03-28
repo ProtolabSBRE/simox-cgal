@@ -8,21 +8,23 @@
 #include "SimoxCGAL.h"
 #include "SegmentedObject.h"
 #include "Math.h"
-
+/*
 #define POWER_GRASP "Power Preshape"
 #define POWER_INTERVALL 94.f
 
 #define PRECISION_GRASP "Precision Preshape"
 #define PRECISION_INTERVALL 47.f
-
+*/
+/*
 enum {
     ROUND,
     RECTANGULAR
 };
-
+*/
 class PartAnalysis
 {
 public:
+
     PartAnalysis(SimoxCGAL::SegmentedObjectPtr segmentation, SimoxCGAL::SurfaceMeshPtr mesh);
     ~PartAnalysis();
 

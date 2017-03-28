@@ -410,6 +410,7 @@ void SkeletonViewerWindow::buildObject()
     skeleton->calculateSkeleton();
 
     VR_INFO << "Done in " << skeleton->getTime() << " ms " << endl;
+    //cout << "SKELETON XML:\n" << skeleton->toXML();
 
 
     VR_INFO << "Calculatin skeleton segmentation ..." << endl;

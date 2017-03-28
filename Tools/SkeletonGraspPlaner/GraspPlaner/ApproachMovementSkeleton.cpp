@@ -91,17 +91,23 @@ Eigen::Matrix4f ApproachMovementSkeleton::createNewApproachPose()
     Eigen::Matrix4f pose = getEEFPose();
     openHand();
     Eigen::Vector3f position = currentVertexResult.graspingPlane.p;
-    Eigen::Vector3f approachDir = approachDirs.back();;
+    Eigen::Vector3f approachDir = approachDirs.back();
     approachDirs.pop_back();
 
-    this->aporachDirGlobal = approachDir;
+    this->aproachDirGlobal = approachDir;
 
-    bool invOri = false;
+    Eigen::Vector3f dirY = currentVertexResult.graspingPlane.n;
     if (approachDirs.size() % 2 != 0)
     {
-        invOri = true;
+        dirY *= -1;
     }
-    setEEFToApproachPose(position, approachDir, invOri, currentVertexResult.graspingPlane);
+    if (currentVertexResult.endpoint)
+    {
+        Eigen::Vector3f tmp = dirY;
+        dirY = approachDir;
+        approachDir = tmp;
+    }
+    setEEFToApproachPose(position, approachDir, dirY);
 
     // move away until valid
     moveEEFAway(approachDir, 0.5f);
@@ -171,11 +177,10 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
 
     //SkeletonVertex vertex = subpart->sortedSkeletonPartIndex.at(currentSkeletonVertex);
 //    bool endpoint = !subpart->skeletonPart.at(vertex)->endpoint;
-    bool endpoint = false;
+   // bool endpoint = false;
 
-    if (!endpoint)
+   // if (!endpoint)
     {
-        //kein Endpunkt
         SkeletonVertexResult resultPre = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Precision]);
         bool valid = resultPre.valid;
         bool preshapeOK = false;
@@ -186,7 +191,10 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
         {
             //precision
             graspPreshape = approachMovementParameters.preshapeName[PlanningParameters::Precision];
-            calculateApproachesConnectionPoint(resultPre.pca);
+            if (resultPre.endpoint)
+                calculateApproachesEndpoint(resultPre.pca);
+            else
+                calculateApproachesConnectionPoint(resultPre.pca);
             approachDirectionsCalculated = true;
             currentVertexResult = resultPre;
             return true;
@@ -202,7 +210,10 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
         {
             //power
             graspPreshape = approachMovementParameters.preshapeName[PlanningParameters::Power];
-            calculateApproachesConnectionPoint(resultPower.pca);
+            if (resultPower.endpoint)
+                calculateApproachesEndpoint(resultPower.pca);
+            else
+                calculateApproachesConnectionPoint(resultPower.pca);
             approachDirectionsCalculated = true;
             currentVertexResult = resultPower;
             return true;
@@ -210,19 +221,19 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
         }
 
 
-    } else {
+    } /*else {
 
         //working on endpoints
 
 
-    }
+    }*/
 
 
     approachDirectionsCalculated = true;
     return false;
 }
 
-bool ApproachMovementSkeleton::setEEFToApproachPose(const Eigen::Vector3f &position, const Eigen::Vector3f &approachDir, bool invertOrientation, const VirtualRobot::MathTools::Plane &plane)
+bool ApproachMovementSkeleton::setEEFToApproachPose(const Eigen::Vector3f &position, const Eigen::Vector3f &approachDir, const Eigen::Vector3f &dirY)
 {
     // target pose
     Eigen::Matrix4f poseFinal = Eigen::Matrix4f::Identity();
@@ -236,14 +247,8 @@ bool ApproachMovementSkeleton::setEEFToApproachPose(const Eigen::Vector3f &posit
     z.normalize();
     z *= -1.0f;
 
-    Eigen::Vector3f y;
+    Eigen::Vector3f y = dirY;
 
-    if (!invertOrientation)
-    {
-        y = plane.n;
-    } else {
-        y = plane.n * (-1);
-    }
 
     Eigen::Vector3f x;
     x = y.cross(z);
@@ -289,52 +294,61 @@ bool ApproachMovementSkeleton::moveEEFAway(const Eigen::Vector3f& approachDir, f
 void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &pca, bool endpoint)
 {
 
-    if (endpoint)
-    {
-        return;
-    }
-
     Eigen::Vector3f a1 = pca.pca1;
     Eigen::Vector3f a2 = pca.pca1 * (-1);
     Eigen::Vector3f b1 = pca.pca2;
     Eigen::Vector3f b2 = pca.pca2 * (-1);
-    approachDirs.push_back(a1);
-    approachDirs.push_back(a1);
-    approachDirs.push_back(a2);
-    approachDirs.push_back(a2);
-    approachDirs.push_back(b1);
-    approachDirs.push_back(b1);
-    approachDirs.push_back(b2);
-    approachDirs.push_back(b2);
 
-    Eigen::Vector3f a = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2);
-    Eigen::Vector3f b = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2);
-    Eigen::Vector3f c = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2 * (-1));
-    Eigen::Vector3f d = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2 * (-1));
+    if (endpoint)
+    {
+        //Eigen::Vector3f a = a1.cross(b1);
+        Eigen::Vector3f b = a1.cross(b1) * (-1);
+        approachDirs.push_back(b);
+        approachDirs.push_back(b);
+    } else
+    {
 
-    approachDirs.push_back(a);
-    approachDirs.push_back(a);
-    approachDirs.push_back(b);
-    approachDirs.push_back(b);
-    approachDirs.push_back(c);
-    approachDirs.push_back(c);
-    approachDirs.push_back(d);
-    approachDirs.push_back(d);
+        approachDirs.push_back(a1);
+        approachDirs.push_back(a1);
+        approachDirs.push_back(a2);
+        approachDirs.push_back(a2);
+        approachDirs.push_back(b1);
+        approachDirs.push_back(b1);
+        approachDirs.push_back(b2);
+        approachDirs.push_back(b2);
+
+        Eigen::Vector3f a = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2);
+        Eigen::Vector3f b = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2);
+        Eigen::Vector3f c = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2 * (-1));
+        Eigen::Vector3f d = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2 * (-1));
+
+        approachDirs.push_back(a);
+        approachDirs.push_back(a);
+        approachDirs.push_back(b);
+        approachDirs.push_back(b);
+        approachDirs.push_back(c);
+        approachDirs.push_back(c);
+        approachDirs.push_back(d);
+        approachDirs.push_back(d);
+    }
 }
 
 void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool endpoint)
 {
     if (endpoint)
     {
-        return;
+        Eigen::Vector3f approach = pca.pca1.cross(pca.pca2) * -1;
+        approachDirs.push_back(approach);
+        approachDirs.push_back(approach);
+    } else
+    {
+        approachDirs.push_back(pca.pca1);
+        approachDirs.push_back(pca.pca1);
+
+        Eigen::Vector3f approach = pca.pca1 * (-1);
+        approachDirs.push_back(approach);
+        approachDirs.push_back(approach);
     }
-
-    approachDirs.push_back(pca.pca1);
-    approachDirs.push_back(pca.pca1);
-
-    Eigen::Vector3f approach = pca.pca1 * (-1);
-    approachDirs.push_back(approach);
-    approachDirs.push_back(approach);
 }
 
 void ApproachMovementSkeleton::calculateApproachesConnectionPoint(const PrincipalAxis3D &pca)
@@ -343,25 +357,24 @@ void ApproachMovementSkeleton::calculateApproachesConnectionPoint(const Principa
 
     if (ratio < approachMovementParameters.roundThreshold)
     {
-        calculateApproachDirRound(pca);
+        calculateApproachDirRound(pca, false);
 
     } else {
-        calculateApproachDirRectangular(pca);
+        calculateApproachDirRectangular(pca, false);
     }
 }
 
-void ApproachMovementSkeleton::calculateApproachesEndpoint()
+void ApproachMovementSkeleton::calculateApproachesEndpoint(const PrincipalAxis3D &pca)
 {
-//    float ratio = pca.eigenvalue1 / pca.eigenvalue2;
+    float ratio = pca.eigenvalue1 / pca.eigenvalue2;
 
-//    if (ratio < RATIO_THREASHOLD)
-//    {
-//        calculateApproachDirRound(pca);
+    if (ratio < approachMovementParameters.roundThreshold)
+    {
+        calculateApproachDirRound(pca, true);
 
-//    } else {
-//        calculateApproachDirRectangular(pca);
-//    }
-
+    } else {
+        calculateApproachDirRectangular(pca, true);
+    }
 }
 
 bool ApproachMovementSkeleton::isValid()

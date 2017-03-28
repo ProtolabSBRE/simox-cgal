@@ -1,0 +1,8 @@
+<ManipulationObject name="airplane19">
+    <Visualization>
+        <File type="inventor">iv/airplane19.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">iv/airplane19.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

@@ -97,7 +97,7 @@ public:
     bool calculateApproachDirection();
 
     //! Sets EEF to a position so that the Z component of the GCP coord system is aligned with -approachDir
-    bool setEEFToApproachPose(const Eigen::Vector3f& position, const Eigen::Vector3f& approachDir, bool invertOrientation, const VirtualRobot::MathTools::Plane &plane);
+    bool setEEFToApproachPose(const Eigen::Vector3f& position, const Eigen::Vector3f& approachDir, const Eigen::Vector3f &dirY);
 
     //! Move endeffector away until valid position.
     bool moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops = 1000);
@@ -161,9 +161,9 @@ protected:
     bool approachDirectionsCalculated;
 
     void calculateApproachesConnectionPoint(const PrincipalAxis3D &pca);
-    void calculateApproachDirRound(const PrincipalAxis3D &pca, bool endpoint = false);
-    void calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool endpoint = false);
-    void calculateApproachesEndpoint();
+    void calculateApproachDirRound(const PrincipalAxis3D &pca, bool endpoint);
+    void calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool endpoint);
+    void calculateApproachesEndpoint(const PrincipalAxis3D &pca);
     int nextVertexOnCurrentSubpart(float dist);
 
 

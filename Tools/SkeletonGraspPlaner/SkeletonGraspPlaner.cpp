@@ -28,7 +28,8 @@ int main(int argc, char* argv[])
     //std::string object("objects/wok.xml");
     //std::string object("objects/riceBox.xml");
     //std::string object("objects/screwdriver/screwdriver01.xml");
-    std::string object("segmented-objects/flashlight/flashlight1.xml");
+    //std::string object("segmented-objects/flashlight/flashlight1.xml");
+    std::string object("segmented-objects/airplane/airplane0.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
     std::string preshape("");
 

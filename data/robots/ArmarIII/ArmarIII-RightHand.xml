@@ -18,7 +18,8 @@
 	
 	<RobotNode name="GCP R">
 		<Transform>
-			<Translation X="-90" Y="0" Z="150" units='mm'/>
+			<!--Translation X="-90" Y="0" Z="150" units='mm'/-->
+			<Translation X="-40" Y="20" Z="90" units='mm'/>
 			<rollpitchyaw roll="0" pitch="-45" yaw="0" units="degree"/>
 		</Transform>
 	</RobotNode>

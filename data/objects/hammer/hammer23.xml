@@ -1,0 +1,8 @@
+<ManipulationObject name="hammer23">
+    <Visualization>
+        <File type="inventor">iv/hammer23.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">iv/hammer23.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

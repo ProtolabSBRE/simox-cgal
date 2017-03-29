@@ -1,0 +1,8 @@
+<ManipulationObject name="Teddy10">
+    <Visualization>
+        <File type="inventor">iv/Teddy10.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">iv/Teddy10.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

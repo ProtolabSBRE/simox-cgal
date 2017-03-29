@@ -1,0 +1,8 @@
+<ManipulationObject name="plier19">
+    <Visualization>
+        <File type="inventor">iv/plier19.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">iv/plier19.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

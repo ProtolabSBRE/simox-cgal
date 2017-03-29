@@ -284,17 +284,17 @@ VirtualRobot::TriMeshModelPtr SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCo
         Eigen::Vector3f candidateVertex3 = *(itVerticesOld + itFacesOld->id3);
         for (std::vector<Eigen::Vector3f>::iterator itVerticesNew = result->vertices.begin(); itVerticesNew != result->vertices.end(); itVerticesNew++)
         {
-            if ((*itVerticesNew - candidateVertex1).norm() < 0.01)
+            if ((*itVerticesNew - candidateVertex1).norm() < 0.00001)
             {
                 found1 = true;
                 newPos1 = std::distance(result->vertices.begin(), itVerticesNew);
             }
-            if ((*itVerticesNew - candidateVertex2).norm() < 0.01)
+            if ((*itVerticesNew - candidateVertex2).norm() < 0.000001)
             {
                 found2 = true;
                 newPos2 = std::distance(result->vertices.begin(), itVerticesNew);
             }
-            if ((*itVerticesNew - candidateVertex3).norm() < 0.01)
+            if ((*itVerticesNew - candidateVertex3).norm() < 0.000001)
             {
                 found3 = true;
                 newPos3 = std::distance(result->vertices.begin(), itVerticesNew);

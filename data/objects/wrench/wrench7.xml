@@ -1,0 +1,8 @@
+<ManipulationObject name="wrench7">
+    <Visualization>
+        <File type="inventor">iv/wrench7.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">iv/wrench7.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

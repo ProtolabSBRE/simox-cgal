@@ -1,0 +1,8 @@
+<ManipulationObject name="bottle29">
+    <Visualization>
+        <File type="inventor">iv/bottle29.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">iv/bottle29.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

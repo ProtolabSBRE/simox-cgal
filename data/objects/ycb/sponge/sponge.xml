@@ -1,0 +1,8 @@
+<ManipulationObject name="sponge">
+    <Visualization>
+        <File type="inventor">optimized_poisson_texture_mapped_mesh.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">poisson_mesh.stl</File>
+    </CollisionModel>
+</ManipulationObject>

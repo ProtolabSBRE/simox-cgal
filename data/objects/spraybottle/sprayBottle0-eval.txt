@@ -1,0 +1,17 @@
+---------------- GRASP PLANNER EVALUATION -----------
+ForceClosure check: true
+Min Quality: 0
+nrGraspsGenerated:800
+nrGraspsValid:755
+nrGraspsInValid:45
+nrGraspsValidPrecision:755
+nrGraspsValidPower:0
+nrGraspsInvalidCollision:4
+nrGraspsInvalidFC:27
+nrGraspsInvalidContacts:14
+Time complete: 6025 ms
+Avg time per grasp (valid&invalid):7.53125 ms
+Precision grasps:800 -> 100%
+Power grasps:0 -> 0%
+Avg score (valid):0.109549
+

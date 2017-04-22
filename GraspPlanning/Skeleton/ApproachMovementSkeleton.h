@@ -12,17 +12,7 @@
 #include "SkeletonVertexAnalyzer.h"
 #include "DeciderGraspPreshape.h"
 #include "Segmentation/Skeleton/SkeletonPoint.h"
-/*
-#define POWER_GRASP "Power Preshape"
-#define POWER_INTERVALL 94.f
 
-#define PRECISION_GRASP "Precision Preshape"
-#define PRECISION_INTERVALL 47.f
-
-#define RATIO_THREASHOLD 1.3f
-
-#define SAMPLING_LENGTH 0.f
-*/
 
 namespace SimoxCGAL
 {
@@ -67,7 +57,7 @@ public:
             // pca ratio of first two eigenvalues to identify round vs rectangular objects
             roundThreshold = 1.3f;
 
-            // 0 -> chose next enughbor when going along the skeleton
+            // 0 -> chose next neighbor when going along the skeleton
             skeletonSamplingLength = 0.0f;
         }
 

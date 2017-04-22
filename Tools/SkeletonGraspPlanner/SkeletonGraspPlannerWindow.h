@@ -1,6 +1,6 @@
 
-#ifndef __SKELETON_GRAP_PLANER_WINDOW_H_
-#define __SKELETON_GRAP_PLANER_WINDOW_H_
+#ifndef __SKELETON_GRASP_PLANNER_WINDOW_H_
+#define __SKELETON_GRASP_PLANNER_WINDOW_H_
 
 #include <VirtualRobot/VirtualRobot.h>
 #include <VirtualRobot/Robot.h>
@@ -19,8 +19,8 @@
 #include "GraspPlanning/GraspQuality/GraspQualityMeasureWrenchSpace.h"
 #include "GraspPlanning/GraspPlanner/GenericGraspPlanner.h"
 
-#include "GraspPlaner/SkeletonGraspPlaner.h"
-#include "GraspPlaner/ApproachMovementSkeleton.h"
+#include "GraspPlanning/Skeleton/SkeletonGraspPlanner.h"
+#include "GraspPlanning/Skeleton/ApproachMovementSkeleton.h"
 #include "SimoxCGAL.h"
 #include "SegmentedObject.h"
 #include "CGALSurfaceMesh.h"
@@ -40,7 +40,7 @@
 
 #include <vector>
 
-#include "ui_SkeletonGraspPlaner.h"
+#include "ui_SkeletonGraspPlanner.h"
 
 // using forward declarations here, so that the rapidXML header does not have to be parsed when this file is included
 namespace rapidxml
@@ -49,12 +49,12 @@ namespace rapidxml
     class xml_node;
 }
 
-class SkeletonGraspPlanerWindow : public QMainWindow
+class SkeletonGraspPlannerWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    SkeletonGraspPlanerWindow(std::string& robotFile, std::string& eefName, std::string& preshape, std::string& segmentedObjectFile);
-    ~SkeletonGraspPlanerWindow();
+    SkeletonGraspPlannerWindow(std::string& robotFile, std::string& eefName, std::string& preshape, std::string& segmentedObjectFile);
+    ~SkeletonGraspPlannerWindow();
 
     /*!< Executes the SoQt mainLoop. You need to call this in order to execute the application. */
     int main();
@@ -147,4 +147,4 @@ protected:
     SoSeparator* test;
 };
 
-#endif // __SKELETON_GRAP_PLANER_WINDOW_H_
+#endif

@@ -1,4 +1,4 @@
-#include "SkeletonGraspPlaner.h"
+#include "SkeletonGraspPlanner.h"
 
 
 #include "VirtualRobot/RobotConfig.h"
@@ -115,6 +115,10 @@ GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacl
     if (!approach->isValid())
     {
         return GraspPtr();
+    }
+    if (obstacles)
+    {
+        VR_WARNING << "Obstacles are not considered yet..." << endl;
     }
 
     string sGraspPlanner("Simox - GraspStudio - ");

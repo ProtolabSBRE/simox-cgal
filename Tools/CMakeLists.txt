@@ -5,5 +5,5 @@ ADD_SUBDIRECTORY( SegmentedObjectViewer )
 
 ADD_SUBDIRECTORY( ObjectSegmentationSkeleton )
 
-ADD_SUBDIRECTORY( SkeletonGraspPlaner )
+ADD_SUBDIRECTORY( SkeletonGraspPlanner )
 

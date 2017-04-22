@@ -1,4 +1,4 @@
-#include "SkeletonGraspPlanerWindow.h"
+#include "SkeletonGraspPlannerWindow.h"
 #include "GraspPlanning/Visualization/CoinVisualization/CoinConvexHullVisualization.h"
 #include "GraspPlanning/ContactConeGenerator.h"
 #include "GraspPlanning/MeshConverter.h"
@@ -25,9 +25,7 @@
 #include <iostream>
 #include <cmath>
 
-
-
-#include "Inventor/actions/SoLineHighlightRenderAction.h"
+#include <Inventor/actions/SoLineHighlightRenderAction.h>
 #include <Inventor/nodes/SoShapeHints.h>
 #include <Inventor/nodes/SoLightModel.h>
 #include <Inventor/sensors/SoTimerSensor.h>
@@ -36,9 +34,7 @@
 #include <Inventor/nodes/SoScale.h>
 #include <Inventor/nodes/SoMaterial.h>
 
-
-//#include "SkeletonGraspPlanerViewerIO.h"
-#include "GraspPlaner/SkeletonVertexAnalyzer.h"
+#include "GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h"
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
 #include "Segmentation/Skeleton/MeshSkeletonData.h"
 
@@ -52,7 +48,7 @@ using namespace SimoxCGAL;
 
 float TIMER_MS = 30.0f;
 
-SkeletonGraspPlanerWindow::SkeletonGraspPlanerWindow(std::string& robFile, std::string& eefName, std::string& preshape, std::string& segmentedObjectFile)
+SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std::string& eefName, std::string& preshape, std::string& segmentedObjectFile)
     : QMainWindow(NULL), skeleton(new Skeleton), segmentation(new SegmentedObject())
 {
     VR_INFO << " start " << endl;
@@ -95,7 +91,7 @@ SkeletonGraspPlanerWindow::SkeletonGraspPlanerWindow(std::string& robFile, std::
 }
 
 
-SkeletonGraspPlanerWindow::~SkeletonGraspPlanerWindow()
+SkeletonGraspPlannerWindow::~SkeletonGraspPlannerWindow()
 {
     sceneSep->unref();
     graspsSep->unref();
@@ -131,7 +127,7 @@ SkeletonGraspPlanerWindow::~SkeletonGraspPlanerWindow()
         ikWindow->updateObject(x);
 }*/
 
-void SkeletonGraspPlanerWindow::setupUI()
+void SkeletonGraspPlannerWindow::setupUI()
 {
     UI.setupUi(this);
     viewer = new SoQtExaminerViewer(UI.frameViewer, "", TRUE, SoQtExaminerViewer::BUILD_POPUP);
@@ -173,7 +169,7 @@ void SkeletonGraspPlanerWindow::setupUI()
 
 }
 
-void SkeletonGraspPlanerWindow::updateSkeletonInfo()
+void SkeletonGraspPlannerWindow::updateSkeletonInfo()
 {
     std::stringstream ss;
     ss << std::setprecision(3);
@@ -206,7 +202,7 @@ void SkeletonGraspPlanerWindow::updateSkeletonInfo()
 }
 
 
-void SkeletonGraspPlanerWindow::resetSceneryAll()
+void SkeletonGraspPlannerWindow::resetSceneryAll()
 {
     if (grasps)
     {
@@ -221,14 +217,14 @@ void SkeletonGraspPlanerWindow::resetSceneryAll()
 }
 
 
-void SkeletonGraspPlanerWindow::closeEvent(QCloseEvent* event)
+void SkeletonGraspPlannerWindow::closeEvent(QCloseEvent* event)
 {
     quit();
     QMainWindow::closeEvent(event);
 }
 
 
-void SkeletonGraspPlanerWindow::buildVisu()
+void SkeletonGraspPlannerWindow::buildVisu()
 {
 
     robotSep->removeAllChildren();
@@ -354,7 +350,7 @@ void SkeletonGraspPlanerWindow::buildVisu()
     viewer->scheduleRedraw();
 }
 
-int SkeletonGraspPlanerWindow::main()
+int SkeletonGraspPlannerWindow::main()
 {
     SoQt::show(this);
     SoQt::mainLoop();
@@ -362,14 +358,14 @@ int SkeletonGraspPlanerWindow::main()
 }
 
 
-void SkeletonGraspPlanerWindow::quit()
+void SkeletonGraspPlannerWindow::quit()
 {
     std::cout << "GraspPlannerWindow: Closing" << std::endl;
     this->close();
     SoQt::exitMainLoop();
 }
 /*
-void SkeletonGraspPlanerWindow::loadObject()
+void SkeletonGraspPlannerWindow::loadObject()
 {
     if (!objectFile.empty())
     {
@@ -377,7 +373,7 @@ void SkeletonGraspPlanerWindow::loadObject()
     }
 }
 */
-void SkeletonGraspPlanerWindow::loadData()
+void SkeletonGraspPlannerWindow::loadData()
 {
     resetSceneryAll();
     QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
@@ -389,7 +385,7 @@ void SkeletonGraspPlanerWindow::loadData()
     loadSegmentedObject(file);
 }
 
-void SkeletonGraspPlanerWindow::loadSegmentedObject(const std::string & filename)
+void SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filename)
 {
     segmentedObjectFile = filename;
 
@@ -424,7 +420,7 @@ void SkeletonGraspPlanerWindow::loadSegmentedObject(const std::string & filename
     updateSkeletonInfo();
 }
 
-void SkeletonGraspPlanerWindow::initPlanner()
+void SkeletonGraspPlannerWindow::initPlanner()
 {
     if (!robot || !eef)
     {
@@ -464,7 +460,7 @@ void SkeletonGraspPlanerWindow::initPlanner()
     planner->setVerbose(verbose);
 }
 
-void SkeletonGraspPlanerWindow::loadRobot()
+void SkeletonGraspPlannerWindow::loadRobot()
 {
     robot.reset();
     robot = RobotIO::loadRobot(robotFile);
@@ -483,7 +479,7 @@ void SkeletonGraspPlanerWindow::loadRobot()
     eefVisu->ref();
 }
 
-void SkeletonGraspPlanerWindow::planAll()
+void SkeletonGraspPlannerWindow::planAll()
 {
     float timeout = 0.0f;
     bool forceClosure = UI.checkBoxFoceClosure->isChecked();
@@ -493,7 +489,7 @@ void SkeletonGraspPlanerWindow::planAll()
     planGrasps(timeout, forceClosure, quality, nrGrasps);
 }
 
-void SkeletonGraspPlanerWindow::plan()
+void SkeletonGraspPlannerWindow::plan()
 {
     float timeout = UI.spinBoxTimeOut->value() * 1000.0f;
     bool forceClosure = UI.checkBoxFoceClosure->isChecked();
@@ -502,7 +498,7 @@ void SkeletonGraspPlanerWindow::plan()
     planGrasps(timeout, forceClosure, quality, nrGrasps);
 }
 
-void SkeletonGraspPlanerWindow::planGrasps(float timeout, bool forceClosure, float quality, int nrGrasps)
+void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, float quality, int nrGrasps)
 {
     if (!mesh || !skeleton || !segmentation)
     {
@@ -560,7 +556,7 @@ void SkeletonGraspPlanerWindow::planGrasps(float timeout, bool forceClosure, flo
 
 
 
-void SkeletonGraspPlanerWindow::closeEEF()
+void SkeletonGraspPlannerWindow::closeEEF()
 {
     contacts.clear();
 
@@ -590,7 +586,7 @@ void SkeletonGraspPlanerWindow::closeEEF()
     buildVisu();
 }
 
-void SkeletonGraspPlanerWindow::openEEF()
+void SkeletonGraspPlannerWindow::openEEF()
 {
     contacts.clear();
 
@@ -608,22 +604,22 @@ void SkeletonGraspPlanerWindow::openEEF()
     buildVisu();
 }
 
-void SkeletonGraspPlanerWindow::frictionConeVisu()
+void SkeletonGraspPlannerWindow::frictionConeVisu()
 {
     buildVisu();
 }
 
-void SkeletonGraspPlanerWindow::colModel()
+void SkeletonGraspPlannerWindow::colModel()
 {
     buildVisu();
 }
 
-void SkeletonGraspPlanerWindow::showGrasps()
+void SkeletonGraspPlannerWindow::showGrasps()
 {
     buildVisu();
 }
 
-//void SkeletonGraspPlanerWindow::load()
+//void SkeletonGraspPlannerWindow::load()
 //{
 //    VR_INFO << "Loading object.." << std::endl;
 
@@ -770,7 +766,7 @@ void SkeletonGraspPlanerWindow::showGrasps()
 //    buildVisu();
 //}
 
-void SkeletonGraspPlanerWindow::save()
+void SkeletonGraspPlannerWindow::save()
 {
     if (!object)
     {
@@ -806,7 +802,7 @@ void SkeletonGraspPlanerWindow::save()
     }
 }
 
-void SkeletonGraspPlanerWindow::selectGrasp()
+void SkeletonGraspPlannerWindow::selectGrasp()
 {
     if (!grasps || !object)
         return;
@@ -824,7 +820,7 @@ void SkeletonGraspPlanerWindow::selectGrasp()
     closeEEF();
 }
 
-void SkeletonGraspPlanerWindow::setVerbose()
+void SkeletonGraspPlannerWindow::setVerbose()
 {
     bool v = UI.checkBoxVerbose->isChecked();
     if (approach)

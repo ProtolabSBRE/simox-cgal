@@ -323,7 +323,7 @@ bool ApproachMovementSkeleton::moveEEFAway(const Eigen::Vector3f& approachDir, f
     return true;
 }
 
-void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &pca, bool endpoint)
+void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &pca, bool /*endpoint*/)
 {
 
     if (verbose)
@@ -382,7 +382,7 @@ void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &
    // }
 }
 
-void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool endpoint)
+void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool /*endpoint*/)
 {
     if (verbose)
     {

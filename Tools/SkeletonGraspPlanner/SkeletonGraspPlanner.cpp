@@ -11,7 +11,7 @@ using namespace VirtualRobot;
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
-#include "SkeletonGraspPlanerWindow.h"
+#include "SkeletonGraspPlannerWindow.h"
 
 
 int main(int argc, char* argv[])
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
     cout << "Using object from " << object << endl;
     cout << "-----------------" << endl;
 
-    SkeletonGraspPlanerWindow rw(robot, eef, preshape, object);
+    SkeletonGraspPlannerWindow rw(robot, eef, preshape, object);
 
     rw.main();
 

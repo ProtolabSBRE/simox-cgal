@@ -45,6 +45,10 @@ set(SOURCE_FILES
     Segmentation/Skeleton/SkeletonPart.cpp
     Segmentation/SDF/MeshSDF.cpp
     Visualization/CoinVisualization/CGALCoinVisualization.cpp
+    GraspPlanning/Skeleton/SkeletonVertexAnalyzer.cpp
+    GraspPlanning/Skeleton/ApproachMovementSkeleton.cpp
+    GraspPlanning/Skeleton/DeciderGraspPreshape.cpp
+    GraspPlanning/Skeleton/SkeletonGraspPlanner.cpp
     )
 set(HEADER_FILES
     SimoxCGAL.h
@@ -64,6 +68,10 @@ set(HEADER_FILES
     Segmentation/Skeleton/SkeletonPoint.h
     Segmentation/SDF/MeshSDF.h
     Visualization/CoinVisualization/CGALCoinVisualization.h
+    GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h
+    GraspPlanning/Skeleton/ApproachMovementSkeleton.h
+    GraspPlanning/Skeleton/DeciderGraspPreshape.h
+    GraspPlanning/Skeleton/SkeletonGraspPlanner.h
     )
 
 #######################################################################
@@ -111,13 +119,26 @@ if(SimoxCGAL_BUILD_Tests)
     ADD_SUBDIRECTORY(tests)
 endif()
 ########################################
-###           Setup data dir         ###
+###           Setup dirs             ###
 ########################################
+SET(Simox-CGAL_BUILD_DIRECTORY ${CMAKE_BINARY_DIR})
+SET(BIN_DIR bin)
+SET(LIB_DIR lib)
+SET(DATA_DIR data)
+
+SET(Simox-CGAL_LIB_DIR ${Simox-CGAL_BUILD_DIRECTORY}/${LIB_DIR})
+SET(Simox-CGAL_BIN_DIR ${Simox-CGAL_BUILD_DIRECTORY}/${BIN_DIR})
+
 # todo: installation data dir
 GET_FILENAME_COMPONENT (CurrentSimoxCGALPath ${CMAKE_CURRENT_LIST_FILE} PATH)
-MESSAGE (STATUS "** SimoxCGAL_DIR: ${CurrentSimoxCGALPath}")
 SET(Simox-CGAL_DATA_DIR ${CurrentSimoxCGALPath}/data)
 ADD_DEFINITIONS("-DSimox_CGAL_DATA_PATH=\"${Simox-CGAL_DATA_DIR}\"")
+
+MESSAGE (STATUS "** SIMOX-CGAL DIR: ${CurrentSimoxCGALPath}")
+MESSAGE (STATUS "** SIMOX-CGAL LIB DIR: ${Simox-CGAL_LIB_DIR}")
+MESSAGE (STATUS "** SIMOX-CGAL BIN DIR: ${Simox-CGAL_BIN_DIR}")
+MESSAGE (STATUS "** SIMOX-CGAL DATA DIR: ${Simox-CGAL_DATA_DIR}")
+
 
 ########################################
 ###           Setup build            ###
@@ -125,7 +146,14 @@ ADD_DEFINITIONS("-DSimox_CGAL_DATA_PATH=\"${Simox-CGAL_DATA_DIR}\"")
 
 # Setup build
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(${PROJECT_NAME} VirtualRobot ${CGAL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} VirtualRobot GraspStudio ${CGAL_LIBRARIES})
+
+# .DLL path
+SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${Simox-CGAL_BIN_DIR})
+# .so path
+SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${Simox-CGAL_LIB_DIR})
+# .lib path (this is needed for setting the DLL-import library path on windows)
+SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${Simox-CGAL_LIB_DIR})
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON) # enable -fPIC
 add_definitions(-DCGAL_EIGEN3_ENABLED)

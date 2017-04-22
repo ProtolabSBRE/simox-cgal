@@ -7,7 +7,7 @@ project(simox-cgal)
 ###          Find packages           ###
 ########################################
 
-find_package(Simox REQUIRED)
+find_package(Simox 2.3.48 REQUIRED)
 find_package(CGAL REQUIRED)
 FIND_PACKAGE(Boost 1.46.0 COMPONENTS unit_test_framework REQUIRED)
 SET (Boost_TEST_LIB "${Boost_LIBRARIES}")

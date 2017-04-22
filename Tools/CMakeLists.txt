@@ -1,9 +1,9 @@
 
-ADD_SUBDIRECTORY( SegmentObjectSDF )
+ADD_SUBDIRECTORY( ObjectSegmentationSDF )
 
 ADD_SUBDIRECTORY( SegmentedObjectViewer )
 
-ADD_SUBDIRECTORY( SkeletonViewer )
+ADD_SUBDIRECTORY( ObjectSegmentationSkeleton )
 
 ADD_SUBDIRECTORY( SkeletonGraspPlaner )
 

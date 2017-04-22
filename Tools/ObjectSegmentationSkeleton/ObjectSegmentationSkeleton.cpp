@@ -12,12 +12,12 @@ using namespace VirtualRobot;
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 #include "SimoxCGAL.h"
-#include "SkeletonViewerWindow.h"
+#include "ObjectSegmentationSkeletonWindow.h"
 
 
 int main(int argc, char* argv[])
 {
-    SimoxCGAL::init(argc, argv, "SkeletonViewer");
+    SimoxCGAL::init(argc, argv, "ObjectSegmentationSkeleton");
     cout << " --- START --- " << endl;
 
     std::string object("objects/flashlight/flashlight1.xml");
@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 
     cout << "Object file " << object << endl;
 
-    SkeletonViewerWindow rw(object);
+    ObjectSegmentationSkeletonWindow rw(object);
 
     rw.main();
 

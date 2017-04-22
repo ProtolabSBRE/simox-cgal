@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SkeletonViewer</class>
- <widget class="QMainWindow" name="SkeletonViewer">
+ <class>ObjectSegmentationSkeleton</class>
+ <widget class="QMainWindow" name="ObjectSegmentationSkeleton">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -210,13 +210,13 @@ skeleton point</string>
          <rect>
           <x>40</x>
           <y>270</y>
-          <width>141</width>
+          <width>161</width>
           <height>41</height>
          </rect>
         </property>
         <property name="text">
-         <string>pigment surface 
-of segments</string>
+         <string>colorize 
+segments</string>
         </property>
         <property name="checked">
          <bool>false</bool>

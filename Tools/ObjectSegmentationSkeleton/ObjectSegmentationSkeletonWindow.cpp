@@ -1,5 +1,5 @@
 
-#include "SkeletonViewerWindow.h"
+#include "ObjectSegmentationSkeletonWindow.h"
 #include <VirtualRobot/ManipulationObject.h>
 #include <VirtualRobot/XML/ObjectIO.h>
 #include <VirtualRobot/XML/RobotIO.h>
@@ -33,7 +33,7 @@
 #include "Segmentation/Skeleton/MeshSkeletonData.h"
 #include "IO/SkeletonIO.h"
 #include "IO/CGALMeshIO.h"
-//#include "SkeletonViewerWindowIO.h"
+//#include "ObjectSegmentationSkeletonWindowIO.h"
 
 #include <sstream>
 using namespace std;
@@ -42,7 +42,7 @@ using namespace SimoxCGAL;
 
 //float TIMER_MS = 30.0f;
 
-SkeletonViewerWindow::SkeletonViewerWindow(const std::string& objFile)
+ObjectSegmentationSkeletonWindow::ObjectSegmentationSkeletonWindow(const std::string& objFile)
     : QMainWindow(NULL)
 {
     VR_INFO << " start " << endl;
@@ -76,12 +76,12 @@ SkeletonViewerWindow::SkeletonViewerWindow(const std::string& objFile)
 }
 
 
-SkeletonViewerWindow::~SkeletonViewerWindow()
+ObjectSegmentationSkeletonWindow::~ObjectSegmentationSkeletonWindow()
 {
     sceneSep->unref();
 }
 
-void SkeletonViewerWindow::setupUI()
+void ObjectSegmentationSkeletonWindow::setupUI()
 {
     UI.setupUi(this);
     viewer = new SoQtExaminerViewer(UI.frameViewer, "", TRUE, SoQtExaminerViewer::BUILD_POPUP);
@@ -114,19 +114,19 @@ void SkeletonViewerWindow::setupUI()
 }
 
 
-void SkeletonViewerWindow::resetSceneryAll()
+void ObjectSegmentationSkeletonWindow::resetSceneryAll()
 {
 }
 
 
-void SkeletonViewerWindow::closeEvent(QCloseEvent* event)
+void ObjectSegmentationSkeletonWindow::closeEvent(QCloseEvent* event)
 {
     quit();
     QMainWindow::closeEvent(event);
 }
 
 
-void SkeletonViewerWindow::buildVisu()
+void ObjectSegmentationSkeletonWindow::buildVisu()
 {
     SceneObject::VisualizationType colModel = (UI.radioButtonColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
 
@@ -228,7 +228,7 @@ void SkeletonViewerWindow::buildVisu()
     viewer->scheduleRedraw();
 }
 
-int SkeletonViewerWindow::main()
+int ObjectSegmentationSkeletonWindow::main()
 {
     SoQt::show(this);
     SoQt::mainLoop();
@@ -236,14 +236,14 @@ int SkeletonViewerWindow::main()
 }
 
 
-void SkeletonViewerWindow::quit()
+void ObjectSegmentationSkeletonWindow::quit()
 {
-    std::cout << "SkeletonViewer: Closing" << std::endl;
+    std::cout << "ObjectSegmentationSkeleton: Closing" << std::endl;
     this->close();
     SoQt::exitMainLoop();
 }
 
-void SkeletonViewerWindow::saveSegmentedObject()
+void ObjectSegmentationSkeletonWindow::saveSegmentedObject()
 {
     if (!skeleton || !segSkeleton || !surfaceMesh)
     {
@@ -281,7 +281,7 @@ void SkeletonViewerWindow::saveSegmentedObject()
 }
 
 
-void SkeletonViewerWindow::loadData()
+void ObjectSegmentationSkeletonWindow::loadData()
 {
 
     VR_INFO << "Loading skeleton ...\n";
@@ -334,7 +334,7 @@ void SkeletonViewerWindow::loadData()
 
 }
 
-void SkeletonViewerWindow::loadObject()
+void ObjectSegmentationSkeletonWindow::loadObject()
 {
     try {
         manipObject = ObjectIO::loadManipulationObject(objectFilename);
@@ -349,13 +349,13 @@ void SkeletonViewerWindow::loadObject()
 }
 
 
-void SkeletonViewerWindow::colModel()
+void ObjectSegmentationSkeletonWindow::colModel()
 {
     buildVisu();
 }
 
 
-void SkeletonViewerWindow::reloadObject()
+void ObjectSegmentationSkeletonWindow::reloadObject()
 {
     segSkeleton.reset();
     surfaceMesh.reset();
@@ -374,7 +374,7 @@ void SkeletonViewerWindow::reloadObject()
 }
 
 
-void SkeletonViewerWindow::buildObject()
+void ObjectSegmentationSkeletonWindow::buildObject()
 {
     if (!manipObject)
     {
@@ -445,7 +445,7 @@ void SkeletonViewerWindow::buildObject()
     UI.comboBoxSegmentation->setCurrentIndex(segSkeleton->getSegmentedObject()->getObjectParts().size() + 1);
 }
 
-void SkeletonViewerWindow::screenshot()
+void ObjectSegmentationSkeletonWindow::screenshot()
 {
     //SoCamera* camera = viewer->getCamera();
     //Fit to object representation

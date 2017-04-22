@@ -1,6 +1,6 @@
 
-#ifndef __SegmentObjectSDF_WINDOW_H_
-#define __SegmentObjectSDF_WINDOW_H_
+#ifndef __ObjectSegmentationSkeleton_WINDOW_H_
+#define __ObjectSegmentationSkeleton_WINDOW_H_
 
 #include <VirtualRobot/VirtualRobot.h>
 #include <VirtualRobot/Robot.h>
@@ -32,14 +32,14 @@
 
 #include <vector>
 
-#include "ui_SkeletonViewer.h"
+#include "ui_ObjectSegmentationSkeleton.h"
 
-class SkeletonViewerWindow : public QMainWindow
+class ObjectSegmentationSkeletonWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    SkeletonViewerWindow(const std::string& objectFile);
-    ~SkeletonViewerWindow();
+    ObjectSegmentationSkeletonWindow(const std::string& objectFile);
+    ~ObjectSegmentationSkeletonWindow();
 
     /*!< Executes the SoQt mainLoop. You need to call this in order to execute the application. */
     int main();
@@ -69,7 +69,7 @@ protected:
     void setupUI();
 
     //static void timerCB(void* data, SoSensor* sensor);
-    Ui::SkeletonViewer UI;
+    Ui::ObjectSegmentationSkeleton UI;
     SoQtExaminerViewer* viewer;
 
     SoSeparator* sceneSep;

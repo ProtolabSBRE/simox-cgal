@@ -213,7 +213,7 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
         if (size_t(index_segmentation) < members.size())
         {
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(index_segmentation));
-            SoNode* segment = CGALCoinVisualization::CreatePigmentedSubpartVisualization(s, surfaceMesh->getMesh(), subpart, VirtualRobot::VisualizationFactory::Color(1.f, 0.f, 0.f));
+            SoNode* segment = CGALCoinVisualization::CreatePigmentedSubpartVisualization(s, surfaceMesh->getMesh(), subpart);
             surfaceSep->addChild(segment);
 
         } else if (size_t(index_segmentation) == members.size()){
@@ -418,7 +418,6 @@ void ObjectSegmentationSkeletonWindow::buildObject()
     skeleton->calculateSkeleton();
 
     VR_INFO << "Done in " << skeleton->getTime() << " ms " << endl;
-    //cout << "SKELETON XML:\n" << skeleton->toXML();
 
 
     VR_INFO << "Calculatin skeleton segmentation ..." << endl;

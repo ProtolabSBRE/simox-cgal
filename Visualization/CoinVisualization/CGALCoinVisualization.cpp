@@ -382,29 +382,29 @@ SoSeparator* CGALCoinVisualization::CreatePigmentedMeshVisualization(SkeletonPtr
         {
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(i));
 
-            SoSeparator* segment = new SoSeparator();
-            VirtualRobot::VisualizationFactory::Color color;
+//            SoSeparator* segment = new SoSeparator();
+//            VirtualRobot::VisualizationFactory::Color color;
 
-            if (subpart->palpable)
-            {
-                color.r = 1.f;
-                color.g = 0.45f;
-                color.b = 0.f;
+//            if (subpart->palpable)
+//            {
+//                color.r = 1.f;
+//                color.g = 0.45f;
+//                color.b = 0.f;
 
-            } else {
+//            } else {
 
-                // alle Objekte die zu klein sind (also keine Unterteilung in Intervalle möglich -> nicht greifbar)
-                // und nicht greifbare Objekte
-                color.r = 0.f;
-                color.g = 0.f;
-                color.b = 1.f;
+//                // alle Objekte die zu klein sind (also keine Unterteilung in Intervalle möglich -> nicht greifbar)
+//                // und nicht greifbare Objekte
+//                color.r = 0.f;
+//                color.g = 0.f;
+//                color.b = 1.f;
 
-            }
+//            }
 
-            SoNode* s = CreatePigmentedSubpartVisualization(skeleton, mesh, subpart, color);
-            segment->addChild(s);
+            SoNode* s = CreatePigmentedSubpartVisualization(skeleton, mesh, subpart);
+//            segment->addChild(s);
 
-            visu->addChild(segment);
+            visu->addChild(s);
 
         }
 
@@ -412,7 +412,7 @@ SoSeparator* CGALCoinVisualization::CreatePigmentedMeshVisualization(SkeletonPtr
 
         // "part" Segment einfärben
         SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(part));
-        SoNode* s = CreatePigmentedSubpartVisualization(skeleton, mesh, subpart, VirtualRobot::VisualizationFactory::Color(1.f, 0.f, 0.f));
+        SoNode* s = CreatePigmentedSubpartVisualization(skeleton, mesh, subpart);
         visu->addChild(s);
 
     }
@@ -420,12 +420,36 @@ SoSeparator* CGALCoinVisualization::CreatePigmentedMeshVisualization(SkeletonPtr
     return visu;
 }
 
-SoNode* CGALCoinVisualization::CreatePigmentedSubpartVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart, VirtualRobot::VisualizationFactory::Color color)
+SoNode* CGALCoinVisualization::CreatePigmentedSubpartVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart)
 {
-    map<SurfaceMeshVertexDescriptor, int> surfaceIndices;
-    map<SurfaceMeshFaceDescriptor, vector<int>> faceVertices;
 
-    VirtualRobot::TriMeshModelPtr triMesh(new VirtualRobot::TriMeshModel());
+    SoSeparator* res = new SoSeparator;
+    res->ref();
+
+    map<SurfaceMeshVertexDescriptor, int> surfaceIndices;
+    map<SurfaceMeshVertexDescriptor, SkeletonVertex> meshToSkeletonVertex;
+    map<SurfaceMeshFaceDescriptor, int> faceColor;
+
+    VirtualRobot::VisualizationFactory::Color color_segment;
+    VirtualRobot::VisualizationFactory::Color color_endpoint;
+    color_endpoint.r = 1.f;
+    color_endpoint.g = 0.f;
+    color_endpoint.b = 0.f;
+
+
+    if (subpart->palpable)
+    {
+        color_segment.r = 1.f;
+        color_segment.g = 0.45f;
+        color_segment.b = 0.f;
+
+    } else {
+
+        // alle Objekte die zu klein sind (also keine Unterteilung in Intervalle möglich -> nicht greifbar)
+        // und nicht greifbare Objekte
+        color_segment = VirtualRobot::VisualizationFactory::Color::Blue();
+
+    }
 
     int j = 0;
 
@@ -433,76 +457,87 @@ SoNode* CGALCoinVisualization::CreatePigmentedSubpartVisualization(SkeletonPtr s
     {
         SkeletonVertex v = vertex.first;
 
+        if (vertex.second->endpoint)
+        {
+            cout << "endpoint: " << v << endl;
+        }
+
         BOOST_FOREACH(SurfaceMeshVertexDescriptor vd, (*skeleton)[v].vertices) {
-            Point a = get(CGAL::vertex_point, *mesh, vd);
-            triMesh->addVertex(Eigen::Vector3f(a[0], a[1], a[2]));
             surfaceIndices[vd] = j;
+            meshToSkeletonVertex[vd] = v;
             j++;
         }
     }
 
 
-     map<SurfaceMeshVertexDescriptor, int> tmp = surfaceIndices;
-
-    for (auto& vertex : tmp)
+    for (auto vertex : surfaceIndices)
     {
         SurfaceMeshVertexDescriptor v = vertex.first;
 
         BOOST_FOREACH(SurfaceMeshFaceDescriptor f, CGAL::faces_around_target(mesh->halfedge(v), *mesh))
         {
-
-            if (faceVertices.count(f) > 0)
+            if (faceColor.count(f) > 0)
             {
-                //Face schon im Segment!
-                //nicht mehr prüfen
+                //Farbe für Face schon bestimmt!
                 continue;
             }
 
-            vector<int> index;
+            vector<SurfaceMeshVertexDescriptor> index;
+            vector<Eigen::Vector3f> face_coord;
+
             BOOST_FOREACH(SurfaceMeshHalfedgeDescriptor hd, CGAL::halfedges_around_face(mesh->halfedge(f), *mesh))
             {
+                index.push_back(mesh->target(hd));
 
-                if (surfaceIndices.count(mesh->target(hd)) > 0)
-                {
-                    index.push_back(surfaceIndices[mesh->target(hd)]);
-                    continue;
-
-                }
-
-                if (surfaceIndices.count(mesh->target(hd)) == 0 && !subpart->palpable)
-                {
-                    //bei nicht greifbaren Segmenten -> Face auffüllen!
-                    Point a = get(CGAL::vertex_point, *mesh, mesh->target(hd));
-                    triMesh->addVertex(Eigen::Vector3f(a[0], a[1], a[2]));
-                    surfaceIndices[mesh->target(hd)] = j;
-                    j++;
-                    index.push_back(surfaceIndices[mesh->target(hd)]);
-                    continue;
-                }
-
-                index.push_back(-1);
-
+                Point a = get(CGAL::vertex_point, *mesh, mesh->target(hd));
+                face_coord.push_back(Eigen::Vector3f(a[0], a[1], a[2]));
             }
-
 
             if (index.size() != 3)
             {
-                VR_ERROR << "No Trianlge in mesh!" << endl;
+                VR_ERROR << "No triangle in mesh!" << endl;
             }
 
-
-            if (index.at(0) >= 0 && index.at(1) >= 0 && index.at(2) >= 0)
+            //prüfe welche Farbe bzw. ob es gemalt wird!
+            if (meshToSkeletonVertex.count(index.at(0)) > 0 && meshToSkeletonVertex.count(index.at(1)) > 0 && meshToSkeletonVertex.count(index.at(2)) > 0)
             {
-                faceVertices[f] = index;
-                VirtualRobot::MathTools::TriangleFace face;
-                face.set(index.at(0), index.at(1), index.at(2));
-                triMesh->addFace(face);
+
+                if (meshToSkeletonVertex[index.at(0)] == meshToSkeletonVertex[index.at(1)] && meshToSkeletonVertex[index.at(1)] == meshToSkeletonVertex[index.at(2)])
+                {
+                    SkeletonVertex v_tmp = meshToSkeletonVertex[index.at(0)];
+
+                    if (subpart->skeletonPart[v_tmp]->endpoint)
+                    {
+
+                        // endpoint_color
+                        res->addChild(VirtualRobot::CoinVisualizationFactory::CreatePolygonVisualization(face_coord, color_endpoint, color_endpoint, 0.f));
+                    } else {
+                        res->addChild(VirtualRobot::CoinVisualizationFactory::CreatePolygonVisualization(face_coord, color_segment, color_segment, 0.f));
+                        // segment_color
+                    }
+                } else {
+                    //segment color
+                     res->addChild(VirtualRobot::CoinVisualizationFactory::CreatePolygonVisualization(face_coord, color_segment, color_segment, 0.f));
+                }
+
+            } else {
+
+                if (subpart->palpable)
+                {
+                    //keine Farbe
+                    continue;
+                } else {
+                    //segment_farbe
+                     res->addChild(VirtualRobot::CoinVisualizationFactory::CreatePolygonVisualization(face_coord, color_segment, color_segment, 0.f));
+                }
 
             }
+
+            faceColor[f] = 1;
         }
     }
 
-    return VirtualRobot::CoinVisualizationFactory::getCoinVisualization(triMesh, false, color, false);
+    return res;
 }
 
 SoIndexedLineSet* CGALCoinVisualization::CreateConnectionVisualization(SkeletonVertex& vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh)

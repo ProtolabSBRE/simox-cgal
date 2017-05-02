@@ -68,7 +68,7 @@ namespace SimoxCGAL
         static SoSeparator* CreateSegmentVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart, bool show_lines);
 
         static SoSeparator* CreatePigmentedMeshVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, std::vector<ObjectPartPtr> members, int part);
-        static SoNode* CreatePigmentedSubpartVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart, VirtualRobot::VisualizationFactory::Color color);
+        static SoNode* CreatePigmentedSubpartVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart);
 
         static SoSeparator* CreateSkeletonVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, bool showLines);
         static SoSeparator* ShowSkeletonPoint(SkeletonPtr skeleton, SurfaceMeshPtr mesh, int pointPosition);

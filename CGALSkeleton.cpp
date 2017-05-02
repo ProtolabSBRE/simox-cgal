@@ -57,8 +57,9 @@ void CGALSkeleton::calculateSkeleton()
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-    mcs.contract_until_convergence();
     Skeleton ske;
+    mcs.contract_until_convergence();
+    cout << "hallo" << endl;
     mcs.convert_to_skeleton(ske);
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();

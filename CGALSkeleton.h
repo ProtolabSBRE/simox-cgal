@@ -30,6 +30,8 @@
 
 #include "Inventor/nodes/SoSeparator.h"
 
+#define CGAL_MCFSKEL_INFO
+
 namespace SimoxCGAL {
 
     class CGALSkeleton

@@ -31,6 +31,7 @@
 #include "ObjectPart.h"
 #include "CGALSkeleton.h"
 #include "Segmentation/Skeleton/SkeletonPart.h"
+#include "GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h"
 
 #include <Inventor/nodes/SoIndexedLineSet.h>
 
@@ -73,10 +74,12 @@ namespace SimoxCGAL
         static SoSeparator* CreateSkeletonVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, bool showLines);
         static SoSeparator* ShowSkeletonPoint(SkeletonPtr skeleton, SurfaceMeshPtr mesh, int pointPosition);
 
-        static SoIndexedLineSet* CreateConnectionVisualization(SkeletonVertex &vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh);
-        static SoIndexedLineSet* CreatePolylinesVisualization(Eigen::Vector3f center, std::vector<Eigen::Vector3f> lines);
+        static SoSeparator* CreateConnectionVisualization(SkeletonVertex &vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh);
+        static SoSeparator* CreatePolylinesVisualization(Eigen::Vector3f center, std::vector<Eigen::Vector3f> lines);
 
         static SoSeparator* CreateGraspVisualization(VirtualRobot::GraspPtr grasp, VirtualRobot::ManipulationObjectPtr object);
+
+        static SoNode* CreateGraspIntervalVisualization(SimoxCGAL::SkeletonVertexResult result, SurfaceMeshPtr mesh, bool show_lines = true);
 
 
 

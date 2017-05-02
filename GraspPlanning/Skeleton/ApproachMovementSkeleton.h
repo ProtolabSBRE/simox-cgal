@@ -139,6 +139,8 @@ public:
     PlanningParameters getParameters();
     void setParameters(PlanningParameters &p);
 
+    SimoxCGAL::SkeletonVertexResult getInterval();
+
 protected:
 
     std::vector<Eigen::Vector3f> approachDirs;

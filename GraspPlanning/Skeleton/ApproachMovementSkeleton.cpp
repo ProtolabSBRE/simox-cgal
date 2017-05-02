@@ -190,7 +190,7 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
    // bool endpoint = false;
 
    // if (!endpoint)
-    {
+    //{
         SkeletonVertexResult resultPre = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Precision],verbose);
         bool valid = resultPre.valid;
         bool preshapeOK = false;
@@ -243,7 +243,7 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
             VR_INFO << "No grasp" << endl;
         }
 
-    } /*else {
+    /*} else {
 
         //working on endpoints
 
@@ -664,4 +664,10 @@ int ApproachMovementSkeleton::getApproachesNumber()
     return approachDirs.size();
 }
 
+SkeletonVertexResult ApproachMovementSkeleton::getInterval()
+{
+    return currentVertexResult;
 }
+
+}
+

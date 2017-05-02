@@ -78,7 +78,7 @@ ObjectSegmentationSkeletonWindow::ObjectSegmentationSkeletonWindow(const std::st
 
 ObjectSegmentationSkeletonWindow::~ObjectSegmentationSkeletonWindow()
 {
-    sceneSep->unref();
+//    sceneSep->unref();
 }
 
 void ObjectSegmentationSkeletonWindow::setupUI()
@@ -158,9 +158,9 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
         if (UI.checkBoxSkeleton->isChecked())
         {
             SoSeparator* s = new SoSeparator();
-            SoMaterial* color = new SoMaterial();
-            color->diffuseColor.setValue(1.f, 0.f, 0.f);
-            s->addChild(color);
+//            SoMaterial* color = new SoMaterial();
+//            color->diffuseColor.setValue(1.f, 0.f, 0.f);
+//            s->addChild(color);
             s->addChild(CGALCoinVisualization::CreateSkeletonVisualization(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.checkBoxLines->isChecked()));
             skeletonSep->addChild(s);
         }
@@ -405,11 +405,9 @@ void ObjectSegmentationSkeletonWindow::buildObject()
 
      VR_INFO << "Remeshing done.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
 
+     VR_INFO << "Converting mesh to cgal structure..." << endl;
 
-
-    VR_INFO << "Converting mesh to cgal structure..." << endl;
-
-    surfaceMesh = CGALMeshConverter::ConvertToSurfaceMesh(model);
+     surfaceMesh = CGALMeshConverter::ConvertToSurfaceMesh(model);
 
     VR_INFO << "Calculatin skeleton ..." << endl;
 
@@ -418,7 +416,6 @@ void ObjectSegmentationSkeletonWindow::buildObject()
     skeleton->calculateSkeleton();
 
     VR_INFO << "Done in " << skeleton->getTime() << " ms " << endl;
-
 
     VR_INFO << "Calculatin skeleton segmentation ..." << endl;
 

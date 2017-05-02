@@ -148,6 +148,7 @@ void SkeletonGraspPlannerWindow::setupUI()
     connect(UI.radioButtonSkeleton, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.radioButtonSegmentation, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxHand, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxGraspingInterval, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxGCP, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxVerbose, SIGNAL(clicked()), this, SLOT(setVerbose()));
 
@@ -338,11 +339,9 @@ void SkeletonGraspPlannerWindow::buildVisu()
         }
 
 
-        SoSeparator* g = this->approach->getVisualization();
-
-        if (g)
+        if (UI.checkBoxGraspingInterval->isChecked())
         {
-            skeletonSep->addChild(g);
+            skeletonSep->addChild(SimoxCGAL::CGALCoinVisualization::CreateGraspIntervalVisualization(approach->getInterval(), mesh->getMesh()));
         }
 
     }
@@ -814,6 +813,7 @@ void SkeletonGraspPlannerWindow::selectGrasp()
         Eigen::Matrix4f mGrasp = grasps->getGrasp(currentGrasp)->getTcpPoseGlobal(object->getGlobalPose());
         eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
         eefCloned->getEndEffector(eefName)->setPreshape(preshape);
+        //separator mit grasping changing
     }
 
     openEEF();

@@ -239,6 +239,10 @@ SoSeparator* CGALCoinVisualization::CreateSkeletonVisualization(SkeletonPtr skel
 {
     SoSeparator* visu = new SoSeparator;
     visu->ref();
+
+    SoMaterial* color = new SoMaterial();
+    color->diffuseColor.setValue(1.f, 0.f, 0.f);
+
     SoUnits* u = new SoUnits();
     u->units = SoUnits::MILLIMETERS;
     visu->addChild(u);
@@ -264,11 +268,13 @@ SoSeparator* CGALCoinVisualization::CreateSkeletonVisualization(SkeletonPtr skel
 
         if (showLines)
         {
-            SoIndexedLineSet* p_lineSet = CreateConnectionVisualization(v, skeleton, mesh);
+            SoSeparator* p_lineSet = CreateConnectionVisualization(v, skeleton, mesh);
+            p_lineSet->addChild(color);
             visu->addChild(p_lineSet);
         }
 
-        SoIndexedLineSet* lineSet = CreatePolylinesVisualization(center, lines);
+        SoSeparator* lineSet = CreatePolylinesVisualization(center, lines);
+        lineSet->addChild(color);
         visu->addChild(lineSet);
         lines.clear();
 
@@ -349,11 +355,11 @@ SoSeparator* CGALCoinVisualization::CreateSegmentVisualization(SkeletonPtr skele
 
         if (show_lines)
         {
-            SoIndexedLineSet* p_lineSet = CreateConnectionVisualization(p->vertex, skeleton, mesh);
+            SoSeparator* p_lineSet = CreateConnectionVisualization(p->vertex, skeleton, mesh);
             visu->addChild(p_lineSet);
         }
 
-        SoIndexedLineSet* t = CreatePolylinesVisualization(center, lines);
+        SoSeparator* t = CreatePolylinesVisualization(center, lines);
         visu->addChild(t);
         lines.clear();
     }
@@ -540,7 +546,7 @@ SoNode* CGALCoinVisualization::CreatePigmentedSubpartVisualization(SkeletonPtr s
     return res;
 }
 
-SoIndexedLineSet* CGALCoinVisualization::CreateConnectionVisualization(SkeletonVertex& vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh)
+SoSeparator* CGALCoinVisualization::CreateConnectionVisualization(SkeletonVertex& vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh)
 {
     vector<Eigen::Vector3f> lines;
     Eigen::Vector3f center((*skeleton)[vertex].point[0], (*skeleton)[vertex].point[1], (*skeleton)[vertex].point[2]);
@@ -555,33 +561,54 @@ SoIndexedLineSet* CGALCoinVisualization::CreateConnectionVisualization(SkeletonV
     return CreatePolylinesVisualization(center, lines);
 }
 
-SoIndexedLineSet* CGALCoinVisualization::CreatePolylinesVisualization(Eigen::Vector3f center, vector<Eigen::Vector3f> lines)
+SoSeparator* CGALCoinVisualization::CreatePolylinesVisualization(Eigen::Vector3f center, vector<Eigen::Vector3f> lines)
 {
+    SoSeparator* res = new SoSeparator;
+    res->ref();
+
+    SoUnits* u = new SoUnits();
+    u->units = SoUnits::MILLIMETERS;
+    res->addChild(u);
+
+    if (lines.size() == 0)
+        return res;
 
     SoIndexedLineSet* inLineSet = new SoIndexedLineSet;
-    SoVertexProperty* vp = new SoVertexProperty;
+    SoVertexProperty* vertexProperty = new SoVertexProperty;
 
-    SbVec3f pt(center[0], center[1], center[2]);
-    vp->vertex.set1Value(0, pt);
+    SbVec3f* vertexPositions = new SbVec3f[1 + lines.size()];
+    vertexPositions[0].setValue(center[0], center[1], center[2]);
 
-//    int j = 0;
-    int k = 1;
+    for (int i = 0; i < lines.size(); i++)
+    {
+        vertexPositions[i + 1].setValue(lines.at(i)[0], lines.at(i)[1], lines.at(i)[2]);
+    }
 
-    for (size_t i = 0; i < lines.size(); i++) {
-        Eigen::Vector3f p = lines.at(i);
+    vertexProperty->vertex.setValues(0, 1 + lines.size(), vertexPositions);
+    inLineSet->vertexProperty = vertexProperty;
 
-        SbVec3f pt1(p[0], p[1], p[2]);
-        inLineSet->coordIndex.set1Value(3*i, 0);
-        inLineSet->coordIndex.set1Value(3*i + 1, k);
-        inLineSet->coordIndex.set1Value(3*i + 2, -1);
-        vp->vertex.set1Value(k, pt1);
-//        j++;
-        k++;
+    delete[] vertexPositions;
+
+
+    int32_t* l = new int32_t[lines.size() * 3];
+
+    for (int32_t i = 0; i < (int32_t)lines.size(); i++)
+    {
+        l[i * 3] = 0;
+        l[i * 3 + 1] = i + 1;
+        l[i * 3 + 2] = -1;
 
     }
 
-    inLineSet->vertexProperty.setValue(vp);
-    return inLineSet;
+    //add line vector
+    inLineSet->coordIndex.setValues(0, lines.size() * 3, l);
+    res->addChild(inLineSet);
+
+    delete[] l;
+
+
+//    res->unrefNoDelete();
+    return res;
 }
 
 SoSeparator* CGALCoinVisualization::ShowSkeletonPoint(SkeletonPtr skeleton, SurfaceMeshPtr mesh, int pointPosition)
@@ -615,7 +642,7 @@ SoSeparator* CGALCoinVisualization::ShowSkeletonPoint(SkeletonPtr skeleton, Surf
     SoMaterial* color = new SoMaterial;
     color->diffuseColor.setValue(0.f, 1.f, 0.f);
     l->addChild(color);
-    SoIndexedLineSet* lines = CreateConnectionVisualization(vertex, skeleton, mesh);
+    SoSeparator* lines = CreateConnectionVisualization(vertex, skeleton, mesh);
     l->addChild(lines);
     s->addChild(l);
 
@@ -704,6 +731,71 @@ SoSeparator* CGALCoinVisualization::CreateGraspVisualization(GraspPtr grasp, Man
     delete[] colorIndex;
 
     return sep;
+}
+
+SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexResult result, SurfaceMeshPtr mesh, bool show_lines)
+{
+    SoSeparator* res = new SoSeparator;
+    res->ref();
+
+    SoSeparator* lines = new SoSeparator;
+
+    SoMaterial* color = new SoMaterial;
+    color->diffuseColor.setValue(1.f, 0.f, 0.f);
+    lines->addChild(color);
+
+    SkeletonVertex vertex;
+    Point p;
+
+    Eigen::Vector3f center;
+    Eigen::Vector3f nb;
+
+    vector<Eigen::Vector3f> points;
+    int neighbors = 0;
+
+    SkeletonPartPtr part = result.part;
+
+    for (int i = 0; i < result.interval.size(); i++)
+    {
+        vertex = result.interval.at(i); //center
+        p = (*result.skeleton)[vertex].point;
+        center = Eigen::Vector3f(p[0], p[1], p[2]);
+
+        for (SkeletonVertex n : part->skeletonPart[vertex]->neighbor)
+        {
+            if (find(result.interval.begin(), result.interval.end(), n) != result.interval.end())
+            {
+                p = (*result.skeleton)[n].point;
+                nb = Eigen::Vector3f(p[0], p[1], p[2]);
+                points.push_back(nb);
+                neighbors++;
+            }
+        }
+
+        //zeichne Linie vom Punkt!
+        lines->addChild(CreatePolylinesVisualization(center, points));
+
+        if (show_lines)
+            res->addChild(CreateConnectionVisualization(vertex, result.skeleton, mesh));
+
+        if (neighbors == 1 && !part->skeletonPart[vertex]->endpoint)
+        {
+            //interval end -> create plane!
+            res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(center, nb - center, 30.f, 0.f, false, 1.f, 0.f, 0.f));
+        }
+
+        points.clear();
+        neighbors = 0;
+    }
+
+    p = (*result.skeleton)[result.skeletonPoint->vertex].point;
+    center = Eigen::Vector3f(p[0], p[1], p[2]);
+
+    res->addChild(CoinVisualizationFactory::CreateVertexVisualization(center, 5.f, 0.f, 0.f, 1.f, 0.f));
+
+    res->addChild(lines);
+
+    return res;
 }
 
 }

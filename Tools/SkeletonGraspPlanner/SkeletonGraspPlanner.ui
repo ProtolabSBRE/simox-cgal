@@ -41,7 +41,7 @@
         <rect>
          <x>20</x>
          <y>0</y>
-         <width>171</width>
+         <width>111</width>
          <height>31</height>
         </rect>
        </property>
@@ -53,9 +53,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>160</y>
+         <y>140</y>
          <width>291</width>
-         <height>261</height>
+         <height>241</height>
         </rect>
        </property>
        <property name="title">
@@ -252,9 +252,9 @@
       <widget class="QPushButton" name="pushButtonLoadData">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>30</y>
-         <width>171</width>
+         <x>160</x>
+         <y>0</y>
+         <width>111</width>
          <height>31</height>
         </rect>
        </property>
@@ -268,8 +268,8 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>60</y>
+         <x>0</x>
+         <y>40</y>
          <width>191</width>
          <height>91</height>
         </rect>
@@ -346,9 +346,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>430</y>
+         <y>390</y>
          <width>281</width>
-         <height>161</height>
+         <height>201</height>
         </rect>
        </property>
        <property name="title">
@@ -445,7 +445,7 @@
         <property name="geometry">
          <rect>
           <x>160</x>
-          <y>120</y>
+          <y>160</y>
           <width>71</width>
           <height>31</height>
          </rect>
@@ -461,7 +461,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>130</y>
+          <y>170</y>
           <width>121</width>
           <height>16</height>
          </rect>
@@ -480,7 +480,20 @@
          </rect>
         </property>
         <property name="text">
-         <string>grasping interval</string>
+         <string>Grasping Interval</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="checkBoxGraspingPlane">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>281</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Grasping Plane with projected points</string>
         </property>
        </widget>
       </widget>

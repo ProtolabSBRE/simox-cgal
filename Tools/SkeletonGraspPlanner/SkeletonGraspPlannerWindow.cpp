@@ -149,6 +149,7 @@ void SkeletonGraspPlannerWindow::setupUI()
     connect(UI.radioButtonSegmentation, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxHand, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxGraspingInterval, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxGraspingPlane, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxGCP, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxVerbose, SIGNAL(clicked()), this, SLOT(setVerbose()));
 
@@ -342,6 +343,11 @@ void SkeletonGraspPlannerWindow::buildVisu()
         if (UI.checkBoxGraspingInterval->isChecked())
         {
             skeletonSep->addChild(SimoxCGAL::CGALCoinVisualization::CreateGraspIntervalVisualization(approach->getInterval(), mesh->getMesh()));
+        }
+
+        if (UI.checkBoxGraspingPlane->isChecked())
+        {
+            skeletonSep->addChild(CGALCoinVisualization::CreateProjectedPointsVisualization(approach->getInterval(), mesh->getMesh()));
         }
 
     }
@@ -617,153 +623,6 @@ void SkeletonGraspPlannerWindow::showGrasps()
 {
     buildVisu();
 }
-
-//void SkeletonGraspPlannerWindow::load()
-//{
-//    VR_INFO << "Loading object.." << std::endl;
-
-//    //select Object!
-//    QString path("/common/homes/students/koch/Dokumente/ba_eduard_koch");
-//    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object File"), path, tr("XML Files (*.xml)"));
-//    this->objectFile = std::string(fi.toStdString());
-//    //delete old data
-//    skeletonDefault->clear();
-//    mesh.clear();
-
-//    loadObject();
-////    resetScenery();
-////    initMesh();
-//    VR_INFO << "Loading object done." << std::endl;
-
-//    //load Models
-//    VR_INFO << "Loading skeleton ...\n";
-
-//    QString path_data("/common/homes/students/koch/Dokumente/ba_eduard_koch/skeletons_data");
-//    QString fi_data = QFileDialog::getOpenFileName(this, tr("Open Skeleton File"), path_data, tr("XML Files (*.xml)"));
-//    string file(fi_data.toLatin1());
-
-//    cout << "file: " << file << endl;
-//    double remesh = -1.;
-
-
-
-//    //begin loading.
-//    //load file
-//    std::ifstream in(file.c_str());
-//    THROW_VR_EXCEPTION_IF(!in.is_open(), "Could not open XML file:" << file);
-
-//    std::stringstream buffer;
-//    buffer << in.rdbuf();
-//    std::string objectXML(buffer.str());
-//    in.close();
-
-
-//    char* y = new char[objectXML.size() + 1];
-//    strncpy(y, objectXML.c_str(), objectXML.size() + 1);
-
-
-//    try {
-
-//        rapidxml::xml_document<char> doc;    // character type defaults to char
-//        doc.parse<0>(y);    // 0 means default parse flags
-//        rapidxml::xml_node<char>* objectXMLFile = doc.first_node("Skeleton");
-//        THROW_VR_EXCEPTION_IF(!objectXMLFile, "No <Skeleton> tag in XML definition");
-//        //inside the <Skeleton/> node
-
-//        string object(BaseIO::processNameAttribute(objectXMLFile));
-//        cout << "\tobject: " << object << endl;
-
-//        THROW_VR_EXCEPTION_IF(object.empty(), "no attribute 'name'\n");
-//        THROW_VR_EXCEPTION_IF(object != this->object->getName(), "Wrong file is loaded.\n");
-
-//        rapidxml::xml_node<>* remeshingNode = objectXMLFile->first_node("Remeshing", 0, false);
-//        remesh = BaseIO::processFloatAttribute("value", remeshingNode);
-
-//        rapidxml::xml_node<>* nodeCGALMesh = objectXMLFile->first_node("CGAL_Mesh", 0, false);
-
-//        if (nodeCGALMesh)
-//        {
-//            rapidxml::xml_node<>* m = nodeCGALMesh->first_node("File", 0, false);
-//            rapidxml::xml_attribute<>* m_att = m->first_attribute("file", 0, false);
-//            string file(m_att->value());
-//            createMeshCGAL(file);
-
-//        } else
-//        {
-//            THROW_VR_EXCEPTION("No CGAL_Triangle_Mesh found.\n");
-//        }
-
-
-//        rapidxml::xml_node<>* nodeSkeletonDefault = objectXMLFile->first_node("SkeletonDefault", 0, false);
-
-//        if (nodeSkeletonDefault)
-//        {
-//            rapidxml::xml_node<>* node_default = nodeSkeletonDefault->first_node("File", 0, false);
-//            rapidxml::xml_attribute<>* attribute_file = node_default->first_attribute("file", 0, false);
-//            string file(attribute_file->value());
-//            skeletonDefault->setSkeleton(SkeletonIO::loadSkeleton(file));
-
-//        } else
-//        {
-//            THROW_VR_EXCEPTION("No skeleton with default parameters found.\n");
-//        }
-
-////        rapidxml::xml_node<>* nodeSkeletonParams = objectXMLFile->first_node("SkeletonParameters", 0, false);
-
-////        if (nodeSkeletonParams)
-////        {
-////            rapidxml::xml_node<>* node_default = nodeSkeletonParams->first_node("File", 0, false);
-////            rapidxml::xml_attribute<>* attribute_file = node_default->first_attribute("file", 0, false);
-////            string file(attribute_file->value());
-////            polyhedronParameters.clear();
-////            polyhedronParameters.setSkeleton(SkeletonIO::loadSkeleton(file));
-
-////        }else
-////        {
-////            THROW_VR_EXCEPTION("No skeleton with own parameters found.\n");
-////        }
-
-//        rapidxml::xml_node<>* nodeSeg = objectXMLFile->first_node("Segmentation", 0, false);
-
-//        if (nodeSeg)
-//        {
-//            rapidxml::xml_node<>* node = nodeSeg->first_node("File", 0, false);
-//            rapidxml::xml_attribute<>* attribute_file = node->first_attribute("file", 0, false);
-//            string file(attribute_file->value());
-//            segmentation = SegmentedIO::loadSegmentation(file);
-
-//        }else
-//        {
-//            THROW_VR_EXCEPTION("No segmentation found.\n");
-//        }
-
-//    }
-//    catch (rapidxml::parse_error& e)
-//    {
-//        delete[] y;
-//        THROW_VR_EXCEPTION("Could not parse data in xml definition" << endl
-//                           << "Error message:" << e.what() << endl
-//                           << "Position: " << endl << e.where<char>() << endl);
-//    }
-//    catch (VirtualRobotException& e)
-//    {
-//        cout << " ERROR while loading object" << endl;
-//        cout << e.what();
-//        return;
-//    }
-
-//    initPlanner();
-//    loadTriMesh();
-
-//    std::cout << "\tremesh: " <<  remesh << std::endl;
-
-//    UI.groupBoxSkeleton->setEnabled(true);
-//    UI.radioButtonNothing->setChecked(true);
-
-//    VR_INFO << "Loading complete.\n";
-
-//    buildVisu();
-//}
 
 void SkeletonGraspPlannerWindow::save()
 {

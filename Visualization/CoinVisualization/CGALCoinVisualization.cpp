@@ -16,11 +16,14 @@
 #include <Inventor/nodes/SoCoordinate3.h>
 #include <Inventor/SbColor.h>
 #include <Inventor/nodes/SoTransform.h>
+#include <Inventor/nodes/SoTranslation.h>
 
 #include <Segmentation/Skeleton/SkeletonPart.h>
+#include <GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h>
 
 using namespace std;
 using namespace VirtualRobot;
+using namespace Eigen;
 
 namespace SimoxCGAL
 {
@@ -388,28 +391,7 @@ SoSeparator* CGALCoinVisualization::CreatePigmentedMeshVisualization(SkeletonPtr
         {
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(i));
 
-//            SoSeparator* segment = new SoSeparator();
-//            VirtualRobot::VisualizationFactory::Color color;
-
-//            if (subpart->palpable)
-//            {
-//                color.r = 1.f;
-//                color.g = 0.45f;
-//                color.b = 0.f;
-
-//            } else {
-
-//                // alle Objekte die zu klein sind (also keine Unterteilung in Intervalle möglich -> nicht greifbar)
-//                // und nicht greifbare Objekte
-//                color.r = 0.f;
-//                color.g = 0.f;
-//                color.b = 1.f;
-
-//            }
-
             SoNode* s = CreatePigmentedSubpartVisualization(skeleton, mesh, subpart);
-//            segment->addChild(s);
-
             visu->addChild(s);
 
         }
@@ -733,7 +715,7 @@ SoSeparator* CGALCoinVisualization::CreateGraspVisualization(GraspPtr grasp, Man
     return sep;
 }
 
-SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexResult result, SurfaceMeshPtr mesh, bool show_lines)
+SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexResult result, SurfaceMeshPtr mesh, bool showPoints)
 {
     SoSeparator* res = new SoSeparator;
     res->ref();
@@ -775,13 +757,19 @@ SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexRe
         //zeichne Linie vom Punkt!
         lines->addChild(CreatePolylinesVisualization(center, points));
 
-        if (show_lines)
-            res->addChild(CreateConnectionVisualization(vertex, result.skeleton, mesh));
+        if (showPoints)
+        {
+            for(SurfaceMeshVertexDescriptor vd : (*result.skeleton)[vertex].vertices)
+            {
+                 Point a = get(CGAL::vertex_point, *mesh, vd);
+                 res->addChild(CoinVisualizationFactory::CreateVertexVisualization(Vector3f(a[0], a[1], a[2]), 3.f, 0.f, 1.f, 0.f, 1.f));
+            }
+        }
 
         if (neighbors == 1 && !part->skeletonPart[vertex]->endpoint)
         {
             //interval end -> create plane!
-            res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(center, nb - center, 30.f, 0.f, false, 1.f, 0.f, 0.f));
+            res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(center, nb - center, 100.f, 0.f, false, 1.f, 0.f, 0.f));
         }
 
         points.clear();
@@ -792,10 +780,43 @@ SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexRe
     center = Eigen::Vector3f(p[0], p[1], p[2]);
 
     res->addChild(CoinVisualizationFactory::CreateVertexVisualization(center, 5.f, 0.f, 0.f, 1.f, 0.f));
+    res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(result.graspingPlane.p, result.graspingPlane.n, 100.f, 0.f, false, 0.f, 1.f, 0.f));
 
     res->addChild(lines);
 
     return res;
+}
+
+SoNode* CGALCoinVisualization::CreateProjectedPointsVisualization(SkeletonVertexResult result, SurfaceMeshPtr mesh)
+{
+    SoSeparator* res = new SoSeparator;
+    res->ref();
+
+    vector<Vector3f> points;
+
+    SkeletonVertexAnalyzer::getPlanesWithMeshPoints(result.skeleton, mesh, result.interval, result.graspingPlane, points);
+
+    for (int i = 0; i < points.size(); i++)
+        res->addChild(CoinVisualizationFactory::CreateVertexVisualization(points.at(i), 3.f, 0.f, 1.f, 0.f, 1.f));
+
+
+     res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(result.graspingPlane.p, result.graspingPlane.n, 200.f, 0.f, false, 0.f, 1.f, 0.f));
+
+    SoSeparator* t = new SoSeparator;
+    SoUnits* u = new SoUnits();
+    u->units = SoUnits::MILLIMETERS;
+    t->addChild(u);
+
+    SoTranslation* trans = new SoTranslation;
+    trans->translation.setValue(result.graspingPlane.p[0], result.graspingPlane.p[1], result.graspingPlane.p[2]);
+    t->addChild(trans);
+
+    t->addChild(CoinVisualizationFactory::CreateArrow(result.pca.pca1, result.pca.t1, 3.f, VisualizationFactory::Color::Red()));
+    t->addChild(CoinVisualizationFactory::CreateArrow(result.pca.pca2, result.pca.t2, 3.f, VisualizationFactory::Color::Green()));
+
+    res->addChild(t);
+    return res;
+
 }
 
 }

@@ -79,12 +79,14 @@ namespace SimoxCGAL
 
         static SoSeparator* CreateGraspVisualization(VirtualRobot::GraspPtr grasp, VirtualRobot::ManipulationObjectPtr object);
 
-        static SoNode* CreateGraspIntervalVisualization(SimoxCGAL::SkeletonVertexResult result, SurfaceMeshPtr mesh, bool show_lines = true);
+        static SoNode* CreateGraspIntervalVisualization(SimoxCGAL::SkeletonVertexResult result, SurfaceMeshPtr mesh, bool showPoints = true);
 
+        static SoNode* CreateProjectedPointsVisualization(SimoxCGAL::SkeletonVertexResult result, SurfaceMeshPtr mesh);
 
 
     protected:
         static SoSeparator* CreatePolygonVisualization(const std::vector<Eigen::Vector3f>& points, VirtualRobot::VisualizationFactory::PhongMaterial mat, VirtualRobot::VisualizationFactory::Color colorLine, float lineSize);
+
 
         CGALCoinVisualization() {}
         ~CGALCoinVisualization() {}

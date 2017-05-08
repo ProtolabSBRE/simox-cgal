@@ -138,7 +138,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
     return data;
 }
 
-bool MeshSkeletonData::saveSkeletonData(const std::string& basePath, const std::string& segObjectFile, const std::string& manipObjectFile, CGALSkeletonPtr skeleton, CGALSurfaceMeshPtr mesh, SegmentedObjectPtr segmentedObject)
+bool MeshSkeletonData::saveSkeletonData(/*const std::string& basePath,*/ const std::string& segObjectFile, const std::string& manipObjectFile, CGALSkeletonPtr skeleton, CGALSurfaceMeshPtr mesh, SegmentedObjectPtr segmentedObject)
 {
     boost::filesystem::path filenameBaseComplete(segObjectFile);
     cout << "Filename: " << filenameBaseComplete.filename() << endl;

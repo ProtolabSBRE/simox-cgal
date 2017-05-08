@@ -234,12 +234,19 @@ void SkeletonGraspPlannerWindow::buildVisu()
 
     if (eefCloned && UI.checkBoxHand->isChecked())
     {
+        // disable all other preshape GCP nodes
+        for (std::string &preshapeName : eefCloned->getEndEffector(eefName)->getPreshapes())
+        {
+            RobotConfigPtr config = eefCloned->getEndEffector(eefName)->getPreshape(preshapeName);
+            if (config->getTCP())
+                config->getTCP()->showCoordinateSystem(false);
+        }
         if (eefCloned->getEndEffector(eefName)->hasPreshape(preshape))
         {
             RobotConfigPtr config = eefCloned->getEndEffector(eefName)->getPreshape(preshape);
             std::string gcp = "GCP";
-            config->getTCP()->showCoordinateSystem(UI.checkBoxGCP->isChecked(), 0.5f, &gcp);
-
+            if (config->getTCP())
+                config->getTCP()->showCoordinateSystem(UI.checkBoxGCP->isChecked(), 0.5f, &gcp);
         }
 
         visualizationRobot = eefCloned->getVisualization<CoinVisualization>(colModel);

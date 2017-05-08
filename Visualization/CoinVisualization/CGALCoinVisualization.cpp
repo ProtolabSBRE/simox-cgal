@@ -561,7 +561,7 @@ SoSeparator* CGALCoinVisualization::CreatePolylinesVisualization(Eigen::Vector3f
     SbVec3f* vertexPositions = new SbVec3f[1 + lines.size()];
     vertexPositions[0].setValue(center[0], center[1], center[2]);
 
-    for (int i = 0; i < lines.size(); i++)
+    for (unsigned int i = 0; i < lines.size(); i++)
     {
         vertexPositions[i + 1].setValue(lines.at(i)[0], lines.at(i)[1], lines.at(i)[2]);
     }
@@ -607,7 +607,7 @@ SoSeparator* CGALCoinVisualization::ShowSkeletonPoint(SkeletonPtr skeleton, Surf
         return s;
     }
 
-    if (pointPosition >= num_vertices(*skeleton) || pointPosition < 0)
+    if (pointPosition >= (int)(num_vertices(*skeleton)) || pointPosition < 0)
     {
         VR_INFO << "Point position doesn't exist in skeleton graph. Please select another position." << endl;
         VR_INFO << "Range are from 0 to " << (num_vertices(*skeleton) - 1) << endl;
@@ -715,7 +715,12 @@ SoSeparator* CGALCoinVisualization::CreateGraspVisualization(GraspPtr grasp, Man
     return sep;
 }
 
-SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexResult result, SurfaceMeshPtr mesh, bool showPoints)
+SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexResult result,
+                                                                SurfaceMeshPtr mesh,
+                                                                bool showPoints,
+                                                                VirtualRobot::VisualizationFactory::Color colorPoints,
+                                                                VirtualRobot::VisualizationFactory::Color colorPlane1,
+                                                                VirtualRobot::VisualizationFactory::Color colorPlane2)
 {
     SoSeparator* res = new SoSeparator;
     res->ref();
@@ -737,7 +742,7 @@ SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexRe
 
     SkeletonPartPtr part = result.part;
 
-    for (int i = 0; i < result.interval.size(); i++)
+    for (unsigned int i = 0; i < result.interval.size(); i++)
     {
         vertex = result.interval.at(i); //center
         p = (*result.skeleton)[vertex].point;
@@ -762,14 +767,14 @@ SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexRe
             for(SurfaceMeshVertexDescriptor vd : (*result.skeleton)[vertex].vertices)
             {
                  Point a = get(CGAL::vertex_point, *mesh, vd);
-                 res->addChild(CoinVisualizationFactory::CreateVertexVisualization(Vector3f(a[0], a[1], a[2]), 3.f, 0.f, 1.f, 0.f, 1.f));
+                 res->addChild(CoinVisualizationFactory::CreateVertexVisualization(Vector3f(a[0], a[1], a[2]), 3.f, colorPoints.transparency, colorPoints.r, colorPoints.g, colorPoints.b));
             }
         }
 
         if (neighbors == 1 && !part->skeletonPart[vertex]->endpoint)
         {
             //interval end -> create plane!
-            res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(center, nb - center, 100.f, 0.f, false, 1.f, 0.f, 0.f));
+            res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(center, nb - center, 100.f, colorPlane1.transparency, false, colorPlane1.r, colorPlane1.g, colorPlane1.b));
         }
 
         points.clear();
@@ -779,15 +784,15 @@ SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexRe
     p = (*result.skeleton)[result.skeletonPoint->vertex].point;
     center = Eigen::Vector3f(p[0], p[1], p[2]);
 
-    res->addChild(CoinVisualizationFactory::CreateVertexVisualization(center, 5.f, 0.f, 0.f, 1.f, 0.f));
-    res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(result.graspingPlane.p, result.graspingPlane.n, 100.f, 0.f, false, 0.f, 1.f, 0.f));
+    res->addChild(CoinVisualizationFactory::CreateVertexVisualization(center, 5.f, colorPlane2.transparency, colorPlane2.r, colorPlane2.g, colorPlane2.b));
+    res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(result.graspingPlane.p, result.graspingPlane.n, 100.f, colorPlane2.transparency, false, colorPlane2.r, colorPlane2.g, colorPlane2.b));
 
     res->addChild(lines);
 
     return res;
 }
 
-SoNode* CGALCoinVisualization::CreateProjectedPointsVisualization(SkeletonVertexResult result, SurfaceMeshPtr mesh)
+SoNode* CGALCoinVisualization::CreateProjectedPointsVisualization(SkeletonVertexResult result, SurfaceMeshPtr mesh, VirtualRobot::VisualizationFactory::Color colorPoints, VirtualRobot::VisualizationFactory::Color colorPlane)
 {
     SoSeparator* res = new SoSeparator;
     res->ref();
@@ -796,11 +801,11 @@ SoNode* CGALCoinVisualization::CreateProjectedPointsVisualization(SkeletonVertex
 
     SkeletonVertexAnalyzer::getPlanesWithMeshPoints(result.skeleton, mesh, result.interval, result.graspingPlane, points);
 
-    for (int i = 0; i < points.size(); i++)
-        res->addChild(CoinVisualizationFactory::CreateVertexVisualization(points.at(i), 3.f, 0.f, 1.f, 0.f, 1.f));
+    for (unsigned int i = 0; i < points.size(); i++)
+        res->addChild(CoinVisualizationFactory::CreateVertexVisualization(points.at(i), 3.f, colorPoints.transparency, colorPoints.r, colorPoints.g, colorPoints.b));
 
 
-     res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(result.graspingPlane.p, result.graspingPlane.n, 200.f, 0.f, false, 0.f, 1.f, 0.f));
+     res->addChild(CoinVisualizationFactory::CreatePlaneVisualization(result.graspingPlane.p, result.graspingPlane.n, 200.f, colorPlane.transparency, false, colorPlane.r, colorPlane.g, colorPlane.b));
 
     SoSeparator* t = new SoSeparator;
     SoUnits* u = new SoUnits();

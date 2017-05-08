@@ -3,7 +3,8 @@
 		<File type='inventor'>optimized_poisson_texture_mapped_mesh.wrl</File>
 	</Visualization>
 	<CollisionModel>
-	</CollisionModel>
+                <File type='inventor'>optimized_poisson_texture_mapped_mesh.wrl</File>
+        </CollisionModel>
 	<GraspSet name='Grasp Planner - Hand R' RobotType='Armar3' EndEffector='Hand R'>
 		<Grasp name='Grasp 1' quality='0.0675982' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Precision Preshape'>
 			<Transform>

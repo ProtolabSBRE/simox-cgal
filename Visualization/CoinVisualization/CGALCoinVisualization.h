@@ -79,9 +79,17 @@ namespace SimoxCGAL
 
         static SoSeparator* CreateGraspVisualization(VirtualRobot::GraspPtr grasp, VirtualRobot::ManipulationObjectPtr object);
 
-        static SoNode* CreateGraspIntervalVisualization(SimoxCGAL::SkeletonVertexResult result, SurfaceMeshPtr mesh, bool showPoints = true);
+        static SoNode* CreateGraspIntervalVisualization(SimoxCGAL::SkeletonVertexResult result,
+                                                        SurfaceMeshPtr mesh,
+                                                        bool showPoints = true,
+                                                        VirtualRobot::VisualizationFactory::Color colorPoints = VirtualRobot::VisualizationFactory::Color::Red(),
+                                                        VirtualRobot::VisualizationFactory::Color colorPlane1 = VirtualRobot::VisualizationFactory::Color::Red(),
+                                                        VirtualRobot::VisualizationFactory::Color colorPlane2 = VirtualRobot::VisualizationFactory::Color::Green());
 
-        static SoNode* CreateProjectedPointsVisualization(SimoxCGAL::SkeletonVertexResult result, SurfaceMeshPtr mesh);
+        static SoNode* CreateProjectedPointsVisualization(SimoxCGAL::SkeletonVertexResult result,
+                                                          SurfaceMeshPtr mesh,
+                                                          VirtualRobot::VisualizationFactory::Color colorPoints = VirtualRobot::VisualizationFactory::Color::Red(),
+                                                          VirtualRobot::VisualizationFactory::Color colorPlane = VirtualRobot::VisualizationFactory::Color::Green());
 
 
     protected:

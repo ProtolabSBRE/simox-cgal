@@ -51,6 +51,9 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
     doc.parse<0>(y);    // 0 means default parse flags
     rapidxml::xml_node<char>* objectXMLFile = doc.first_node("SimoxCGAL-SkeletonTool");
 
+    THROW_VR_EXCEPTION_IF(!objectXMLFile, "Could not find XML tag: SimoxCGAL-SkeletonTool");
+
+
     rapidxml::xml_node<>* objectNode = objectXMLFile->first_node("Object", 0, false);
 
     MeshSkeletonDataPtr data(new MeshSkeletonData());
@@ -73,7 +76,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
 
     } else
     {
-        THROW_VR_EXCEPTION("No ObjectFile found.\n");
+        THROW_VR_EXCEPTION("No XML tag 'Object' found.\n");
     }
 
 
@@ -90,7 +93,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
 
     } else
     {
-        THROW_VR_EXCEPTION("No mesh found.\n");
+        THROW_VR_EXCEPTION("No mesh found (CGAL-Mesh)");
     }
 
 
@@ -108,7 +111,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
 
     }else
     {
-        THROW_VR_EXCEPTION("No skeleton found.\n");
+        THROW_VR_EXCEPTION("No skeleton found (CGAL-Skeleton)");
     }
 
 
@@ -129,7 +132,7 @@ MeshSkeletonDataPtr MeshSkeletonData::loadSkeletonData(const std::string &filena
 
     }else
     {
-        THROW_VR_EXCEPTION("No segmented skeleton found.\n");
+        THROW_VR_EXCEPTION("No segmented skeleton found (CGAL-SkeletonSegmentation)");
     }
 
 

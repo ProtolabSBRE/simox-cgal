@@ -289,7 +289,7 @@ void ObjectSegmentationSkeletonWindow::loadData()
     QString fi = QFileDialog::getOpenFileName(this, tr("Open Skeleton File"), QString(), tr("XML Files (*.xml)"));
     string file(fi.toLatin1());
 
-    cout << "file: " << file << endl;
+    VR_INFO << "Loading from file: " << file << endl;
 
     try {
         MeshSkeletonDataPtr data = MeshSkeletonData::loadSkeletonData(file);
@@ -302,14 +302,20 @@ void ObjectSegmentationSkeletonWindow::loadData()
         }
     } catch(rapidxml::parse_error& e)
     {
-        THROW_VR_EXCEPTION("Could not parse data in xml definition" << endl
+        VR_ERROR << "Could not parse data in xml definition" << endl
                            << "Error message:" << e.what() << endl
-                           << "Position: " << endl << e.where<char>() << endl);
+                           << "Position: " << endl << e.where<char>() << endl;
+        return;
     }
     catch (VirtualRobotException& e)
     {
-        cout << " ERROR while loading object" << endl;
-        cout << e.what();
+        VR_ERROR << " ERROR while loading object" << endl;
+        VR_ERROR << e.what();
+        return;
+    }
+    catch (...)
+    {
+        VR_ERROR << " ERROR while loading object" << endl;
         return;
     }
 
@@ -328,7 +334,6 @@ void ObjectSegmentationSkeletonWindow::loadData()
     UI.comboBoxSegmentation->addItem(QString("No segment"));
 
     UI.comboBoxSegmentation->setCurrentIndex(segSkeleton->getSegmentedObject()->getObjectParts().size() + 1);
-
 
     VR_INFO << "Loading complete.\n";
 

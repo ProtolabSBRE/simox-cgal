@@ -32,6 +32,7 @@
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Polyhedron_items_with_id_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Point_with_normal_3.h>
 
 #include <VirtualRobot/VirtualRobot.h>
 #include "SimoxCGALImportExport.h"
@@ -68,6 +69,8 @@ typedef boost::shared_ptr<PolyhedronMesh>                               Polyhedr
 //typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3>	Polyhedron;
 //typedef boost::shared_ptr<Polyhedron>                                   PolyhedronPtr;
 typedef KernelPolyhedron::Point_3                                       PointPoly;
+typedef CGAL::Point_with_normal_3<KernelPolyhedron>                     PointNormalPoly;
+
 typedef PolyhedronMesh::Vertex                                          PolyVertex;
 typedef PolyhedronMesh::Vertex_const_handle                             PolyVertexConstHandle;
 typedef PolyhedronMesh::Vertex_iterator                             	PolyVertexIterator;

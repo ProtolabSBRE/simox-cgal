@@ -44,6 +44,7 @@ set(SOURCE_FILES
     Segmentation/Skeleton/MeshSkeletonData.cpp
     Segmentation/Skeleton/SkeletonPart.cpp
     Segmentation/SDF/MeshSDF.cpp
+    MeshProcessing/MeshReconstruction.h
     Visualization/CoinVisualization/CGALCoinVisualization.cpp
     GraspPlanning/Skeleton/SkeletonVertexAnalyzer.cpp
     GraspPlanning/Skeleton/ApproachMovementSkeleton.cpp
@@ -67,6 +68,7 @@ set(HEADER_FILES
     Segmentation/Skeleton/SkeletonPart.h
     Segmentation/Skeleton/SkeletonPoint.h
     Segmentation/SDF/MeshSDF.h
+    MeshProcessing/MeshReconstruction.cpp
     Visualization/CoinVisualization/CGALCoinVisualization.h
     GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h
     GraspPlanning/Skeleton/ApproachMovementSkeleton.h

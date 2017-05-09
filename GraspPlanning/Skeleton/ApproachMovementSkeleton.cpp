@@ -195,7 +195,7 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
         bool valid = resultPre.valid;
         bool preshapeOK = false;
         if (valid)
-            preshapeOK = decider->decidePrecisionPreshape(resultPre.pca.t2);
+            preshapeOK = decider->decidePrecisionPreshape(resultPre.pca.t1, resultPre.pca.t2);
 
         if (valid && preshapeOK)
         {
@@ -218,7 +218,7 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
         valid = resultPower.valid;
         preshapeOK = false;
         if (valid)
-            preshapeOK = decider->decidePowerPreshape(resultPower.pca.t2);
+            preshapeOK = decider->decidePowerPreshape(resultPower.pca.t1, resultPower.pca.t2);
 
         if (valid && preshapeOK)
         {

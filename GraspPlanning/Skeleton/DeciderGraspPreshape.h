@@ -18,8 +18,8 @@ public:
     DeciderGraspPreshape();
     ~DeciderGraspPreshape();
 
-    bool decidePowerPreshape(float &thick);
-    bool decidePrecisionPreshape(float &thick);
+    bool decidePowerPreshape(float length, float thickness);
+    bool decidePrecisionPreshape(float length, float thickness);
 };
 
 typedef boost::shared_ptr<DeciderGraspPreshape> DeciderGraspPreshapePtr;

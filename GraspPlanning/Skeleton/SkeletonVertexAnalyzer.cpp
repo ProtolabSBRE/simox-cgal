@@ -260,43 +260,26 @@ Diameter SkeletonVertexAnalyzer::calculateDiameter(Eigen::Vector3f &pos, std::ve
     return diameter;
 }
 
-Diameter SkeletonVertexAnalyzer::getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh, /*SubpartPtr &subpart, */std::vector<SimoxCGAL::SkeletonVertex> &interval, VirtualRobot::MathTools::Plane &splane, std::vector<Vector3f> &storePoints)
+Diameter SkeletonVertexAnalyzer::getPlanesWithMeshPoints(const SimoxCGAL::SkeletonPtr skeleton, const SimoxCGAL::SurfaceMeshPtr mesh, const std::vector<SimoxCGAL::SkeletonVertex> &interval, const VirtualRobot::MathTools::Plane &splane, std::vector<Vector3f> &storePoints)
 {
     std::vector<Diameter> diameters;
+
+    Diameter result;
+    result.averageDiameter = 0.f;
+    result.maxDiameter = 0.f;
+    result.minDiameter = 0.f;
+
+    if (!skeleton)
+    {
+        return result;
+    }
 
     for (size_t i = 0; i < interval.size(); i++)
     {
         SkeletonVertex sv = interval.at(i);
-//        SkeletonPointPtr point = subpart->skeletonPart[sv];
 
         Point pos = (*skeleton)[sv].point;
         Eigen::Vector3f posE(pos[0], pos[1], pos[2]);
-
-//        VirtualRobot::MathTools::Plane plane;
-//        plane.p = posE;
-
-//        Point n1 = skeleton[point->neighbor.front()].point;
-//        Point n2 = skeleton[point->neighbor.back()].point;
-
-//        Eigen::Vector3f n1e(n1[0], n1[1], n1[2]);
-//        Eigen::Vector3f n2e(n2[0], n2[1], n2[2]);
-
-//        if (point->neighbor.size() == 2)
-//        {
-//            calculateApproachPlane(posE, n1e, n2e, plane.n);
-
-//        } else {
-
-//            //nur 1 Nachbar möglich!
-//            plane.n = n1e - posE;
-//            plane.n.normalize();
-
-//        }
-
-
-
-//        storePlane.push_back(plane);
-
 
         vector<Eigen::Vector3f> points;
         for (SurfaceMeshVertexDescriptor mvd : (*skeleton)[sv].vertices)
@@ -316,17 +299,12 @@ Diameter SkeletonVertexAnalyzer::getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr 
             diameters.push_back(s);
             points.clear();
         }
-
-//        storePoints.push_back(points);
-//        points.clear();
     }
 
 //    std::cout << "diameters: " << diameters.size() << std::endl;
 
-    Diameter result;
-    result.averageDiameter = 0.f;
-    result.maxDiameter = 0.f;
-    result.minDiameter = 0.f;
+    if (diameters.size() == 0)
+        return result;
 
     for (size_t i = 0; i < diameters.size(); i++)
     {

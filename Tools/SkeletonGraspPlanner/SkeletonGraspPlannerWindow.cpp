@@ -134,15 +134,15 @@ void SkeletonGraspPlannerWindow::setupUI()
 
     // setup
     viewer->setBackgroundColor(SbColor(1.0f, 1.0f, 1.0f));
-    viewer->setAccumulationBuffer(true);
-    viewer->setAntialiasing(true, 8);
+
 
     viewer->setGLRenderAction(new SoLineHighlightRenderAction);
     viewer->setTransparencyType(SoGLRenderAction::SORTED_OBJECT_BLEND);
     viewer->setFeedbackVisibility(true);
     viewer->setSceneGraph(sceneSep);
     viewer->viewAll();
-
+    viewer->setAccumulationBuffer(true);
+    viewer->setAntialiasing(true, 8);
 
     connect(UI.radioButtonNothing, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.radioButtonSkeleton, SIGNAL(clicked()), this, SLOT(buildVisu()));

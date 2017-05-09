@@ -715,7 +715,7 @@ SoSeparator* CGALCoinVisualization::CreateGraspVisualization(GraspPtr grasp, Man
     return sep;
 }
 
-SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexResult result,
+SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(const SkeletonVertexResult &result,
                                                                 SurfaceMeshPtr mesh,
                                                                 bool showPoints,
                                                                 VirtualRobot::VisualizationFactory::Color colorPoints,
@@ -724,6 +724,12 @@ SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexRe
 {
     SoSeparator* res = new SoSeparator;
     res->ref();
+
+    if (!result.valid || !result.part || !result.skeletonPoint)
+    {
+        res->unrefNoDelete();
+        return res;
+    }
 
     SoSeparator* lines = new SoSeparator;
 
@@ -789,13 +795,21 @@ SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(SkeletonVertexRe
 
     res->addChild(lines);
 
+    res->unrefNoDelete();
     return res;
 }
 
-SoNode* CGALCoinVisualization::CreateProjectedPointsVisualization(SkeletonVertexResult result, SurfaceMeshPtr mesh, VirtualRobot::VisualizationFactory::Color colorPoints, VirtualRobot::VisualizationFactory::Color colorPlane)
+SoNode* CGALCoinVisualization::CreateProjectedPointsVisualization(const SkeletonVertexResult result, SurfaceMeshPtr mesh, VirtualRobot::VisualizationFactory::Color colorPoints, VirtualRobot::VisualizationFactory::Color colorPlane)
 {
     SoSeparator* res = new SoSeparator;
     res->ref();
+
+
+    if (!result.valid || !result.skeleton || result.interval.size()==0)
+    {
+        res->unrefNoDelete();
+        return res;
+    }
 
     vector<Vector3f> points;
 

@@ -84,7 +84,7 @@ public:
     static std::vector<Eigen::Vector3f> projectPointsToPlane(std::vector<VirtualRobot::MathTools::Plane> v_planes, std::vector<std::vector<Eigen::Vector3f>> v_points);
     static Eigen::Vector3f createMidVector(const Eigen::Vector3f &vec1, const Eigen::Vector3f &vec2);
     static Diameter calculateDiameter(Eigen::Vector3f &pos, std::vector<Eigen::Vector3f> &points);
-    static Diameter getPlanesWithMeshPoints(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SurfaceMeshPtr mesh,/* SubpartPtr &subpart, */std::vector<SimoxCGAL::SkeletonVertex> &interval, VirtualRobot::MathTools::Plane &splane, std::vector<Eigen::Vector3f> &storePoints);
+    static Diameter getPlanesWithMeshPoints(const SimoxCGAL::SkeletonPtr skeleton, const SimoxCGAL::SurfaceMeshPtr mesh, const std::vector<SimoxCGAL::SkeletonVertex> &interval, const VirtualRobot::MathTools::Plane &splane, std::vector<Eigen::Vector3f> &storePoints);
 
 
 

@@ -78,10 +78,12 @@ protected:
     void loadObject(const std::string& objFilename);
     void setupUI();
 
-    //static void timerCB(void* data, SoSensor* sensor);
     void updateInfo();
 
     bool updateNormals(VirtualRobot::TriMeshModelPtr t);
+
+
+    SoSeparator* drawNormals(VirtualRobot::TriMeshModelPtr t);
 
     Ui::MeshReconstruction UI;
     SoQtExaminerViewer* viewer; /*!< Viewer to display the 3D model of the robot and the environment. */

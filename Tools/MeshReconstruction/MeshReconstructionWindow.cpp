@@ -107,6 +107,8 @@ void MeshReconstructionWindow::setupUI()
     connect(UI.checkBoxObject, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxPoints, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxReconstruction, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxNormalsReconstr, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.checkBoxNormalsObj, SIGNAL(clicked()), this, SLOT(buildVisu()));
 
 }
 
@@ -139,6 +141,120 @@ void MeshReconstructionWindow::closeEvent(QCloseEvent* event)
 }
 
 
+SoSeparator* MeshReconstructionWindow::drawNormals(TriMeshModelPtr t)
+{
+    SoSeparator* res = new SoSeparator;
+    SoUnits* u = new SoUnits();
+    u->units = SoUnits::MILLIMETERS;
+    res->addChild(u);
+    Eigen::Vector3f z(0, 0, 1.0f);
+    SoSeparator* arrow = CoinVisualizationFactory::CreateArrow(z, 30.0f, 1.5f);
+    arrow->ref();
+
+    if (t->normals.size() > 0)
+    {
+        for (size_t i = 0; i < t->faces.size(); i++)
+        {
+            unsigned int id1 = t->faces[i].id1;
+            unsigned int id2 = t->faces[i].id2;
+            unsigned int id3 = t->faces[i].id3;
+            Eigen::Vector3f &v1 = t->vertices[id1];
+            Eigen::Vector3f &v2 = t->vertices[id2];
+            Eigen::Vector3f &v3 = t->vertices[id3];
+
+            unsigned int normalIndx1 = t->faces[i].idNormal1;
+            unsigned int normalIndx2 = t->faces[i].idNormal2;
+            unsigned int normalIndx3 = t->faces[i].idNormal3;
+            Eigen::Vector3f &normal1 = t->normals[normalIndx1];
+            Eigen::Vector3f &normal2 = t->normals[normalIndx2];
+            Eigen::Vector3f &normal3 = t->normals[normalIndx3];
+
+            if (fabs(normal1.norm() - 1.0f) > 1.1)
+            {
+                VR_ERROR << "Wrong normal, norm:" << normal1.norm() << endl;
+            }
+
+            if (fabs(normal2.norm() - 1.0f) > 1.1)
+            {
+                VR_ERROR << "Wrong normal, norm:" << normal2.norm() << endl;
+            }
+
+            if (fabs(normal3.norm() - 1.0f) > 1.1)
+            {
+                VR_ERROR << "Wrong normal, norm:" << normal3.norm() << endl;
+            }
+
+            SoMatrixTransform* mt1 = new SoMatrixTransform;
+            SoMatrixTransform* mt2 = new SoMatrixTransform;
+            SoMatrixTransform* mt3 = new SoMatrixTransform;
+
+            MathTools::Quaternion q1 = MathTools::getRotation(z, normal1);
+            MathTools::Quaternion q2 = MathTools::getRotation(z, normal2);
+            MathTools::Quaternion q3 = MathTools::getRotation(z, normal3);
+            Eigen::Matrix4f mat1 = MathTools::quat2eigen4f(q1);
+            Eigen::Matrix4f mat2 = MathTools::quat2eigen4f(q2);
+            Eigen::Matrix4f mat3 = MathTools::quat2eigen4f(q3);
+            mat1.block(0, 3, 3, 1) = v1;
+            mat2.block(0, 3, 3, 1) = v2;
+            mat3.block(0, 3, 3, 1) = v3;
+            SbMatrix m1(reinterpret_cast<SbMat*>(mat1.data()));
+            SbMatrix m2(reinterpret_cast<SbMat*>(mat2.data()));
+            SbMatrix m3(reinterpret_cast<SbMat*>(mat3.data()));
+            mt1->matrix.setValue(m1);
+            mt2->matrix.setValue(m2);
+            mt3->matrix.setValue(m3);
+            SoSeparator* sn1 = new SoSeparator();
+            sn1->addChild(mt1);
+            sn1->addChild(arrow);
+            res->addChild(sn1);
+            SoSeparator* sn2 = new SoSeparator();
+            sn2->addChild(mt2);
+            sn2->addChild(arrow);
+            res->addChild(sn2);
+            SoSeparator* sn3 = new SoSeparator();
+            sn3->addChild(mt3);
+            sn3->addChild(arrow);
+            res->addChild(sn3);
+        }
+    } else
+    {
+        for (size_t i = 0; i < t->faces.size(); i++)
+        {
+            unsigned int id1 = t->faces[i].id1;
+            unsigned int id2 = t->faces[i].id2;
+            unsigned int id3 = t->faces[i].id3;
+            Eigen::Vector3f &v1 = t->vertices[id1];
+            Eigen::Vector3f &v2 = t->vertices[id2];
+            Eigen::Vector3f &v3 = t->vertices[id3];
+            Eigen::Vector3f v = (v1+v2+v3)/3.0f;
+
+            Eigen::Vector3f &normal1 = t->faces[i].normal;
+
+            if (fabs(normal1.norm() - 1.0f) > 1.1)
+            {
+                VR_ERROR << "Wrong normal, norm:" << normal1.norm() << endl;
+                continue;
+            }
+
+
+            SoMatrixTransform* mt1 = new SoMatrixTransform;
+            MathTools::Quaternion q1 = MathTools::getRotation(z, normal1);
+            Eigen::Matrix4f mat1 = MathTools::quat2eigen4f(q1);
+            mat1.block(0, 3, 3, 1) = v;
+            SbMatrix m1(reinterpret_cast<SbMat*>(mat1.data()));
+            mt1->matrix.setValue(m1);
+            SoSeparator* sn1 = new SoSeparator();
+            sn1->addChild(mt1);
+            sn1->addChild(arrow);
+            res->addChild(sn1);
+        }
+    }
+
+    arrow->unref();
+    reconstructionSep->addChild(res);
+    return res;
+}
+
 void MeshReconstructionWindow::buildVisu()
 {
     objectSep->removeAllChildren();
@@ -148,13 +264,19 @@ void MeshReconstructionWindow::buildVisu()
         SoNode* n = CoinVisualizationFactory::getCoinVisualization(object, colModel2);
         if (n)
         {
+            SoSeparator *n2 = new SoSeparator;
             SoMaterial* color = new SoMaterial();
             color->transparency = 0.7f;
             color->diffuseColor.setIgnored(TRUE);
             color->setOverride(TRUE);
-            objectSep->addChild(color);
-            objectSep->addChild(n);
+            n2->addChild(color);
+            n2->addChild(n);
+            objectSep->addChild(n2);
         }
+    }
+    if (object && object->getVisualization() && object->getVisualization()->getTriMeshModel() && UI.checkBoxNormalsObj->isChecked())
+    {
+        objectSep->addChild(drawNormals(object->getVisualization()->getTriMeshModel()));
     }
 
     reconstructionSep->removeAllChildren();
@@ -164,14 +286,21 @@ void MeshReconstructionWindow::buildVisu()
         SoNode* n = CoinVisualizationFactory::getCoinVisualization(reconstructedObject, colModel2);
         if (n)
         {
+            SoSeparator *n2 = new SoSeparator;
             SoMaterial* color = new SoMaterial();
             color->transparency = 0.7f;
             color->diffuseColor.setIgnored(TRUE);
             color->setOverride(TRUE);
-            reconstructionSep->addChild(color);
-            reconstructionSep->addChild(n);
+            n2->addChild(color);
+            n2->addChild(n);
+            reconstructionSep->addChild(n2);
         }
     }
+    if (trimesh && UI.checkBoxNormalsReconstr->isChecked())
+    {
+        reconstructionSep->addChild(drawNormals(trimesh));
+    }
+
 
 
     pointsSep->removeAllChildren();
@@ -259,6 +388,15 @@ bool MeshReconstructionWindow::updateNormals(TriMeshModelPtr t)
         }
         n /= fs.size();
         t->normals[i] = n;
+    }
+
+    // update normalID
+    for (int j = 0; j < faceCount; ++j)
+    {
+        MathTools::TriangleFace& face = t->faces.at(j);
+        face.idNormal1 = face.id1;
+        face.idNormal2 = face.id2;
+        face.idNormal3 = face.id3;
     }
     VR_INFO << "Created " << size-noNormals <<" normals. Skipped " << noNormals << " unconnected vertices." << endl;
 

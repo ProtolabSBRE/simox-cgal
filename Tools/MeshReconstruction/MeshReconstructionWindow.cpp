@@ -148,7 +148,7 @@ SoSeparator* MeshReconstructionWindow::drawNormals(TriMeshModelPtr t)
     u->units = SoUnits::MILLIMETERS;
     res->addChild(u);
     Eigen::Vector3f z(0, 0, 1.0f);
-    SoSeparator* arrow = CoinVisualizationFactory::CreateArrow(z, 30.0f, 1.5f);
+    SoSeparator* arrow = CoinVisualizationFactory::CreateArrow(z, 10.0f, 0.8f);
     arrow->ref();
 
     if (t->normals.size() > 0)

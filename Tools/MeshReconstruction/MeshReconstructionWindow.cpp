@@ -35,6 +35,7 @@
 #include <Inventor/nodes/SoMaterial.h>
 
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
+#include "CGALMeshConverter.h"
 
 #include <sstream>
 
@@ -101,6 +102,7 @@ void MeshReconstructionWindow::setupUI()
     connect(UI.pushButtonLoadPoints, SIGNAL(clicked()), this, SLOT(loadPoints()));
     connect(UI.pushButtonReconstruct, SIGNAL(clicked()), this, SLOT(doReconstruction()));
     connect(UI.pushButtonLoadObject, SIGNAL(clicked()), this, SLOT(loadObject()));
+    connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(save()));
     connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.checkBoxObject, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxPoints, SIGNAL(clicked()), this, SLOT(buildVisu()));
@@ -115,7 +117,10 @@ void MeshReconstructionWindow::updateInfo()
     int nrTriangles = 0;
     if (object && object->getVisualization() && object->getVisualization()->getTriMeshModel())
         nrTriangles = object->getVisualization()->getTriMeshModel()->faces.size();
-    ss << "Nr Points: " << points.size() << "\nObject\n  Triangles: " << nrTriangles <<"\n";
+    int recTri = 0;
+    if (trimesh)
+        recTri = trimesh->faces.size();
+    ss << "Nr Points: " << points.size() << "\nObject\n  Triangles: " << nrTriangles <<"\nReconstruction\n Triangles:" << recTri;
 
     UI.labelInfo->setText(QString(ss.str().c_str()));
 }
@@ -137,7 +142,7 @@ void MeshReconstructionWindow::closeEvent(QCloseEvent* event)
 void MeshReconstructionWindow::buildVisu()
 {
     objectSep->removeAllChildren();
-    if (object)
+    if (object && UI.checkBoxObject->isChecked())
     {
         SceneObject::VisualizationType colModel2 = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;       
         SoNode* n = CoinVisualizationFactory::getCoinVisualization(object, colModel2);
@@ -151,6 +156,39 @@ void MeshReconstructionWindow::buildVisu()
             objectSep->addChild(n);
         }
     }
+
+    reconstructionSep->removeAllChildren();
+    if (reconstructedObject && UI.checkBoxReconstruction->isChecked())
+    {
+        SceneObject::VisualizationType colModel2 = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
+        SoNode* n = CoinVisualizationFactory::getCoinVisualization(reconstructedObject, colModel2);
+        if (n)
+        {
+            SoMaterial* color = new SoMaterial();
+            color->transparency = 0.7f;
+            color->diffuseColor.setIgnored(TRUE);
+            color->setOverride(TRUE);
+            reconstructionSep->addChild(color);
+            reconstructionSep->addChild(n);
+        }
+    }
+
+
+    pointsSep->removeAllChildren();
+    if (points.size()>0 && UI.checkBoxPoints->isChecked())
+    {
+        SoNode* n = CoinVisualizationFactory::CreateVerticesVisualization(points, 2.0f);
+        if (n)
+        {
+            SoMaterial* color = new SoMaterial();
+            color->transparency = 0.7f;
+            color->diffuseColor.setIgnored(TRUE);
+            color->setOverride(TRUE);
+            pointsSep->addChild(color);
+            pointsSep->addChild(n);
+        }
+    }
+
     viewer->scheduleRedraw();
 }
 
@@ -192,6 +230,7 @@ bool MeshReconstructionWindow::updateNormals(TriMeshModelPtr t)
     int size = t->vertices.size();
     int faceCount = t->faces.size();
     std::vector<std::set<MathTools::TriangleFace*>> vertex2FaceMap(size);
+    t->normals.resize(size);
     for (int j = 0; j < faceCount; ++j)
     {
         MathTools::TriangleFace& face = t->faces.at(j);
@@ -199,9 +238,31 @@ bool MeshReconstructionWindow::updateNormals(TriMeshModelPtr t)
         vertex2FaceMap[face.id2].insert(&t->faces.at(j));
         vertex2FaceMap[face.id3].insert(&t->faces.at(j));
     }
-    // todo...
+    int noNormals = 0;
+    for (size_t i=0; i<vertex2FaceMap.size(); i++ )
+    {
+        std::set<MathTools::TriangleFace*> &fs = vertex2FaceMap.at(i);
+        Eigen::Vector3f n;
+        n.setZero();
+        if (fs.size()==0)
+        {
+            //VR_WARNING << "No normal?!" << endl;
+            noNormals++;
+            n << 1.0f, 0, 0;
+            t->normals[i] = n;
+            continue;
+        }
 
-    return false;
+        for (MathTools::TriangleFace* tf: fs)
+        {
+            n += tf->normal;
+        }
+        n /= fs.size();
+        t->normals[i] = n;
+    }
+    VR_INFO << "Created " << size-noNormals <<" normals. Skipped " << noNormals << " unconnected vertices." << endl;
+
+    return true;
 }
 
 void MeshReconstructionWindow::loadObject(const std::string & filename)
@@ -222,6 +283,7 @@ void MeshReconstructionWindow::loadObject(const std::string & filename)
     trimesh.reset();
     points.clear();
     normals.clear();
+    reconstructedObject.reset();
 
     // extract points
     if (object && object->getVisualization() && object->getVisualization()->getTriMeshModel())
@@ -230,7 +292,7 @@ void MeshReconstructionWindow::loadObject(const std::string & filename)
         t->mergeVertices();
         if (t->vertices.size() != t->normals.size())
         {
-            VR_ERROR << "Updating normals, since points.size = " << t->vertices.size() << " != normals.size=" << t->normals.size()<< endl;
+            VR_INFO << "Updating normals, points.size = " << t->vertices.size() << " != normals.size=" << t->normals.size()<< endl;
             if (!updateNormals(t))
             {
                 object.reset();
@@ -254,23 +316,52 @@ void MeshReconstructionWindow::colModel()
 
 void MeshReconstructionWindow::doReconstruction()
 {
+    if (!object || points.size()==0)
+        return;
+    reconstruction.reset(new SimoxCGAL::MeshReconstruction());
+    reconstruction->setVerbose(true);
+
+    PolyhedronMeshPtr m = reconstruction->reconstructMesh(points, normals);
+    CGALPolyhedronMeshPtr mesh(new CGALPolyhedronMesh(m));
+
+    trimesh = CGALMeshConverter::ConvertCGALMesh(mesh);
+
+    if (trimesh)
+    {
+        reconstructedObject = VirtualRobot::ManipulationObject::createFromMesh(trimesh);
+    }
+    buildVisu();
+    updateInfo();
 }
 
 void MeshReconstructionWindow::save()
 {
-    if (!trimesh)
+    if (!reconstructedObject)
     {
         return;
     }
 
-    ManipulationObjectPtr objectM = VirtualRobot::ManipulationObject::createFromMesh(trimesh);
     QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
     std::string objectFile = std::string(fi.toLatin1());
     bool ok = false;
 
     try
     {
-        ok = ObjectIO::saveManipulationObject(objectM, objectFile);
+        boost::filesystem::path filenameBaseComplete(objectFile);
+        boost::filesystem::path filenameBasePath = filenameBaseComplete.branch_path();
+        std::string basePath = filenameBasePath.string();
+        boost::filesystem::path filenameBase = filenameBaseComplete.leaf();
+
+        std::string fnSTL = filenameBase.stem().string() + ".stl";
+        std::string fn = basePath + "/" + fnSTL;
+
+        ObjectIO::writeSTL(trimesh,fn,reconstructedObject->getName());
+
+        if (reconstructedObject->getVisualization())
+            reconstructedObject->getVisualization()->setFilename(fnSTL, false);
+        if (reconstructedObject->getCollisionModel() && reconstructedObject->getCollisionModel()->getVisualization())
+            reconstructedObject->getCollisionModel()->getVisualization()->setFilename(fnSTL, false);
+        ok = ObjectIO::saveManipulationObject(reconstructedObject, objectFile);
     }
     catch (VirtualRobotException& e)
     {

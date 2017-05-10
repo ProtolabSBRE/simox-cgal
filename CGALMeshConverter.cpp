@@ -229,6 +229,7 @@ TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALPolyhedronMeshPtr m)
 
         //access vertices
         std::vector<unsigned int> vertices;
+
         PolyhedronMesh::Halfedge_around_facet_const_circulator half_it = facet_it->facet_begin();
 
         do
@@ -251,7 +252,10 @@ TriMeshModelPtr CGALMeshConverter::ConvertCGALMesh(CGALPolyhedronMeshPtr m)
         while (++half_it != facet_it->facet_begin());
         if (vertices.size() > 2)
         {
-            res->addFace(vertices.at(0), vertices.at(1), vertices.at(2)); // addTriangleWithFace
+            res->addFace(vertices.at(0), vertices.at(1), vertices.at(2));
+            MathTools::TriangleFace &f = res->faces.at(res->faces.size()-1);
+            f.normal = TriMeshModel::CreateNormal(res->vertices.at(vertices.at(0)), res->vertices.at(vertices.at(1)), res->vertices.at(vertices.at(2)));
+            //res->addTriangleWithFace(vertices.at(0), vertices.at(1), vertices.at(2));
             //TODO write to a right structure with neighboorhood relationships
         }
     }

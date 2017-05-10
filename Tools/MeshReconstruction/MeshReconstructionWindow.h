@@ -94,6 +94,7 @@ protected:
     SoSeparator* reconstructionSep;
 
     VirtualRobot::ManipulationObjectPtr object;
+    VirtualRobot::ManipulationObjectPtr reconstructedObject;
     std::vector<Eigen::Vector3f> points;
     std::vector<Eigen::Vector3f> normals;
 

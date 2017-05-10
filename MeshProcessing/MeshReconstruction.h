@@ -44,7 +44,12 @@ namespace SimoxCGAL
 
 
         PolyhedronMeshPtr reconstructMesh(std::vector<PointNormalPoly> &points);
+        PolyhedronMeshPtr reconstructMesh(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals);
+
+        void setVerbose(bool v);
+
     protected:
+        bool verbose;
 
         CGALSurfaceMeshPtr mesh;
     };

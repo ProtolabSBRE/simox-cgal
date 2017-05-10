@@ -43,8 +43,22 @@ namespace SimoxCGAL
         virtual ~MeshReconstruction();
 
 
-        PolyhedronMeshPtr reconstructMesh(std::vector<PointNormalPoly> &points);
-        PolyhedronMeshPtr reconstructMesh(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals);
+        /*!
+         * \brief reconstructMeshPoisson Use the poisson algorithm to reconstruct the mesh. Needs points and normals.
+         * @see http://doc.cgal.org/latest/Poisson_surface_reconstruction_3
+         * \param points The points with normals
+         * \return The mesh
+         */
+        PolyhedronMeshPtr reconstructMeshPoisson(std::vector<PointNormalPoly> &points);
+        PolyhedronMeshPtr reconstructMeshPoisson(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals);
+
+        /*!
+         * \brief reconstructMeshScaleSpace Use the scale space algorithm to reconstruct the mesh. Works on unordered point sets.
+         * @see http://doc.cgal.org/latest/Scale_space_reconstruction_3/
+         * \param points The points
+         * \return Teh mesh
+         */
+        VirtualRobot::TriMeshModelPtr reconstructMeshScaleSpace(std::vector<Eigen::Vector3f> &points);
 
         void setVerbose(bool v);
 

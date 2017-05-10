@@ -459,11 +459,14 @@ void MeshReconstructionWindow::doReconstruction()
     reconstruction.reset(new SimoxCGAL::MeshReconstruction());
     reconstruction->setVerbose(true);
 
-    PolyhedronMeshPtr m = reconstruction->reconstructMesh(points, normals);
+#if 1
+    PolyhedronMeshPtr m = reconstruction->reconstructMeshPoisson(points, normals);
     CGALPolyhedronMeshPtr mesh(new CGALPolyhedronMesh(m));
-
     trimesh = CGALMeshConverter::ConvertCGALMesh(mesh);
-
+#else
+    // does not work well...
+    trimesh = reconstruction->reconstructMeshScaleSpace(points);
+#endif
     if (trimesh)
     {
         reconstructedObject = VirtualRobot::ManipulationObject::createFromMesh(trimesh);

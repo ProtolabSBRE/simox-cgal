@@ -1,17 +1,6 @@
 #include "MeshReconstruction.h"
 
-/*
-#include <CGAL/trace.h>
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Polyhedron_3.h>
-#include <CGAL/IO/Polyhedron_iostream.h>
-#include <CGAL/make_surface_mesh.h>
-
-
-
-#include <CGAL/IO/read_xyz_points.h>
-*/
-
+#include <VirtualRobot/Visualization/TriMeshModel.h>
 
 #include <CGAL/Surface_mesh_default_triangulation_3.h>
 #include <CGAL/Implicit_surface_3.h>
@@ -19,6 +8,7 @@
 #include <CGAL/Poisson_reconstruction_function.h>
 #include <CGAL/compute_average_spacing.h>
 #include <CGAL/IO/output_surface_facets_to_polyhedron.h>
+#include <CGAL/Scale_space_surface_reconstruction_3.h>
 
 #include <vector>
 #include <fstream>
@@ -38,12 +28,82 @@ MeshReconstruction::~MeshReconstruction()
 
 }
 
+VirtualRobot::TriMeshModelPtr MeshReconstruction::reconstructMeshScaleSpace(std::vector<Eigen::Vector3f> &points)
+{
+    if (points.size()==0)
+        return TriMeshModelPtr();
+    if (verbose)
+        VR_INFO << "Converting " << points.size() << " points to cgal data structure" << endl;
+
+    typedef CGAL::Scale_space_surface_reconstruction_3< KernelPolyhedron >    Reconstruction;
+    typedef Reconstruction::Point                                   Point;
+    typedef Reconstruction::Triple_const_iterator                   Triple_iterator;
+    typedef CGAL::Timer Timer;
+
+    // construct the data.
+    std::vector< Point > pointsC;
+    for (Eigen::Vector3f &p : points)
+    {
+        pointsC.push_back(Point(p[0],p[1],p[2]));
+    }
+
+
+
+    Timer t;
+    t.start();
+    // Construct the mesh in a scale space.
+    Reconstruction reconstruct( 20, 800 );
+    reconstruct.insert( pointsC.begin(), pointsC.end() );
+    //reconstruct.increase_scale( 2 );
+    reconstruct.reconstruct_surface(4, true, false);//, false, true );
+    //reconstruct.increase_scale( 4 );
+    //reconstruct.reconstruct_surface(8, true, false);//, false, true );
+    if (verbose)
+    {
+        VR_INFO << "Reconstruction done in " << t.time() << " sec." << std::endl;
+        VR_INFO << "Number of shells: " << reconstruct.number_of_shells() << std::endl;
+        VR_INFO << "Neighborhood radius^2: " << reconstruct.neighborhood_squared_radius() << std::endl;
+    }
+    t.reset();
+
+    // Convert the reconstruction.
+    TriMeshModelPtr tm(new TriMeshModel());
+
+    for( std::size_t shell = 0; shell < reconstruct.number_of_shells(); ++shell ) {
+        for( Triple_iterator it = reconstruct.shell_begin( shell ); it != reconstruct.shell_end( shell ); ++it )
+        {
+            if (it->at(0)>points.size())
+            {
+                VR_ERROR << "Index 0 " << it->at(0) << " out of bounds" << endl;
+                continue;
+            }
+            if (it->at(1)>points.size())
+            {
+                VR_ERROR << "Index 1 " << it->at(1) << " out of bounds" << endl;
+                continue;
+            }
+            if (it->at(2)>points.size())
+            {
+                VR_ERROR << "Index 0 " << it->at(2) << " out of bounds" << endl;
+                continue;
+            }
+            tm->addTriangleWithFace(points.at(it->at(0)), points.at(it->at(1)), points.at(it->at(2)));
+        }
+          //out << "3 "<< *it << '\n'; // We write a '3' in front so that it can be assembled into an OFF file
+    }
+    if (verbose)
+    {
+        VR_INFO << "Converted result in " << t.time() << " sec." << std::endl;
+    }
+    return tm;
+}
+
 void MeshReconstruction::setVerbose(bool v)
 {
     verbose = v;
 }
 
-PolyhedronMeshPtr MeshReconstruction::reconstructMesh(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals)
+PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals)
 {
     if (points.size() != normals.size())
     {
@@ -53,7 +113,7 @@ PolyhedronMeshPtr MeshReconstruction::reconstructMesh(const std::vector<Eigen::V
     if (points.size()==0)
         return PolyhedronMeshPtr();
     if (verbose)
-        VR_INFO << "Converting points to cgal data structure" << endl;
+        VR_INFO << "Converting " << points.size() << " points with normals to cgal data structure" << endl;
 
     std::vector<PointNormalPoly> pointsNormals;
     pointsNormals.reserve(points.size());
@@ -66,11 +126,11 @@ PolyhedronMeshPtr MeshReconstruction::reconstructMesh(const std::vector<Eigen::V
         pointsNormals.push_back(pn);
     }
 
-    return reconstructMesh(pointsNormals);
+    return reconstructMeshPoisson(pointsNormals);
 }
 
 
-PolyhedronMeshPtr MeshReconstruction::reconstructMesh(std::vector<PointNormalPoly> &points)
+PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(std::vector<PointNormalPoly> &points)
 {
     if (points.size()==0)
     {

@@ -42,6 +42,7 @@
 
 #include "ui_SkeletonGraspPlanner.h"
 
+
 // using forward declarations here, so that the rapidXML header does not have to be parsed when this file is included
 namespace rapidxml
 {
@@ -53,7 +54,7 @@ class SkeletonGraspPlannerWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    SkeletonGraspPlannerWindow(std::string& robotFile, std::string& eefName, /*std::string& preshape,*/ std::string& segmentedObjectFile);
+    SkeletonGraspPlannerWindow(std::string& robotFile, std::string& eefName, std::string& segmentedObjectFile);
     ~SkeletonGraspPlannerWindow();
 
     /*!< Executes the SoQt mainLoop. You need to call this in order to execute the application. */
@@ -74,6 +75,8 @@ public slots:
     void colModel();
     void frictionConeVisu();
     void showGrasps();
+
+    void plannerOptions();
 
     void buildVisu();
 
@@ -111,7 +114,6 @@ protected:
 
     VirtualRobot::RobotPtr robot;
     VirtualRobot::RobotPtr eefCloned;
-//    VirtualRobot::ObstaclePtr object;
     VirtualRobot::ManipulationObjectPtr object;
     VirtualRobot::EndEffectorPtr eef;
 
@@ -141,7 +143,6 @@ protected:
     SimoxCGAL::SkeletonPtr skeleton;
     SimoxCGAL::SegmentedObjectPtr segmentation;
     SimoxCGAL::CGALSurfaceMeshPtr mesh;
-
 
     //test
     SoSeparator* test;

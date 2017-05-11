@@ -45,9 +45,12 @@ bool ApproachMovementSkeleton::init()
 {
     if (verbose)
     {
-        cout << "------START-----" << endl;
-        cout << "Segment size: " << segmentation->getObjectParts().size() << std::endl;
+        VR_INFO << "------START-----" << endl;
+        VR_INFO << "Segment size: " << segmentation->getObjectParts().size() << std::endl;
     }
+
+    decider->setThicknessPrecision(approachMovementParameters.minThickness[PlanningParameters::Precision], approachMovementParameters.maxThickness[PlanningParameters::Precision]);
+    decider->setThicknessPower(approachMovementParameters.minThickness[PlanningParameters::Power], approachMovementParameters.maxThickness[PlanningParameters::Power]);
 
     bool index = false;
     currentSubpart = 0;
@@ -79,9 +82,9 @@ bool ApproachMovementSkeleton::init()
 
     if (verbose)
     {
-        cout << "current segment: " << currentSubpart << endl;
-        cout << "current vertex: " << currentSkeletonVertex << endl;
-        cout << "------DONE-----" << endl;
+        VR_INFO << "current segment: " << currentSubpart << endl;
+        VR_INFO << "current vertex: " << currentSkeletonVertex << endl;
+        VR_INFO << "------DONE-----" << endl;
     }
     return true;
 }
@@ -93,6 +96,11 @@ bool ApproachMovementSkeleton::createNewApproachPose(Eigen::Matrix4f &poseResult
         VR_ERROR << "Current vertex result is not valid?!" << endl;
         return false;
     }
+    if (verbose)
+    {
+        VR_INFO << "Create new approach pose" << endl;
+    }
+
     Eigen::Matrix4f pose = getEEFPose();
     openHand();
     Eigen::Vector3f position = currentVertexResult.graspingPlane.p;
@@ -111,10 +119,38 @@ bool ApproachMovementSkeleton::createNewApproachPose(Eigen::Matrix4f &poseResult
     {
         dirY *= -1;
     }
+    if (verbose)
+    {
+        VR_INFO << "Approach pose, position:" << position.transpose() << ", approach dir: " << approachDir.transpose() << endl;
+    }
+
     setEEFToApproachPose(position, approachDir, dirY);
 
     // move away until valid
     bool ok = moveEEFAway(approachDir, 1.0f, 150);
+
+    // move away from object (power grasps)
+    if (ok && approachMovementParameters.retreatDistance[getCurrentGraspType()]>0)
+    {
+        if (verbose)
+        {
+            VR_INFO << "Retreating " << approachMovementParameters.retreatDistance[getCurrentGraspType()] << "mm" << endl;
+        }
+        VirtualRobot::SceneObjectSetPtr sos = eef_cloned->createSceneObjectSet();
+
+        Eigen::Vector3f delta = approachDir * approachMovementParameters.retreatDistance[getCurrentGraspType()];
+        Eigen::Matrix4f ep = getEEFPose();
+        updateEEFPose(delta);
+        if (eef_cloned->getCollisionChecker()->checkCollision(object->getCollisionModel(), sos))
+        {
+            if (verbose)
+            {
+                VR_INFO << "Retreat pose in collision, restoring original pose" << endl;
+            }
+            setEEFPose(ep);
+        }
+    }
+
 
     poseResult = getEEFPose();
     setEEFPose(pose);
@@ -185,71 +221,65 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
     SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(currentSubpart));
     currentVertexResult.valid = false;
 
-    //SkeletonVertex vertex = subpart->sortedSkeletonPartIndex.at(currentSkeletonVertex);
-//    bool endpoint = !subpart->skeletonPart.at(vertex)->endpoint;
-   // bool endpoint = false;
+    SkeletonVertexResult resultPre = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Precision],verbose);
+    bool valid = resultPre.valid;
+    bool preshapeOK = false;
+    if (valid)
+        preshapeOK = decider->decidePrecisionPreshape(resultPre.pca.t1, resultPre.pca.t2);
 
-   // if (!endpoint)
-    //{
-        SkeletonVertexResult resultPre = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Precision],verbose);
-        bool valid = resultPre.valid;
-        bool preshapeOK = false;
-        if (valid)
-            preshapeOK = decider->decidePrecisionPreshape(resultPre.pca.t1, resultPre.pca.t2);
-
-        if (valid && preshapeOK)
-        {
-            if (verbose)
-            {
-                VR_INFO << "Precision grasp" << endl;
-            }
-            //precision
-            graspPreshape = approachMovementParameters.preshapeName[PlanningParameters::Precision];
-            if (resultPre.endpoint)
-                calculateApproachesEndpoint(resultPre.pca);
-            else
-                calculateApproachesConnectionPoint(resultPre.pca);
-            approachDirectionsCalculated = true;
-            currentVertexResult = resultPre;
-            return true;
-        }
-
-        SkeletonVertexResult resultPower = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Power],verbose);
-        valid = resultPower.valid;
-        preshapeOK = false;
-        if (valid)
-            preshapeOK = decider->decidePowerPreshape(resultPower.pca.t1, resultPower.pca.t2);
-
-        if (valid && preshapeOK)
-        {
-            if (verbose)
-            {
-                VR_INFO << "Power grasp" << endl;
-            }
-            //power
-            graspPreshape = approachMovementParameters.preshapeName[PlanningParameters::Power];
-            if (resultPower.endpoint)
-                calculateApproachesEndpoint(resultPower.pca);
-            else
-                calculateApproachesConnectionPoint(resultPower.pca);
-            approachDirectionsCalculated = true;
-            currentVertexResult = resultPower;
-            return true;
-
-        }
-
+    if (valid && preshapeOK)
+    {
         if (verbose)
         {
-            VR_INFO << "No grasp" << endl;
+            VR_INFO << "Next point: Precision grasp, pca-lambda1 = " << resultPre.pca.t1 << ", pca-lamba2 = " << resultPre.pca.t2 << endl;
+            if (resultPre.endpoint)
+                VR_INFO << "Next point: Endpoint" << endl;
+            else
+                VR_INFO << "Next point: Connection point" << endl;
         }
+        //precision
+        graspPreshape = approachMovementParameters.preshapeName[PlanningParameters::Precision];
+        if (resultPre.endpoint)
+            calculateApproachesEndpoint(resultPre.pca);
+        else
+            calculateApproachesConnectionPoint(resultPre.pca);
+        approachDirectionsCalculated = true;
+        currentVertexResult = resultPre;
+        return true;
+    }
 
-    /*} else {
+    SkeletonVertexResult resultPower = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Power],verbose);
+    valid = resultPower.valid;
+    preshapeOK = false;
+    if (valid)
+        preshapeOK = decider->decidePowerPreshape(resultPower.pca.t1, resultPower.pca.t2);
 
-        //working on endpoints
+    if (valid && preshapeOK)
+    {
+        if (verbose)
+        {
+            VR_INFO << "Next point: Power grasp, pca-lambda1 = " << resultPre.pca.t1 << ", pca-lamba2 = " << resultPre.pca.t2 << endl;
+            if (resultPower.endpoint)
+                VR_INFO << "Next point: Endpoint" << endl;
+            else
+                VR_INFO << "Next point: Connection point" << endl;
+        }
+        //power
+        graspPreshape = approachMovementParameters.preshapeName[PlanningParameters::Power];
+        if (resultPower.endpoint)
+            calculateApproachesEndpoint(resultPower.pca);
+        else
+            calculateApproachesConnectionPoint(resultPower.pca);
+        approachDirectionsCalculated = true;
+        currentVertexResult = resultPower;
+        return true;
 
+    }
 
-    }*/
-
+    if (verbose)
+    {
+        VR_INFO << "Could not determine valid grasp for skeleton point" << endl;
+    }
 
     approachDirectionsCalculated = true;
     return false;
@@ -290,7 +320,6 @@ bool ApproachMovementSkeleton::setEEFToApproachPose(const Eigen::Vector3f &posit
 bool ApproachMovementSkeleton::moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops)
 {
     VirtualRobot::SceneObjectSetPtr sos = eef_cloned->createSceneObjectSet();
-
     if (!sos)
     {
         return false;
@@ -476,6 +505,11 @@ ApproachMovementSkeleton::PlanningParameters ApproachMovementSkeleton::getParame
 void ApproachMovementSkeleton::setParameters(ApproachMovementSkeleton::PlanningParameters &p)
 {
     approachMovementParameters = p;
+    if (decider)
+    {
+        decider->setThicknessPrecision(approachMovementParameters.minThickness[PlanningParameters::Precision], approachMovementParameters.maxThickness[PlanningParameters::Precision]);
+        decider->setThicknessPower(approachMovementParameters.minThickness[PlanningParameters::Power], approachMovementParameters.maxThickness[PlanningParameters::Power]);
+    }
 }
 
 bool ApproachMovementSkeleton::setNextIndex()
@@ -498,7 +532,7 @@ bool ApproachMovementSkeleton::setNextIndex()
 
         if (!ok || !isValid())
         {
-            cout << "Not valid on subpart " << currentSubpart << endl;
+            VR_INFO << "Not valid on subpart " << currentSubpart << endl;
             //return false;
         }
     }

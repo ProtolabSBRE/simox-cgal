@@ -51,6 +51,10 @@ public:
             // ARMAR-III parameters
             interval[Power] = 94.0f;
             interval[Precision] = 47.0f;
+            minThickness[Power] = 20.0f;
+            maxThickness[Power] = 60.0f;
+            minThickness[Precision] = 0.1f;
+            maxThickness[Precision] = 20.0f;
             preshapeName[Power] = "Power Preshape";
             preshapeName[Precision] = "Precision Preshape";
 
@@ -59,9 +63,16 @@ public:
 
             // 0 -> chose next neighbor when going along the skeleton
             skeletonSamplingLength = 0.0f;
+
+            // >0 -> move eef away from object
+            retreatDistance[Precision] = 0.0f;
+            retreatDistance[Power] = 15.0f;
         }
 
         std::map<GraspType, float> interval;
+        std::map<GraspType, float> minThickness;
+        std::map<GraspType, float> maxThickness;
+        std::map<GraspType, float> retreatDistance;
         std::map<GraspType, std::string> preshapeName;
 
         float roundThreshold;

@@ -9,6 +9,7 @@
 #include <CGAL/compute_average_spacing.h>
 #include <CGAL/IO/output_surface_facets_to_polyhedron.h>
 #include <CGAL/Scale_space_surface_reconstruction_3.h>
+#include <CGAL/grid_simplify_point_set.h>
 
 #include <vector>
 #include <fstream>
@@ -27,6 +28,54 @@ MeshReconstruction::~MeshReconstruction()
 {
 
 }
+
+bool MeshReconstruction::regularizePoints(std::vector<Eigen::Vector3f> &points, std::vector<Eigen::Vector3f> &normals, float cellSize)
+{
+    typedef KernelPolyhedron::Point_3 Point;
+    typedef KernelPolyhedron::Vector_3 Vector;
+
+    if (points.size()==0)
+        return false;
+
+    if (points.size()!=normals.size() && normals.size()>0)
+        return false;
+
+    std::vector<Point> pointsC;
+    std::vector<Vector> normalsC;
+    if (verbose)
+      VR_INFO << points.size() << " input points" << std::endl;
+
+    std::vector<std::size_t> indices(points.size());
+    for(std::size_t i = 0; i < points.size(); ++i)
+    {
+        pointsC.push_back(Point(points.at(i)[0], points.at(i)[1], points.at(i)[2]));
+        if (normals.size()>0)
+            normalsC.push_back(Vector(normals.at(i)[0], normals.at(i)[1], normals.at(i)[2]));
+        indices[i] = i;
+    }
+    // simplification by clustering using erase-remove idiom
+    std::vector<std::size_t>::iterator end;
+    end = CGAL::grid_simplify_point_set(indices.begin(),
+                                      indices.end(),
+                                      CGAL::make_property_map(pointsC),
+                                      cellSize);
+    std::size_t k = end - indices.begin();
+    if (verbose)
+    VR_INFO << "Keep " << k << " of " << indices.size() <<  " indices" << std::endl;
+
+
+    std::vector<Eigen::Vector3f> tmp_points(k);
+    std::vector<Eigen::Vector3f> tmp_normals(k);
+    for(std::size_t i=0; i<k; ++i)
+    {
+      tmp_points[i] = points[indices[i]];
+      if (normals.size()>0)
+        tmp_normals[i] = normals[indices[i]];
+    }
+    points.swap(tmp_points);
+    normals.swap(tmp_normals);
+    return true;
+  }
 
 VirtualRobot::TriMeshModelPtr MeshReconstruction::reconstructMeshScaleSpace(std::vector<Eigen::Vector3f> &points)
 {
@@ -103,7 +152,7 @@ void MeshReconstruction::setVerbose(bool v)
     verbose = v;
 }
 
-PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals)
+PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals, bool parameterFillHoles)
 {
     if (points.size() != normals.size())
     {
@@ -126,11 +175,11 @@ PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(const std::vector<E
         pointsNormals.push_back(pn);
     }
 
-    return reconstructMeshPoisson(pointsNormals);
+    return reconstructMeshPoisson(pointsNormals, parameterFillHoles);
 }
 
 
-PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(std::vector<PointNormalPoly> &points)
+PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(std::vector<PointNormalPoly> &points, bool parameterFillHoles)
 {
     if (points.size()==0)
     {
@@ -158,7 +207,7 @@ PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(std::vector<PointNo
                                              CGAL::make_normal_of_point_with_normal_pmap(std::vector<PointNormalPoly>::value_type()) );
     // Computes the Poisson indicator function f()
     // at each vertex of the triangulation.
-    if ( ! function.compute_implicit_function() )
+    if ( ! function.compute_implicit_function(parameterFillHoles) )
     {
         VR_ERROR << "Could not compute implicit function..." << endl;
         return PolyhedronMeshPtr();

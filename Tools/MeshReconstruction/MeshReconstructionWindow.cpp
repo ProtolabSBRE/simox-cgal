@@ -103,6 +103,7 @@ void MeshReconstructionWindow::setupUI()
     connect(UI.pushButtonReconstruct, SIGNAL(clicked()), this, SLOT(doReconstruction()));
     connect(UI.pushButtonLoadObject, SIGNAL(clicked()), this, SLOT(loadObject()));
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(save()));
+    connect(UI.pushButtonRegularize, SIGNAL(clicked()), this, SLOT(regularize()));
     connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.checkBoxObject, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxPoints, SIGNAL(clicked()), this, SLOT(buildVisu()));
@@ -265,11 +266,11 @@ void MeshReconstructionWindow::buildVisu()
         if (n)
         {
             SoSeparator *n2 = new SoSeparator;
-            SoMaterial* color = new SoMaterial();
-            color->transparency = 0.7f;
-            color->diffuseColor.setIgnored(TRUE);
-            color->setOverride(TRUE);
-            n2->addChild(color);
+            //SoMaterial* color = new SoMaterial();
+            //color->transparency = 0.7f;
+            //color->diffuseColor.setIgnored(TRUE);
+           // color->setOverride(TRUE);
+           // n2->addChild(color);
             n2->addChild(n);
             objectSep->addChild(n2);
         }
@@ -286,12 +287,12 @@ void MeshReconstructionWindow::buildVisu()
         SoNode* n = CoinVisualizationFactory::getCoinVisualization(reconstructedObject, colModel2);
         if (n)
         {
-            SoSeparator *n2 = new SoSeparator;
-            SoMaterial* color = new SoMaterial();
+           SoSeparator *n2 = new SoSeparator;
+           /*SoMaterial* color = new SoMaterial();
             color->transparency = 0.7f;
             color->diffuseColor.setIgnored(TRUE);
             color->setOverride(TRUE);
-            n2->addChild(color);
+            n2->addChild(color);*/
             n2->addChild(n);
             reconstructionSep->addChild(n2);
         }
@@ -306,14 +307,14 @@ void MeshReconstructionWindow::buildVisu()
     pointsSep->removeAllChildren();
     if (points.size()>0 && UI.checkBoxPoints->isChecked())
     {
-        SoNode* n = CoinVisualizationFactory::CreateVerticesVisualization(points, 2.0f);
+        SoNode* n = CoinVisualizationFactory::CreateVerticesVisualization(points, 4.0f);
         if (n)
         {
-            SoMaterial* color = new SoMaterial();
+            /*SoMaterial* color = new SoMaterial();
             color->transparency = 0.7f;
             color->diffuseColor.setIgnored(TRUE);
             color->setOverride(TRUE);
-            pointsSep->addChild(color);
+            pointsSep->addChild(color);*/
             pointsSep->addChild(n);
         }
     }
@@ -430,7 +431,7 @@ void MeshReconstructionWindow::loadObject(const std::string & filename)
         t->mergeVertices();
         if (t->vertices.size() != t->normals.size())
         {
-            VR_INFO << "Updating normals, points.size = " << t->vertices.size() << " != normals.size=" << t->normals.size()<< endl;
+            VR_INFO << "Updating normals, points.size=" << t->vertices.size() << " != normals.size=" << t->normals.size()<< endl;
             if (!updateNormals(t))
             {
                 object.reset();
@@ -450,6 +451,20 @@ void MeshReconstructionWindow::loadObject(const std::string & filename)
 void MeshReconstructionWindow::colModel()
 {
     buildVisu();
+}
+
+void MeshReconstructionWindow::regularize()
+{
+    if (!object || points.size()==0)
+        return;
+
+    reconstruction.reset(new SimoxCGAL::MeshReconstruction());
+    reconstruction->setVerbose(true);
+
+    reconstruction->regularizePoints(points,normals,1.0f);
+
+    buildVisu();
+    updateInfo();
 }
 
 void MeshReconstructionWindow::doReconstruction()

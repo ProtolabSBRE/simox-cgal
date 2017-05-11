@@ -49,8 +49,8 @@ namespace SimoxCGAL
          * \param points The points with normals
          * \return The mesh
          */
-        PolyhedronMeshPtr reconstructMeshPoisson(std::vector<PointNormalPoly> &points);
-        PolyhedronMeshPtr reconstructMeshPoisson(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals);
+        PolyhedronMeshPtr reconstructMeshPoisson(std::vector<PointNormalPoly> &points, bool parameterFillHoles = true);
+        PolyhedronMeshPtr reconstructMeshPoisson(const std::vector<Eigen::Vector3f> &points, const std::vector<Eigen::Vector3f> &normals, bool parameterFillHoles = true);
 
         /*!
          * \brief reconstructMeshScaleSpace Use the scale space algorithm to reconstruct the mesh. Works on unordered point sets.
@@ -59,6 +59,15 @@ namespace SimoxCGAL
          * \return Teh mesh
          */
         VirtualRobot::TriMeshModelPtr reconstructMeshScaleSpace(std::vector<Eigen::Vector3f> &points);
+
+        /*!
+         * \brief regularizePoints use the grid algorithm to reguralize the points
+         * @see doc.cgal.org/latest/Point_set_processing_3
+         * \param points content will be changed
+         * \param normals may be empty, otherwise the vector needs to have the same size as the points vector.
+         * \return
+         */
+        bool regularizePoints(std::vector<Eigen::Vector3f> &points, std::vector<Eigen::Vector3f> &normals, float cellSize = 1.0f);
 
         void setVerbose(bool v);
 

@@ -71,6 +71,8 @@ public slots:
     void loadPoints();
     void loadObject();
 
+    void regularize();
+
     void doReconstruction();
 
 protected:

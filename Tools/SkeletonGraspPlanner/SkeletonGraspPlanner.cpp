@@ -40,12 +40,12 @@ int main(int argc, char* argv[])
     //std::string object("segmented-objects/flashlight/flashlight1.xml");
     std::string object("segmented-objects/airplane/airplane0.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
-    std::string preshape("");
+    //std::string preshape("");
 
     VirtualRobot::RuntimeEnvironment::considerKey("robot");
     VirtualRobot::RuntimeEnvironment::considerKey("object");
     VirtualRobot::RuntimeEnvironment::considerKey("endeffector");
-    VirtualRobot::RuntimeEnvironment::considerKey("preshape");
+    //VirtualRobot::RuntimeEnvironment::considerKey("preshape");
     VirtualRobot::RuntimeEnvironment::processCommandLine(argc, argv);
 
 //    if (VirtualRobot::RuntimeEnvironment::hasValue("robot"))
@@ -82,20 +82,20 @@ int main(int argc, char* argv[])
         eef = eefname;
     }
 
-    std::string ps = VirtualRobot::RuntimeEnvironment::getValue("preshape");
+    /*std::string ps = VirtualRobot::RuntimeEnvironment::getValue("preshape");
 
     if (!ps.empty())
     {
         preshape = ps;
-    }
+    }*/
 
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robot);
     cout << "Using robot from " << robot << endl;
-    cout << "End effector:" << eef << ", preshape:" << preshape << endl;
+    cout << "End effector:" << eef << /*", preshape:" << preshape <<*/ endl;
     cout << "Using object from " << object << endl;
     cout << "-----------------" << endl;
 
-    SkeletonGraspPlannerWindow rw(robot, eef, preshape, object);
+    SkeletonGraspPlannerWindow rw(robot, eef, /*preshape,*/ object);
 
     rw.main();
 

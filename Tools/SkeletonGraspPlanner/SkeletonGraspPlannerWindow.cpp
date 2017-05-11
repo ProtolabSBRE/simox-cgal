@@ -48,7 +48,7 @@ using namespace SimoxCGAL;
 
 float TIMER_MS = 30.0f;
 
-SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std::string& eefName, std::string& preshape, std::string& segmentedObjectFile)
+SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std::string& eefName, /*std::string& preshape,*/ std::string& segmentedObjectFile)
     : QMainWindow(NULL), skeleton(new Skeleton), segmentation(new SegmentedObject())
 {
     VR_INFO << " start " << endl;
@@ -59,7 +59,7 @@ SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std
     this->robotFile = robFile;
     this->segmentedObjectFile = segmentedObjectFile;
     this->eefName = eefName;
-    this->preshape = preshape;
+    this->currentPreshape = "";
     eefVisu = NULL;
 
     sceneSep = new SoSeparator;
@@ -241,9 +241,9 @@ void SkeletonGraspPlannerWindow::buildVisu()
             if (config->getTCP())
                 config->getTCP()->showCoordinateSystem(false);
         }
-        if (eefCloned->getEndEffector(eefName)->hasPreshape(preshape))
+        if (eefCloned->getEndEffector(eefName)->hasPreshape(currentPreshape))
         {
-            RobotConfigPtr config = eefCloned->getEndEffector(eefName)->getPreshape(preshape);
+            RobotConfigPtr config = eefCloned->getEndEffector(eefName)->getPreshape(currentPreshape);
             std::string gcp = "GCP";
             if (config->getTCP())
                 config->getTCP()->showCoordinateSystem(UI.checkBoxGCP->isChecked(), 0.5f, &gcp);
@@ -444,8 +444,8 @@ void SkeletonGraspPlannerWindow::initPlanner()
     qualityMeasure.reset(new GraspQualityMeasureWrenchSpace(object));
     qualityMeasure->calculateObjectProperties();
 
-    preshape = "";
-    approach.reset(new ApproachMovementSkeleton(object, skeleton, mesh->getMesh(), segmentation, eef, preshape));
+    currentPreshape = "";
+    approach.reset(new ApproachMovementSkeleton(object, skeleton, mesh->getMesh(), segmentation, eef, currentPreshape));
     approach->setVerbose(verbose);
     eefCloned = approach->getEEFRobotClone();
 
@@ -537,7 +537,7 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
         start = 0;
     }
 
-    preshape = approach->getGraspPreshape();
+    currentPreshape = approach->getGraspPreshape();
 
     if (nr != 0) {
         // keine Griffe mehr möglich!
@@ -605,9 +605,9 @@ void SkeletonGraspPlannerWindow::openEEF()
     if (eefCloned && eefCloned->getEndEffector(eefName))
     {   
         VirtualRobot::EndEffectorPtr endeff = eefCloned->getEndEffector(eefName);
-        if (endeff->hasPreshape(preshape)) {
-            endeff->setPreshape(preshape);
-
+        if (endeff->hasPreshape(currentPreshape))
+        {
+            endeff->setPreshape(currentPreshape);
         } else {
             endeff->openActors();
         }
@@ -676,10 +676,11 @@ void SkeletonGraspPlannerWindow::selectGrasp()
 
     if (currentGrasp>=0 && currentGrasp<int(grasps->getSize()) && eefCloned && eefCloned->getEndEffector(eefName))
     {
-        Eigen::Matrix4f mGrasp = grasps->getGrasp(currentGrasp)->getTcpPoseGlobal(object->getGlobalPose());
+        VirtualRobot::GraspPtr g = grasps->getGrasp(currentGrasp);
+        currentPreshape = g->getPreshapeName();
+        Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
         eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-        eefCloned->getEndEffector(eefName)->setPreshape(preshape);
-        //separator mit grasping changing
+        //eefCloned->getEndEffector(eefName)->setPreshape(currentPreshape); // done in openEEF
     }
 
     openEEF();

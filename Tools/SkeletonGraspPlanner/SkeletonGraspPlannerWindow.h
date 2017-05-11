@@ -53,7 +53,7 @@ class SkeletonGraspPlannerWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    SkeletonGraspPlannerWindow(std::string& robotFile, std::string& eefName, std::string& preshape, std::string& segmentedObjectFile);
+    SkeletonGraspPlannerWindow(std::string& robotFile, std::string& eefName, /*std::string& preshape,*/ std::string& segmentedObjectFile);
     ~SkeletonGraspPlannerWindow();
 
     /*!< Executes the SoQt mainLoop. You need to call this in order to execute the application. */
@@ -124,7 +124,7 @@ protected:
     std::string robotFile;
     std::string segmentedObjectFile;
     std::string eefName;
-    std::string preshape;
+    std::string currentPreshape;
 
     SoSeparator* eefVisu;
 

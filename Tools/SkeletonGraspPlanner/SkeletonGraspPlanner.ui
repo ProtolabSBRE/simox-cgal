@@ -64,8 +64,8 @@
        <widget class="QCheckBox" name="checkBoxFoceClosure">
         <property name="geometry">
          <rect>
-          <x>150</x>
-          <y>140</y>
+          <x>160</x>
+          <y>90</y>
           <width>121</width>
           <height>17</height>
          </rect>
@@ -98,7 +98,7 @@
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>121</width>
+          <width>141</width>
           <height>16</height>
          </rect>
         </property>
@@ -141,10 +141,10 @@
        <widget class="QLabel" name="label_13">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>120</y>
-          <width>171</width>
-          <height>16</height>
+          <x>160</x>
+          <y>20</y>
+          <width>121</width>
+          <height>20</height>
          </rect>
         </property>
         <property name="text">
@@ -154,8 +154,8 @@
        <widget class="QDoubleSpinBox" name="doubleSpinBoxQuality">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>140</y>
+          <x>160</x>
+          <y>40</y>
           <width>131</width>
           <height>22</height>
          </rect>
@@ -200,7 +200,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>170</y>
+          <y>180</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -225,8 +225,8 @@
        <widget class="QCheckBox" name="checkBoxVerbose">
         <property name="geometry">
          <rect>
-          <x>180</x>
-          <y>40</y>
+          <x>160</x>
+          <y>110</y>
           <width>97</width>
           <height>22</height>
          </rect>
@@ -239,7 +239,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>210</y>
+          <y>220</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -342,9 +342,9 @@
       <widget class="QLabel" name="labelSkeleton">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>670</y>
-         <width>271</width>
+         <x>10</x>
+         <y>680</y>
+         <width>281</width>
          <height>81</height>
         </rect>
        </property>
@@ -359,9 +359,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>390</y>
+         <y>420</y>
          <width>281</width>
-         <height>201</height>
+         <height>171</height>
         </rect>
        </property>
        <property name="title">
@@ -457,8 +457,8 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>160</x>
-          <y>160</y>
+          <x>130</x>
+          <y>130</y>
           <width>71</width>
           <height>31</height>
          </rect>
@@ -473,8 +473,8 @@
        <widget class="QLabel" name="label_14">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>170</y>
+          <x>10</x>
+          <y>140</y>
           <width>121</width>
           <height>16</height>
          </rect>
@@ -506,17 +506,17 @@
          </rect>
         </property>
         <property name="text">
-         <string>Grasping Plane with projected points</string>
+         <string>Grasping Plane + projected points</string>
         </property>
        </widget>
       </widget>
       <widget class="QLabel" name="labelInfo">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>590</y>
-         <width>271</width>
-         <height>61</height>
+         <x>10</x>
+         <y>600</y>
+         <width>281</width>
+         <height>81</height>
         </rect>
        </property>
        <property name="text">
@@ -536,7 +536,7 @@
      <x>0</x>
      <y>0</y>
      <width>1079</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

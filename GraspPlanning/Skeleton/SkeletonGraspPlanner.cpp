@@ -37,7 +37,6 @@ int SkeletonGraspPlanner::plan(int nrGrasps, int timeOutMS, SceneObjectSetPtr ob
     {
         GRASPSTUDIO_INFO << ": Searching " << nrGrasps << " grasps for EEF: '" << approach->getEEF()->getName() << "' and object: '" << graspQuality->getObject()->getName() << "'.\n";
         GRASPSTUDIO_INFO << ": Approach movements are generated with: " << approach->getName() << endl;
-        GRASPSTUDIO_INFO << ": Approach movements are generated with preshape: '" << approach->getGraspPreshape() <<  "'\n";
         GRASPSTUDIO_INFO << ": Grasps are evaluated with: " << graspQuality->getName() << endl;
     }
 
@@ -54,8 +53,14 @@ int SkeletonGraspPlanner::plan(int nrGrasps, int timeOutMS, SceneObjectSetPtr ob
             break;
         }
 
+        if (verbose)
+            VR_INFO << "Next approach pose..." << endl;
+
         if (approach->getApproachesNumber() == 0)
         {
+            if (verbose)
+                VR_INFO << "Generating new approach poses..." << endl;
+
             a = approach->setNextIndex();
 
             if (!a)

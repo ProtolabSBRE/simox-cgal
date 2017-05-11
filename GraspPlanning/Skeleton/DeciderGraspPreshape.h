@@ -18,8 +18,16 @@ public:
     DeciderGraspPreshape();
     ~DeciderGraspPreshape();
 
+    void setThicknessPrecision(float minThickness, float maxThickness);
+    void setThicknessPower(float minThickness, float maxThickness);
+
     bool decidePowerPreshape(float length, float thickness);
     bool decidePrecisionPreshape(float length, float thickness);
+protected:
+    float minThicknessPrecision;
+    float minThicknessPower;
+    float maxThicknessPrecision;
+    float maxThicknessPower;
 };
 
 typedef boost::shared_ptr<DeciderGraspPreshape> DeciderGraspPreshapePtr;

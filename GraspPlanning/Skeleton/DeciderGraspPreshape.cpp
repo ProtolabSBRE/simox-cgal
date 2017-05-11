@@ -5,7 +5,10 @@ namespace SimoxCGAL
 
 DeciderGraspPreshape::DeciderGraspPreshape()
 {
-
+    minThicknessPower = 20.f;
+    maxThicknessPower = 60.f;
+    minThicknessPrecision = 1.f;
+    maxThicknessPrecision = 20.f;
 }
 
 DeciderGraspPreshape::~DeciderGraspPreshape()
@@ -13,14 +16,25 @@ DeciderGraspPreshape::~DeciderGraspPreshape()
 
 }
 
+
+void DeciderGraspPreshape::setThicknessPrecision(float minThickness, float maxThickness)
+{
+    minThicknessPrecision = minThickness;
+    maxThicknessPrecision = maxThickness;
+}
+
+void DeciderGraspPreshape::setThicknessPower(float minThickness, float maxThickness)
+{
+    minThicknessPower = minThickness;
+    maxThicknessPower = maxThickness;
+}
+
 bool DeciderGraspPreshape::decidePowerPreshape(float length, float thickness)
 {
-    float minThickPower = 20.f;
-    float maxThickPower = 60.f;
-    float minLengthPower = 30.f;
-    float maxLengthPower = 150.f;
+    //float minLengthPower = 30.f;
+    //float maxLengthPower = 150.f;
 
-    if (thickness >= minThickPower && thickness <= maxThickPower /*&& length >= minLengthPower && length <= maxLengthPower*/)
+    if (thickness >= minThicknessPower && thickness <= maxThicknessPower /*&& length >= minLengthPower && length <= maxLengthPower*/)
     {
         return true;
     }
@@ -30,13 +44,11 @@ bool DeciderGraspPreshape::decidePowerPreshape(float length, float thickness)
 
 bool DeciderGraspPreshape::decidePrecisionPreshape(float length, float thickness)
 {
-    float minThickPrecision = 1.f;
-    float maxThickPrecision = 20.f;
-    float minLengthPrecision = 1.0f;
-    float maxLengthPrecision = 30.0f;
+    //float minLengthPrecision = 1.0f;
+    //float maxLengthPrecision = 30.0f;
 
 
-    if (thickness > minThickPrecision && thickness < maxThickPrecision /*&& length > minLengthPrecision && length < maxLengthPrecision*/)
+    if (thickness > minThicknessPrecision && thickness < maxThicknessPrecision /*&& length > minLengthPrecision && length < maxLengthPrecision*/)
     {
         return true;
     }

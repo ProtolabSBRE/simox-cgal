@@ -40,6 +40,7 @@
 
 #include <sstream>
 
+#include "ui_SkeletonGraspPlannerOptions.h"
 
 using namespace std;
 using namespace VirtualRobot;
@@ -48,7 +49,7 @@ using namespace SimoxCGAL;
 
 float TIMER_MS = 30.0f;
 
-SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std::string& eefName, /*std::string& preshape,*/ std::string& segmentedObjectFile)
+SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std::string& eefName, std::string& segmentedObjectFile)
     : QMainWindow(NULL), skeleton(new Skeleton), segmentation(new SegmentedObject())
 {
     VR_INFO << " start " << endl;
@@ -78,14 +79,12 @@ SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std
     sceneSep->addChild(objectSep);
     sceneSep->addChild(frictionConeSep);
     sceneSep->addChild(test);
-    //sceneSep->addChild(graspsSep);
 
     setupUI();
 
-
     loadRobot();
     loadSegmentedObject(segmentedObjectFile);
-//    initPlanner();
+
     buildVisu();
     viewer->viewAll();
 }
@@ -135,14 +134,13 @@ void SkeletonGraspPlannerWindow::setupUI()
     // setup
     viewer->setBackgroundColor(SbColor(1.0f, 1.0f, 1.0f));
 
-
     viewer->setGLRenderAction(new SoLineHighlightRenderAction);
     viewer->setTransparencyType(SoGLRenderAction::SORTED_OBJECT_BLEND);
     viewer->setFeedbackVisibility(true);
     viewer->setSceneGraph(sceneSep);
     viewer->viewAll();
     viewer->setAccumulationBuffer(true);
-    viewer->setAntialiasing(true, 8);
+    viewer->setAntialiasing(true, 4);
 
     connect(UI.radioButtonNothing, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.radioButtonSkeleton, SIGNAL(clicked()), this, SLOT(buildVisu()));
@@ -152,7 +150,6 @@ void SkeletonGraspPlannerWindow::setupUI()
     connect(UI.checkBoxGraspingPlane, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxGCP, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxVerbose, SIGNAL(clicked()), this, SLOT(setVerbose()));
-
     connect(UI.pushButtonReset, SIGNAL(clicked()), this, SLOT(resetSceneryAll()));
     connect(UI.pushButtonPlan, SIGNAL(clicked()), this, SLOT(plan()));
     connect(UI.pushButtonPlanAll, SIGNAL(clicked()), this, SLOT(planAll()));
@@ -161,15 +158,11 @@ void SkeletonGraspPlannerWindow::setupUI()
     connect(UI.pushButtonOpen, SIGNAL(clicked()), this, SLOT(openEEF()));
     connect(UI.pushButtonClose, SIGNAL(clicked()), this, SLOT(closeEEF()));
     connect(UI.pushButtonLoadData, SIGNAL(clicked()), this, SLOT(loadData()));
-
+    connect(UI.pushButtonOptions, SIGNAL(clicked()), this, SLOT(plannerOptions()));
     connect(UI.spinBoxGraspNumberPlanned, SIGNAL(valueChanged(int)), this, SLOT(selectGrasp()));
-
     connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.checkBoxCones, SIGNAL(clicked()), this, SLOT(frictionConeVisu()));
     connect(UI.checkBoxGrasps, SIGNAL(clicked()), this, SLOT(showGrasps()));
-//    connect(UI.checkBoxGCP, SIGNAL(clicked()), this, SLOT(showGrasps()));
-//    connect(UI.checkBoxPoints, SIGNAL(clicked()), this, SLOT(buildVisu()));
-
 }
 
 void SkeletonGraspPlannerWindow::updateSkeletonInfo()
@@ -211,8 +204,18 @@ void SkeletonGraspPlannerWindow::resetSceneryAll()
     {
         grasps->removeAllGrasps();
     }
-
     graspsSep->removeAllChildren();
+
+    openEEF();
+    if (eefCloned)
+    {
+        eefCloned->setGlobalPose(Eigen::Matrix4f::Identity());
+    }
+
+    currentPreshape = "";
+
+    UI.spinBoxGraspNumberPlanned->setValue(0);
+    UI.spinBoxGraspNumberPlanned->setEnabled(false);
 
     initPlanner();
 
@@ -224,6 +227,59 @@ void SkeletonGraspPlannerWindow::closeEvent(QCloseEvent* event)
 {
     quit();
     QMainWindow::closeEvent(event);
+}
+
+
+void SkeletonGraspPlannerWindow::plannerOptions()
+{
+    if (!approach)
+    {
+        VR_ERROR << "No approach data" << endl;
+        return;
+    }
+    // setup window
+    Ui::SkeletonGraspPlannerOptions UICreate;
+    QDialog diag;
+    UICreate.setupUi(&diag);
+    std::string tcp = "<none>";
+    std::string eefS = "<none>";
+    if (eef)
+    {
+        eefS = eef->getName();
+        RobotNodePtr tcpNode = eef->getTcp();
+        if (tcpNode)
+            tcp = tcpNode->getName();
+    }
+    UICreate.labelEEF->setText(QString("End Effector: ") + QString(eefS.c_str()));
+    UICreate.labelTCP->setText(QString("TCP: ") + QString(tcp.c_str()));
+
+    ApproachMovementSkeleton::PlanningParameters p = approach->getParameters();
+    UICreate.dsb_RoundRectRatio->setValue(p.roundThreshold);
+    UICreate.dsb_SkeletonDist->setValue(p.skeletonSamplingLength);
+    UICreate.dsbPr_MinThick->setValue(p.minThickness[ApproachMovementSkeleton::PlanningParameters::Precision]);
+    UICreate.dsbPr_MaxThick->setValue(p.maxThickness[ApproachMovementSkeleton::PlanningParameters::Precision]);
+    UICreate.dsbPr_IntervalWidth->setValue(p.interval[ApproachMovementSkeleton::PlanningParameters::Precision]);
+
+    UICreate.dsbPo_MinThick->setValue(p.minThickness[ApproachMovementSkeleton::PlanningParameters::Power]);
+    UICreate.dsbPo_MaxThick->setValue(p.maxThickness[ApproachMovementSkeleton::PlanningParameters::Power]);
+    UICreate.dsbPo_IntervalWidth->setValue(p.interval[ApproachMovementSkeleton::PlanningParameters::Power]);
+    UICreate.dsbPo_RetreatDistance->setValue(p.retreatDistance[ApproachMovementSkeleton::PlanningParameters::Power]);
+
+    if (diag.exec())
+    {
+        p.roundThreshold = UICreate.dsb_RoundRectRatio->value();
+        p.minThickness[ApproachMovementSkeleton::PlanningParameters::Precision] = UICreate.dsbPr_MinThick->value();
+        p.maxThickness[ApproachMovementSkeleton::PlanningParameters::Precision] = UICreate.dsbPr_MaxThick->value();
+        p.interval[ApproachMovementSkeleton::PlanningParameters::Precision] = UICreate.dsbPr_IntervalWidth->value();
+
+        p.minThickness[ApproachMovementSkeleton::PlanningParameters::Power] = UICreate.dsbPo_MinThick->value();
+        p.maxThickness[ApproachMovementSkeleton::PlanningParameters::Power] = UICreate.dsbPo_MaxThick->value();
+        p.interval[ApproachMovementSkeleton::PlanningParameters::Power] = UICreate.dsbPo_IntervalWidth->value();
+        p.retreatDistance[ApproachMovementSkeleton::PlanningParameters::Power] = UICreate.dsbPo_RetreatDistance->value();
+        p.skeletonSamplingLength = UICreate.dsb_SkeletonDist->value();
+
+        approach->setParameters(p);
+    }
 }
 
 
@@ -446,8 +502,17 @@ void SkeletonGraspPlannerWindow::initPlanner()
     qualityMeasure->calculateObjectProperties();
 
     currentPreshape = "";
+    bool oldValues = false;
+    ApproachMovementSkeleton::PlanningParameters p;
+    if (approach)
+    {
+        oldValues = true;
+        p = approach->getParameters();
+    }
     approach.reset(new ApproachMovementSkeleton(object, skeleton, mesh->getMesh(), segmentation, eef, currentPreshape));
     approach->setVerbose(verbose);
+    if (oldValues)
+        approach->setParameters(p);
     eefCloned = approach->getEEFRobotClone();
 
     if (robot && eef)
@@ -544,11 +609,6 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
         // keine Griffe mehr möglich!
         for (int i = start; i < (int)grasps->getSize() - 1; i++)
         {
-//            Eigen::Matrix4f m = grasps->getGrasp(i)->getTcpPoseGlobal(object->getGlobalPose());
-//            SoSeparator* sep1 = new SoSeparator();
-//            SoMatrixTransform* mt = CoinVisualizationFactory::getMatrixTransformScaleMM2M(m);
-//            sep1->addChild(mt);
-//            sep1->addChild(eefVisu);
             graspsSep->addChild(CGALCoinVisualization::CreateGraspVisualization(grasps->getGrasp(i), object));
         }
     }
@@ -592,6 +652,7 @@ void SkeletonGraspPlannerWindow::closeEEF()
         {
             ss << "no";
         }
+        ss << "\nPreshape:" << currentPreshape;
 
         UI.labelInfo->setText(QString(ss.str().c_str()));
     }

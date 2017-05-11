@@ -180,10 +180,10 @@ bool MeshSkeletonData::saveSkeletonData(/*const std::string& basePath,*/ const s
 
     std::string t = "\t";
     std::stringstream ss;
-
-    string fileMesh = meshPath + "/CGALSkeleton-" + filenameBaseComplete.filename().c_str();
-    string fileSkeleton = skeletonPath + "/CGALMesh-" + filenameBaseComplete.filename().c_str();
-    string fileSeg = segmentationPath + "/CGALSkeletonSegmentation-" + filenameBaseComplete.filename().c_str();
+    std::string basename = boost::filesystem::path(filenameBaseComplete).filename().replace_extension(".xml").string();
+    string fileMesh = meshPath + "/CGALSkeleton-" + basename;
+    string fileSkeleton = skeletonPath + "/CGALMesh-" + basename;
+    string fileSeg = segmentationPath + "/CGALSkeletonSegmentation-" + basename;
 
     bool ok1 = SimoxCGAL::CGALMeshIO::Save(mesh, fileMesh);
     bool ok2 = SkeletonIO::saveSkeletonObject(skeleton, fileSkeleton);

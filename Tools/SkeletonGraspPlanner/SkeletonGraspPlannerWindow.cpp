@@ -156,6 +156,7 @@ void SkeletonGraspPlannerWindow::setupUI()
     connect(UI.pushButtonReset, SIGNAL(clicked()), this, SLOT(resetSceneryAll()));
     connect(UI.pushButtonPlan, SIGNAL(clicked()), this, SLOT(plan()));
     connect(UI.pushButtonPlanAll, SIGNAL(clicked()), this, SLOT(planAll()));
+    connect(UI.pushButtonPlanBatch, SIGNAL(clicked()), this, SLOT(planObjectBatch()));
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(save()));
     connect(UI.pushButtonOpen, SIGNAL(clicked()), this, SLOT(openEEF()));
     connect(UI.pushButtonClose, SIGNAL(clicked()), this, SLOT(closeEEF()));
@@ -387,8 +388,7 @@ void SkeletonGraspPlannerWindow::loadObject()
 */
 void SkeletonGraspPlannerWindow::loadData()
 {
-    resetSceneryAll();
-    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
+    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("Segmented Object XML Files (*.soxml)"));
     string file = std::string(fi.toAscii());
     if (file.empty())
     {
@@ -397,10 +397,10 @@ void SkeletonGraspPlannerWindow::loadData()
     loadSegmentedObject(file);
 }
 
-void SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filename)
+bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filename)
 {
     segmentedObjectFile = filename;
-
+    VR_INFO << "Loading segmented object from " << filename << std::endl;
     try
     {
         MeshSkeletonDataPtr data = MeshSkeletonData::loadSkeletonData(segmentedObjectFile);
@@ -414,7 +414,7 @@ void SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filenam
     } catch (...)
     {
         VR_ERROR << "could not load file " << segmentedObjectFile << endl;
-        return;
+        return false;
     }
 
     //verschiebe Endeffector
@@ -430,6 +430,7 @@ void SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filenam
     buildVisu();
 
     updateSkeletonInfo();
+    return true;
 }
 
 void SkeletonGraspPlannerWindow::initPlanner()
@@ -633,6 +634,12 @@ void SkeletonGraspPlannerWindow::showGrasps()
 
 void SkeletonGraspPlannerWindow::save()
 {
+    QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
+    saveToFile(fi.toStdString());
+}
+
+void SkeletonGraspPlannerWindow::saveToFile(std::string filepath)
+{
     if (!object)
     {
         return;
@@ -645,12 +652,12 @@ void SkeletonGraspPlannerWindow::save()
 //    objectM->saveModelFiles("iv", fa);
 //    objectM->setCollisionModel(object->getCollisionModel()->clone());
     objectM->addGraspSet(grasps);
-    QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
-    std::string objectFile = std::string(fi.toLatin1());
+    std::string objectFile = filepath;
     bool ok = false;
 
     try
     {
+        VR_INFO << "Saving to " << objectFile << std::endl;
         ok = ObjectIO::saveManipulationObject(objectM, objectFile);
     }
     catch (VirtualRobotException& e)
@@ -694,4 +701,45 @@ void SkeletonGraspPlannerWindow::setVerbose()
         approach->setVerbose(v);
     if (planner)
         planner->setVerbose(v);
+}
+
+void SkeletonGraspPlannerWindow::planObjectBatch()
+{
+    QString fi = QFileDialog::getExistingDirectory(this, tr("Select Base Directory"), QString());
+    VR_INFO << "Searching for all .soxml files in " << fi.toStdString() << std::endl;
+    if (fi.isEmpty())
+    {
+        return;
+    }
+    QStringList paths;
+    for (boost::filesystem::recursive_directory_iterator end, dir(fi.toUtf8().data());
+         dir != end ; ++dir)
+    {
+        std::string path(dir->path().c_str());
+
+        // search for all statechart group xml files
+        if (dir->path().extension() == ".soxml")
+        {
+            paths << dir->path().c_str();
+        }
+
+    }
+    paths.removeDuplicates();
+    VR_INFO << "Found:  " << paths.join(", ").toStdString() << std::endl;
+    for(auto& path :  paths)
+    {
+        try
+        {
+            resetSceneryAll();
+            if(loadSegmentedObject(path.toStdString()))
+            {
+                planAll();
+                saveToFile(boost::filesystem::path(path.toStdString()).replace_extension(".moxml").string());
+            }
+        }
+        catch(std::exception & e)
+        {
+            VR_ERROR << "Failed to plan for " << path.toStdString() << "\nReason: \n" << e.what() << std::endl;
+        }
+    }
 }

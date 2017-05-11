@@ -19,26 +19,18 @@ int main(int argc, char* argv[])
     SimoxCGAL::init(argc, argv, "Skeleton Grasp Planner");
 
     // --robot robots/iCub/iCub.xml --endeffector "Left Hand" --preshape "Grasp Preshape"
-    // --robot robots/Shadow_Dexterous_Hand/shadowhand.xml --endeffector "SHADOWHAND"
-
-    //std::string robot("robots/ArmarIII.xml");
-    std::string robot = "robots/ArmarIII/ArmarIII.xml"; // local simox-cgal
-    std::string eef("Hand R");
-
-    //std::string robot("robots/Shadow_Dexterous_Hand/shadowhand.xml");
-    //std::string eef("SHADOWHAND");
-
-
+    std::string robot;
+    robot = "robots/ArmarIII/ArmarIII.xml";
+//    std::string robot("robots/Shadow_Dexterous_Hand/shadowhand.xml");
 //    std::string robot("robots/iCub/iCub.xml");
-
 //    std::string robot("robots/SAH_RightHand/SAH_RightHand.xml");
 //    VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robot);
-
+    std::string eef("Hand R");
     //std::string object("objects/wok.xml");
     //std::string object("objects/riceBox.xml");
     //std::string object("objects/screwdriver/screwdriver01.xml");
-    //std::string object("segmented-objects/flashlight/flashlight1.xml");
-    std::string object("segmented-objects/airplane/airplane0.xml");
+    //std::string object("segmented-objects/flashlight/flashlight1.soxml");
+    std::string object("segmented-objects/airplane/airplane0.soxml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
     //std::string preshape("");
 
@@ -60,9 +52,12 @@ int main(int argc, char* argv[])
 
     std::string robFile = VirtualRobot::RuntimeEnvironment::getValue("robot");
 
-    if (!robFile.empty() && VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robFile))
+    if (!robFile.empty())
     {
-        robot = robFile;
+        if(VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robFile))
+            robot = robFile;
+        else
+            VR_ERROR << "Could not find file " << robFile;
     }
 
     std::string objFile = VirtualRobot::RuntimeEnvironment::getValue("object");
@@ -72,8 +67,8 @@ int main(int argc, char* argv[])
         object = objFile;
     }
 
-    //VirtualRobot::RuntimeEnvironment::addKeyValuePair("endeffector2", "SHADOWHAND");
-    //VirtualRobot::RuntimeEnvironment::addKeyValuePair("endeffector3", "Right Hand");
+    VirtualRobot::RuntimeEnvironment::addKeyValuePair("endeffector2", "SHADOWHAND");
+    VirtualRobot::RuntimeEnvironment::addKeyValuePair("endeffector3", "Right Hand");
     //key1: endeffector für Armarhand
     std::string eefname = VirtualRobot::RuntimeEnvironment::getValue("endeffector");
 
@@ -89,7 +84,9 @@ int main(int argc, char* argv[])
         preshape = ps;
     }*/
 
+
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robot);
+//    object = "/common/homes/students/koch/Dokumente/simox-cgal/data/objects/screwdriver1.xml";
     cout << "Using robot from " << robot << endl;
     cout << "End effector:" << eef << /*", preshape:" << preshape <<*/ endl;
     cout << "Using object from " << object << endl;

@@ -59,6 +59,7 @@ public:
     /*!< Executes the SoQt mainLoop. You need to call this in order to execute the application. */
     int main();
 
+    void saveToFile(std::string filepath);
 public slots:
     /*! Closes the window and exits SoQt runloop. */
     void quit();
@@ -85,11 +86,12 @@ public slots:
     void selectGrasp();
 
     void setVerbose();
+    void planObjectBatch();
 
 protected:
 
     void loadRobot();
-    void loadSegmentedObject(const std::string & filename);
+    bool loadSegmentedObject(const std::string & filename);
 
     void planGrasps(float timeout, bool forceClosure, float quality, int nrGrasps);
     void initPlanner();

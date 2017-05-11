@@ -45,7 +45,7 @@ using namespace SimoxCGAL;
 ObjectSegmentationSkeletonWindow::ObjectSegmentationSkeletonWindow(const std::string& objFile)
     : QMainWindow(NULL)
 {
-    VR_INFO << " start " << endl;
+    VR_INFO << " start with " << objFile << endl;
 
     this->objectFilename = objFile;
 
@@ -251,11 +251,22 @@ void ObjectSegmentationSkeletonWindow::saveSegmentedObject()
         return;
     }
 
-    string manipObjectFile = objectFilename;
-    cout << "manipObjectFile: " << manipObjectFile << endl;
+    boost::filesystem::path segmentedObjectFileDefaultName (objectFilename);
 
-    QString fi = QFileDialog::getSaveFileName(this, tr("Save Segmented Object"), QString(manipObjectFile.c_str()), tr("XML Files (*.xml)"));
+    segmentedObjectFileDefaultName.replace_extension(".soxml");
+    cout << "manipObjectFile: " << objectFilename << endl;
+
+    QString fi = QFileDialog::getSaveFileName(this, tr("Save Segmented Object"), QString(segmentedObjectFileDefaultName.c_str()), tr("Segmented Object XML Files (*.soxml)"));
+    if(fi.isEmpty())
+        return;
     std::string segObjectFile = std::string(fi.toLatin1());
+
+    boost::filesystem::path segObjectFilePath(segObjectFile);
+    if(segObjectFilePath.extension().empty())
+    {
+        segObjectFilePath.replace_extension(".soxml");
+    }
+
 /*
     std::string relPath;
 
@@ -272,7 +283,7 @@ void ObjectSegmentationSkeletonWindow::saveSegmentedObject()
     if (relPath.empty())
         relPath = std::string(getenv("HOME"));
 */
-    bool save = MeshSkeletonData::saveSkeletonData(/*relPath,*/ segObjectFile, manipObjectFile, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
+    bool save = MeshSkeletonData::saveSkeletonData(/*relPath,*/ segObjectFilePath.string(), objectFilename, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
 
     if (!save)
     {

@@ -1,0 +1,8 @@
+<ManipulationObject name='Mesh_20000'>
+	<Visualization>
+		<File type='inventor'>cutter-poisson1.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>cutter-poisson1.stl</File>
+	</CollisionModel>
+</ManipulationObject>

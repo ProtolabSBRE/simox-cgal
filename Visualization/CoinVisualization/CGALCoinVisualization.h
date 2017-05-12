@@ -65,17 +65,30 @@ namespace SimoxCGAL
 
 
 
-        static SoSeparator* CreateSegmentationVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, std::vector<ObjectPartPtr> members, bool show_lines);
-        static SoSeparator* CreateSegmentVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart, bool show_lines);
+        static SoSeparator* CreateSegmentationVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, std::vector<ObjectPartPtr> members,
+                                                            bool show_lines,
+                                                            float pointSize = 1.0f,
+                                                            float lineWidth = 10.0f);
+        static SoSeparator* CreateSegmentVisualization(SkeletonPtr skeleton,
+                                                       SurfaceMeshPtr mesh,
+                                                       SkeletonPartPtr subpart,
+                                                       bool show_lines,
+                                                       float pointSize = 1.0f,
+                                                       float lineWidth = 10.0f);
 
         static SoSeparator* CreatePigmentedMeshVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, std::vector<ObjectPartPtr> members, int part);
         static SoNode* CreatePigmentedSubpartVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, SkeletonPartPtr subpart);
 
-        static SoSeparator* CreateSkeletonVisualization(SkeletonPtr skeleton, SurfaceMeshPtr mesh, bool showLines);
+        static SoSeparator* CreateSkeletonVisualization(SkeletonPtr skeleton,
+                                                        SurfaceMeshPtr mesh,
+                                                        bool showLines,
+                                                        float pointSize = 1.0f,
+                                                        float lineWidth = 10.0f);
         static SoSeparator* ShowSkeletonPoint(SkeletonPtr skeleton, SurfaceMeshPtr mesh, int pointPosition);
 
-        static SoSeparator* CreateConnectionVisualization(SkeletonVertex &vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh);
-        static SoSeparator* CreatePolylinesVisualization(Eigen::Vector3f center, std::vector<Eigen::Vector3f> lines);
+        static SoSeparator* CreateConnectionVisualization(SkeletonVertex &vertex, SkeletonPtr skeleton, SurfaceMeshPtr mesh,
+                                                          float lineWidth = 10.0f);
+        static SoSeparator* CreatePolylinesVisualization(Eigen::Vector3f center, std::vector<Eigen::Vector3f> lines, float lineWidth = 1.0f);
 
         static SoSeparator* CreateGraspVisualization(VirtualRobot::GraspPtr grasp, VirtualRobot::ManipulationObjectPtr object);
 
@@ -93,6 +106,8 @@ namespace SimoxCGAL
 
 
     protected:
+
+        static SoSeparator* verticesVisu(std::vector<Eigen::Vector3f> &v, float pointSize);
         static SoSeparator* CreatePolygonVisualization(const std::vector<Eigen::Vector3f>& points, VirtualRobot::VisualizationFactory::PhongMaterial mat, VirtualRobot::VisualizationFactory::Color colorLine, float lineSize);
 
 

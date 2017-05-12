@@ -1,0 +1,6 @@
+<ManipulationObject name='Phillips'>
+	<Visualization>
+		<File type='inventor'>phillips.wrl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

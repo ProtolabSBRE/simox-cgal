@@ -344,12 +344,34 @@ void MeshReconstructionWindow::loadPoints()
 void MeshReconstructionWindow::loadObject()
 {
     resetSceneryAll();
-    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
-    string file = std::string(fi.toAscii());
-    if (file.empty())
+    //QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QStringList nameFilters;
+    nameFilters << "XML Files (*.xml)"
+                << "Manipulation Files (*.moxml)"
+                << "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
     {
+        if (dialog.selectedFiles().size() == 0)
+            return;
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "load dialog canceled" << std::endl;
         return;
     }
+
+    string file = std::string(fi.toAscii());
+    if (file.empty())
+        return;
+
     loadObject(file);
 }
 
@@ -497,7 +519,29 @@ void MeshReconstructionWindow::save()
         return;
     }
 
-    QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
+    //QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    QStringList nameFilters;
+    nameFilters << "Manipulation Files (*.moxml)"
+                << "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
+    {
+        if (dialog.selectedFiles().size() == 0)
+            return;
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "save dialog canceled" << std::endl;
+        return;
+    }
+
     std::string objectFile = std::string(fi.toLatin1());
     bool ok = false;
 

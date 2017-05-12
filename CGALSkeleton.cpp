@@ -44,29 +44,34 @@ void CGALSkeleton::initParameters(int a1, double a2, double a3, double a4, int a
 
 void CGALSkeleton::calculateSkeleton()
 {
-    Skeletonization mcs(*mesh);
+    try {
+        Skeletonization mcs(*mesh);
 
-    //Parameter einstellen für Skelettberechnung.
-    mcs.set_max_triangle_angle(max_triangle_angle);
-    mcs.set_quality_speed_tradeoff(quality_speed_tradeoff);
-    mcs.set_medially_centered_speed_tradeoff(medially_centered_speed_tradeoff);
-    mcs.set_area_variation_factor(area_variation_factor);
-    mcs.set_max_iterations(max_iterations);
-    mcs.set_is_medially_centered(is_medially_centered);
-//    mcs.set_min_edge_length(min_edge_length);
+        //Parameter einstellen für Skelettberechnung.
+        mcs.set_max_triangle_angle(max_triangle_angle);
+        mcs.set_quality_speed_tradeoff(quality_speed_tradeoff);
+        mcs.set_medially_centered_speed_tradeoff(medially_centered_speed_tradeoff);
+        mcs.set_area_variation_factor(area_variation_factor);
+        mcs.set_max_iterations(max_iterations);
+        mcs.set_is_medially_centered(is_medially_centered);
+    //    mcs.set_min_edge_length(min_edge_length);
 
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-    Skeleton ske;
-    mcs.contract_until_convergence();
-    cout << "hallo" << endl;
-    mcs.convert_to_skeleton(ske);
+        Skeleton ske;
+        mcs.contract_until_convergence();
 
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+        mcs.convert_to_skeleton(ske);
 
-    skeleton = SkeletonPtr(new Skeleton(ske));
+        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
-    skeletonTimeMS = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count(); //milliseconds
+        skeleton = SkeletonPtr(new Skeleton(ske));
+
+        skeletonTimeMS = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count(); //milliseconds
+    } catch (...)
+    {
+        VR_ERROR << "Error in cgal processing..." << endl;
+    }
 }
 
 void CGALSkeleton::clear()

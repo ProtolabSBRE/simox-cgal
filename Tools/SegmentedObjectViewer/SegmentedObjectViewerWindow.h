@@ -50,9 +50,6 @@ public slots:
     void resetSceneryAll();
     void colModel();
 
-    //void choseSegments();
-    void screenshot();
-
     void buildVisu();
 
     void reloadSegmentedObject();

@@ -1,0 +1,8 @@
+<ManipulationObject name='Mesh_20000'>
+	<Visualization>
+		<File type='inventor'>Stanley_Extenstion_Short-poisson.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>Stanley_Extenstion_Short-poisson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

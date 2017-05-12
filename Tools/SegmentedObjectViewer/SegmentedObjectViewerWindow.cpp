@@ -266,52 +266,35 @@ void SegmentedObjectViewerWindow::colModel()
 
 void SegmentedObjectViewerWindow::reloadSegmentedObject()
 {
-    QString fi = QFileDialog::getOpenFileName(this, tr("Open Segmented Object"), QString(), tr("XML Files (*.xml)"));
-    segmentedFilename = std::string(fi.toAscii());
-    if (segmentedFilename.empty())
+    //QString fi = QFileDialog::getOpenFileName(this, tr("Open Segmented Object"), QString(), tr("XML Files (*.xml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QStringList nameFilters;
+    nameFilters << "XML Files (*.xml)"
+                << "Manipulation Files (*.moxml)"
+                << "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
     {
+        if (dialog.selectedFiles().size() == 0)
+            return;
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "load dialog canceled" << std::endl;
         return;
     }
 
-    //boost::filesystem::path p(segmentedFilename);
-    //save_dir = p.parent_path().string();
+    segmentedFilename = std::string(fi.toAscii());
+    if (segmentedFilename.empty())
+        return;
 
     loadSegmentedObject();
 }
 
-void SegmentedObjectViewerWindow::screenshot()
-{
-    //SoCamera* camera = viewer->getCamera();
-    //Fit to object representation
-    //camera->orientation.setValue(SbVec3f(0,1,1),1.5707963f); //hammer
-    //camera->orientation.setValue(SbVec3f(0,0,1),0.7853981f); //teddy
-    //camera->orientation.setValue(SbVec3f(0,1,0),1.57079f); //screwdriver
-    //viewer->viewAll();
-
-    QString fi = QFileDialog::getSaveFileName(this, tr("Save Screenshot"));
-    std::string buffer = std::string(fi.toAscii());
-    if (buffer.empty())
-    {
-        return;
-    }
-
-    SbString framefile;
-    framefile.sprintf(buffer.c_str(), 1);
-
-    viewer->getSceneManager()->render();
-    viewer->getSceneManager()->scheduleRedraw();
-    QGLWidget* w = (QGLWidget*)viewer->getGLWidget();
-
-    QImage i = w->grabFrameBuffer();
-    bool bRes = i.save(framefile.getString(), "PNG");
-    if (bRes)
-    {
-        cout << "wrote image " << endl;
-    }
-    else
-    {
-        cout << "failed writing image " << endl;
-    }
-
-}
 

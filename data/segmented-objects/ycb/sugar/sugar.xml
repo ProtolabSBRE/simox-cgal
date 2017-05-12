@@ -1,6 +1,6 @@
 <SimoxCGAL-SkeletonTool>
 	<Object>
-		<File file='../../objects/ycb/sugar/sugar.xml'/>
+		<File file='../../../objects/ycb/sugar/sugar.xml'/>
 	</Object>
 	<CGAL-Mesh>
 		<File file='CGALSkeleton/mesh/CGALSkeleton-sugar.xml'/>

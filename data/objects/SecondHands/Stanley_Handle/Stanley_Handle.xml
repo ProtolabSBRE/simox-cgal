@@ -1,0 +1,6 @@
+<ManipulationObject name='Stanley_Handle'>
+	<Visualization>
+		<File type='inventor'>stanley_handle.wrl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

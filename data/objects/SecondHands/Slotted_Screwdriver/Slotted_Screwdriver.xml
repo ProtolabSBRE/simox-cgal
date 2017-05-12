@@ -1,0 +1,6 @@
+<ManipulationObject name='SlottedScrewdriver'>
+	<Visualization>
+		<File type='inventor'>slotted_screwdriver.wrl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

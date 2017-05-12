@@ -1,0 +1,6 @@
+<ManipulationObject name='AllanKey5'>
+	<Visualization>
+		<File type='inventor'>AllanKey5.wrl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

@@ -114,7 +114,7 @@ SimoxCGAL::CGALSurfaceMeshPtr SimoxCGAL::CGALMeshConverter::ConvertToSurfaceMesh
        if (id_map.find(id1) == id_map.end())
        {
            // insert
-           Eigen::Vector3f p = tm2->vertices.at(id1);
+           Eigen::Vector3f &p = tm2->vertices.at(id1);
            Point point(p[0], p[1], p[2]);
            v1 = mesh->add_vertex(point);
            id_map[id1] = v1;
@@ -130,7 +130,7 @@ SimoxCGAL::CGALSurfaceMeshPtr SimoxCGAL::CGALMeshConverter::ConvertToSurfaceMesh
        if (id_map.find(id2) == id_map.end())
        {
            // insert
-           Eigen::Vector3f p = tm2->vertices.at(id2);
+           Eigen::Vector3f &p = tm2->vertices.at(id2);
            Point point(p[0], p[1], p[2]);
            v2 = mesh->add_vertex(point);
            id_map[id2] = v2;
@@ -146,7 +146,7 @@ SimoxCGAL::CGALSurfaceMeshPtr SimoxCGAL::CGALMeshConverter::ConvertToSurfaceMesh
        if (id_map.find(id3) == id_map.end())
        {
            // insert
-           Eigen::Vector3f p = tm2->vertices.at(id3);
+           Eigen::Vector3f &p = tm2->vertices.at(id3);
            Point point(p[0], p[1], p[2]);
            v3 = mesh->add_vertex(point);
            id_map[id3] = v3;

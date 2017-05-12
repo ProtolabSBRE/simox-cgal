@@ -787,6 +787,10 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     }
     paths.removeDuplicates();
     VR_INFO << "Found:  " << paths.join(", ").toStdString() << std::endl;
+    boost::filesystem::path resultsCSVPath("graspplanningresults-" + robot->getName() + ".csv");
+    resultsCSVPath = boost::filesystem::absolute(resultsCSVPath);
+    std::ofstream fs(resultsCSVPath.string().c_str(), std::ofstream::out);
+    fs << "object," << planner->getEvaluation().GetCSVHeader() << std::endl;
     for(auto& path :  paths)
     {
         try
@@ -796,6 +800,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
             {
                 planAll();
                 saveToFile(boost::filesystem::path(path.toStdString()).replace_extension(".moxml").string());
+                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << std::endl;
             }
         }
         catch(std::exception & e)
@@ -803,4 +808,6 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
             VR_ERROR << "Failed to plan for " << path.toStdString() << "\nReason: \n" << e.what() << std::endl;
         }
     }
+    VR_INFO << "Saving CSV results to " << resultsCSVPath.string() << std::endl;
+
 }

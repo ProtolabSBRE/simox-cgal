@@ -84,6 +84,78 @@ struct GraspPlannerEvaluation
         }
     }
 
+    static std::string GetCSVHeader()
+    {
+        std::stringstream fs;
+        fs << "minQuality" << ","
+           << "nrGraspsGenerated" << ","
+           << "nrGraspsValid" << ","
+           << "nrGraspsInValid" << ","
+           << "nrGraspsValidPrecision" << ","
+           << "nrGraspsValidPower" << ","
+           << "nrGraspsInvalidCollision" << ","
+           << "nrGraspsInvalidFC" << ","
+           << "nrGraspsInvalidContacts" << ","
+           << "AverageDurationMS" << ","
+           << "percPowerGrasps" << ","
+           << "percPrecGraps" << ","
+           << "avgScore";
+        return fs.str();
+    }
+
+    std::string toCSVString() const
+    {
+        float timeAcc = 0;
+        float scoreAcc = 0;
+        int nrGrasps = (int)timeGraspMS.size();
+        int nrValid = 0;
+        int nrPower = 0;
+        int nrPrecision = 0;
+        for (size_t i=0;i<timeGraspMS.size();i++)
+        {
+            timeAcc+=timeGraspMS.at(i);
+            if (graspValid.at(i))
+            {
+                nrValid++;
+                scoreAcc+=graspScore.at(i);
+            }
+            if (graspTypePower.at(i))
+                nrPower++;
+            else
+                nrPrecision++;
+        }
+        float percPower = 0;
+        float percPrec = 0;
+        if (nrGrasps>0)
+        {
+            percPower = (float)nrPower / (float)nrGrasps;
+            percPrec = (float)nrPrecision / (float)nrGrasps;
+        }
+        float avgScore = 0;
+        if (nrValid>0)
+        {
+            avgScore = scoreAcc / nrValid ;
+        }
+
+
+        std::stringstream fs;
+        fs << minQuality << ","
+           << nrGraspsGenerated << ","
+           << nrGraspsValid << ","
+           << (nrGraspsInvalidCollision+nrGraspsInvalidFC+nrGraspsInvalidContacts) << ","
+           << nrGraspsValidPrecision << ","
+           << nrGraspsValidPower << ","
+           << nrGraspsInvalidCollision << ","
+           << nrGraspsInvalidFC << ","
+           << nrGraspsInvalidContacts << ","
+           << (float)timeAcc / (float)nrGrasps << ","
+           << percPower << ","
+           << percPrec << ","
+           << avgScore;
+        return fs.str();
+    }
+
+
     int nrGraspsGenerated;
     int nrGraspsValid;
     int nrGraspsInvalidCollision;

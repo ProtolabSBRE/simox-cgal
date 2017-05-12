@@ -444,12 +444,34 @@ void SkeletonGraspPlannerWindow::loadObject()
 */
 void SkeletonGraspPlannerWindow::loadData()
 {
-    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("Segmented Object XML Files (*.soxml)"));
-    string file = std::string(fi.toAscii());
-    if (file.empty())
+    //QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("Segmented Object XML Files (*.soxml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QStringList nameFilters;
+    nameFilters << "Segmented Object XML Files (*.soxml)"
+                << "XML Files (*.xml)"
+                   "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
     {
+        if (dialog.selectedFiles().size() == 0)
+            return;
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "load dialog canceled" << std::endl;
         return;
     }
+
+    string file = std::string(fi.toAscii());
+    if (file.empty())
+        return;
+
     loadSegmentedObject(file);
 }
 
@@ -695,7 +717,31 @@ void SkeletonGraspPlannerWindow::showGrasps()
 
 void SkeletonGraspPlannerWindow::save()
 {
-    QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
+    //QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    QStringList nameFilters;
+    nameFilters << "Manipulation Files (*.moxml)"
+                << "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
+    {
+        if (dialog.selectedFiles().size() == 0)
+            return;
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "save dialog canceled" << std::endl;
+        return;
+    }
+    if(fi.isEmpty())
+        return;
+
     saveToFile(fi.toStdString());
 }
 
@@ -706,12 +752,7 @@ void SkeletonGraspPlannerWindow::saveToFile(std::string filepath)
         return;
     }
 
-
-
     ManipulationObjectPtr objectM(new ManipulationObject(object->getName(), object->getVisualization()->clone(), object->getCollisionModel()->clone()));
-//    ManipulationObjectPtr objectM = VirtualRobot::ManipulationObject::createFromMesh(triMeshRefined);
-//    objectM->saveModelFiles("iv", fa);
-//    objectM->setCollisionModel(object->getCollisionModel()->clone());
     objectM->addGraspSet(grasps);
     std::string objectFile = filepath;
     bool ok = false;

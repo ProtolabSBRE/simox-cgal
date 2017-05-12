@@ -260,7 +260,29 @@ void ObjectSegmentationSkeletonWindow::saveSegmentedObject()
     segmentedObjectFileDefaultName.replace_extension(".soxml");
     cout << "manipObjectFile: " << objectFilename << endl;
 
-    QString fi = QFileDialog::getSaveFileName(this, tr("Save Segmented Object"), QString(segmentedObjectFileDefaultName.c_str()), tr("Segmented Object XML Files (*.soxml)"));
+    //QString fi = QFileDialog::getSaveFileName(this, tr("Save Segmented Object"), QString(segmentedObjectFileDefaultName.c_str()), tr("Segmented Object XML Files (*.soxml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    QStringList nameFilters;
+    nameFilters << "Segmented Object XML Files (*.soxml)"
+                << "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
+    {
+        if (dialog.selectedFiles().size() == 0)
+            return;
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "save dialog canceled" << std::endl;
+        return;
+    }
+
     if(fi.isEmpty())
         return;
     std::string segObjectFile = std::string(fi.toLatin1());
@@ -285,10 +307,35 @@ void ObjectSegmentationSkeletonWindow::loadData()
 
     VR_INFO << "Loading skeleton ...\n";
 
-    QString fi = QFileDialog::getOpenFileName(this, tr("Open Skeleton File"), QString(), tr("XML Files (*.xml)"));
+    //QString fi = QFileDialog::getOpenFileName(this, tr("Open Skeleton File"), QString(), tr("XML Files (*.xml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QStringList nameFilters;
+    nameFilters << "XML Files (*.xml)"
+                << "Segemented Object Files (*.soxml)"
+                << "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
+    {
+        if (dialog.selectedFiles().size() == 0)
+            return;
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "load dialog canceled" << std::endl;
+        return;
+    }
+
     string file(fi.toLatin1());
 
     VR_INFO << "Loading from file: " << file << endl;
+    if (file.empty())
+        return;
 
     try {
         MeshSkeletonDataPtr data = MeshSkeletonData::loadSkeletonData(file);
@@ -367,12 +414,33 @@ void ObjectSegmentationSkeletonWindow::reloadObject()
 
     UI.comboBoxSegmentation->clear();
 
-    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
-    objectFilename = std::string(fi.toAscii());
-    if (objectFilename.empty())
+    //QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QStringList nameFilters;
+    nameFilters << "Manipulation Files (*.moxml)"
+                << "XML Files (*.xml)"
+                << "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
     {
+        if (dialog.selectedFiles().size() == 0)
+            return;
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "load dialog canceled" << std::endl;
         return;
     }
+
+    objectFilename = std::string(fi.toAscii());
+    if (objectFilename.empty())
+        return;
 
     loadObject();
 }

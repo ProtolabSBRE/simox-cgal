@@ -1,0 +1,8 @@
+<ManipulationObject name='Mesh_20001'>
+	<Visualization>
+		<File type='inventor'>Flashlight-posson.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>Flashlight-posson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

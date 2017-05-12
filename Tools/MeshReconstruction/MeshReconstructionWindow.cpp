@@ -344,7 +344,33 @@ void MeshReconstructionWindow::loadPoints()
 void MeshReconstructionWindow::loadObject()
 {
     resetSceneryAll();
-    QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
+    //QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("XML Files (*.xml)"));
+    QString fi;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QStringList nameFilters;
+    nameFilters << "XML Files (*.xml)"
+                << "Manipulation Files (*.moxml)"
+                << "All Files (*.*)";
+    dialog.setNameFilters(nameFilters);
+
+    if (dialog.exec())
+    {
+        if (dialog.selectedFiles().size() == 0)
+        {
+            return;
+        }
+
+        fi = dialog.selectedFiles()[0];
+    }
+    else
+    {
+        VR_INFO << "load dialog canceled" << std::endl;
+        return;
+    }
+
+
     string file = std::string(fi.toAscii());
     if (file.empty())
     {

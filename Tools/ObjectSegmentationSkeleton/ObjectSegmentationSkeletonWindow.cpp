@@ -184,7 +184,11 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
     SoMaterial* partColor = new SoMaterial;
     partColor->diffuseColor.setValue(1.f, 0.f, 0.f);
 
-
+    SoMaterial* color1 = new SoMaterial();
+    color1->transparency = 0.7f;
+    color1->diffuseColor.setIgnored(TRUE);
+    color1->setOverride(TRUE);
+    segmentationSep->addChild(color1);
     if (skeleton && segSkeleton && (number_segmentation != 0) && UI.checkBoxManip->isChecked())
     {
         SkeletonPtr s = skeleton->getSkeleton();
@@ -267,23 +271,7 @@ void ObjectSegmentationSkeletonWindow::saveSegmentedObject()
         segObjectFilePath.replace_extension(".soxml");
     }
 
-/*
-    std::string relPath;
-
-    char* simox_cgal_data_path = getenv("SIMOX_CGAL_DATA_PATH");
-    if (simox_cgal_data_path)
-    {
-        relPath = std::string(simox_cgal_data_path);
-    } else
-    {
-#ifdef Simox_CGAL_DATA_PATH
-            relPath = std::string(Simox_CGAL_DATA_PATH);
-#endif
-    }
-    if (relPath.empty())
-        relPath = std::string(getenv("HOME"));
-*/
-    bool save = MeshSkeletonData::saveSkeletonData(/*relPath,*/ segObjectFilePath.string(), objectFilename, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
+    bool save = MeshSkeletonData::saveSkeletonData(segObjectFilePath.string(), objectFilename, skeleton, surfaceMesh, segSkeleton->getSegmentedObject());
 
     if (!save)
     {
@@ -425,7 +413,7 @@ void ObjectSegmentationSkeletonWindow::buildObject()
 
      surfaceMesh = CGALMeshConverter::ConvertToSurfaceMesh(model);
 
-    VR_INFO << "Calculatin skeleton ..." << endl;
+    VR_INFO << "Calculating skeleton ..." << endl;
 
     skeleton = CGALSkeletonPtr(new CGALSkeleton(manipObject->getName(), surfaceMesh->getMesh()));
     skeleton->initParameters();
@@ -433,7 +421,7 @@ void ObjectSegmentationSkeletonWindow::buildObject()
 
     VR_INFO << "Done in " << skeleton->getTime() << " ms " << endl;
 
-    VR_INFO << "Calculatin skeleton segmentation ..." << endl;
+    VR_INFO << "Calculating skeleton segmentation ..." << endl;
 
     segSkeleton = MeshSkeletonPtr(new MeshSkeleton(surfaceMesh, skeleton->getSkeleton(), 20.0));
 

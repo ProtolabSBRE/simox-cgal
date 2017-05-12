@@ -1,0 +1,6 @@
+<ManipulationObject name='Stanley_Extension_Medium'>
+	<Visualization>
+		<File type='inventor'>stanley_extenstion_medium.wrl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

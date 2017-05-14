@@ -27,6 +27,7 @@
 #include <Inventor/nodes/SoEventCallback.h>
 #include <Inventor/nodes/SoMatrixTransform.h>
 #include <Inventor/nodes/SoScale.h>
+#include <Inventor/nodes/SoAnnotation.h>
 
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
 #include "Segmentation/Skeleton/SkeletonPart.h"
@@ -62,6 +63,9 @@ ObjectSegmentationSkeletonWindow::ObjectSegmentationSkeletonWindow(const std::st
     sceneSep->addChild(skeletonSep);
 
     segmentationSep = new SoSeparator;
+    //SoAnnotation* an = new SoAnnotation;
+    //an->addChild(segmentationSep);
+    //sceneSep->addChild(an);
     sceneSep->addChild(segmentationSep);
 
     surfaceSep = new SoSeparator;
@@ -130,6 +134,7 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
 {
     SceneObject::VisualizationType colModel = (UI.radioButtonColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
 
+    ///////////// OBJECT
     objectSep->removeAllChildren();
     if (manipObject && UI.checkBoxManip->isChecked())
     {
@@ -151,20 +156,24 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
 
     }
 
-    skeletonSep->removeAllChildren();
+    int number_segmentation = UI.comboBoxSegmentation->count();
+    int index_segmentation = UI.comboBoxSegmentation->currentIndex();
+    std::vector<ObjectPartPtr> members;
+    if (segSkeleton && segSkeleton->getSegmentedObject())
+        members = segSkeleton->getSegmentedObject()->getObjectParts();
+    bool colorizeOneSegment = (size_t(index_segmentation) < members.size());
+    bool colorizeAllSegments = (size_t(index_segmentation) == members.size());
 
-    if (skeleton && UI.radioButtonFullModel->isChecked())
+    ////////////////// SKELETON
+    skeletonSep->removeAllChildren();
+    if (skeleton && UI.radioButtonFullModel->isChecked() && !colorizeAllSegments)
     {
         if (UI.checkBoxSkeleton->isChecked())
         {
             SoSeparator* s = new SoSeparator();
-//            SoMaterial* color = new SoMaterial();
-//            color->diffuseColor.setValue(1.f, 0.f, 0.f);
-//            s->addChild(color);
             s->addChild(CGALCoinVisualization::CreateSkeletonVisualization(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.checkBoxLines->isChecked()));
             skeletonSep->addChild(s);
         }
-
 
         if (UI.checkBoxSkeletonPoint->isChecked())
         {
@@ -173,61 +182,62 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
 
     }
 
+
+
+    /////////////////// SEGMENTATION (SKELETON)
     segmentationSep->removeAllChildren();
 
-
-    int number_segmentation = UI.comboBoxSegmentation->count();
-    int index_segmentation = UI.comboBoxSegmentation->currentIndex();
     bool lines = UI.checkBoxLines->isChecked();
     bool pigment = UI.checkBoxSegment->isChecked();
 
     SoMaterial* partColor = new SoMaterial;
     partColor->diffuseColor.setValue(1.f, 0.f, 0.f);
 
-    SoMaterial* color1 = new SoMaterial();
-    color1->transparency = 0.7f;
-    color1->diffuseColor.setIgnored(TRUE);
-    color1->setOverride(TRUE);
-    segmentationSep->addChild(color1);
-    if (skeleton && segSkeleton && (number_segmentation != 0) && UI.checkBoxManip->isChecked())
+    if (skeleton && segSkeleton && (number_segmentation != 0) && UI.checkBoxSkeleton->isChecked())
     {
-        SkeletonPtr s = skeleton->getSkeleton();
-        std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();
 
-        if (size_t(index_segmentation) < members.size())
+        SoSeparator* s2 = new SoSeparator;
+        segmentationSep->addChild(s2);
+
+
+        SkeletonPtr s = skeleton->getSkeleton();
+
+        if (colorizeOneSegment)
         {
-            segmentationSep->addChild(partColor);
+            s2->addChild(partColor);
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(index_segmentation));
             SoSeparator* segment = CGALCoinVisualization::CreateSegmentVisualization(s, surfaceMesh->getMesh(), subpart, lines);
-            segmentationSep->addChild(segment);
+            s2->addChild(segment);
 
-        } else if (size_t(index_segmentation) == members.size()){
+        } else if (colorizeAllSegments)
+        {
 
-            SoSeparator* all = CGALCoinVisualization::CreateSegmentationVisualization(s, surfaceMesh->getMesh(), members, lines);
-            segmentationSep->addChild(all);
+            SoSeparator* all = CGALCoinVisualization::CreateSegmentationVisualization(s, surfaceMesh->getMesh(), members, lines, 0.8f, 13.0f);
+            s2->addChild(all);
         }
     }
 
+    /////////////////// SEGMENTATION (SURFACE)
     surfaceSep->removeAllChildren();
     if (pigment && skeleton)
     {
         SkeletonPtr s = skeleton->getSkeleton();
         std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();
 
-        if (size_t(index_segmentation) < members.size())
+        if (colorizeOneSegment)
         {
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(index_segmentation));
             SoNode* segment = CGALCoinVisualization::CreatePigmentedSubpartVisualization(s, surfaceMesh->getMesh(), subpart);
             surfaceSep->addChild(segment);
 
-        } else if (size_t(index_segmentation) == members.size()){
+        } else if (colorizeAllSegments)
+        {
 
             SoSeparator* all = CGALCoinVisualization::CreatePigmentedMeshVisualization(s, surfaceMesh->getMesh(), members, members.size());
             surfaceSep->addChild(all);
         }
 
     }
-
 
     viewer->scheduleRedraw();
 }
@@ -461,21 +471,22 @@ void ObjectSegmentationSkeletonWindow::buildObject()
 
     VirtualRobot::TriMeshModelPtr model = manipObject->getCollisionModel()->getTriMeshModel();
 
-     VR_INFO << "Remeshing ..." << endl;
 
      if (UI.radioButtonR5->isChecked())
      {
+         VR_INFO << "Remeshing ..." << endl;
          VirtualRobot::ObstaclePtr p = GraspStudio::MeshConverter::RefineObjectSurface(manipObject, 5.f);
          model = p->getCollisionModel()->getTriMeshModel();
-
+         VR_INFO << "Remeshing done.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
      } else if (UI.radioButtonR10->isChecked())
      {
+         VR_INFO << "Remeshing ..." << endl;
          VirtualRobot::ObstaclePtr p = GraspStudio::MeshConverter::RefineObjectSurface(manipObject, 10.f);
          model = p->getCollisionModel()->getTriMeshModel();
+         VR_INFO << "Remeshing done.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
+     } else
+         VR_INFO << "Using original model.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
 
-     }
-
-     VR_INFO << "Remeshing done.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
 
      VR_INFO << "Converting mesh to cgal structure..." << endl;
 

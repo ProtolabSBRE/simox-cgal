@@ -833,7 +833,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     resultsCSVPath = boost::filesystem::absolute(resultsCSVPath);
     std::ofstream fs(resultsCSVPath.string().c_str(), std::ofstream::out);
     fs << "object," << planner->getEvaluation().GetCSVHeader() << std::endl;
-    QProgressDialog progress("Caclulating grasps...", "Abort", 0, paths.size(), this);
+    QProgressDialog progress("Calculating grasps...", "Abort", 0, paths.size(), this);
     progress.setWindowModality(Qt::WindowModal);
     progress.show();
     int i = 0;

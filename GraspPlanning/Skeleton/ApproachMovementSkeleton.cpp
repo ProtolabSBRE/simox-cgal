@@ -54,6 +54,7 @@ bool ApproachMovementSkeleton::init()
 
     bool index = false;
     currentSubpart = 0;
+    currentSkeletonVertex = 0;
 
 
     while (!index)

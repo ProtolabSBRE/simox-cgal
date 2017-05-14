@@ -37,7 +37,7 @@
 #include "GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h"
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
 #include "Segmentation/Skeleton/MeshSkeletonData.h"
-
+#include <QProgressDialog>
 #include <sstream>
 
 #include "ui_SkeletonGraspPlannerOptions.h"
@@ -808,6 +808,7 @@ void SkeletonGraspPlannerWindow::setVerbose()
 void SkeletonGraspPlannerWindow::planObjectBatch()
 {
     QString fi = QFileDialog::getExistingDirectory(this, tr("Select Base Directory"), QString());
+    qApp->processEvents();
     VR_INFO << "Searching for all .soxml files in " << fi.toStdString() << std::endl;
     if (fi.isEmpty())
     {
@@ -828,11 +829,18 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     }
     paths.removeDuplicates();
     VR_INFO << "Found:  " << paths.join(", ").toStdString() << std::endl;
+    QProgressDialog progress("Caclulating grasps...", "Abort", 0, paths.size(), this);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.show();
+    int i = 0;
+    progress.setValue(0);
+    qApp->processEvents();
     for(auto& path :  paths)
     {
+
         try
         {
-            resetSceneryAll();
+//            resetSceneryAll();
             if(loadSegmentedObject(path.toStdString()))
             {
                 planAll();
@@ -843,5 +851,10 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
         {
             VR_ERROR << "Failed to plan for " << path.toStdString() << "\nReason: \n" << e.what() << std::endl;
         }
+        progress.setValue(i++);
+        qApp->processEvents();
+        if (progress.wasCanceled())
+            break;
     }
+    progress.setValue(i++);
 }

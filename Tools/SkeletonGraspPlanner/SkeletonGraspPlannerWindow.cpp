@@ -856,11 +856,10 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
         {
             VR_ERROR << "Failed to plan for " << path.toStdString() << "\nReason: \n" << e.what() << std::endl;
         }
-        progress.setValue(i++);
+        progress.setValue(++i);
         qApp->processEvents();
         if (progress.wasCanceled())
             break;
     }
     VR_INFO << "Saving CSV results to " << resultsCSVPath.string() << std::endl;
-    progress.setValue(i++);
 }

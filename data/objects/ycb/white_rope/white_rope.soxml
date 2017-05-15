@@ -1,0 +1,14 @@
+<SimoxCGAL-SkeletonTool>
+	<Object>
+		<File file='white_rope.xml'/>
+	</Object>
+	<CGAL-Mesh>
+		<File file='CGALSkeleton/mesh/CGALSkeleton-white_rope.xml'/>
+	</CGAL-Mesh>
+	<CGAL-Skeleton>
+		<File file='CGALSkeleton/skeleton/CGALMesh-white_rope.xml'/>
+	</CGAL-Skeleton>
+	<CGAL-SkeletonSegmentation>
+		<File file='CGALSkeleton/segmentation/CGALSkeletonSegmentation-white_rope.xml'/>
+	</CGAL-SkeletonSegmentation>
+</SimoxCGAL-SkeletonTool>

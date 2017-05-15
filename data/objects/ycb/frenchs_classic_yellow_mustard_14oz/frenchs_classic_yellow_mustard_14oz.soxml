@@ -1,0 +1,14 @@
+<SimoxCGAL-SkeletonTool>
+	<Object>
+		<File file='frenchs_classic_yellow_mustard_14oz.xml'/>
+	</Object>
+	<CGAL-Mesh>
+		<File file='CGALSkeleton/mesh/CGALSkeleton-frenchs_classic_yellow_mustard_14oz.xml'/>
+	</CGAL-Mesh>
+	<CGAL-Skeleton>
+		<File file='CGALSkeleton/skeleton/CGALMesh-frenchs_classic_yellow_mustard_14oz.xml'/>
+	</CGAL-Skeleton>
+	<CGAL-SkeletonSegmentation>
+		<File file='CGALSkeleton/segmentation/CGALSkeletonSegmentation-frenchs_classic_yellow_mustard_14oz.xml'/>
+	</CGAL-SkeletonSegmentation>
+</SimoxCGAL-SkeletonTool>

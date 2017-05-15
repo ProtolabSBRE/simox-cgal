@@ -1,0 +1,14 @@
+<SimoxCGAL-SkeletonTool>
+	<Object>
+		<File file='sharpie_marker.xml'/>
+	</Object>
+	<CGAL-Mesh>
+		<File file='CGALSkeleton/mesh/CGALSkeleton-sharpie_marker.xml'/>
+	</CGAL-Mesh>
+	<CGAL-Skeleton>
+		<File file='CGALSkeleton/skeleton/CGALMesh-sharpie_marker.xml'/>
+	</CGAL-Skeleton>
+	<CGAL-SkeletonSegmentation>
+		<File file='CGALSkeleton/segmentation/CGALSkeletonSegmentation-sharpie_marker.xml'/>
+	</CGAL-SkeletonSegmentation>
+</SimoxCGAL-SkeletonTool>

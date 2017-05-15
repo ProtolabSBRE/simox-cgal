@@ -1,0 +1,14 @@
+<SimoxCGAL-SkeletonTool>
+	<Object>
+		<File file='stainless_steel_knife_red_handle.xml'/>
+	</Object>
+	<CGAL-Mesh>
+		<File file='CGALSkeleton/mesh/CGALSkeleton-stainless_steel_knife_red_handle.xml'/>
+	</CGAL-Mesh>
+	<CGAL-Skeleton>
+		<File file='CGALSkeleton/skeleton/CGALMesh-stainless_steel_knife_red_handle.xml'/>
+	</CGAL-Skeleton>
+	<CGAL-SkeletonSegmentation>
+		<File file='CGALSkeleton/segmentation/CGALSkeletonSegmentation-stainless_steel_knife_red_handle.xml'/>
+	</CGAL-SkeletonSegmentation>
+</SimoxCGAL-SkeletonTool>

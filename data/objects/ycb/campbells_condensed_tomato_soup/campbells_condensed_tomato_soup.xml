@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">campbells_condensed_tomato_soup.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">campbells_condensed_tomato_soup.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

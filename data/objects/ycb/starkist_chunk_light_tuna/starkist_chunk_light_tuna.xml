@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">starkist_chunk_light_tuna.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">starkist_chunk_light_tuna.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

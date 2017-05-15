@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">master_chef_ground_coffee_297g.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">master_chef_ground_coffee_297g.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

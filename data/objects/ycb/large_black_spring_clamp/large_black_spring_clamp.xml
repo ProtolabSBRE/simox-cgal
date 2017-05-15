@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">large_black_spring_clamp.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">large_black_spring_clamp.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

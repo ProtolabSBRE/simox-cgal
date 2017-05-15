@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">stanley_flathead_screwdriver.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">stanley_flathead_screwdriver.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

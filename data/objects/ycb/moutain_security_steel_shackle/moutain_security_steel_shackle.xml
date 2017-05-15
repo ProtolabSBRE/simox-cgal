@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">moutain_security_steel_shackle.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">moutain_security_steel_shackle.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

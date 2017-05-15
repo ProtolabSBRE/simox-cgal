@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">o_chocolate_flavor_pudding.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">o_chocolate_flavor_pudding.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

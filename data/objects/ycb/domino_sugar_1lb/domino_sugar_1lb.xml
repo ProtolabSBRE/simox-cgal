@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">domino_sugar_1lb.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">domino_sugar_1lb.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

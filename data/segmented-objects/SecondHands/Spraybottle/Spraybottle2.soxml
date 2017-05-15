@@ -1,0 +1,14 @@
+<SimoxCGAL-SkeletonTool>
+	<Object>
+		<File file='../../../objects/SecondHands/Spraybottle/Spraybottle-posson.xml'/>
+	</Object>
+	<CGAL-Mesh>
+		<File file='CGALSkeleton/mesh/CGALSkeleton-Spraybottle2.xml'/>
+	</CGAL-Mesh>
+	<CGAL-Skeleton>
+		<File file='CGALSkeleton/skeleton/CGALMesh-Spraybottle2.xml'/>
+	</CGAL-Skeleton>
+	<CGAL-SkeletonSegmentation>
+		<File file='CGALSkeleton/segmentation/CGALSkeletonSegmentation-Spraybottle2.xml'/>
+	</CGAL-SkeletonSegmentation>
+</SimoxCGAL-SkeletonTool>

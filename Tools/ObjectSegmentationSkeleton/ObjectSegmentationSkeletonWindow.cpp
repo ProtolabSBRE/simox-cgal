@@ -50,9 +50,6 @@ ObjectSegmentationSkeletonWindow::ObjectSegmentationSkeletonWindow(const std::st
 
     this->objectFilename = objFile;
 
-    //boost::filesystem::path p(objFile);
-    //save_dir = p.parent_path().string();
-
     sceneSep = new SoSeparator;
     sceneSep->ref();
 

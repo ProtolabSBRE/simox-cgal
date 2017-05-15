@@ -1,4 +1,4 @@
-<ManipulationObject name='Mesh_20000'>
+<ManipulationObject name='Flashlight'>
 	<Visualization>
 		<File type='inventor'>flashlight-reconstructed.stl</File>
 	</Visualization>

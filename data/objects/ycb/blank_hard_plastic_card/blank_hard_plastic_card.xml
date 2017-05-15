@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">blank_hard_plastic_card.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">blank_hard_plastic_card.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

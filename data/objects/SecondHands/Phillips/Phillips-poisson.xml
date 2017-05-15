@@ -1,4 +1,4 @@
-<ManipulationObject name='Mesh_20000'>
+<ManipulationObject name='Phillips'>
 	<Visualization>
 		<File type='inventor'>Phillips-poisson.stl</File>
 	</Visualization>

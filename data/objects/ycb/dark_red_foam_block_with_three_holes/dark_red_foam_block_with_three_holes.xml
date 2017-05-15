@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">dark_red_foam_block_with_three_holes.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">dark_red_foam_block_with_three_holes.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">champion_sports_official_softball.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">champion_sports_official_softball.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

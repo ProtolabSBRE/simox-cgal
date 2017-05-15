@@ -507,6 +507,8 @@ void MeshReconstructionWindow::doReconstruction()
     if (trimesh)
     {
         reconstructedObject = VirtualRobot::ManipulationObject::createFromMesh(trimesh);
+        if (object)
+            reconstructedObject->setName(object->getName());
     }
     buildVisu();
     updateInfo();

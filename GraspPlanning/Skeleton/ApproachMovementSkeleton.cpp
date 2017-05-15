@@ -367,49 +367,39 @@ void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &
     Eigen::Vector3f b1 = pca.pca2;
     Eigen::Vector3f b2 = pca.pca2 * (-1);
 
-    /*if (endpoint)
+    approachDirs.push_back(a1);
+    approachDirs.push_back(a1);
+    approachDirs.push_back(a2);
+    approachDirs.push_back(a2);
+    approachDirs.push_back(b1);
+    approachDirs.push_back(b1);
+    approachDirs.push_back(b2);
+    approachDirs.push_back(b2);
+
+    Eigen::Vector3f a = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2);
+    Eigen::Vector3f b = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2);
+    Eigen::Vector3f c = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2 * (-1));
+    Eigen::Vector3f d = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2 * (-1));
+    if (verbose)
     {
-        //Eigen::Vector3f a = a1.cross(b1);
-        Eigen::Vector3f b = a1.cross(b1) * (-1);
-        approachDirs.push_back(b);
-        approachDirs.push_back(b);
-    } else
-    {*/
+        VR_INFO << "a1:" << a1.transpose() << endl;
+        VR_INFO << "a2:" << a2.transpose() << endl;
+        VR_INFO << "b1:" << b1.transpose() << endl;
+        VR_INFO << "b2:" << b2.transpose() << endl;
+        VR_INFO << "a:" << a.transpose() << endl;
+        VR_INFO << "b:" << b.transpose() << endl;
+        VR_INFO << "c:" << c.transpose() << endl;
+        VR_INFO << "d:" << d.transpose() << endl;
+    }
 
-        approachDirs.push_back(a1);
-        approachDirs.push_back(a1);
-        approachDirs.push_back(a2);
-        approachDirs.push_back(a2);
-        approachDirs.push_back(b1);
-        approachDirs.push_back(b1);
-        approachDirs.push_back(b2);
-        approachDirs.push_back(b2);
-
-        Eigen::Vector3f a = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2);
-        Eigen::Vector3f b = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2);
-        Eigen::Vector3f c = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2 * (-1));
-        Eigen::Vector3f d = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2 * (-1));
-        if (verbose)
-        {
-            VR_INFO << "a1:" << a1.transpose() << endl;
-            VR_INFO << "a2:" << a2.transpose() << endl;
-            VR_INFO << "b1:" << b1.transpose() << endl;
-            VR_INFO << "b2:" << b2.transpose() << endl;
-            VR_INFO << "a:" << a.transpose() << endl;
-            VR_INFO << "b:" << b.transpose() << endl;
-            VR_INFO << "c:" << c.transpose() << endl;
-            VR_INFO << "d:" << d.transpose() << endl;
-        }
-
-        approachDirs.push_back(a);
-        approachDirs.push_back(a);
-        approachDirs.push_back(b);
-        approachDirs.push_back(b);
-        approachDirs.push_back(c);
-        approachDirs.push_back(c);
-        approachDirs.push_back(d);
-        approachDirs.push_back(d);
-   // }
+    approachDirs.push_back(a);
+    approachDirs.push_back(a);
+    approachDirs.push_back(b);
+    approachDirs.push_back(b);
+    approachDirs.push_back(c);
+    approachDirs.push_back(c);
+    approachDirs.push_back(d);
+    approachDirs.push_back(d);
 }
 
 void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool /*endpoint*/)
@@ -418,25 +408,18 @@ void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAx
     {
         VR_INFO << "Rect approach dirs:\n";
     }
-    /*if (endpoint)
-    {
-        Eigen::Vector3f approach = pca.pca1.cross(pca.pca2) * -1;
-        approachDirs.push_back(approach);
-        approachDirs.push_back(approach);
-    } else
-    {*/
-        approachDirs.push_back(pca.pca1);
-        approachDirs.push_back(pca.pca1);
 
-        Eigen::Vector3f approach = pca.pca1 * (-1);
-        approachDirs.push_back(approach);
-        approachDirs.push_back(approach);
-        if (verbose)
-        {
-            VR_INFO << "pca1:" << pca.pca1.transpose() << endl;
-            VR_INFO << "-pca1:" << approach.transpose() << endl;
-        }
-   // }
+    approachDirs.push_back(pca.pca1);
+    approachDirs.push_back(pca.pca1);
+
+    Eigen::Vector3f approach = pca.pca1 * (-1);
+    approachDirs.push_back(approach);
+    approachDirs.push_back(approach);
+    if (verbose)
+    {
+        VR_INFO << "pca1:" << pca.pca1.transpose() << endl;
+        VR_INFO << "-pca1:" << approach.transpose() << endl;
+    }
 }
 
 void ApproachMovementSkeleton::calculateApproachesConnectionPoint(const PrincipalAxis3D &pca)

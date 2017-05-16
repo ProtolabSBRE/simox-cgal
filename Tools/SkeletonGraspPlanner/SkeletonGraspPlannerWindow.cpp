@@ -878,7 +878,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                     avgRate += a;
                     avgForceClosureRate += b;
                 }
-                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << (avgRate/planner->getPlannedGrasps().size()) << ", " << (avgForceClosureRate/planner->getPlannedGrasps().size()) << std::endl;
+                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << "," << (avgRate/planner->getPlannedGrasps().size()) << "," << (avgForceClosureRate/planner->getPlannedGrasps().size()) << std::endl;
             }
         }
         catch(std::exception & e)

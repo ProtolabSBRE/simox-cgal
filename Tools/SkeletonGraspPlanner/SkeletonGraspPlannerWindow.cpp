@@ -575,6 +575,7 @@ void SkeletonGraspPlannerWindow::loadRobot()
     eef = robot->getEndEffector(eefName);
 
     eefCloned = eef->createEefRobot(eef->getName(), eef->getName());
+    //eef = eefCloned->getEndEffector(eef->getName());
 
     eefVisu = CoinVisualizationFactory::CreateEndEffectorVisualization(eef);
     eefVisu->ref();
@@ -626,6 +627,7 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
         start = 0;
     }
 
+    // just set to an initial value, finally updated in selectGrasp()
     currentPreshape = approach->getGraspPreshape();
 
     if (nr != 0) {
@@ -644,7 +646,7 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
         UI.spinBoxGraspNumberPlanned->setRange(0,grasps->getSize()-1);
         // set to last valid grasp
         UI.spinBoxGraspNumberPlanned->setValue(grasps->getSize()-1);
-        selectGrasp();
+        //selectGrasp();
     }
 
     updateSkeletonInfo();
@@ -659,6 +661,7 @@ void SkeletonGraspPlannerWindow::closeEEF()
     if (eefCloned && eefCloned->getEndEffector(eefName) && object)
     {
         contacts = eefCloned->getEndEffector(eefName)->closeActors(object);
+
         qualityMeasure->setContactPoints(contacts);
         float qual = qualityMeasure->getGraspQuality();
         bool isFC = qualityMeasure->isGraspForceClosure();
@@ -787,11 +790,73 @@ void SkeletonGraspPlannerWindow::selectGrasp()
     if (currentGrasp>=0 && currentGrasp<int(grasps->getSize()) && eefCloned && eefCloned->getEndEffector(eefName))
     {
         VirtualRobot::GraspPtr g = grasps->getGrasp(currentGrasp);
-        currentPreshape = g->getPreshapeName();
-        Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
-        eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-        //eefCloned->getEndEffector(eefName)->setPreshape(currentPreshape); // done in openEEF
+        applyGrasp(g, eefCloned, eefCloned->getEndEffector(eefName));
+        float a,b;
+        evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b);
+        VR_INFO << "Robustness: avg quality:" << a << endl;
+        VR_INFO << "Robustness: avg fc rate:" << b << endl;
+    } else
+    {
+        openEEF();
     }
+}
+
+bool SkeletonGraspPlannerWindow::evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, float &storeAvgRate, float &storeAvgForceClosureRate)
+{
+    if (!g || !eefRobot || !eef)
+        return false;
+
+    storeAvgRate = 0;
+    storeAvgForceClosureRate = 0;
+
+    GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
+/*
+    std::string graspPreshape = g->getPreshapeName();
+    Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
+
+    //eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
+    eefRobot->setGlobalPoseForRobotNode(eef->getTcp(), mGrasp);
+    //object->setGlobalPose(eef->getTcp()->getGlobalPose() * g->getTransformation());
+
+    // set preshape!!!
+    //eef->openActors();
+    eef->setPreshape(graspPreshape);
+
+    auto contacts = eef->closeActors(object);
+    if(contacts.size() == 0)
+    {
+        VR_INFO << "No contacts for grasp found" << std::endl;
+        return false;
+    }
+    // set object pose!!!
+    auto poses = eval->generatePoses(object->getGlobalPose(), contacts, nrEvalLoops);
+    if(poses.empty())
+    {
+        VR_INFO << "No poses for grasp found" << std::endl;
+        return false;
+    }
+    auto poseevalresult = eval->evaluatePoses(eef,
+                       object,
+                       poses,
+                       qualityMeasure,
+                       eef->getPreshape(graspPreshape));
+*/
+    auto poseevalresult = eval->evaluateGrasp(g, eef, object, qualityMeasure, nrEvalLoops);
+    storeAvgRate = poseevalresult.avgQuality;
+    storeAvgForceClosureRate = poseevalresult.forceClosureRate;
+
+    return true;
+}
+
+void SkeletonGraspPlannerWindow::applyGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef)
+{
+    if (!g)
+        return;
+    currentPreshape = g->getPreshapeName();
+    Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
+    //eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
+    if (eefRobot && eef)
+        eefRobot->setGlobalPoseForRobotNode(eef->getTcp(), mGrasp);
 
     openEEF();
     closeEEF();
@@ -842,7 +907,6 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     qApp->processEvents();
     for(auto& path :  paths)
     {
-
         try
         {
             //resetSceneryAll();
@@ -854,30 +918,43 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                 float avgForceClosureRate = 0;
                 for(VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
                 {
-                    GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
-                    object->setGlobalPose(eef->getTcp()->getGlobalPose() * g->getTransformation());
-                    eef->openActors();
-                    auto contacts = eef->closeActors(object);
-                    if(contacts.size() == 0)
+                    //GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
+                    //object->setGlobalPose(eef->getTcp()->getGlobalPose() * g->getTransformation());
+                    /*std::string graspPreshape = g->getPreshapeName();
+                    Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
+                    eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);*/
+
+                    float a,b;
+                    if (!evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b))
+                        continue;
+                    avgRate += a;
+                    avgForceClosureRate += b;
+
+                    // use eefCloned->getEndEffector(eefName) to get the correct eef (the one of the cloned eefRobot
+                    // also set preshape!!!
+                    //eef->openActors();
+                    //eefCloned->getEndEffector(eefName)->setPreshape(graspPreshape);
+                    //auto contacts = eefCloned->getEndEffector(eefName)->closeActors(object);
+                    /*if(contacts.size() == 0)
                     {
                         VR_INFO << "No contacts for grasp found" << std::endl;
                         continue;
-                    }
-                    auto poses = eval->generatePoses(Eigen::Matrix4f::Identity(), contacts, 20);
+                    }*/
+                    // set object pose!!!
+                    /*auto poses = eval->generatePoses(Eigen::Matrix4f::Identity(), contacts, 20);
                     if(poses.empty())
                     {
                         VR_INFO << "No poses for grasp found" << std::endl;
                         continue;
-                    }
-                    auto poseevalresult = eval->evaluatePoses(eef,
+                    }*/
+                    /*auto poseevalresult = eval->evaluatePoses(eef,
                                        object,
                                        poses,
                                        qualityMeasure,
                                        eef->getPreshape(g->getPreshapeName()));
                     avgRate += poseevalresult.avgQuality;
-                    avgForceClosureRate += poseevalresult.forceClosureRate;
-                    break;
-
+                    avgForceClosureRate += poseevalresult.forceClosureRate;*/
+                    //break;
                 }
                 fs << object->getName() << "," << planner->getEvaluation().toCSVString() << (avgRate/planner->getPlannedGrasps().size()) << ", " << (avgForceClosureRate/planner->getPlannedGrasps().size()) << std::endl;
             }

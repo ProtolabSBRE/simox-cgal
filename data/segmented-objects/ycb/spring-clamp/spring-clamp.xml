@@ -1,6 +1,6 @@
 <SimoxCGAL-SkeletonTool>
 	<Object>
-		<File file='../../../objects/ycb/spring-clamp/spring-clamp.xml'/>
+                <File file='../../../objects/ycb-selection/spring-clamp/spring-clamp.xml'/>
 	</Object>
 	<CGAL-Mesh>
 		<File file='CGALSkeleton/mesh/CGALSkeleton-spring-clamp.xml'/>

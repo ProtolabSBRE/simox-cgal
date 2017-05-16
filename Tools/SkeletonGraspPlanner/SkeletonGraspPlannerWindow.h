@@ -103,6 +103,9 @@ protected:
 
     void updateSkeletonInfo();
 
+    bool evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, float &storeAvgRate, float &storeAvgForceClosureRate);
+    void applyGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef);
+
     static void timerCB(void* data, SoSensor* sensor);
     Ui::SkeletonGraspPlanner UI;
     SoQtExaminerViewer* viewer; /*!< Viewer to display the 3D model of the robot and the environment. */
@@ -117,7 +120,7 @@ protected:
     VirtualRobot::RobotPtr robot;
     VirtualRobot::RobotPtr eefCloned;
     VirtualRobot::ManipulationObjectPtr object;
-    VirtualRobot::EndEffectorPtr eef;
+    VirtualRobot::EndEffectorPtr eef; // the eef of the original robot
 
     VirtualRobot::GraspSetPtr grasps;
 

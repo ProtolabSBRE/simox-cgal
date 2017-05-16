@@ -33,6 +33,7 @@
 #include <Inventor/nodes/SoMatrixTransform.h>
 #include <Inventor/nodes/SoScale.h>
 #include <Inventor/nodes/SoMaterial.h>
+#include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
 
 #include "GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h"
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
@@ -832,7 +833,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     boost::filesystem::path resultsCSVPath("graspplanningresults-" + robot->getName() + ".csv");
     resultsCSVPath = boost::filesystem::absolute(resultsCSVPath);
     std::ofstream fs(resultsCSVPath.string().c_str(), std::ofstream::out);
-    fs << "object," << planner->getEvaluation().GetCSVHeader() << std::endl;
+    fs << "object," << planner->getEvaluation().GetCSVHeader() << "RobustnessAvgQuality,RobustnessAvgForceClosureRate" << std::endl;
     QProgressDialog progress("Calculating grasps...", "Abort", 0, paths.size(), this);
     progress.setWindowModality(Qt::WindowModal);
     progress.show();
@@ -849,7 +850,36 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
             {
                 planAll();
                 saveToFile(boost::filesystem::path(path.toStdString()).replace_extension(".moxml").string());
-                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << std::endl;
+                float avgRate = 0;
+                float avgForceClosureRate = 0;
+                for(VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
+                {
+                    GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
+                    object->setGlobalPose(eef->getTcp()->getGlobalPose() * g->getTransformation());
+                    eef->openActors();
+                    auto contacts = eef->closeActors(object);
+                    if(contacts.size() == 0)
+                    {
+                        VR_INFO << "No contacts for grasp found" << std::endl;
+                        continue;
+                    }
+                    auto poses = eval->generatePoses(Eigen::Matrix4f::Identity(), contacts, 20);
+                    if(poses.empty())
+                    {
+                        VR_INFO << "No poses for grasp found" << std::endl;
+                        continue;
+                    }
+                    auto poseevalresult = eval->evaluatePoses(eef,
+                                       object,
+                                       poses,
+                                       qualityMeasure,
+                                       eef->getPreshape(g->getPreshapeName()));
+                    avgRate += poseevalresult.avgQuality;
+                    avgForceClosureRate += poseevalresult.forceClosureRate;
+                    break;
+
+                }
+                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << (avgRate/planner->getPlannedGrasps().size()) << ", " << (avgForceClosureRate/planner->getPlannedGrasps().size()) << std::endl;
             }
         }
         catch(std::exception & e)

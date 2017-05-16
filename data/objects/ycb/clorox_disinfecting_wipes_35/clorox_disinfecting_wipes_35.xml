@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">clorox_disinfecting_wipes_35.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">clorox_disinfecting_wipes_35.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

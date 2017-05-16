@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">red_metal_cup_white_speckles.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">red_metal_cup_white_speckles.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

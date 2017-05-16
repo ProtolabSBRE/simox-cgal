@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">white_rope.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">white_rope.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

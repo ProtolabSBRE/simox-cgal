@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">melissa_doug_farm_fresh_fruit_peach.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">melissa_doug_farm_fresh_fruit_peach.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

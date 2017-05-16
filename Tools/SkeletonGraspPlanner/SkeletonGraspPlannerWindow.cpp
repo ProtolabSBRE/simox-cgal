@@ -845,7 +845,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
 
         try
         {
-//            resetSceneryAll();
+            //resetSceneryAll();
             if(loadSegmentedObject(path.toStdString()))
             {
                 planAll();

@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">black_and_decker_lithium_drill_driver_unboxed.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">black_and_decker_lithium_drill_driver_unboxed.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

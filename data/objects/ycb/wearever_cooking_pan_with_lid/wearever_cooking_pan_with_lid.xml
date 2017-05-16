@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">wearever_cooking_pan_with_lid.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">wearever_cooking_pan_with_lid.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

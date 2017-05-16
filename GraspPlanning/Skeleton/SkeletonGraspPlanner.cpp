@@ -1,7 +1,6 @@
 #include "SkeletonGraspPlanner.h"
 
-
-#include "VirtualRobot/RobotConfig.h"
+#include <VirtualRobot/RobotConfig.h>
 
 using namespace std;
 using namespace VirtualRobot;
@@ -107,11 +106,6 @@ void SkeletonGraspPlanner::setParams(float minQuality, bool forceClosure)
     this->forceClosure = forceClosure;
     eval.fcCheck = forceClosure;
     eval.minQuality = minQuality;
-}
-
-GraspPlannerEvaluation SkeletonGraspPlanner::getEvaluation()
-{
-    return eval;
 }
 
 GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacles)

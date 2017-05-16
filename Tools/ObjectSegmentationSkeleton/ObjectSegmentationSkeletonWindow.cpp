@@ -474,20 +474,30 @@ void ObjectSegmentationSkeletonWindow::buildObject()
          VR_INFO << "Remeshing ..." << endl;
          VirtualRobot::ObstaclePtr p = GraspStudio::MeshConverter::RefineObjectSurface(manipObject, 5.f);
          model = p->getCollisionModel()->getTriMeshModel();
+         model->mergeVertices();
          VR_INFO << "Remeshing done.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
      } else if (UI.radioButtonR10->isChecked())
      {
          VR_INFO << "Remeshing ..." << endl;
          VirtualRobot::ObstaclePtr p = GraspStudio::MeshConverter::RefineObjectSurface(manipObject, 10.f);
          model = p->getCollisionModel()->getTriMeshModel();
+         model->mergeVertices();
          VR_INFO << "Remeshing done.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
      } else
          VR_INFO << "Using original model.Vertices: " << model->vertices.size() << " and faces: " << model->faces.size() << endl;
 
-
      VR_INFO << "Converting mesh to cgal structure..." << endl;
 
      surfaceMesh = CGALMeshConverter::ConvertToSurfaceMesh(model);
+
+     if (!CGAL::is_triangle_mesh(*(surfaceMesh->getMesh())))
+     {
+         VR_WARNING << "Not a triangle mesh!" << endl;
+     }
+     if (!CGAL::is_closed(*(surfaceMesh->getMesh())))
+     {
+         VR_WARNING << "Mesh not closed!" << endl;
+     }
 
     VR_INFO << "Calculating skeleton ..." << endl;
 

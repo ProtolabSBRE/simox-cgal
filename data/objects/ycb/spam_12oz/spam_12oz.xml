@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">spam_12oz.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">spam_12oz.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

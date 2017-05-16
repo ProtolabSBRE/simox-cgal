@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">penn_raquet_ball.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">penn_raquet_ball.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

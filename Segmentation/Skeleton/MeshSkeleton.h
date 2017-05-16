@@ -32,9 +32,10 @@
 
 namespace SimoxCGAL
 {
-    /*!
 
-    */
+    /*!
+     * \brief The MeshSkeleton class holds information about the surface mesh and its skeleton structrue. In addition, the segmented object structure can be accessed
+     */
     class SIMOX_CGAL_IMPORT_EXPORT MeshSkeleton
     {
     public:
@@ -50,6 +51,8 @@ namespace SimoxCGAL
         SimoxCGAL::SegmentedObjectPtr getSegmentedObject();
 
         int getTime();
+
+        void print();
 
     protected:
 

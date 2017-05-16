@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">red_wood_block_1inx1in.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">red_wood_block_1inx1in.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

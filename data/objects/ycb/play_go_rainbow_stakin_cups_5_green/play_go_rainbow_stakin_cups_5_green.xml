@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">play_go_rainbow_stakin_cups_5_green.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">play_go_rainbow_stakin_cups_5_green.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

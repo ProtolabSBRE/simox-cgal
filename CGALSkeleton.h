@@ -34,6 +34,9 @@
 
 namespace SimoxCGAL {
 
+    /*!
+     * \brief The CGALSkeleton class wrappes the CGAL skeleton structure. It provides interfaces for parameter sttings and allows to calculate the CGAl skeleton structure.
+     */
     class CGALSkeleton
     {
     public:

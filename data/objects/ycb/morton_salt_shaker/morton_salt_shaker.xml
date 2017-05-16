@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">morton_salt_shaker.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">morton_salt_shaker.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

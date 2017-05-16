@@ -104,6 +104,7 @@ void MeshReconstructionWindow::setupUI()
     connect(UI.pushButtonLoadObject, SIGNAL(clicked()), this, SLOT(loadObject()));
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(save()));
     connect(UI.pushButtonRegularize, SIGNAL(clicked()), this, SLOT(regularize()));
+    connect(UI.pushButtonNormals, SIGNAL(clicked()), this, SLOT(computeNormals()));
     connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.checkBoxObject, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxPoints, SIGNAL(clicked()), this, SLOT(buildVisu()));
@@ -488,6 +489,22 @@ void MeshReconstructionWindow::regularize()
     buildVisu();
     updateInfo();
 }
+
+
+void MeshReconstructionWindow::computeNormals()
+{
+    if (!object || points.size()==0)
+        return;
+
+    reconstruction.reset(new SimoxCGAL::MeshReconstruction());
+    reconstruction->setVerbose(true);
+
+    reconstruction->computeNormals(points, normals, true);
+
+    buildVisu();
+    updateInfo();
+}
+
 
 void MeshReconstructionWindow::doReconstruction()
 {

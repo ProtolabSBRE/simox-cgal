@@ -69,6 +69,16 @@ namespace SimoxCGAL
          */
         bool regularizePoints(std::vector<Eigen::Vector3f> &points, std::vector<Eigen::Vector3f> &normals, float cellSize = 1.0f);
 
+        /*!
+         * \brief computeNormals computes normals of point set.
+         * @see http://doc.cgal.org/latest/Point_set_processing_3/ for details.
+         * \param points The input points. Depending on the parameter erasePointsWithWrongNormal this vector may change in size.
+         * \param storeNormals The normals are stored here. The content is erased and the resulting size is equal to the resulting size of the points vector.
+         * \param erasePointsWithWrongNormal If true, the points are updated by deleting all points for which the normal could not be detected.
+         * \return
+         */
+        bool computeNormals(std::vector<Eigen::Vector3f> &points, std::vector<Eigen::Vector3f> &storeNormals, bool erasePointsWithWrongNormal = true);
+
         void setVerbose(bool v);
 
     protected:

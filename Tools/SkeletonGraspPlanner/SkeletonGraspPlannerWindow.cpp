@@ -105,7 +105,6 @@ SkeletonGraspPlannerWindow::~SkeletonGraspPlannerWindow()
 }
 
 
-
 /*void GraspPlannerWindow::timerCB(void * data, SoSensor * sensor)
 {
     GraspPlannerWindow *ikWindow = static_cast<GraspPlannerWindow*>(data);
@@ -434,15 +433,7 @@ void SkeletonGraspPlannerWindow::quit()
     this->close();
     SoQt::exitMainLoop();
 }
-/*
-void SkeletonGraspPlannerWindow::loadObject()
-{
-    if (!objectFile.empty())
-    {
-        object = ObjectIO::loadManipulationObject(objectFile);
-    }
-}
-*/
+
 void SkeletonGraspPlannerWindow::loadData()
 {
     //QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("Segmented Object XML Files (*.soxml)"));
@@ -495,11 +486,6 @@ bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filenam
         VR_ERROR << "could not load file " << segmentedObjectFile << endl;
         return false;
     }
-
-    //verschiebe Endeffector
-    //Eigen::Vector3f min = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMin();
-    //Eigen::Vector3f max = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMax();
-
 
     initPlanner();
 
@@ -575,7 +561,6 @@ void SkeletonGraspPlannerWindow::loadRobot()
     eef = robot->getEndEffector(eefName);
 
     eefCloned = eef->createEefRobot(eef->getName(), eef->getName());
-    //eef = eefCloned->getEndEffector(eef->getName());
 
     eefVisu = CoinVisualizationFactory::CreateEndEffectorVisualization(eef);
     eefVisu->ref();
@@ -721,7 +706,6 @@ void SkeletonGraspPlannerWindow::showGrasps()
 
 void SkeletonGraspPlannerWindow::save()
 {
-    //QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
     QString fi;
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::AnyFile);
@@ -810,37 +794,7 @@ bool SkeletonGraspPlannerWindow::evaluateGrasp(VirtualRobot::GraspPtr g, Virtual
     storeAvgForceClosureRate = 0;
 
     GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
-/*
-    std::string graspPreshape = g->getPreshapeName();
-    Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
 
-    //eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-    eefRobot->setGlobalPoseForRobotNode(eef->getTcp(), mGrasp);
-    //object->setGlobalPose(eef->getTcp()->getGlobalPose() * g->getTransformation());
-
-    // set preshape!!!
-    //eef->openActors();
-    eef->setPreshape(graspPreshape);
-
-    auto contacts = eef->closeActors(object);
-    if(contacts.size() == 0)
-    {
-        VR_INFO << "No contacts for grasp found" << std::endl;
-        return false;
-    }
-    // set object pose!!!
-    auto poses = eval->generatePoses(object->getGlobalPose(), contacts, nrEvalLoops);
-    if(poses.empty())
-    {
-        VR_INFO << "No poses for grasp found" << std::endl;
-        return false;
-    }
-    auto poseevalresult = eval->evaluatePoses(eef,
-                       object,
-                       poses,
-                       qualityMeasure,
-                       eef->getPreshape(graspPreshape));
-*/
     auto poseevalresult = eval->evaluateGrasp(g, eef, object, qualityMeasure, nrEvalLoops);
     storeAvgRate = poseevalresult.avgQuality;
     storeAvgForceClosureRate = poseevalresult.forceClosureRate;
@@ -918,43 +872,11 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                 float avgForceClosureRate = 0;
                 for(VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
                 {
-                    //GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
-                    //object->setGlobalPose(eef->getTcp()->getGlobalPose() * g->getTransformation());
-                    /*std::string graspPreshape = g->getPreshapeName();
-                    Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
-                    eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);*/
-
                     float a,b;
                     if (!evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b))
                         continue;
                     avgRate += a;
                     avgForceClosureRate += b;
-
-                    // use eefCloned->getEndEffector(eefName) to get the correct eef (the one of the cloned eefRobot
-                    // also set preshape!!!
-                    //eef->openActors();
-                    //eefCloned->getEndEffector(eefName)->setPreshape(graspPreshape);
-                    //auto contacts = eefCloned->getEndEffector(eefName)->closeActors(object);
-                    /*if(contacts.size() == 0)
-                    {
-                        VR_INFO << "No contacts for grasp found" << std::endl;
-                        continue;
-                    }*/
-                    // set object pose!!!
-                    /*auto poses = eval->generatePoses(Eigen::Matrix4f::Identity(), contacts, 20);
-                    if(poses.empty())
-                    {
-                        VR_INFO << "No poses for grasp found" << std::endl;
-                        continue;
-                    }*/
-                    /*auto poseevalresult = eval->evaluatePoses(eef,
-                                       object,
-                                       poses,
-                                       qualityMeasure,
-                                       eef->getPreshape(g->getPreshapeName()));
-                    avgRate += poseevalresult.avgQuality;
-                    avgForceClosureRate += poseevalresult.forceClosureRate;*/
-                    //break;
                 }
                 fs << object->getName() << "," << planner->getEvaluation().toCSVString() << (avgRate/planner->getPlannedGrasps().size()) << ", " << (avgForceClosureRate/planner->getPlannedGrasps().size()) << std::endl;
             }

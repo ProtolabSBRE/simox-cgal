@@ -1,6 +1,6 @@
 <SimoxCGAL-SkeletonTool>
 	<Object>
-		<File file='../../../objects/ycb/coffee/coffee.xml'/>
+                <File file='../../../objects/ycb-selection/coffee/coffee.xml'/>
 	</Object>
 	<CGAL-Mesh>
 		<File file='CGALSkeleton/mesh/CGALSkeleton-coffee.xml'/>

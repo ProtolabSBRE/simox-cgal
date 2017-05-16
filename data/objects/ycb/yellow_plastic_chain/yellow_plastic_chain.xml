@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">yellow_plastic_chain.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">yellow_plastic_chain.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

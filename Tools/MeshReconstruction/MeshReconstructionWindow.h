@@ -73,6 +73,8 @@ public slots:
 
     void regularize();
 
+    void computeNormals();
+
     void doReconstruction();
 
 protected:

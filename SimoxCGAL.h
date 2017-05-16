@@ -43,6 +43,7 @@ namespace SimoxCGAL
 typedef CGAL::Simple_cartesian<double>									Kernel;
 
 typedef Kernel::Point_3                                                 Point;
+typedef Kernel::Vector_3                                                Vector;
 
 // CGAL mesh defined as surface_mesh
 typedef CGAL::Surface_mesh<Point>										SurfaceMesh;

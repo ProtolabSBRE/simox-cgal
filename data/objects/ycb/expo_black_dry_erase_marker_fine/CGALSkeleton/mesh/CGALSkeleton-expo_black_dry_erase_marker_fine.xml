@@ -1,0 +1,2057 @@
+	<SimoxCGAL-SurfaceMesh>
+	<NumberOfVertices vertices='229'/>
+	<NumberOfFaces faces='454'/>
+	<Vertices>
+		<Vertex index='0'>
+			<Point x='-9.37638' y='3.2809' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='1'>
+			<Point x='-6.11775' y='3.2809' z='-2.89486'/>
+		</Vertex>
+		<Vertex index='2'>
+			<Point x='-6.11775' y='-2.25832' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='3'>
+			<Point x='2.10424' y='3.2809' z='-4.75527'/>
+		</Vertex>
+		<Vertex index='4'>
+			<Point x='2.10424' y='-3.93008' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='5'>
+			<Point x='-7.6614' y='-4.94109' z='8.3057'/>
+		</Vertex>
+		<Vertex index='6'>
+			<Point x='-6.11775' y='-4.94109' z='4.1921'/>
+		</Vertex>
+		<Vertex index='7'>
+			<Point x='-6.11775' y='-4.94215' z='4.1947'/>
+		</Vertex>
+		<Vertex index='8'>
+			<Point x='-6.11775' y='-5.91151' z='8.3057'/>
+		</Vertex>
+		<Vertex index='9'>
+			<Point x='-2.00676' y='-6.142' z='4.1947'/>
+		</Vertex>
+		<Vertex index='10'>
+			<Point x='-2.00676' y='-4.94109' z='1.36698'/>
+		</Vertex>
+		<Vertex index='11'>
+			<Point x='2.10424' y='-4.94109' z='2.11015'/>
+		</Vertex>
+		<Vertex index='12'>
+			<Point x='2.10424' y='-5.69655' z='4.1947'/>
+		</Vertex>
+		<Vertex index='13'>
+			<Point x='-2.00676' y='-7.11468' z='8.3057'/>
+		</Vertex>
+		<Vertex index='14'>
+			<Point x='2.10424' y='-6.70417' z='8.3057'/>
+		</Vertex>
+		<Vertex index='15'>
+			<Point x='-14.2202' y='3.2809' z='8.3057'/>
+		</Vertex>
+		<Vertex index='16'>
+			<Point x='-17.8232' y='3.2809' z='24.7497'/>
+		</Vertex>
+		<Vertex index='17'>
+			<Point x='-14.3397' y='3.2809' z='8.53115'/>
+		</Vertex>
+		<Vertex index='18'>
+			<Point x='-14.3397' y='-0.392079' z='16.5277'/>
+		</Vertex>
+		<Vertex index='19'>
+			<Point x='-14.3397' y='-4.37423' z='24.7497'/>
+		</Vertex>
+		<Vertex index='20'>
+			<Point x='-6.11775' y='-6.46127' z='12.4167'/>
+		</Vertex>
+		<Vertex index='21'>
+			<Point x='-9.38099' y='-4.94109' z='16.5277'/>
+		</Vertex>
+		<Vertex index='22'>
+			<Point x='-6.11775' y='-6.9031' z='16.5277'/>
+		</Vertex>
+		<Vertex index='23'>
+			<Point x='-2.00676' y='-7.7081' z='12.4167'/>
+		</Vertex>
+		<Vertex index='24'>
+			<Point x='2.10424' y='-7.29414' z='12.4167'/>
+		</Vertex>
+		<Vertex index='25'>
+			<Point x='-2.00676' y='-7.98543' z='16.5277'/>
+		</Vertex>
+		<Vertex index='26'>
+			<Point x='2.10424' y='-7.45844' z='16.5277'/>
+		</Vertex>
+		<Vertex index='27'>
+			<Point x='-6.11775' y='-7.0792' z='20.6387'/>
+		</Vertex>
+		<Vertex index='28'>
+			<Point x='-12.8813' y='-4.94109' z='24.7497'/>
+		</Vertex>
+		<Vertex index='29'>
+			<Point x='-6.11775' y='-7.34093' z='24.7497'/>
+		</Vertex>
+		<Vertex index='30'>
+			<Point x='-2.00676' y='-7.88979' z='20.6387'/>
+		</Vertex>
+		<Vertex index='31'>
+			<Point x='2.10424' y='-7.18225' z='20.6387'/>
+		</Vertex>
+		<Vertex index='32'>
+			<Point x='-2.00676' y='-7.53344' z='24.7497'/>
+		</Vertex>
+		<Vertex index='33'>
+			<Point x='2.10424' y='-6.45045' z='24.7497'/>
+		</Vertex>
+		<Vertex index='34'>
+			<Point x='-30.7837' y='-1.46856' z='57.6377'/>
+		</Vertex>
+		<Vertex index='35'>
+			<Point x='-30.7837' y='-13.1631' z='52.8678'/>
+		</Vertex>
+		<Vertex index='36'>
+			<Point x='-30.7837' y='-18.1997' z='57.6377'/>
+		</Vertex>
+		<Vertex index='37'>
+			<Point x='-26.4062' y='-13.1631' z='41.1937'/>
+		</Vertex>
+		<Vertex index='38'>
+			<Point x='-14.3397' y='-13.1631' z='37.4395'/>
+		</Vertex>
+		<Vertex index='39'>
+			<Point x='-14.3397' y='-15.1878' z='41.1937'/>
+		</Vertex>
+		<Vertex index='40'>
+			<Point x='-7.74069' y='-13.1631' z='41.1937'/>
+		</Vertex>
+		<Vertex index='41'>
+			<Point x='-14.3397' y='-10.0167' z='32.9717'/>
+		</Vertex>
+		<Vertex index='42'>
+			<Point x='-27.6173' y='3.2809' z='41.1937'/>
+		</Vertex>
+		<Vertex index='43'>
+			<Point x='-14.3397' y='-4.94109' z='25.6509'/>
+		</Vertex>
+		<Vertex index='44'>
+			<Point x='-6.11775' y='-7.8226' z='28.8607'/>
+		</Vertex>
+		<Vertex index='45'>
+			<Point x='-6.11775' y='-8.65001' z='32.9717'/>
+		</Vertex>
+		<Vertex index='46'>
+			<Point x='-2.00676' y='-7.17578' z='28.8607'/>
+		</Vertex>
+		<Vertex index='47'>
+			<Point x='2.10424' y='-5.45235' z='28.8607'/>
+		</Vertex>
+		<Vertex index='48'>
+			<Point x='-2.00676' y='-7.14157' z='32.9717'/>
+		</Vertex>
+		<Vertex index='49'>
+			<Point x='2.10424' y='-4.94109' z='30.8681'/>
+		</Vertex>
+		<Vertex index='50'>
+			<Point x='1.51425' y='-4.94109' z='32.9717'/>
+		</Vertex>
+		<Vertex index='51'>
+			<Point x='2.10424' y='-4.4643' z='32.9717'/>
+		</Vertex>
+		<Vertex index='52'>
+			<Point x='-6.11775' y='-12.1662' z='41.1937'/>
+		</Vertex>
+		<Vertex index='53'>
+			<Point x='1.7562' y='-4.94109' z='41.1937'/>
+		</Vertex>
+		<Vertex index='54'>
+			<Point x='2.10424' y='-4.45298' z='41.1937'/>
+		</Vertex>
+		<Vertex index='55'>
+			<Point x='-14.3397' y='-22.6343' z='57.6377'/>
+		</Vertex>
+		<Vertex index='56'>
+			<Point x='-3.80251' y='-13.1631' z='49.4157'/>
+		</Vertex>
+		<Vertex index='57'>
+			<Point x='-6.11775' y='-13.1631' z='43.1469'/>
+		</Vertex>
+		<Vertex index='58'>
+			<Point x='-3.64903' y='-13.1631' z='57.6377'/>
+		</Vertex>
+		<Vertex index='59'>
+			<Point x='-29.4114' y='3.2809' z='57.6377'/>
+		</Vertex>
+		<Vertex index='60'>
+			<Point x='2.10424' y='-4.94109' z='43.459'/>
+		</Vertex>
+		<Vertex index='61'>
+			<Point x='2.10424' y='-5.30663' z='49.4157'/>
+		</Vertex>
+		<Vertex index='62'>
+			<Point x='2.10424' y='-4.94109' z='52.5914'/>
+		</Vertex>
+		<Vertex index='63'>
+			<Point x='0.887059' y='-4.94109' z='57.6377'/>
+		</Vertex>
+		<Vertex index='64'>
+			<Point x='2.10424' y='-1.17889' z='57.6377'/>
+		</Vertex>
+		<Vertex index='65'>
+			<Point x='-30.7837' y='-13.1631' z='70.5615'/>
+		</Vertex>
+		<Vertex index='66'>
+			<Point x='-14.3397' y='-24.107' z='74.0816'/>
+		</Vertex>
+		<Vertex index='67'>
+			<Point x='-28.178' y='-13.1631' z='74.0816'/>
+		</Vertex>
+		<Vertex index='68'>
+			<Point x='-6.11775' y='-13.1631' z='66.8957'/>
+		</Vertex>
+		<Vertex index='69'>
+			<Point x='-5.6899' y='-13.1631' z='65.8596'/>
+		</Vertex>
+		<Vertex index='70'>
+			<Point x='-11.8644' y='-13.1631' z='74.0816'/>
+		</Vertex>
+		<Vertex index='71'>
+			<Point x='-14.3397' y='-9.2499' z='74.0816'/>
+		</Vertex>
+		<Vertex index='72'>
+			<Point x='-14.3397' y='-4.94109' z='72.1'/>
+		</Vertex>
+		<Vertex index='73'>
+			<Point x='-14.3397' y='3.2809' z='67.1146'/>
+		</Vertex>
+		<Vertex index='74'>
+			<Point x='-5.34027' y='-4.94109' z='65.8596'/>
+		</Vertex>
+		<Vertex index='75'>
+			<Point x='-6.11775' y='-1.49838' z='65.8596'/>
+		</Vertex>
+		<Vertex index='76'>
+			<Point x='-6.11775' y='3.2809' z='64.702'/>
+		</Vertex>
+		<Vertex index='77'>
+			<Point x='-10.8519' y='3.2809' z='65.8596'/>
+		</Vertex>
+		<Vertex index='78'>
+			<Point x='2.10424' y='3.2809' z='58.2203'/>
+		</Vertex>
+		<Vertex index='79'>
+			<Point x='-6.11775' y='-4.94109' z='66.4343'/>
+		</Vertex>
+		<Vertex index='80'>
+			<Point x='-14.3397' y='-13.1631' z='75.1887'/>
+		</Vertex>
+		<Vertex index='81'>
+			<Point x='-14.3397' y='11.7506' z='8.3057'/>
+		</Vertex>
+		<Vertex index='82'>
+			<Point x='-14.3397' y='11.5029' z='8.0719'/>
+		</Vertex>
+		<Vertex index='83'>
+			<Point x='-14.3397' y='3.45404' z='8.3057'/>
+		</Vertex>
+		<Vertex index='84'>
+			<Point x='-8.28148' y='11.5029' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='85'>
+			<Point x='-6.11775' y='11.5029' z='-1.6489'/>
+		</Vertex>
+		<Vertex index='86'>
+			<Point x='2.10424' y='11.5029' z='-3.46392'/>
+		</Vertex>
+		<Vertex index='87'>
+			<Point x='-6.11775' y='13.6982' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='88'>
+			<Point x='-2.00676' y='15.3464' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='89'>
+			<Point x='2.10424' y='15.1413' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='90'>
+			<Point x='-6.11775' y='18.071' z='8.3057'/>
+		</Vertex>
+		<Vertex index='91'>
+			<Point x='-6.11775' y='16.612' z='4.1947'/>
+		</Vertex>
+		<Vertex index='92'>
+			<Point x='-6.11775' y='15.6139' z='2.41953'/>
+		</Vertex>
+		<Vertex index='93'>
+			<Point x='-2.00676' y='15.6139' z='0.452063'/>
+		</Vertex>
+		<Vertex index='94'>
+			<Point x='2.10424' y='15.6139' z='0.81721'/>
+		</Vertex>
+		<Vertex index='95'>
+			<Point x='-2.00676' y='17.4564' z='4.1947'/>
+		</Vertex>
+		<Vertex index='96'>
+			<Point x='2.10424' y='16.9625' z='4.1947'/>
+		</Vertex>
+		<Vertex index='97'>
+			<Point x='-2.00676' y='18.4094' z='8.3057'/>
+		</Vertex>
+		<Vertex index='98'>
+			<Point x='2.10424' y='17.5621' z='8.3057'/>
+		</Vertex>
+		<Vertex index='99'>
+			<Point x='-14.3397' y='16.1522' z='16.5277'/>
+		</Vertex>
+		<Vertex index='100'>
+			<Point x='-14.3397' y='17.8009' z='24.7497'/>
+		</Vertex>
+		<Vertex index='101'>
+			<Point x='-6.11775' y='19.0919' z='16.5277'/>
+		</Vertex>
+		<Vertex index='102'>
+			<Point x='-6.11775' y='18.7859' z='12.4167'/>
+		</Vertex>
+		<Vertex index='103'>
+			<Point x='-2.00676' y='18.7028' z='12.4167'/>
+		</Vertex>
+		<Vertex index='104'>
+			<Point x='2.10424' y='17.4601' z='12.4167'/>
+		</Vertex>
+		<Vertex index='105'>
+			<Point x='-2.00676' y='18.6447' z='16.5277'/>
+		</Vertex>
+		<Vertex index='106'>
+			<Point x='2.10424' y='17.0029' z='16.5277'/>
+		</Vertex>
+		<Vertex index='107'>
+			<Point x='-6.11775' y='18.9244' z='24.7497'/>
+		</Vertex>
+		<Vertex index='108'>
+			<Point x='-6.11775' y='19.1233' z='20.6387'/>
+		</Vertex>
+		<Vertex index='109'>
+			<Point x='-2.00676' y='18.3812' z='20.6387'/>
+		</Vertex>
+		<Vertex index='110'>
+			<Point x='2.10424' y='16.421' z='20.6387'/>
+		</Vertex>
+		<Vertex index='111'>
+			<Point x='-2.00676' y='17.9399' z='24.7497'/>
+		</Vertex>
+		<Vertex index='112'>
+			<Point x='2.10424' y='15.6877' z='24.7497'/>
+		</Vertex>
+		<Vertex index='113'>
+			<Point x='-14.3397' y='19.1095' z='41.1937'/>
+		</Vertex>
+		<Vertex index='114'>
+			<Point x='-14.3397' y='18.5581' z='32.9717'/>
+		</Vertex>
+		<Vertex index='115'>
+			<Point x='-6.11775' y='18.2301' z='32.9717'/>
+		</Vertex>
+		<Vertex index='116'>
+			<Point x='-6.11775' y='18.5451' z='28.8607'/>
+		</Vertex>
+		<Vertex index='117'>
+			<Point x='2.10424' y='14.6882' z='28.8607'/>
+		</Vertex>
+		<Vertex index='118'>
+			<Point x='2.10424' y='15.6139' z='25.0898'/>
+		</Vertex>
+		<Vertex index='119'>
+			<Point x='0.92604' y='15.6139' z='28.8607'/>
+		</Vertex>
+		<Vertex index='120'>
+			<Point x='-2.00676' y='17.2716' z='28.8607'/>
+		</Vertex>
+		<Vertex index='121'>
+			<Point x='2.10424' y='13.3233' z='32.9717'/>
+		</Vertex>
+		<Vertex index='122'>
+			<Point x='-0.487275' y='15.6139' z='32.9717'/>
+		</Vertex>
+		<Vertex index='123'>
+			<Point x='-2.00676' y='16.5836' z='32.9717'/>
+		</Vertex>
+		<Vertex index='124'>
+			<Point x='-6.11775' y='18.1731' z='41.1937'/>
+		</Vertex>
+		<Vertex index='125'>
+			<Point x='2.10424' y='12.6625' z='41.1937'/>
+		</Vertex>
+		<Vertex index='126'>
+			<Point x='-14.3397' y='14.45' z='57.6377'/>
+		</Vertex>
+		<Vertex index='127'>
+			<Point x='-14.3397' y='18.3886' z='49.4157'/>
+		</Vertex>
+		<Vertex index='128'>
+			<Point x='-6.11775' y='17.3724' z='49.4157'/>
+		</Vertex>
+		<Vertex index='129'>
+			<Point x='2.10424' y='12.4871' z='49.4157'/>
+		</Vertex>
+		<Vertex index='130'>
+			<Point x='2.10424' y='6.27045' z='57.6377'/>
+		</Vertex>
+		<Vertex index='131'>
+			<Point x='2.10424' y='11.5029' z='52.5809'/>
+		</Vertex>
+		<Vertex index='132'>
+			<Point x='-1.00623' y='11.5029' z='57.6377'/>
+		</Vertex>
+		<Vertex index='133'>
+			<Point x='-6.11775' y='13.6322' z='57.6377'/>
+		</Vertex>
+		<Vertex index='134'>
+			<Point x='-14.3397' y='5.24627' z='65.8596'/>
+		</Vertex>
+		<Vertex index='135'>
+			<Point x='-14.3397' y='11.5029' z='60.9632'/>
+		</Vertex>
+		<Vertex index='136'>
+			<Point x='-6.11775' y='11.5029' z='60.0993'/>
+		</Vertex>
+		<Vertex index='137'>
+			<Point x='7.63846' y='-0.830095' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='138'>
+			<Point x='6.21524' y='-2.04018' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='139'>
+			<Point x='10.1081' y='3.2809' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='140'>
+			<Point x='4.1592' y='-4.94109' z='4.1947'/>
+		</Vertex>
+		<Vertex index='141'>
+			<Point x='5.65558' y='-4.94109' z='8.3057'/>
+		</Vertex>
+		<Vertex index='142'>
+			<Point x='6.21524' y='-3.69402' z='4.1947'/>
+		</Vertex>
+		<Vertex index='143'>
+			<Point x='9.41855' y='-0.830095' z='4.1947'/>
+		</Vertex>
+		<Vertex index='144'>
+			<Point x='10.3262' y='0.418365' z='4.1947'/>
+		</Vertex>
+		<Vertex index='145'>
+			<Point x='10.3262' y='3.2809' z='0.452279'/>
+		</Vertex>
+		<Vertex index='146'>
+			<Point x='6.21524' y='-4.50013' z='8.3057'/>
+		</Vertex>
+		<Vertex index='147'>
+			<Point x='9.81186' y='-0.830095' z='8.3057'/>
+		</Vertex>
+		<Vertex index='148'>
+			<Point x='10.3262' y='-0.015609' z='8.3057'/>
+		</Vertex>
+		<Vertex index='149'>
+			<Point x='11.5615' y='3.2809' z='4.1947'/>
+		</Vertex>
+		<Vertex index='150'>
+			<Point x='11.7041' y='3.2809' z='8.3057'/>
+		</Vertex>
+		<Vertex index='151'>
+			<Point x='6.12126' y='-4.94109' z='12.4167'/>
+		</Vertex>
+		<Vertex index='152'>
+			<Point x='6.10864' y='-4.94109' z='16.5277'/>
+		</Vertex>
+		<Vertex index='153'>
+			<Point x='6.21524' y='-4.85129' z='12.4167'/>
+		</Vertex>
+		<Vertex index='154'>
+			<Point x='9.67035' y='-0.830095' z='12.4167'/>
+		</Vertex>
+		<Vertex index='155'>
+			<Point x='10.3262' y='0.416689' z='12.4167'/>
+		</Vertex>
+		<Vertex index='156'>
+			<Point x='6.21524' y='-4.82919' z='16.5277'/>
+		</Vertex>
+		<Vertex index='157'>
+			<Point x='9.35204' y='-0.830095' z='16.5277'/>
+		</Vertex>
+		<Vertex index='158'>
+			<Point x='10.3262' y='1.30324' z='16.5277'/>
+		</Vertex>
+		<Vertex index='159'>
+			<Point x='11.392' y='3.2809' z='12.4167'/>
+		</Vertex>
+		<Vertex index='160'>
+			<Point x='10.9498' y='3.2809' z='16.5277'/>
+		</Vertex>
+		<Vertex index='161'>
+			<Point x='5.62624' y='-4.94109' z='20.6387'/>
+		</Vertex>
+		<Vertex index='162'>
+			<Point x='4.57814' y='-4.94109' z='24.7497'/>
+		</Vertex>
+		<Vertex index='163'>
+			<Point x='6.21524' y='-4.32147' z='20.6387'/>
+		</Vertex>
+		<Vertex index='164'>
+			<Point x='8.87114' y='-0.830095' z='20.6387'/>
+		</Vertex>
+		<Vertex index='165'>
+			<Point x='10.3262' y='2.77368' z='20.6387'/>
+		</Vertex>
+		<Vertex index='166'>
+			<Point x='6.21524' y='-3.33132' z='24.7497'/>
+		</Vertex>
+		<Vertex index='167'>
+			<Point x='8.09648' y='-0.830095' z='24.7497'/>
+		</Vertex>
+		<Vertex index='168'>
+			<Point x='10.3262' y='3.2809' z='21.4901'/>
+		</Vertex>
+		<Vertex index='169'>
+			<Point x='9.67625' y='3.2809' z='24.7497'/>
+		</Vertex>
+		<Vertex index='170'>
+			<Point x='10.4494' y='3.2809' z='20.6387'/>
+		</Vertex>
+		<Vertex index='171'>
+			<Point x='2.91047' y='-4.94109' z='28.8607'/>
+		</Vertex>
+		<Vertex index='172'>
+			<Point x='6.21524' y='-1.65081' z='28.8607'/>
+		</Vertex>
+		<Vertex index='173'>
+			<Point x='6.78011' y='-0.830095' z='28.8607'/>
+		</Vertex>
+		<Vertex index='174'>
+			<Point x='8.2138' y='3.2809' z='28.8607'/>
+		</Vertex>
+		<Vertex index='175'>
+			<Point x='5.12637' y='-0.830095' z='32.9717'/>
+		</Vertex>
+		<Vertex index='176'>
+			<Point x='6.21524' y='-0.830095' z='30.3193'/>
+		</Vertex>
+		<Vertex index='177'>
+			<Point x='6.21524' y='2.10349' z='32.9717'/>
+		</Vertex>
+		<Vertex index='178'>
+			<Point x='6.37881' y='3.2809' z='32.9717'/>
+		</Vertex>
+		<Vertex index='179'>
+			<Point x='4.69434' y='3.2809' z='41.1937'/>
+		</Vertex>
+		<Vertex index='180'>
+			<Point x='2.32244' y='-4.94109' z='49.4157'/>
+		</Vertex>
+		<Vertex index='181'>
+			<Point x='4.66122' y='3.2809' z='49.4157'/>
+		</Vertex>
+		<Vertex index='182'>
+			<Point x='2.43749' y='3.2809' z='57.6377'/>
+		</Vertex>
+		<Vertex index='183'>
+			<Point x='10.3206' y='7.3919' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='184'>
+			<Point x='8.33895' y='11.5029' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='185'>
+			<Point x='6.21524' y='13.3506' z='0.0837045'/>
+		</Vertex>
+		<Vertex index='186'>
+			<Point x='10.3262' y='7.3919' z='0.0937916'/>
+		</Vertex>
+		<Vertex index='187'>
+			<Point x='10.3262' y='11.231' z='4.1947'/>
+		</Vertex>
+		<Vertex index='188'>
+			<Point x='10.1507' y='11.5029' z='4.1947'/>
+		</Vertex>
+		<Vertex index='189'>
+			<Point x='10.3262' y='11.5029' z='5.18498'/>
+		</Vertex>
+		<Vertex index='190'>
+			<Point x='11.7515' y='7.3919' z='4.1947'/>
+		</Vertex>
+		<Vertex index='191'>
+			<Point x='11.9881' y='7.3919' z='8.3057'/>
+		</Vertex>
+		<Vertex index='192'>
+			<Point x='10.4811' y='11.5029' z='8.3057'/>
+		</Vertex>
+		<Vertex index='193'>
+			<Point x='5.4868' y='15.6139' z='4.1947'/>
+		</Vertex>
+		<Vertex index='194'>
+			<Point x='6.21524' y='15.1928' z='4.1947'/>
+		</Vertex>
+		<Vertex index='195'>
+			<Point x='6.1519' y='15.6139' z='8.3057'/>
+		</Vertex>
+		<Vertex index='196'>
+			<Point x='6.21524' y='15.5715' z='8.3057'/>
+		</Vertex>
+		<Vertex index='197'>
+			<Point x='10.3262' y='11.7332' z='8.3057'/>
+		</Vertex>
+		<Vertex index='198'>
+			<Point x='10.3262' y='11.1443' z='12.4167'/>
+		</Vertex>
+		<Vertex index='199'>
+			<Point x='10.3262' y='11.5029' z='10.6774'/>
+		</Vertex>
+		<Vertex index='200'>
+			<Point x='10.0755' y='11.5029' z='12.4167'/>
+		</Vertex>
+		<Vertex index='201'>
+			<Point x='9.13255' y='11.5029' z='16.5277'/>
+		</Vertex>
+		<Vertex index='202'>
+			<Point x='10.3262' y='9.65056' z='16.5277'/>
+		</Vertex>
+		<Vertex index='203'>
+			<Point x='11.6713' y='7.3919' z='12.4167'/>
+		</Vertex>
+		<Vertex index='204'>
+			<Point x='11.0456' y='7.3919' z='16.5277'/>
+		</Vertex>
+		<Vertex index='205'>
+			<Point x='6.21524' y='15.0631' z='12.4167'/>
+		</Vertex>
+		<Vertex index='206'>
+			<Point x='5.48051' y='15.6139' z='12.4167'/>
+		</Vertex>
+		<Vertex index='207'>
+			<Point x='6.21524' y='14.1138' z='16.5277'/>
+		</Vertex>
+		<Vertex index='208'>
+			<Point x='4.34192' y='15.6139' z='16.5277'/>
+		</Vertex>
+		<Vertex index='209'>
+			<Point x='10.3262' y='7.20574' z='20.6387'/>
+		</Vertex>
+		<Vertex index='210'>
+			<Point x='10.3262' y='7.3919' z='20.3698'/>
+		</Vertex>
+		<Vertex index='211'>
+			<Point x='10.2703' y='7.3919' z='20.6387'/>
+		</Vertex>
+		<Vertex index='212'>
+			<Point x='7.83695' y='11.5029' z='20.6387'/>
+		</Vertex>
+		<Vertex index='213'>
+			<Point x='9.17386' y='7.3919' z='24.7497'/>
+		</Vertex>
+		<Vertex index='214'>
+			<Point x='6.53068' y='11.5029' z='24.7497'/>
+		</Vertex>
+		<Vertex index='215'>
+			<Point x='6.21524' y='13.0721' z='20.6387'/>
+		</Vertex>
+		<Vertex index='216'>
+			<Point x='3.25625' y='15.6139' z='20.6387'/>
+		</Vertex>
+		<Vertex index='217'>
+			<Point x='2.1997' y='15.6139' z='24.7497'/>
+		</Vertex>
+		<Vertex index='218'>
+			<Point x='6.21524' y='11.8691' z='24.7497'/>
+		</Vertex>
+		<Vertex index='219'>
+			<Point x='7.49063' y='7.3919' z='28.8607'/>
+		</Vertex>
+		<Vertex index='220'>
+			<Point x='6.21524' y='9.89101' z='28.8607'/>
+		</Vertex>
+		<Vertex index='221'>
+			<Point x='6.21524' y='11.5029' z='25.7529'/>
+		</Vertex>
+		<Vertex index='222'>
+			<Point x='5.14325' y='11.5029' z='28.8607'/>
+		</Vertex>
+		<Vertex index='223'>
+			<Point x='6.21524' y='6.15425' z='32.9717'/>
+		</Vertex>
+		<Vertex index='224'>
+			<Point x='6.21524' y='7.3919' z='32.0387'/>
+		</Vertex>
+		<Vertex index='225'>
+			<Point x='5.88019' y='7.3919' z='32.9717'/>
+		</Vertex>
+		<Vertex index='226'>
+			<Point x='3.67914' y='11.5029' z='32.9717'/>
+		</Vertex>
+		<Vertex index='227'>
+			<Point x='2.99174' y='11.5029' z='41.1937'/>
+		</Vertex>
+		<Vertex index='228'>
+			<Point x='2.8967' y='11.5029' z='49.4157'/>
+		</Vertex>
+	</Vertices>
+	<Faces>
+		<Face index='0'>
+			<VerticesIndex index0='0' index1='1' index2='2' />
+		</Face>
+		<Face index='1'>
+			<VerticesIndex index0='2' index1='1' index2='3' />
+		</Face>
+		<Face index='2'>
+			<VerticesIndex index0='2' index1='3' index2='4' />
+		</Face>
+		<Face index='3'>
+			<VerticesIndex index0='5' index1='6' index2='7' />
+		</Face>
+		<Face index='4'>
+			<VerticesIndex index0='5' index1='7' index2='8' />
+		</Face>
+		<Face index='5'>
+			<VerticesIndex index0='9' index1='7' index2='6' />
+		</Face>
+		<Face index='6'>
+			<VerticesIndex index0='6' index1='10' index2='9' />
+		</Face>
+		<Face index='7'>
+			<VerticesIndex index0='9' index1='10' index2='11' />
+		</Face>
+		<Face index='8'>
+			<VerticesIndex index0='9' index1='11' index2='12' />
+		</Face>
+		<Face index='9'>
+			<VerticesIndex index0='8' index1='7' index2='9' />
+		</Face>
+		<Face index='10'>
+			<VerticesIndex index0='8' index1='9' index2='13' />
+		</Face>
+		<Face index='11'>
+			<VerticesIndex index0='14' index1='13' index2='9' />
+		</Face>
+		<Face index='12'>
+			<VerticesIndex index0='9' index1='12' index2='14' />
+		</Face>
+		<Face index='13'>
+			<VerticesIndex index0='5' index1='15' index2='0' />
+		</Face>
+		<Face index='14'>
+			<VerticesIndex index0='0' index1='2' index2='6' />
+		</Face>
+		<Face index='15'>
+			<VerticesIndex index0='0' index1='6' index2='5' />
+		</Face>
+		<Face index='16'>
+			<VerticesIndex index0='4' index1='11' index2='10' />
+		</Face>
+		<Face index='17'>
+			<VerticesIndex index0='2' index1='4' index2='10' />
+		</Face>
+		<Face index='18'>
+			<VerticesIndex index0='10' index1='6' index2='2' />
+		</Face>
+		<Face index='19'>
+			<VerticesIndex index0='16' index1='17' index2='18' />
+		</Face>
+		<Face index='20'>
+			<VerticesIndex index0='16' index1='18' index2='19' />
+		</Face>
+		<Face index='21'>
+			<VerticesIndex index0='20' index1='21' index2='5' />
+		</Face>
+		<Face index='22'>
+			<VerticesIndex index0='5' index1='8' index2='20' />
+		</Face>
+		<Face index='23'>
+			<VerticesIndex index0='21' index1='20' index2='22' />
+		</Face>
+		<Face index='24'>
+			<VerticesIndex index0='20' index1='8' index2='13' />
+		</Face>
+		<Face index='25'>
+			<VerticesIndex index0='20' index1='13' index2='23' />
+		</Face>
+		<Face index='26'>
+			<VerticesIndex index0='24' index1='23' index2='13' />
+		</Face>
+		<Face index='27'>
+			<VerticesIndex index0='13' index1='14' index2='24' />
+		</Face>
+		<Face index='28'>
+			<VerticesIndex index0='22' index1='20' index2='23' />
+		</Face>
+		<Face index='29'>
+			<VerticesIndex index0='22' index1='23' index2='25' />
+		</Face>
+		<Face index='30'>
+			<VerticesIndex index0='26' index1='25' index2='23' />
+		</Face>
+		<Face index='31'>
+			<VerticesIndex index0='23' index1='24' index2='26' />
+		</Face>
+		<Face index='32'>
+			<VerticesIndex index0='5' index1='18' index2='17' />
+		</Face>
+		<Face index='33'>
+			<VerticesIndex index0='17' index1='15' index2='5' />
+		</Face>
+		<Face index='34'>
+			<VerticesIndex index0='18' index1='5' index2='21' />
+		</Face>
+		<Face index='35'>
+			<VerticesIndex index0='27' index1='28' index2='21' />
+		</Face>
+		<Face index='36'>
+			<VerticesIndex index0='21' index1='22' index2='27' />
+		</Face>
+		<Face index='37'>
+			<VerticesIndex index0='28' index1='27' index2='29' />
+		</Face>
+		<Face index='38'>
+			<VerticesIndex index0='27' index1='22' index2='25' />
+		</Face>
+		<Face index='39'>
+			<VerticesIndex index0='27' index1='25' index2='30' />
+		</Face>
+		<Face index='40'>
+			<VerticesIndex index0='30' index1='25' index2='26' />
+		</Face>
+		<Face index='41'>
+			<VerticesIndex index0='30' index1='26' index2='31' />
+		</Face>
+		<Face index='42'>
+			<VerticesIndex index0='32' index1='29' index2='27' />
+		</Face>
+		<Face index='43'>
+			<VerticesIndex index0='27' index1='30' index2='32' />
+		</Face>
+		<Face index='44'>
+			<VerticesIndex index0='32' index1='30' index2='31' />
+		</Face>
+		<Face index='45'>
+			<VerticesIndex index0='32' index1='31' index2='33' />
+		</Face>
+		<Face index='46'>
+			<VerticesIndex index0='28' index1='19' index2='18' />
+		</Face>
+		<Face index='47'>
+			<VerticesIndex index0='18' index1='21' index2='28' />
+		</Face>
+		<Face index='48'>
+			<VerticesIndex index0='34' index1='35' index2='36' />
+		</Face>
+		<Face index='49'>
+			<VerticesIndex index0='37' index1='38' index2='39' />
+		</Face>
+		<Face index='50'>
+			<VerticesIndex index0='39' index1='38' index2='40' />
+		</Face>
+		<Face index='51'>
+			<VerticesIndex index0='41' index1='42' index2='16' />
+		</Face>
+		<Face index='52'>
+			<VerticesIndex index0='16' index1='19' index2='43' />
+		</Face>
+		<Face index='53'>
+			<VerticesIndex index0='16' index1='43' index2='41' />
+		</Face>
+		<Face index='54'>
+			<VerticesIndex index0='37' index1='42' index2='41' />
+		</Face>
+		<Face index='55'>
+			<VerticesIndex index0='41' index1='38' index2='37' />
+		</Face>
+		<Face index='56'>
+			<VerticesIndex index0='44' index1='41' index2='43' />
+		</Face>
+		<Face index='57'>
+			<VerticesIndex index0='43' index1='28' index2='44' />
+		</Face>
+		<Face index='58'>
+			<VerticesIndex index0='28' index1='29' index2='44' />
+		</Face>
+		<Face index='59'>
+			<VerticesIndex index0='41' index1='44' index2='45' />
+		</Face>
+		<Face index='60'>
+			<VerticesIndex index0='46' index1='44' index2='29' />
+		</Face>
+		<Face index='61'>
+			<VerticesIndex index0='29' index1='32' index2='46' />
+		</Face>
+		<Face index='62'>
+			<VerticesIndex index0='46' index1='32' index2='33' />
+		</Face>
+		<Face index='63'>
+			<VerticesIndex index0='46' index1='33' index2='47' />
+		</Face>
+		<Face index='64'>
+			<VerticesIndex index0='48' index1='45' index2='44' />
+		</Face>
+		<Face index='65'>
+			<VerticesIndex index0='44' index1='46' index2='48' />
+		</Face>
+		<Face index='66'>
+			<VerticesIndex index0='49' index1='48' index2='46' />
+		</Face>
+		<Face index='67'>
+			<VerticesIndex index0='46' index1='47' index2='49' />
+		</Face>
+		<Face index='68'>
+			<VerticesIndex index0='48' index1='49' index2='50' />
+		</Face>
+		<Face index='69'>
+			<VerticesIndex index0='28' index1='43' index2='19' />
+		</Face>
+		<Face index='70'>
+			<VerticesIndex index0='50' index1='49' index2='51' />
+		</Face>
+		<Face index='71'>
+			<VerticesIndex index0='45' index1='40' index2='38' />
+		</Face>
+		<Face index='72'>
+			<VerticesIndex index0='38' index1='41' index2='45' />
+		</Face>
+		<Face index='73'>
+			<VerticesIndex index0='40' index1='45' index2='52' />
+		</Face>
+		<Face index='74'>
+			<VerticesIndex index0='52' index1='45' index2='48' />
+		</Face>
+		<Face index='75'>
+			<VerticesIndex index0='53' index1='52' index2='48' />
+		</Face>
+		<Face index='76'>
+			<VerticesIndex index0='48' index1='50' index2='53' />
+		</Face>
+		<Face index='77'>
+			<VerticesIndex index0='53' index1='50' index2='51' />
+		</Face>
+		<Face index='78'>
+			<VerticesIndex index0='53' index1='51' index2='54' />
+		</Face>
+		<Face index='79'>
+			<VerticesIndex index0='55' index1='36' index2='35' />
+		</Face>
+		<Face index='80'>
+			<VerticesIndex index0='35' index1='37' index2='39' />
+		</Face>
+		<Face index='81'>
+			<VerticesIndex index0='35' index1='39' index2='55' />
+		</Face>
+		<Face index='82'>
+			<VerticesIndex index0='56' index1='55' index2='39' />
+		</Face>
+		<Face index='83'>
+			<VerticesIndex index0='39' index1='40' index2='57' />
+		</Face>
+		<Face index='84'>
+			<VerticesIndex index0='39' index1='57' index2='56' />
+		</Face>
+		<Face index='85'>
+			<VerticesIndex index0='55' index1='56' index2='58' />
+		</Face>
+		<Face index='86'>
+			<VerticesIndex index0='34' index1='59' index2='42' />
+		</Face>
+		<Face index='87'>
+			<VerticesIndex index0='42' index1='37' index2='35' />
+		</Face>
+		<Face index='88'>
+			<VerticesIndex index0='42' index1='35' index2='34' />
+		</Face>
+		<Face index='89'>
+			<VerticesIndex index0='52' index1='57' index2='40' />
+		</Face>
+		<Face index='90'>
+			<VerticesIndex index0='60' index1='56' index2='57' />
+		</Face>
+		<Face index='91'>
+			<VerticesIndex index0='60' index1='57' index2='52' />
+		</Face>
+		<Face index='92'>
+			<VerticesIndex index0='52' index1='53' index2='60' />
+		</Face>
+		<Face index='93'>
+			<VerticesIndex index0='56' index1='60' index2='61' />
+		</Face>
+		<Face index='94'>
+			<VerticesIndex index0='54' index1='60' index2='53' />
+		</Face>
+		<Face index='95'>
+			<VerticesIndex index0='62' index1='58' index2='56' />
+		</Face>
+		<Face index='96'>
+			<VerticesIndex index0='56' index1='61' index2='62' />
+		</Face>
+		<Face index='97'>
+			<VerticesIndex index0='58' index1='62' index2='63' />
+		</Face>
+		<Face index='98'>
+			<VerticesIndex index0='63' index1='62' index2='64' />
+		</Face>
+		<Face index='99'>
+			<VerticesIndex index0='36' index1='65' index2='34' />
+		</Face>
+		<Face index='100'>
+			<VerticesIndex index0='66' index1='67' index2='65' />
+		</Face>
+		<Face index='101'>
+			<VerticesIndex index0='65' index1='36' index2='55' />
+		</Face>
+		<Face index='102'>
+			<VerticesIndex index0='65' index1='55' index2='66' />
+		</Face>
+		<Face index='103'>
+			<VerticesIndex index0='68' index1='66' index2='55' />
+		</Face>
+		<Face index='104'>
+			<VerticesIndex index0='55' index1='58' index2='69' />
+		</Face>
+		<Face index='105'>
+			<VerticesIndex index0='55' index1='69' index2='68' />
+		</Face>
+		<Face index='106'>
+			<VerticesIndex index0='66' index1='68' index2='70' />
+		</Face>
+		<Face index='107'>
+			<VerticesIndex index0='67' index1='71' index2='72' />
+		</Face>
+		<Face index='108'>
+			<VerticesIndex index0='34' index1='72' index2='73' />
+		</Face>
+		<Face index='109'>
+			<VerticesIndex index0='73' index1='59' index2='34' />
+		</Face>
+		<Face index='110'>
+			<VerticesIndex index0='72' index1='34' index2='65' />
+		</Face>
+		<Face index='111'>
+			<VerticesIndex index0='72' index1='65' index2='67' />
+		</Face>
+		<Face index='112'>
+			<VerticesIndex index0='74' index1='69' index2='58' />
+		</Face>
+		<Face index='113'>
+			<VerticesIndex index0='58' index1='63' index2='74' />
+		</Face>
+		<Face index='114'>
+			<VerticesIndex index0='75' index1='76' index2='77' />
+		</Face>
+		<Face index='115'>
+			<VerticesIndex index0='75' index1='74' index2='63' />
+		</Face>
+		<Face index='116'>
+			<VerticesIndex index0='63' index1='64' index2='75' />
+		</Face>
+		<Face index='117'>
+			<VerticesIndex index0='64' index1='78' index2='76' />
+		</Face>
+		<Face index='118'>
+			<VerticesIndex index0='64' index1='76' index2='75' />
+		</Face>
+		<Face index='119'>
+			<VerticesIndex index0='71' index1='70' index2='68' />
+		</Face>
+		<Face index='120'>
+			<VerticesIndex index0='68' index1='79' index2='71' />
+		</Face>
+		<Face index='121'>
+			<VerticesIndex index0='79' index1='72' index2='71' />
+		</Face>
+		<Face index='122'>
+			<VerticesIndex index0='69' index1='74' index2='79' />
+		</Face>
+		<Face index='123'>
+			<VerticesIndex index0='79' index1='68' index2='69' />
+		</Face>
+		<Face index='124'>
+			<VerticesIndex index0='77' index1='73' index2='72' />
+		</Face>
+		<Face index='125'>
+			<VerticesIndex index0='75' index1='77' index2='72' />
+		</Face>
+		<Face index='126'>
+			<VerticesIndex index0='72' index1='79' index2='75' />
+		</Face>
+		<Face index='127'>
+			<VerticesIndex index0='75' index1='79' index2='74' />
+		</Face>
+		<Face index='128'>
+			<VerticesIndex index0='66' index1='80' index2='67' />
+		</Face>
+		<Face index='129'>
+			<VerticesIndex index0='70' index1='80' index2='66' />
+		</Face>
+		<Face index='130'>
+			<VerticesIndex index0='67' index1='80' index2='71' />
+		</Face>
+		<Face index='131'>
+			<VerticesIndex index0='71' index1='80' index2='70' />
+		</Face>
+		<Face index='132'>
+			<VerticesIndex index0='81' index1='82' index2='83' />
+		</Face>
+		<Face index='133'>
+			<VerticesIndex index0='84' index1='85' index2='1' />
+		</Face>
+		<Face index='134'>
+			<VerticesIndex index0='84' index1='1' index2='0' />
+		</Face>
+		<Face index='135'>
+			<VerticesIndex index0='86' index1='3' index2='1' />
+		</Face>
+		<Face index='136'>
+			<VerticesIndex index0='86' index1='1' index2='85' />
+		</Face>
+		<Face index='137'>
+			<VerticesIndex index0='87' index1='85' index2='84' />
+		</Face>
+		<Face index='138'>
+			<VerticesIndex index0='88' index1='89' index2='86' />
+		</Face>
+		<Face index='139'>
+			<VerticesIndex index0='86' index1='85' index2='88' />
+		</Face>
+		<Face index='140'>
+			<VerticesIndex index0='85' index1='87' index2='88' />
+		</Face>
+		<Face index='141'>
+			<VerticesIndex index0='0' index1='83' index2='82' />
+		</Face>
+		<Face index='142'>
+			<VerticesIndex index0='82' index1='84' index2='0' />
+		</Face>
+		<Face index='143'>
+			<VerticesIndex index0='83' index1='0' index2='15' />
+		</Face>
+		<Face index='144'>
+			<VerticesIndex index0='81' index1='90' index2='91' />
+		</Face>
+		<Face index='145'>
+			<VerticesIndex index0='82' index1='91' index2='92' />
+		</Face>
+		<Face index='146'>
+			<VerticesIndex index0='92' index1='87' index2='84' />
+		</Face>
+		<Face index='147'>
+			<VerticesIndex index0='92' index1='84' index2='82' />
+		</Face>
+		<Face index='148'>
+			<VerticesIndex index0='91' index1='82' index2='81' />
+		</Face>
+		<Face index='149'>
+			<VerticesIndex index0='87' index1='92' index2='93' />
+		</Face>
+		<Face index='150'>
+			<VerticesIndex index0='87' index1='93' index2='88' />
+		</Face>
+		<Face index='151'>
+			<VerticesIndex index0='89' index1='88' index2='93' />
+		</Face>
+		<Face index='152'>
+			<VerticesIndex index0='93' index1='94' index2='89' />
+		</Face>
+		<Face index='153'>
+			<VerticesIndex index0='95' index1='93' index2='92' />
+		</Face>
+		<Face index='154'>
+			<VerticesIndex index0='95' index1='92' index2='91' />
+		</Face>
+		<Face index='155'>
+			<VerticesIndex index0='95' index1='96' index2='94' />
+		</Face>
+		<Face index='156'>
+			<VerticesIndex index0='94' index1='93' index2='95' />
+		</Face>
+		<Face index='157'>
+			<VerticesIndex index0='90' index1='97' index2='95' />
+		</Face>
+		<Face index='158'>
+			<VerticesIndex index0='95' index1='91' index2='90' />
+		</Face>
+		<Face index='159'>
+			<VerticesIndex index0='98' index1='96' index2='95' />
+		</Face>
+		<Face index='160'>
+			<VerticesIndex index0='98' index1='95' index2='97' />
+		</Face>
+		<Face index='161'>
+			<VerticesIndex index0='81' index1='83' index2='17' />
+		</Face>
+		<Face index='162'>
+			<VerticesIndex index0='99' index1='17' index2='16' />
+		</Face>
+		<Face index='163'>
+			<VerticesIndex index0='16' index1='100' index2='99' />
+		</Face>
+		<Face index='164'>
+			<VerticesIndex index0='17' index1='99' index2='81' />
+		</Face>
+		<Face index='165'>
+			<VerticesIndex index0='15' index1='17' index2='83' />
+		</Face>
+		<Face index='166'>
+			<VerticesIndex index0='99' index1='101' index2='102' />
+		</Face>
+		<Face index='167'>
+			<VerticesIndex index0='102' index1='90' index2='81' />
+		</Face>
+		<Face index='168'>
+			<VerticesIndex index0='102' index1='81' index2='99' />
+		</Face>
+		<Face index='169'>
+			<VerticesIndex index0='102' index1='103' index2='97' />
+		</Face>
+		<Face index='170'>
+			<VerticesIndex index0='97' index1='90' index2='102' />
+		</Face>
+		<Face index='171'>
+			<VerticesIndex index0='104' index1='98' index2='97' />
+		</Face>
+		<Face index='172'>
+			<VerticesIndex index0='104' index1='97' index2='103' />
+		</Face>
+		<Face index='173'>
+			<VerticesIndex index0='105' index1='103' index2='102' />
+		</Face>
+		<Face index='174'>
+			<VerticesIndex index0='105' index1='102' index2='101' />
+		</Face>
+		<Face index='175'>
+			<VerticesIndex index0='105' index1='106' index2='104' />
+		</Face>
+		<Face index='176'>
+			<VerticesIndex index0='104' index1='103' index2='105' />
+		</Face>
+		<Face index='177'>
+			<VerticesIndex index0='100' index1='107' index2='108' />
+		</Face>
+		<Face index='178'>
+			<VerticesIndex index0='108' index1='101' index2='99' />
+		</Face>
+		<Face index='179'>
+			<VerticesIndex index0='108' index1='99' index2='100' />
+		</Face>
+		<Face index='180'>
+			<VerticesIndex index0='108' index1='109' index2='105' />
+		</Face>
+		<Face index='181'>
+			<VerticesIndex index0='105' index1='101' index2='108' />
+		</Face>
+		<Face index='182'>
+			<VerticesIndex index0='109' index1='110' index2='106' />
+		</Face>
+		<Face index='183'>
+			<VerticesIndex index0='106' index1='105' index2='109' />
+		</Face>
+		<Face index='184'>
+			<VerticesIndex index0='107' index1='111' index2='109' />
+		</Face>
+		<Face index='185'>
+			<VerticesIndex index0='109' index1='108' index2='107' />
+		</Face>
+		<Face index='186'>
+			<VerticesIndex index0='111' index1='112' index2='110' />
+		</Face>
+		<Face index='187'>
+			<VerticesIndex index0='110' index1='109' index2='111' />
+		</Face>
+		<Face index='188'>
+			<VerticesIndex index0='42' index1='113' index2='114' />
+		</Face>
+		<Face index='189'>
+			<VerticesIndex index0='114' index1='100' index2='16' />
+		</Face>
+		<Face index='190'>
+			<VerticesIndex index0='114' index1='16' index2='42' />
+		</Face>
+		<Face index='191'>
+			<VerticesIndex index0='114' index1='115' index2='116' />
+		</Face>
+		<Face index='192'>
+			<VerticesIndex index0='116' index1='107' index2='100' />
+		</Face>
+		<Face index='193'>
+			<VerticesIndex index0='116' index1='100' index2='114' />
+		</Face>
+		<Face index='194'>
+			<VerticesIndex index0='117' index1='118' index2='119' />
+		</Face>
+		<Face index='195'>
+			<VerticesIndex index0='116' index1='120' index2='111' />
+		</Face>
+		<Face index='196'>
+			<VerticesIndex index0='111' index1='107' index2='116' />
+		</Face>
+		<Face index='197'>
+			<VerticesIndex index0='111' index1='119' index2='118' />
+		</Face>
+		<Face index='198'>
+			<VerticesIndex index0='118' index1='112' index2='111' />
+		</Face>
+		<Face index='199'>
+			<VerticesIndex index0='119' index1='111' index2='120' />
+		</Face>
+		<Face index='200'>
+			<VerticesIndex index0='121' index1='117' index2='119' />
+		</Face>
+		<Face index='201'>
+			<VerticesIndex index0='121' index1='119' index2='122' />
+		</Face>
+		<Face index='202'>
+			<VerticesIndex index0='115' index1='123' index2='120' />
+		</Face>
+		<Face index='203'>
+			<VerticesIndex index0='120' index1='116' index2='115' />
+		</Face>
+		<Face index='204'>
+			<VerticesIndex index0='122' index1='119' index2='120' />
+		</Face>
+		<Face index='205'>
+			<VerticesIndex index0='122' index1='120' index2='123' />
+		</Face>
+		<Face index='206'>
+			<VerticesIndex index0='124' index1='115' index2='114' />
+		</Face>
+		<Face index='207'>
+			<VerticesIndex index0='124' index1='114' index2='113' />
+		</Face>
+		<Face index='208'>
+			<VerticesIndex index0='125' index1='121' index2='122' />
+		</Face>
+		<Face index='209'>
+			<VerticesIndex index0='125' index1='122' index2='123' />
+		</Face>
+		<Face index='210'>
+			<VerticesIndex index0='124' index1='125' index2='123' />
+		</Face>
+		<Face index='211'>
+			<VerticesIndex index0='123' index1='115' index2='124' />
+		</Face>
+		<Face index='212'>
+			<VerticesIndex index0='59' index1='126' index2='127' />
+		</Face>
+		<Face index='213'>
+			<VerticesIndex index0='127' index1='113' index2='42' />
+		</Face>
+		<Face index='214'>
+			<VerticesIndex index0='127' index1='42' index2='59' />
+		</Face>
+		<Face index='215'>
+			<VerticesIndex index0='127' index1='128' index2='124' />
+		</Face>
+		<Face index='216'>
+			<VerticesIndex index0='124' index1='113' index2='127' />
+		</Face>
+		<Face index='217'>
+			<VerticesIndex index0='128' index1='129' index2='125' />
+		</Face>
+		<Face index='218'>
+			<VerticesIndex index0='125' index1='124' index2='128' />
+		</Face>
+		<Face index='219'>
+			<VerticesIndex index0='130' index1='131' index2='132' />
+		</Face>
+		<Face index='220'>
+			<VerticesIndex index0='126' index1='133' index2='128' />
+		</Face>
+		<Face index='221'>
+			<VerticesIndex index0='128' index1='127' index2='126' />
+		</Face>
+		<Face index='222'>
+			<VerticesIndex index0='133' index1='132' index2='131' />
+		</Face>
+		<Face index='223'>
+			<VerticesIndex index0='131' index1='129' index2='128' />
+		</Face>
+		<Face index='224'>
+			<VerticesIndex index0='131' index1='128' index2='133' />
+		</Face>
+		<Face index='225'>
+			<VerticesIndex index0='59' index1='73' index2='134' />
+		</Face>
+		<Face index='226'>
+			<VerticesIndex index0='59' index1='134' index2='135' />
+		</Face>
+		<Face index='227'>
+			<VerticesIndex index0='59' index1='135' index2='126' />
+		</Face>
+		<Face index='228'>
+			<VerticesIndex index0='77' index1='76' index2='136' />
+		</Face>
+		<Face index='229'>
+			<VerticesIndex index0='77' index1='136' index2='135' />
+		</Face>
+		<Face index='230'>
+			<VerticesIndex index0='77' index1='135' index2='134' />
+		</Face>
+		<Face index='231'>
+			<VerticesIndex index0='130' index1='132' index2='136' />
+		</Face>
+		<Face index='232'>
+			<VerticesIndex index0='136' index1='76' index2='130' />
+		</Face>
+		<Face index='233'>
+			<VerticesIndex index0='76' index1='78' index2='130' />
+		</Face>
+		<Face index='234'>
+			<VerticesIndex index0='126' index1='135' index2='136' />
+		</Face>
+		<Face index='235'>
+			<VerticesIndex index0='126' index1='136' index2='133' />
+		</Face>
+		<Face index='236'>
+			<VerticesIndex index0='133' index1='136' index2='132' />
+		</Face>
+		<Face index='237'>
+			<VerticesIndex index0='134' index1='73' index2='77' />
+		</Face>
+		<Face index='238'>
+			<VerticesIndex index0='3' index1='137' index2='138' />
+		</Face>
+		<Face index='239'>
+			<VerticesIndex index0='138' index1='4' index2='3' />
+		</Face>
+		<Face index='240'>
+			<VerticesIndex index0='137' index1='3' index2='139' />
+		</Face>
+		<Face index='241'>
+			<VerticesIndex index0='12' index1='11' index2='140' />
+		</Face>
+		<Face index='242'>
+			<VerticesIndex index0='14' index1='12' index2='140' />
+		</Face>
+		<Face index='243'>
+			<VerticesIndex index0='14' index1='140' index2='141' />
+		</Face>
+		<Face index='244'>
+			<VerticesIndex index0='138' index1='140' index2='11' />
+		</Face>
+		<Face index='245'>
+			<VerticesIndex index0='11' index1='4' index2='138' />
+		</Face>
+		<Face index='246'>
+			<VerticesIndex index0='140' index1='138' index2='142' />
+		</Face>
+		<Face index='247'>
+			<VerticesIndex index0='142' index1='138' index2='137' />
+		</Face>
+		<Face index='248'>
+			<VerticesIndex index0='142' index1='137' index2='143' />
+		</Face>
+		<Face index='249'>
+			<VerticesIndex index0='144' index1='143' index2='137' />
+		</Face>
+		<Face index='250'>
+			<VerticesIndex index0='137' index1='139' index2='145' />
+		</Face>
+		<Face index='251'>
+			<VerticesIndex index0='137' index1='145' index2='144' />
+		</Face>
+		<Face index='252'>
+			<VerticesIndex index0='141' index1='140' index2='142' />
+		</Face>
+		<Face index='253'>
+			<VerticesIndex index0='141' index1='142' index2='146' />
+		</Face>
+		<Face index='254'>
+			<VerticesIndex index0='147' index1='146' index2='142' />
+		</Face>
+		<Face index='255'>
+			<VerticesIndex index0='142' index1='143' index2='147' />
+		</Face>
+		<Face index='256'>
+			<VerticesIndex index0='148' index1='147' index2='143' />
+		</Face>
+		<Face index='257'>
+			<VerticesIndex index0='143' index1='144' index2='148' />
+		</Face>
+		<Face index='258'>
+			<VerticesIndex index0='144' index1='145' index2='149' />
+		</Face>
+		<Face index='259'>
+			<VerticesIndex index0='150' index1='148' index2='144' />
+		</Face>
+		<Face index='260'>
+			<VerticesIndex index0='144' index1='149' index2='150' />
+		</Face>
+		<Face index='261'>
+			<VerticesIndex index0='24' index1='14' index2='141' />
+		</Face>
+		<Face index='262'>
+			<VerticesIndex index0='24' index1='141' index2='151' />
+		</Face>
+		<Face index='263'>
+			<VerticesIndex index0='152' index1='26' index2='24' />
+		</Face>
+		<Face index='264'>
+			<VerticesIndex index0='24' index1='151' index2='152' />
+		</Face>
+		<Face index='265'>
+			<VerticesIndex index0='151' index1='141' index2='146' />
+		</Face>
+		<Face index='266'>
+			<VerticesIndex index0='151' index1='146' index2='153' />
+		</Face>
+		<Face index='267'>
+			<VerticesIndex index0='154' index1='153' index2='146' />
+		</Face>
+		<Face index='268'>
+			<VerticesIndex index0='146' index1='147' index2='154' />
+		</Face>
+		<Face index='269'>
+			<VerticesIndex index0='154' index1='147' index2='148' />
+		</Face>
+		<Face index='270'>
+			<VerticesIndex index0='154' index1='148' index2='155' />
+		</Face>
+		<Face index='271'>
+			<VerticesIndex index0='152' index1='151' index2='153' />
+		</Face>
+		<Face index='272'>
+			<VerticesIndex index0='152' index1='153' index2='156' />
+		</Face>
+		<Face index='273'>
+			<VerticesIndex index0='157' index1='156' index2='153' />
+		</Face>
+		<Face index='274'>
+			<VerticesIndex index0='153' index1='154' index2='157' />
+		</Face>
+		<Face index='275'>
+			<VerticesIndex index0='157' index1='154' index2='155' />
+		</Face>
+		<Face index='276'>
+			<VerticesIndex index0='157' index1='155' index2='158' />
+		</Face>
+		<Face index='277'>
+			<VerticesIndex index0='155' index1='148' index2='150' />
+		</Face>
+		<Face index='278'>
+			<VerticesIndex index0='155' index1='150' index2='159' />
+		</Face>
+		<Face index='279'>
+			<VerticesIndex index0='158' index1='155' index2='159' />
+		</Face>
+		<Face index='280'>
+			<VerticesIndex index0='158' index1='159' index2='160' />
+		</Face>
+		<Face index='281'>
+			<VerticesIndex index0='161' index1='31' index2='26' />
+		</Face>
+		<Face index='282'>
+			<VerticesIndex index0='26' index1='152' index2='161' />
+		</Face>
+		<Face index='283'>
+			<VerticesIndex index0='162' index1='33' index2='31' />
+		</Face>
+		<Face index='284'>
+			<VerticesIndex index0='31' index1='161' index2='162' />
+		</Face>
+		<Face index='285'>
+			<VerticesIndex index0='161' index1='152' index2='156' />
+		</Face>
+		<Face index='286'>
+			<VerticesIndex index0='161' index1='156' index2='163' />
+		</Face>
+		<Face index='287'>
+			<VerticesIndex index0='163' index1='156' index2='157' />
+		</Face>
+		<Face index='288'>
+			<VerticesIndex index0='163' index1='157' index2='164' />
+		</Face>
+		<Face index='289'>
+			<VerticesIndex index0='164' index1='157' index2='158' />
+		</Face>
+		<Face index='290'>
+			<VerticesIndex index0='164' index1='158' index2='165' />
+		</Face>
+		<Face index='291'>
+			<VerticesIndex index0='166' index1='162' index2='161' />
+		</Face>
+		<Face index='292'>
+			<VerticesIndex index0='161' index1='163' index2='166' />
+		</Face>
+		<Face index='293'>
+			<VerticesIndex index0='166' index1='163' index2='164' />
+		</Face>
+		<Face index='294'>
+			<VerticesIndex index0='166' index1='164' index2='167' />
+		</Face>
+		<Face index='295'>
+			<VerticesIndex index0='168' index1='167' index2='164' />
+		</Face>
+		<Face index='296'>
+			<VerticesIndex index0='164' index1='165' index2='168' />
+		</Face>
+		<Face index='297'>
+			<VerticesIndex index0='167' index1='168' index2='169' />
+		</Face>
+		<Face index='298'>
+			<VerticesIndex index0='165' index1='158' index2='160' />
+		</Face>
+		<Face index='299'>
+			<VerticesIndex index0='165' index1='160' index2='170' />
+		</Face>
+		<Face index='300'>
+			<VerticesIndex index0='170' index1='168' index2='165' />
+		</Face>
+		<Face index='301'>
+			<VerticesIndex index0='171' index1='47' index2='33' />
+		</Face>
+		<Face index='302'>
+			<VerticesIndex index0='33' index1='162' index2='171' />
+		</Face>
+		<Face index='303'>
+			<VerticesIndex index0='171' index1='49' index2='47' />
+		</Face>
+		<Face index='304'>
+			<VerticesIndex index0='172' index1='171' index2='162' />
+		</Face>
+		<Face index='305'>
+			<VerticesIndex index0='162' index1='166' index2='172' />
+		</Face>
+		<Face index='306'>
+			<VerticesIndex index0='172' index1='166' index2='167' />
+		</Face>
+		<Face index='307'>
+			<VerticesIndex index0='172' index1='167' index2='173' />
+		</Face>
+		<Face index='308'>
+			<VerticesIndex index0='174' index1='173' index2='167' />
+		</Face>
+		<Face index='309'>
+			<VerticesIndex index0='167' index1='169' index2='174' />
+		</Face>
+		<Face index='310'>
+			<VerticesIndex index0='175' index1='51' index2='49' />
+		</Face>
+		<Face index='311'>
+			<VerticesIndex index0='176' index1='49' index2='171' />
+		</Face>
+		<Face index='312'>
+			<VerticesIndex index0='171' index1='172' index2='176' />
+		</Face>
+		<Face index='313'>
+			<VerticesIndex index0='49' index1='176' index2='175' />
+		</Face>
+		<Face index='314'>
+			<VerticesIndex index0='173' index1='176' index2='172' />
+		</Face>
+		<Face index='315'>
+			<VerticesIndex index0='175' index1='176' index2='177' />
+		</Face>
+		<Face index='316'>
+			<VerticesIndex index0='174' index1='177' index2='176' />
+		</Face>
+		<Face index='317'>
+			<VerticesIndex index0='176' index1='173' index2='174' />
+		</Face>
+		<Face index='318'>
+			<VerticesIndex index0='177' index1='174' index2='178' />
+		</Face>
+		<Face index='319'>
+			<VerticesIndex index0='54' index1='51' index2='175' />
+		</Face>
+		<Face index='320'>
+			<VerticesIndex index0='179' index1='54' index2='175' />
+		</Face>
+		<Face index='321'>
+			<VerticesIndex index0='175' index1='177' index2='179' />
+		</Face>
+		<Face index='322'>
+			<VerticesIndex index0='177' index1='178' index2='179' />
+		</Face>
+		<Face index='323'>
+			<VerticesIndex index0='61' index1='60' index2='180' />
+		</Face>
+		<Face index='324'>
+			<VerticesIndex index0='181' index1='180' index2='60' />
+		</Face>
+		<Face index='325'>
+			<VerticesIndex index0='60' index1='54' index2='179' />
+		</Face>
+		<Face index='326'>
+			<VerticesIndex index0='60' index1='179' index2='181' />
+		</Face>
+		<Face index='327'>
+			<VerticesIndex index0='180' index1='62' index2='61' />
+		</Face>
+		<Face index='328'>
+			<VerticesIndex index0='181' index1='64' index2='62' />
+		</Face>
+		<Face index='329'>
+			<VerticesIndex index0='62' index1='180' index2='181' />
+		</Face>
+		<Face index='330'>
+			<VerticesIndex index0='64' index1='181' index2='182' />
+		</Face>
+		<Face index='331'>
+			<VerticesIndex index0='182' index1='78' index2='64' />
+		</Face>
+		<Face index='332'>
+			<VerticesIndex index0='183' index1='139' index2='3' />
+		</Face>
+		<Face index='333'>
+			<VerticesIndex index0='183' index1='3' index2='86' />
+		</Face>
+		<Face index='334'>
+			<VerticesIndex index0='183' index1='86' index2='184' />
+		</Face>
+		<Face index='335'>
+			<VerticesIndex index0='185' index1='184' index2='86' />
+		</Face>
+		<Face index='336'>
+			<VerticesIndex index0='86' index1='89' index2='185' />
+		</Face>
+		<Face index='337'>
+			<VerticesIndex index0='139' index1='183' index2='186' />
+		</Face>
+		<Face index='338'>
+			<VerticesIndex index0='186' index1='145' index2='139' />
+		</Face>
+		<Face index='339'>
+			<VerticesIndex index0='184' index1='187' index2='186' />
+		</Face>
+		<Face index='340'>
+			<VerticesIndex index0='186' index1='183' index2='184' />
+		</Face>
+		<Face index='341'>
+			<VerticesIndex index0='187' index1='184' index2='188' />
+		</Face>
+		<Face index='342'>
+			<VerticesIndex index0='188' index1='189' index2='187' />
+		</Face>
+		<Face index='343'>
+			<VerticesIndex index0='190' index1='149' index2='145' />
+		</Face>
+		<Face index='344'>
+			<VerticesIndex index0='145' index1='186' index2='190' />
+		</Face>
+		<Face index='345'>
+			<VerticesIndex index0='190' index1='186' index2='187' />
+		</Face>
+		<Face index='346'>
+			<VerticesIndex index0='150' index1='149' index2='190' />
+		</Face>
+		<Face index='347'>
+			<VerticesIndex index0='150' index1='190' index2='191' />
+		</Face>
+		<Face index='348'>
+			<VerticesIndex index0='189' index1='191' index2='190' />
+		</Face>
+		<Face index='349'>
+			<VerticesIndex index0='190' index1='187' index2='189' />
+		</Face>
+		<Face index='350'>
+			<VerticesIndex index0='191' index1='189' index2='192' />
+		</Face>
+		<Face index='351'>
+			<VerticesIndex index0='193' index1='194' index2='185' />
+		</Face>
+		<Face index='352'>
+			<VerticesIndex index0='185' index1='89' index2='94' />
+		</Face>
+		<Face index='353'>
+			<VerticesIndex index0='185' index1='94' index2='193' />
+		</Face>
+		<Face index='354'>
+			<VerticesIndex index0='194' index1='188' index2='184' />
+		</Face>
+		<Face index='355'>
+			<VerticesIndex index0='184' index1='185' index2='194' />
+		</Face>
+		<Face index='356'>
+			<VerticesIndex index0='193' index1='94' index2='96' />
+		</Face>
+		<Face index='357'>
+			<VerticesIndex index0='195' index1='196' index2='194' />
+		</Face>
+		<Face index='358'>
+			<VerticesIndex index0='194' index1='193' index2='195' />
+		</Face>
+		<Face index='359'>
+			<VerticesIndex index0='196' index1='197' index2='189' />
+		</Face>
+		<Face index='360'>
+			<VerticesIndex index0='189' index1='188' index2='194' />
+		</Face>
+		<Face index='361'>
+			<VerticesIndex index0='189' index1='194' index2='196' />
+		</Face>
+		<Face index='362'>
+			<VerticesIndex index0='98' index1='195' index2='193' />
+		</Face>
+		<Face index='363'>
+			<VerticesIndex index0='193' index1='96' index2='98' />
+		</Face>
+		<Face index='364'>
+			<VerticesIndex index0='192' index1='189' index2='197' />
+		</Face>
+		<Face index='365'>
+			<VerticesIndex index0='198' index1='199' index2='200' />
+		</Face>
+		<Face index='366'>
+			<VerticesIndex index0='201' index1='202' index2='198' />
+		</Face>
+		<Face index='367'>
+			<VerticesIndex index0='198' index1='200' index2='201' />
+		</Face>
+		<Face index='368'>
+			<VerticesIndex index0='203' index1='159' index2='150' />
+		</Face>
+		<Face index='369'>
+			<VerticesIndex index0='150' index1='191' index2='203' />
+		</Face>
+		<Face index='370'>
+			<VerticesIndex index0='199' index1='203' index2='191' />
+		</Face>
+		<Face index='371'>
+			<VerticesIndex index0='191' index1='192' index2='199' />
+		</Face>
+		<Face index='372'>
+			<VerticesIndex index0='203' index1='199' index2='198' />
+		</Face>
+		<Face index='373'>
+			<VerticesIndex index0='204' index1='160' index2='159' />
+		</Face>
+		<Face index='374'>
+			<VerticesIndex index0='159' index1='203' index2='204' />
+		</Face>
+		<Face index='375'>
+			<VerticesIndex index0='202' index1='204' index2='203' />
+		</Face>
+		<Face index='376'>
+			<VerticesIndex index0='203' index1='198' index2='202' />
+		</Face>
+		<Face index='377'>
+			<VerticesIndex index0='205' index1='196' index2='195' />
+		</Face>
+		<Face index='378'>
+			<VerticesIndex index0='205' index1='195' index2='206' />
+		</Face>
+		<Face index='379'>
+			<VerticesIndex index0='205' index1='200' index2='199' />
+		</Face>
+		<Face index='380'>
+			<VerticesIndex index0='199' index1='197' index2='196' />
+		</Face>
+		<Face index='381'>
+			<VerticesIndex index0='199' index1='196' index2='205' />
+		</Face>
+		<Face index='382'>
+			<VerticesIndex index0='206' index1='195' index2='98' />
+		</Face>
+		<Face index='383'>
+			<VerticesIndex index0='206' index1='98' index2='104' />
+		</Face>
+		<Face index='384'>
+			<VerticesIndex index0='207' index1='205' index2='206' />
+		</Face>
+		<Face index='385'>
+			<VerticesIndex index0='207' index1='206' index2='208' />
+		</Face>
+		<Face index='386'>
+			<VerticesIndex index0='201' index1='200' index2='205' />
+		</Face>
+		<Face index='387'>
+			<VerticesIndex index0='201' index1='205' index2='207' />
+		</Face>
+		<Face index='388'>
+			<VerticesIndex index0='208' index1='206' index2='104' />
+		</Face>
+		<Face index='389'>
+			<VerticesIndex index0='208' index1='104' index2='106' />
+		</Face>
+		<Face index='390'>
+			<VerticesIndex index0='197' index1='199' index2='192' />
+		</Face>
+		<Face index='391'>
+			<VerticesIndex index0='209' index1='210' index2='211' />
+		</Face>
+		<Face index='392'>
+			<VerticesIndex index0='212' index1='211' index2='210' />
+		</Face>
+		<Face index='393'>
+			<VerticesIndex index0='212' index1='210' index2='202' />
+		</Face>
+		<Face index='394'>
+			<VerticesIndex index0='202' index1='201' index2='212' />
+		</Face>
+		<Face index='395'>
+			<VerticesIndex index0='213' index1='169' index2='168' />
+		</Face>
+		<Face index='396'>
+			<VerticesIndex index0='168' index1='209' index2='213' />
+		</Face>
+		<Face index='397'>
+			<VerticesIndex index0='209' index1='211' index2='213' />
+		</Face>
+		<Face index='398'>
+			<VerticesIndex index0='213' index1='211' index2='212' />
+		</Face>
+		<Face index='399'>
+			<VerticesIndex index0='213' index1='212' index2='214' />
+		</Face>
+		<Face index='400'>
+			<VerticesIndex index0='210' index1='170' index2='160' />
+		</Face>
+		<Face index='401'>
+			<VerticesIndex index0='160' index1='204' index2='210' />
+		</Face>
+		<Face index='402'>
+			<VerticesIndex index0='170' index1='210' index2='209' />
+		</Face>
+		<Face index='403'>
+			<VerticesIndex index0='202' index1='210' index2='204' />
+		</Face>
+		<Face index='404'>
+			<VerticesIndex index0='209' index1='168' index2='170' />
+		</Face>
+		<Face index='405'>
+			<VerticesIndex index0='215' index1='207' index2='208' />
+		</Face>
+		<Face index='406'>
+			<VerticesIndex index0='215' index1='208' index2='216' />
+		</Face>
+		<Face index='407'>
+			<VerticesIndex index0='212' index1='201' index2='207' />
+		</Face>
+		<Face index='408'>
+			<VerticesIndex index0='212' index1='207' index2='215' />
+		</Face>
+		<Face index='409'>
+			<VerticesIndex index0='216' index1='208' index2='106' />
+		</Face>
+		<Face index='410'>
+			<VerticesIndex index0='216' index1='106' index2='110' />
+		</Face>
+		<Face index='411'>
+			<VerticesIndex index0='217' index1='218' index2='215' />
+		</Face>
+		<Face index='412'>
+			<VerticesIndex index0='215' index1='216' index2='217' />
+		</Face>
+		<Face index='413'>
+			<VerticesIndex index0='214' index1='212' index2='215' />
+		</Face>
+		<Face index='414'>
+			<VerticesIndex index0='214' index1='215' index2='218' />
+		</Face>
+		<Face index='415'>
+			<VerticesIndex index0='217' index1='216' index2='110' />
+		</Face>
+		<Face index='416'>
+			<VerticesIndex index0='217' index1='110' index2='112' />
+		</Face>
+		<Face index='417'>
+			<VerticesIndex index0='174' index1='169' index2='213' />
+		</Face>
+		<Face index='418'>
+			<VerticesIndex index0='174' index1='213' index2='219' />
+		</Face>
+		<Face index='419'>
+			<VerticesIndex index0='220' index1='221' index2='222' />
+		</Face>
+		<Face index='420'>
+			<VerticesIndex index0='220' index1='219' index2='213' />
+		</Face>
+		<Face index='421'>
+			<VerticesIndex index0='213' index1='214' index2='221' />
+		</Face>
+		<Face index='422'>
+			<VerticesIndex index0='213' index1='221' index2='220' />
+		</Face>
+		<Face index='423'>
+			<VerticesIndex index0='223' index1='224' index2='225' />
+		</Face>
+		<Face index='424'>
+			<VerticesIndex index0='223' index1='178' index2='174' />
+		</Face>
+		<Face index='425'>
+			<VerticesIndex index0='223' index1='174' index2='219' />
+		</Face>
+		<Face index='426'>
+			<VerticesIndex index0='219' index1='224' index2='223' />
+		</Face>
+		<Face index='427'>
+			<VerticesIndex index0='226' index1='225' index2='224' />
+		</Face>
+		<Face index='428'>
+			<VerticesIndex index0='226' index1='224' index2='220' />
+		</Face>
+		<Face index='429'>
+			<VerticesIndex index0='220' index1='222' index2='226' />
+		</Face>
+		<Face index='430'>
+			<VerticesIndex index0='220' index1='224' index2='219' />
+		</Face>
+		<Face index='431'>
+			<VerticesIndex index0='117' index1='222' index2='221' />
+		</Face>
+		<Face index='432'>
+			<VerticesIndex index0='118' index1='221' index2='218' />
+		</Face>
+		<Face index='433'>
+			<VerticesIndex index0='218' index1='217' index2='118' />
+		</Face>
+		<Face index='434'>
+			<VerticesIndex index0='221' index1='118' index2='117' />
+		</Face>
+		<Face index='435'>
+			<VerticesIndex index0='218' index1='221' index2='214' />
+		</Face>
+		<Face index='436'>
+			<VerticesIndex index0='112' index1='118' index2='217' />
+		</Face>
+		<Face index='437'>
+			<VerticesIndex index0='121' index1='226' index2='222' />
+		</Face>
+		<Face index='438'>
+			<VerticesIndex index0='222' index1='117' index2='121' />
+		</Face>
+		<Face index='439'>
+			<VerticesIndex index0='179' index1='178' index2='223' />
+		</Face>
+		<Face index='440'>
+			<VerticesIndex index0='179' index1='223' index2='225' />
+		</Face>
+		<Face index='441'>
+			<VerticesIndex index0='227' index1='179' index2='225' />
+		</Face>
+		<Face index='442'>
+			<VerticesIndex index0='225' index1='226' index2='227' />
+		</Face>
+		<Face index='443'>
+			<VerticesIndex index0='125' index1='227' index2='226' />
+		</Face>
+		<Face index='444'>
+			<VerticesIndex index0='226' index1='121' index2='125' />
+		</Face>
+		<Face index='445'>
+			<VerticesIndex index0='181' index1='179' index2='227' />
+		</Face>
+		<Face index='446'>
+			<VerticesIndex index0='181' index1='227' index2='228' />
+		</Face>
+		<Face index='447'>
+			<VerticesIndex index0='129' index1='228' index2='227' />
+		</Face>
+		<Face index='448'>
+			<VerticesIndex index0='227' index1='125' index2='129' />
+		</Face>
+		<Face index='449'>
+			<VerticesIndex index0='130' index1='182' index2='181' />
+		</Face>
+		<Face index='450'>
+			<VerticesIndex index0='181' index1='228' index2='131' />
+		</Face>
+		<Face index='451'>
+			<VerticesIndex index0='181' index1='131' index2='130' />
+		</Face>
+		<Face index='452'>
+			<VerticesIndex index0='129' index1='131' index2='228' />
+		</Face>
+		<Face index='453'>
+			<VerticesIndex index0='130' index1='78' index2='182' />
+		</Face>
+		</Faces>
+	</SimoxCGAL-SurfaceMesh>

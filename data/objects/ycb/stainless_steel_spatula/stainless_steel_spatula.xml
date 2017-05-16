@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">stainless_steel_spatula.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">stainless_steel_spatula.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

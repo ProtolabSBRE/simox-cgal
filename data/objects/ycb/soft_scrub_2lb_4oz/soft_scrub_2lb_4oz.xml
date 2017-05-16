@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">soft_scrub_2lb_4oz.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">soft_scrub_2lb_4oz.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

@@ -33,6 +33,7 @@
 #include <Inventor/nodes/SoMatrixTransform.h>
 #include <Inventor/nodes/SoScale.h>
 #include <Inventor/nodes/SoMaterial.h>
+#include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
 
 #include "GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h"
 #include "Visualization/CoinVisualization/CGALCoinVisualization.h"
@@ -102,7 +103,6 @@ SkeletonGraspPlannerWindow::~SkeletonGraspPlannerWindow()
     }
 
 }
-
 
 
 /*void GraspPlannerWindow::timerCB(void * data, SoSensor * sensor)
@@ -433,15 +433,7 @@ void SkeletonGraspPlannerWindow::quit()
     this->close();
     SoQt::exitMainLoop();
 }
-/*
-void SkeletonGraspPlannerWindow::loadObject()
-{
-    if (!objectFile.empty())
-    {
-        object = ObjectIO::loadManipulationObject(objectFile);
-    }
-}
-*/
+
 void SkeletonGraspPlannerWindow::loadData()
 {
     //QString fi = QFileDialog::getOpenFileName(this, tr("Open Object"), QString(), tr("Segmented Object XML Files (*.soxml)"));
@@ -494,11 +486,6 @@ bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filenam
         VR_ERROR << "could not load file " << segmentedObjectFile << endl;
         return false;
     }
-
-    //verschiebe Endeffector
-    //Eigen::Vector3f min = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMin();
-    //Eigen::Vector3f max = object->getCollisionModel()->getTriMeshModel()->boundingBox.getMax();
-
 
     initPlanner();
 
@@ -625,6 +612,7 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
         start = 0;
     }
 
+    // just set to an initial value, finally updated in selectGrasp()
     currentPreshape = approach->getGraspPreshape();
 
     if (nr != 0) {
@@ -643,7 +631,7 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
         UI.spinBoxGraspNumberPlanned->setRange(0,grasps->getSize()-1);
         // set to last valid grasp
         UI.spinBoxGraspNumberPlanned->setValue(grasps->getSize()-1);
-        selectGrasp();
+        //selectGrasp();
     }
 
     updateSkeletonInfo();
@@ -658,6 +646,7 @@ void SkeletonGraspPlannerWindow::closeEEF()
     if (eefCloned && eefCloned->getEndEffector(eefName) && object)
     {
         contacts = eefCloned->getEndEffector(eefName)->closeActors(object);
+
         qualityMeasure->setContactPoints(contacts);
         float qual = qualityMeasure->getGraspQuality();
         bool isFC = qualityMeasure->isGraspForceClosure();
@@ -717,7 +706,6 @@ void SkeletonGraspPlannerWindow::showGrasps()
 
 void SkeletonGraspPlannerWindow::save()
 {
-    //QString fi = QFileDialog::getSaveFileName(this, tr("Save ManipulationObject"), QString(), tr("XML Files (*.xml)"));
     QString fi;
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::AnyFile);
@@ -786,11 +774,43 @@ void SkeletonGraspPlannerWindow::selectGrasp()
     if (currentGrasp>=0 && currentGrasp<int(grasps->getSize()) && eefCloned && eefCloned->getEndEffector(eefName))
     {
         VirtualRobot::GraspPtr g = grasps->getGrasp(currentGrasp);
-        currentPreshape = g->getPreshapeName();
-        Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
-        eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-        //eefCloned->getEndEffector(eefName)->setPreshape(currentPreshape); // done in openEEF
+        applyGrasp(g, eefCloned, eefCloned->getEndEffector(eefName));
+        float a,b;
+        evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b);
+        VR_INFO << "Robustness: avg quality:" << a << endl;
+        VR_INFO << "Robustness: avg fc rate:" << b << endl;
+    } else
+    {
+        openEEF();
     }
+}
+
+bool SkeletonGraspPlannerWindow::evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, float &storeAvgRate, float &storeAvgForceClosureRate)
+{
+    if (!g || !eefRobot || !eef)
+        return false;
+
+    storeAvgRate = 0;
+    storeAvgForceClosureRate = 0;
+
+    GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
+
+    auto poseevalresult = eval->evaluateGrasp(g, eef, object, qualityMeasure, nrEvalLoops);
+    storeAvgRate = poseevalresult.avgQuality;
+    storeAvgForceClosureRate = poseevalresult.forceClosureRate;
+
+    return true;
+}
+
+void SkeletonGraspPlannerWindow::applyGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef)
+{
+    if (!g)
+        return;
+    currentPreshape = g->getPreshapeName();
+    Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
+    //eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
+    if (eefRobot && eef)
+        eefRobot->setGlobalPoseForRobotNode(eef->getTcp(), mGrasp);
 
     openEEF();
     closeEEF();
@@ -832,7 +852,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     boost::filesystem::path resultsCSVPath("graspplanningresults-" + robot->getName() + ".csv");
     resultsCSVPath = boost::filesystem::absolute(resultsCSVPath);
     std::ofstream fs(resultsCSVPath.string().c_str(), std::ofstream::out);
-    fs << "object," << planner->getEvaluation().GetCSVHeader() << std::endl;
+    fs << "object," << planner->getEvaluation().GetCSVHeader() << "RobustnessAvgQuality,RobustnessAvgForceClosureRate" << std::endl;
     QProgressDialog progress("Calculating grasps...", "Abort", 0, paths.size(), this);
     progress.setWindowModality(Qt::WindowModal);
     progress.show();
@@ -841,15 +861,24 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     qApp->processEvents();
     for(auto& path :  paths)
     {
-
         try
         {
-//            resetSceneryAll();
+            //resetSceneryAll();
             if(loadSegmentedObject(path.toStdString()))
             {
                 planAll();
                 saveToFile(boost::filesystem::path(path.toStdString()).replace_extension(".moxml").string());
-                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << std::endl;
+                float avgRate = 0;
+                float avgForceClosureRate = 0;
+                for(VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
+                {
+                    float a,b;
+                    if (!evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b))
+                        continue;
+                    avgRate += a;
+                    avgForceClosureRate += b;
+                }
+                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << (avgRate/planner->getPlannedGrasps().size()) << ", " << (avgForceClosureRate/planner->getPlannedGrasps().size()) << std::endl;
             }
         }
         catch(std::exception & e)

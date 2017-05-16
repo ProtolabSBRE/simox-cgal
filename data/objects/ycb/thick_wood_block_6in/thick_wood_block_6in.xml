@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">thick_wood_block_6in.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">thick_wood_block_6in.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

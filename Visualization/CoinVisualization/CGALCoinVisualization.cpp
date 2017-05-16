@@ -418,9 +418,9 @@ SoSeparator* CGALCoinVisualization::CreatePigmentedMeshVisualization(SkeletonPtr
     SoSeparator* visu = new SoSeparator;
     visu->ref();
 
-    SoUnits* u = new SoUnits();
-    u->units = SoUnits::MILLIMETERS;
-//    visu->addChild(u);
+    //SoUnits* u = new SoUnits();
+    //u->units = SoUnits::MILLIMETERS;
+    //visu->addChild(u);
 
 
     if ((size_t)part >= members.size())
@@ -485,10 +485,10 @@ SoNode* CGALCoinVisualization::CreatePigmentedSubpartVisualization(SkeletonPtr s
     {
         SkeletonVertex v = vertex.first;
 
-        if (vertex.second->endpoint)
+        /*if (vertex.second->endpoint)
         {
             cout << "endpoint: " << v << endl;
-        }
+        }*/
 
         BOOST_FOREACH(SurfaceMeshVertexDescriptor vd, (*skeleton)[v].vertices) {
             surfaceIndices[vd] = j;
@@ -524,6 +524,7 @@ SoNode* CGALCoinVisualization::CreatePigmentedSubpartVisualization(SkeletonPtr s
             if (index.size() != 3)
             {
                 VR_ERROR << "No triangle in mesh!" << endl;
+                continue;
             }
 
             //prüfe welche Farbe bzw. ob es gemalt wird!

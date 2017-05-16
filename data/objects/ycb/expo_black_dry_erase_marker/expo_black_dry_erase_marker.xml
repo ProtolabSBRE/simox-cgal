@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">expo_black_dry_erase_marker.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">expo_black_dry_erase_marker.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

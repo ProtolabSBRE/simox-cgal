@@ -303,5 +303,10 @@ int MeshSkeleton::getTime()
     return segmentationTimeMS;
 }
 
+void MeshSkeleton::print()
+{
+    cout << "***** MeshSkeleton ******" << endl;
+}
+
 }
 

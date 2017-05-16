@@ -10,9 +10,13 @@
 #include <CGAL/IO/output_surface_facets_to_polyhedron.h>
 #include <CGAL/Scale_space_surface_reconstruction_3.h>
 #include <CGAL/grid_simplify_point_set.h>
+#include <CGAL/pca_estimate_normals.h>
+#include <CGAL/mst_orient_normals.h>
 
 #include <vector>
 #include <fstream>
+#include <utility>
+#include <functional>
 
 using namespace VirtualRobot;
 using namespace std;
@@ -75,7 +79,65 @@ bool MeshReconstruction::regularizePoints(std::vector<Eigen::Vector3f> &points, 
     points.swap(tmp_points);
     normals.swap(tmp_normals);
     return true;
-  }
+}
+
+bool MeshReconstruction::computeNormals(std::vector<Eigen::Vector3f> &points, std::vector<Eigen::Vector3f> &storeNormals, bool erasePointsWithWrongNormal)
+{
+
+    // Point with normal vector stored in a std::pair.
+    typedef std::pair<Point, Vector> PointVectorPair;
+
+    // Concurrency
+    #ifdef CGAL_LINKED_WITH_TBB
+    typedef CGAL::Parallel_tag Concurrency_tag;
+    #else
+    typedef CGAL::Sequential_tag Concurrency_tag;
+    #endif
+    std::list<PointVectorPair> cgPoints;
+    for (size_t i=0; i<points.size(); i++)
+    {
+        const Eigen::Vector3f &p = points.at(i);
+        cgPoints.push_back(std::make_pair(Point(p[0], p[1], p[2]), Vector(0,0,0)));
+    }
+
+    // Estimates normals direction.
+    // Note: pca_estimate_normals() requires an iterator over points
+    // as well as property maps to access each point's position and normal.
+    const int nb_neighbors = 18; // K-nearest neighbors = 3 rings
+    CGAL::pca_estimate_normals<Concurrency_tag>(cgPoints.begin(), cgPoints.end(),
+                               CGAL::First_of_pair_property_map<PointVectorPair>(),
+                               CGAL::Second_of_pair_property_map<PointVectorPair>(),
+                               nb_neighbors);
+    // Orients normals.
+    // Note: mst_orient_normals() requires an iterator over points
+    // as well as property maps to access each point's position and normal.
+    std::list<PointVectorPair>::iterator unoriented_points_begin =
+      CGAL::mst_orient_normals(cgPoints.begin(), cgPoints.end(),
+                                 CGAL::First_of_pair_property_map<PointVectorPair>(),
+                                 CGAL::Second_of_pair_property_map<PointVectorPair>(),
+                                 nb_neighbors);
+    // Optional: delete points with an unoriented normal
+    // if you plan to call a reconstruction algorithm that expects oriented normals.
+    if (erasePointsWithWrongNormal)
+        cgPoints.erase(unoriented_points_begin, cgPoints.end());
+
+    size_t origPointSize = points.size();
+
+    storeNormals.clear();
+    if (erasePointsWithWrongNormal)
+        points.clear();
+    for (PointVectorPair &p : cgPoints)
+    {
+        if (erasePointsWithWrongNormal)
+            points.push_back(Eigen::Vector3f(p.first[0], p.first[1], p.first[2]));
+        storeNormals.push_back(Eigen::Vector3f(p.second[0], p.second[1], p.second[2]));
+    }
+
+    VR_INFO << "Oriented " << storeNormals.size() << " normals. Could not coherently orient " << origPointSize-storeNormals.size() << " normals." << endl;
+
+    VR_ASSERT(points.size() == storeNormals.size());
+    return true;
+}
 
 VirtualRobot::TriMeshModelPtr MeshReconstruction::reconstructMeshScaleSpace(std::vector<Eigen::Vector3f> &points)
 {

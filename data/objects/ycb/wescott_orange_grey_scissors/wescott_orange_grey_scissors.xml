@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">wescott_orange_grey_scissors.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">wescott_orange_grey_scissors.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

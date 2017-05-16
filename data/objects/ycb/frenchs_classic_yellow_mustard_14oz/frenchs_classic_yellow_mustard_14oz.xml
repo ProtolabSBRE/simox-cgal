@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">frenchs_classic_yellow_mustard_14oz.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">frenchs_classic_yellow_mustard_14oz.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

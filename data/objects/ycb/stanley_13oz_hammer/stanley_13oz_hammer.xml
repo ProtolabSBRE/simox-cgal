@@ -1,0 +1,8 @@
+<ManipulationObject name="apple">
+    <Visualization>
+        <File type="inventor">stanley_13oz_hammer.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">stanley_13oz_hammer.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

@@ -507,9 +507,11 @@ void ObjectSegmentationSkeletonWindow::buildObject()
 
     VR_INFO << "Done in " << skeleton->getTime() << " ms " << endl;
 
+    float distBranch = UI.dsbDistBranch->value();
+
     VR_INFO << "Calculating skeleton segmentation ..." << endl;
 
-    segSkeleton = MeshSkeletonPtr(new MeshSkeleton(surfaceMesh, skeleton->getSkeleton(), 20.0));
+    segSkeleton = MeshSkeletonPtr(new MeshSkeleton(surfaceMesh, skeleton->getSkeleton(), distBranch));
 
     VR_INFO << "Done in " << segSkeleton->getTime() << " ms " << endl;
 

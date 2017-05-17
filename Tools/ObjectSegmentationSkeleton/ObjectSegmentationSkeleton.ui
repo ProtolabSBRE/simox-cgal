@@ -85,7 +85,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>350</y>
+         <y>420</y>
          <width>201</width>
          <height>331</height>
         </rect>
@@ -248,7 +248,7 @@ segments</string>
          <x>10</x>
          <y>200</y>
          <width>211</width>
-         <height>141</height>
+         <height>171</height>
         </rect>
        </property>
        <property name="title">
@@ -258,7 +258,7 @@ segments</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>100</y>
+          <y>130</y>
           <width>191</width>
           <height>31</height>
          </rect>
@@ -306,10 +306,36 @@ segments</string>
          </rect>
         </property>
         <property name="text">
-         <string>not remeshing</string>
+         <string>original mesh</string>
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="dsbDistBranch">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>100</y>
+          <width>69</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="value">
+         <double>2.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>16</x>
+          <y>100</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Dist to branch</string>
         </property>
        </widget>
       </widget>

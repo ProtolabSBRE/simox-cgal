@@ -92,7 +92,8 @@ SkeletonVertexResult SkeletonVertexAnalyzer::calculatePCA(SkeletonPtr skeleton, 
     //vector<SkeletonVertex> interval;
     vector<Vector3f> points;
 
-    SkeletonPointPtr point = part->skeletonPart[part->sortedSkeletonPartIndex.at(indexVertex)];
+    unsigned long indx = part->sortedSkeletonPartIndex.at(indexVertex);
+    SkeletonPointPtr point = part->skeletonPart[indx];
     result.skeletonPoint = point;
 
     bool endpoint = point->endpoint;

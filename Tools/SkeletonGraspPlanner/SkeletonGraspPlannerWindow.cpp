@@ -41,6 +41,7 @@
 #include <QProgressDialog>
 #include <sstream>
 
+#include <CGALMeshConverter.h>
 #include "ui_SkeletonGraspPlannerOptions.h"
 
 using namespace std;
@@ -72,6 +73,8 @@ SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std
     graspsSep = new SoSeparator;
     skeletonSep = new SoSeparator;
     graspsSep->ref();
+    surfaceGrasp = new SoSeparator;
+    surfaceGrasp->ref();
 
     test = new SoSeparator;
     test->ref();
@@ -80,6 +83,7 @@ SkeletonGraspPlannerWindow::SkeletonGraspPlannerWindow(std::string& robFile, std
     sceneSep->addChild(objectSep);
     sceneSep->addChild(frictionConeSep);
     sceneSep->addChild(test);
+    sceneSep->addChild(surfaceGrasp);
 
     setupUI();
 
@@ -287,6 +291,7 @@ void SkeletonGraspPlannerWindow::buildVisu()
 {
 
     robotSep->removeAllChildren();
+    surfaceGrasp->removeAllChildren();
     SceneObject::VisualizationType colModel = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
 
     if (eefCloned && UI.checkBoxHand->isChecked())
@@ -308,6 +313,14 @@ void SkeletonGraspPlannerWindow::buildVisu()
 
         visualizationRobot = eefCloned->getVisualization<CoinVisualization>(colModel);
         SoNode* visualisationNode = visualizationRobot->getCoinVisualization();
+
+        // show projected surface point
+        if (mesh && currentGrasp)
+        {
+            CGALPolyhedronMeshPtr poly = CGALMeshConverter::convertSurface2PolyhedronMesh(mesh);
+            if (poly)
+                surfaceGrasp->addChild(CGALCoinVisualization::CreateGraspOnSurfaceVisualization(currentGrasp, eefCloned->getEndEffector(eefName), object, poly));
+        }
 
         if (visualisationNode)
         {
@@ -492,6 +505,7 @@ bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filenam
     UI.groupBoxSkeleton->setEnabled(true);
     UI.radioButtonNothing->setChecked(true);
 
+    graspsSep->removeAllChildren();
     buildVisu();
 
     updateSkeletonInfo();
@@ -617,10 +631,16 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
 
     if (nr != 0) {
         // keine Griffe mehr möglich!
-        for (int i = start; i < (int)grasps->getSize() - 1; i++)
+        VR_INFO << "Create visualization of all grasps..." << endl;
+        CGALPolyhedronMeshPtr poly = CGALMeshConverter::convertSurface2PolyhedronMesh(mesh);
+        if (poly)
+            graspsSep->addChild(CGALCoinVisualization::CreateGraspsOnSurfaceVisualization(grasps,eefCloned->getEndEffector(eefName),object,poly,2.0f,3.0f,20.0f));
+        VR_INFO << "Create visualization of all grasps... done" << endl;
+
+        /*for (int i = start; i < (int)grasps->getSize() - 1; i++)
         {
             graspsSep->addChild(CGALCoinVisualization::CreateGraspVisualization(grasps->getGrasp(i), object));
-        }
+        }*/
     }
 
     if (grasps->getSize()<=0)
@@ -774,11 +794,15 @@ void SkeletonGraspPlannerWindow::selectGrasp()
     if (currentGrasp>=0 && currentGrasp<int(grasps->getSize()) && eefCloned && eefCloned->getEndEffector(eefName))
     {
         VirtualRobot::GraspPtr g = grasps->getGrasp(currentGrasp);
+        this->currentGrasp = g;
         applyGrasp(g, eefCloned, eefCloned->getEndEffector(eefName));
-        float a,b;
-        evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b);
-        VR_INFO << "Robustness: avg quality:" << a << endl;
-        VR_INFO << "Robustness: avg fc rate:" << b << endl;
+        if (UI.checkBoxEvaluateGrasps->isChecked())
+        {
+            float a,b;
+            evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b);
+            VR_INFO << "Robustness: avg quality:" << a << endl;
+            VR_INFO << "Robustness: avg fc rate:" << b << endl;
+        }
     } else
     {
         openEEF();

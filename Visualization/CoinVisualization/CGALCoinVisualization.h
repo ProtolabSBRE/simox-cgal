@@ -92,6 +92,26 @@ namespace SimoxCGAL
 
         static SoSeparator* CreateGraspVisualization(VirtualRobot::GraspPtr grasp, VirtualRobot::ManipulationObjectPtr object);
 
+        static SoSeparator* CreateGraspOnSurfaceVisualization(VirtualRobot::GraspPtr grasp,
+                                                              VirtualRobot::EndEffectorPtr eef,
+                                                              VirtualRobot::ManipulationObjectPtr object,
+                                                              CGALPolyhedronMeshPtr polyhedronObject,
+                                                              float sizePoint = 1.0f, float lineSize = 1.0f, float lineLength = 50.0f);
+        static SoSeparator* CreateGraspsOnSurfaceVisualization(VirtualRobot::GraspSetPtr grasps,
+                                                              VirtualRobot::EndEffectorPtr eef,
+                                                              VirtualRobot::ManipulationObjectPtr object,
+                                                              CGALPolyhedronMeshPtr polyhedronObject,
+                                                              float sizePoint = 1.0f, float lineSize = 1.0f, float lineLength = 50.0f);
+
+
+        static SoSeparator* CreateGraspOnSurfaceVisualization(VirtualRobot::GraspPtr grasp,
+                                                              VirtualRobot::EndEffectorPtr eef,
+                                                              VirtualRobot::ManipulationObjectPtr object,
+                                                              PolyTree &polyhedronTree,
+                                                              float sizePoint = 1.0f, float lineSize = 1.0f, float lineLength = 50.0f);
+
+
+
         static SoNode* CreateGraspIntervalVisualization(const SkeletonVertexResult &result,
                                                         SurfaceMeshPtr mesh,
                                                         bool showPoints = true,

@@ -64,6 +64,8 @@ namespace SimoxCGAL
          */
         static VirtualRobot::TriMeshModelPtr ConvertTrimeshCGALCompatible(VirtualRobot::TriMeshModelPtr tm);
 
+        static CGALPolyhedronMeshPtr convertSurface2PolyhedronMesh(CGALSurfaceMeshPtr s);
+
         //static CGALPolyhedronMeshPtr PolygonSoupToPolyhedronMesh(VirtualRobot::TriMeshModelPtr tm);
 
     private:

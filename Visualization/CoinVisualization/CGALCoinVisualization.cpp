@@ -21,6 +21,15 @@
 #include <Segmentation/Skeleton/SkeletonPart.h>
 #include <GraspPlanning/Skeleton/SkeletonVertexAnalyzer.h>
 
+#include <VirtualRobot/Robot.h>
+#include <VirtualRobot/RobotConfig.h>
+#include <VirtualRobot/Visualization/TriMeshModel.h>
+#include <VirtualRobot/EndEffector/EndEffector.h>
+#include <VirtualRobot/Grasping/GraspSet.h>
+
+#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
+#include <CGAL/AABB_face_graph_triangle_primitive.h>
+
 using namespace std;
 using namespace VirtualRobot;
 using namespace Eigen;
@@ -759,6 +768,163 @@ SoSeparator* CGALCoinVisualization::CreateGraspVisualization(GraspPtr grasp, Man
 
     return sep;
 }
+
+
+SoSeparator* CGALCoinVisualization::CreateGraspOnSurfaceVisualization(GraspPtr grasp, EndEffectorPtr eef, ManipulationObjectPtr object, PolyTree &polyhedronTree, float sizePoint, float lineSize, float lineLength)
+{
+    SoSeparator* sep = new SoSeparator;
+    SoUnits* u = new SoUnits();
+    u->units = SoUnits::MILLIMETERS;
+    sep->addChild(u);
+
+    if (!eef || !eef->getRobot())
+    {
+        VR_WARNING << "no eef / eef->robot" << endl;
+        return sep;
+    }
+
+
+    RobotConfigPtr initEefConf = eef->getConfiguration();
+    Eigen::Matrix4f initEefGP = eef->getRobot()->getGlobalPose();
+
+    // apply grasp
+    Eigen::Matrix4f m = grasp->getTcpPoseGlobal(object->getGlobalPose());
+    eef->getRobot()->setGlobalPoseForRobotNode(eef->getTcp(), m);
+
+    VirtualRobot::RobotConfigPtr preshape = eef->getPreshape(grasp->getPreshapeName());
+    if (!preshape)
+    {
+        VR_WARNING << "no preshape" << endl;
+        eef->getRobot()->setGlobalPose(initEefGP);
+        eef->getRobot()->setConfig(initEefConf);
+        return sep;
+    }
+
+    // get preshape tcp
+    RobotNodePtr tcp = preshape->getTCP();
+
+    Eigen::Matrix4f p0 = Eigen::Matrix4f::Identity();
+    Eigen::Matrix4f p1 = Eigen::Matrix4f::Identity();
+
+    p1(2,3) = -100.0f; // -100 in z direction
+
+    p0 = tcp->toGlobalCoordinateSystem(p0);
+    p1 = tcp->toGlobalCoordinateSystem(p1);
+
+    typedef KernelPolyhedron::Segment_3 SegmentPoly;
+    typedef boost::optional< PolyTree::Intersection_and_primitive_id<SegmentPoly>::Type > Segment_intersection;
+    typedef PolyTree::Primitive_id Primitive_id;
+
+    // construct segment
+    PointPoly a(p0(0,3), p0(1,3), p0(2,3));
+    PointPoly b(p1(0,3), p1(1,3), p1(2,3));
+    SegmentPoly segment_query(a,b);
+
+    // computes #intersections with segment query
+    //std::cout << tree.number_of_intersected_primitives(segment_query)
+    //    << " intersection(s)" << std::endl;
+    // computes first encountered intersection with segment query
+    // (generally a point)
+    Segment_intersection intersection =
+        polyhedronTree.any_intersection(segment_query);
+    if(intersection)
+    {
+        // gets intersection object
+      const PointPoly* p = boost::get<PointPoly>(&(intersection->first));
+      if(p)
+      {
+        //std::cout << "intersection object is a point " << *p << std::endl;
+          SoSeparator * s1 = new SoSeparator;
+
+
+          PointPoly po2 = *p;
+          SoTransform* trans = new SoTransform;
+          SbMatrix mt;
+          SbVec3f vec(po2[0],po2[1], po2[2]);
+          mt.setTranslate(vec);
+          trans->setMatrix(mt);
+          s1->addChild(trans);
+
+          SoMaterial* material = new SoMaterial;
+          SoBaseColor* color = new SoBaseColor;
+
+          SbColor* c = new SbColor[3];
+          c[0].setValue(1.f, 0.f, 0.f);
+          //c[1].setValue(0.f, 1.f, 0.f);
+          //c[2].setValue(0.f, 0.f, 1.f);
+          color->rgb.setValues(0, 1, c);
+          s1->addChild(color);
+
+          material->diffuseColor.setValues(0, 1, c);
+          s1->addChild(material);
+
+          SoSphere *s = new SoSphere;
+          s->radius = sizePoint;
+          s1->addChild(s);
+
+          Eigen::Matrix4f sp1 = Eigen::Matrix4f::Identity();
+          Eigen::Matrix4f sp2 = Eigen::Matrix4f::Identity();
+          sp1(0,3) = po2[0];
+          sp1(1,3) = po2[1];
+          sp1(2,3) = po2[2];
+          sp2 = sp1;
+          sp2 = tcp->toLocalCoordinateSystem(sp2);
+          sp2(2,3) -= lineLength; // -100 in z direction
+          sp2 = tcp->toGlobalCoordinateSystem(sp2);
+
+          SoNode* n = CoinVisualizationFactory::createCoinLine(sp1, sp2, lineSize, 0.2f, 8.f, 0.2f);
+          sep->addChild(n);
+          sep->addChild(s1);
+        }
+    }
+    // restore setup
+    eef->getRobot()->setGlobalPose(initEefGP);
+    eef->getRobot()->setConfig(initEefConf);
+    return sep;
+
+}
+
+SoSeparator* CGALCoinVisualization::CreateGraspOnSurfaceVisualization(GraspPtr grasp, EndEffectorPtr eef, ManipulationObjectPtr object, CGALPolyhedronMeshPtr polyhedronObject, float sizePoint, float lineSize, float lineLength)
+{
+    if (!polyhedronObject || !polyhedronObject->getMesh())
+    {
+        VR_WARNING << "no mesh" << endl;
+        return new SoSeparator;
+    }
+    PolyhedronMeshPtr polyhedron = polyhedronObject->getMesh();
+    PolyTree tree(faces(*polyhedron).first, faces(*polyhedron).second, *polyhedron);
+    return CreateGraspOnSurfaceVisualization(grasp, eef, object, tree, sizePoint, lineSize, lineLength);
+}
+
+
+SoSeparator* CGALCoinVisualization::CreateGraspsOnSurfaceVisualization(GraspSetPtr grasps, EndEffectorPtr eef, ManipulationObjectPtr object, CGALPolyhedronMeshPtr polyhedronObject, float sizePoint, float lineSize, float lineLength)
+{
+    if (!polyhedronObject || !polyhedronObject->getMesh())
+    {
+        VR_WARNING << "no mesh" << endl;
+        return new SoSeparator;
+    }
+
+    if (!grasps || grasps->getSize()==0)
+    {
+        VR_WARNING << "no grasps" << endl;
+        return new SoSeparator;
+    }
+
+    PolyhedronMeshPtr polyhedron = polyhedronObject->getMesh();
+    PolyTree tree(faces(*polyhedron).first, faces(*polyhedron).second, *polyhedron);
+    SoSeparator *s = new SoSeparator;
+    s->ref();
+    for (unsigned int i = 0; i<grasps->getSize(); i++)
+    {
+        GraspPtr g = grasps->getGrasp(i);
+        s->addChild(CreateGraspOnSurfaceVisualization(g, eef, object, tree, sizePoint, lineSize, lineLength));
+    }
+
+    s->unrefNoDelete();
+    return s;
+}
+
 
 SoNode* CGALCoinVisualization::CreateGraspIntervalVisualization(const SkeletonVertexResult &result,
                                                                 SurfaceMeshPtr mesh,

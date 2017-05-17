@@ -116,6 +116,8 @@ protected:
     SoSeparator* frictionConeSep;
     SoSeparator* graspsSep;
     SoSeparator* skeletonSep;
+    SoSeparator* surfaceGrasp;
+    //SoSeparator* surfaceGrasps;
 
     VirtualRobot::RobotPtr robot;
     VirtualRobot::RobotPtr eefCloned;
@@ -123,6 +125,7 @@ protected:
     VirtualRobot::EndEffectorPtr eef; // the eef of the original robot
 
     VirtualRobot::GraspSetPtr grasps;
+    VirtualRobot::GraspPtr currentGrasp;
 
 
     VirtualRobot::EndEffector::ContactInfoVector contacts;

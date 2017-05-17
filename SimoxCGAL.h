@@ -67,10 +67,12 @@ typedef Skeleton::edge_descriptor                             			SkeletonEdge;
 typedef CGAL::Exact_predicates_inexact_constructions_kernel             KernelPolyhedron;
 typedef CGAL::Polyhedron_3<KernelPolyhedron>                            PolyhedronMesh;
 typedef boost::shared_ptr<PolyhedronMesh>                               PolyhedronMeshPtr;
-//typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3>	Polyhedron;
-//typedef boost::shared_ptr<Polyhedron>                                   PolyhedronPtr;
 typedef KernelPolyhedron::Point_3                                       PointPoly;
 typedef CGAL::Point_with_normal_3<KernelPolyhedron>                     PointNormalPoly;
+
+typedef CGAL::AABB_face_graph_triangle_primitive<PolyhedronMesh> PolyPrimitive;
+typedef CGAL::AABB_traits<KernelPolyhedron, PolyPrimitive> PolyTraits;
+typedef CGAL::AABB_tree<PolyTraits> PolyTree;
 
 typedef PolyhedronMesh::Vertex                                          PolyVertex;
 typedef PolyhedronMesh::Vertex_const_handle                             PolyVertexConstHandle;

@@ -4,6 +4,14 @@
 #include <CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h>
 #include <CGAL/Polygon_mesh_processing/orientation.h>
 
+
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/properties.hpp>
+
+#include <boost/iterator/transform_iterator.hpp>
+
+#include <CGAL/boost/graph/helpers.h>
+
 using namespace VirtualRobot;
 
 namespace SimoxCGAL {
@@ -366,6 +374,16 @@ VirtualRobot::TriMeshModelPtr SimoxCGAL::CGALMeshConverter::ConvertTrimeshCGALCo
     return result;
 }
 
+CGALPolyhedronMeshPtr CGALMeshConverter::convertSurface2PolyhedronMesh(CGALSurfaceMeshPtr s)
+{
+    VR_ASSERT (s);
+
+    PolyhedronMeshPtr p(new PolyhedronMesh());
+    CGAL::copy_face_graph(*(s->getMesh()), *p);
+
+    CGALPolyhedronMeshPtr res (new CGALPolyhedronMesh(p));
+    return res;
+}
 /*
 CGALPolyhedronMeshPtr CGALMeshConverter::PolygonSoupToPolyhedronMesh(TriMeshModelPtr tm)
 {

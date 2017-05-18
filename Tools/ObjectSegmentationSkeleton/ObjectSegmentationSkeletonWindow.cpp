@@ -349,6 +349,7 @@ void ObjectSegmentationSkeletonWindow::loadData()
         if (data)
         {
             manipObject = data->manipObject;
+            objectFilename = manipObject->getFilename();
             surfaceMesh = data->surfaceMesh;
             skeleton = data->skeleton;
             segSkeleton = data->segSkeleton;

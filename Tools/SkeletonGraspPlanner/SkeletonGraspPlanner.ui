@@ -385,9 +385,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>420</y>
+         <y>400</y>
          <width>281</width>
-         <height>171</height>
+         <height>191</height>
         </rect>
        </property>
        <property name="title">
@@ -484,7 +484,7 @@
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>130</y>
+          <y>150</y>
           <width>71</width>
           <height>31</height>
          </rect>
@@ -500,7 +500,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>140</y>
+          <y>160</y>
           <width>121</width>
           <height>16</height>
          </rect>
@@ -533,6 +533,38 @@
         </property>
         <property name="text">
          <string>Grasping Plane + projected points</string>
+        </property>
+       </widget>
+       <widget class="QSlider" name="horizontalSliderTr">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>120</y>
+          <width>160</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="value">
+         <number>30</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>130</y>
+          <width>67</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>trransp</string>
         </property>
        </widget>
       </widget>

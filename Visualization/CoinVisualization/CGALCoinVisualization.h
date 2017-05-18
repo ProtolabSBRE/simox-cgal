@@ -131,6 +131,8 @@ namespace SimoxCGAL
         static SoSeparator* CreatePolygonVisualization(const std::vector<Eigen::Vector3f>& points, VirtualRobot::VisualizationFactory::PhongMaterial mat, VirtualRobot::VisualizationFactory::Color colorLine, float lineSize);
 
 
+        static bool getIntersectionLocalZ(VirtualRobot::RobotNodePtr tcp, PolyTree &polyhedronTree, float z1, float z2, Eigen::Vector3f &storeIntersectionPointGlobal);
+
         CGALCoinVisualization() {}
         ~CGALCoinVisualization() {}
     };

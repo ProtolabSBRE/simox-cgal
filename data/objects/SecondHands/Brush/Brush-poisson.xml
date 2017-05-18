@@ -1,6 +1,6 @@
 <ManipulationObject name='Brush'>
 	<Visualization>
-		<File type='inventor'>Brush-poisson.stl</File>
+		<File type='inventor'>brush.wrl</File>
 	</Visualization>
 	<CollisionModel>
 		<File type='inventor'>Brush-poisson.stl</File>

@@ -26687,7 +26687,7 @@ Transform {
 	       specularColor .1 .1 .1
 	       shininess .5
         }
-        texture ImageTexture { url "optimized_poisson_texture_mapped_mesh.png" }
+        texture ImageTexture { url "./optimized_poisson_texture_mapped_mesh.png" }
       }
     }
   ]

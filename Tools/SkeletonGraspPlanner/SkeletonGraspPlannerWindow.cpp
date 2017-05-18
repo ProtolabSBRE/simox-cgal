@@ -338,7 +338,7 @@ void SkeletonGraspPlannerWindow::buildVisu()
         if (n)
         {
             SoMaterial* color = new SoMaterial();
-            color->transparency = 0.7f;
+            color->transparency = UI.horizontalSliderTr->value()/100.0f;
             color->diffuseColor.setIgnored(TRUE);
             color->setOverride(TRUE);
             objectSep->addChild(color);

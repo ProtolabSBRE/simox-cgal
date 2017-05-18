@@ -41,7 +41,9 @@ public:
 
 protected:
 
+    bool containsEndpoint();
     bool fillInterval(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SkeletonVertex &center, SimoxCGAL::SkeletonVertex &not_vertex, SkeletonInterval &interval, float& length);
+    bool fillIntervalEndpoint(SimoxCGAL::SkeletonPtr skeleton, SimoxCGAL::SkeletonVertex &center, SimoxCGAL::SkeletonVertex &not_vertex, SkeletonInterval &interval, float& length);
     static std::vector<SkeletonVertex> loadSortedSegment(rapidxml::xml_node<char> *node, bool palpaple);
     static SkeletonPointPtr loadSkeletonPoint(rapidxml::xml_node<char> *node);
 

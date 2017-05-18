@@ -113,7 +113,9 @@ void SkeletonPart::calculateLengthOfSegment(SkeletonPtr skeleton)
 bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float length, bool endpoint, SkeletonInterval &storeInterval, bool verbose)
 {
 
-    if (skeletonPart.size() <= 1 || length > lengthOfSegment)
+
+
+    if ((skeletonPart.size() <= 1 || length > lengthOfSegment) && !containsEndpoint())
     {
         palpable = false;
         std::stringstream out;
@@ -121,6 +123,11 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
         out << segmentNumber;
         name = out.str();
         return false;
+    }
+
+    if (containsEndpoint())
+    {
+        palpable = true;
     }
 
     if (!palpable)
@@ -142,7 +149,7 @@ bool SkeletonPart::calculateInterval(SkeletonPtr skeleton, int position, float l
     {
         SkeletonVertex n1 = sk_point->neighbor.front();
         storeInterval.push_back(sk_point->vertex);
-        bool valid = fillInterval(skeleton, n1, sk_point->vertex, storeInterval, oneSize);
+        bool valid = fillIntervalEndpoint(skeleton, n1, sk_point->vertex, storeInterval, oneSize);
 
         if (!valid)
         {
@@ -227,6 +234,58 @@ bool SkeletonPart::fillInterval(SkeletonPtr skeleton, SkeletonVertex &center, Sk
         float diff = length - (float)tmp;
         interval.push_back(center);
         return fillInterval(skeleton, nextNeighbor, center, interval, diff);
+    }
+
+}
+
+bool SkeletonPart::fillIntervalEndpoint(SkeletonPtr skeleton, SkeletonVertex &center, SkeletonVertex &not_vertex, SkeletonInterval &interval, float& length)
+{
+
+    SkeletonPointPtr point = skeletonPart[center];
+
+    SkeletonVertex nextNeighbor;
+    int test = 0;
+
+    cout << "begin" << endl;
+
+    //eig immer nur neighbor == 2 -> vlt if-else?
+    std::list<SkeletonVertex>::iterator vd;
+    for (vd = point->neighbor.begin(); vd != point->neighbor.end(); vd++)
+    {
+        if ((*vd) != not_vertex)
+        {
+            nextNeighbor = *vd;
+            test++;
+        }
+    }
+
+    if (test > 1)
+    {
+        std::cout << "SHOULD NOT BE THE CASE: nextNeighbor is " << test << " times set." << std::endl;
+    }
+
+    if (test == 0)
+    {
+        cout << "END" << endl;
+        //endpunkte vom Segment!
+        return true;
+    }
+
+
+    double tmp = std::sqrt(CGAL::squared_distance((*skeleton)[point->vertex].point, (*skeleton)[nextNeighbor].point));
+
+    if ((float)tmp > length)
+    {
+        // we need to add also the center
+        interval.push_back(center);
+        interval.push_back(nextNeighbor);
+        return true;
+
+    } else {
+
+        float diff = length - (float)tmp;
+        interval.push_back(center);
+        return fillIntervalEndpoint(skeleton, nextNeighbor, center, interval, diff);
     }
 
 }
@@ -344,6 +403,17 @@ SkeletonPointPtr SkeletonPart::loadSkeletonPoint(rapidxml::xml_node<char> *node)
     }
 
     return point;
+}
+
+bool SkeletonPart::containsEndpoint()
+{
+    for (auto item : skeletonPart)
+    {
+        if (item.second->endpoint)
+            return true;
+    }
+
+    return false;
 }
 
 

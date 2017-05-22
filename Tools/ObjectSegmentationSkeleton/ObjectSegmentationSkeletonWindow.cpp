@@ -98,10 +98,10 @@ void ObjectSegmentationSkeletonWindow::setupUI()
     viewer->viewAll();
     viewer->setAntialiasing(true, 8);
 
-    connect(UI.checkBoxManip, SIGNAL(clicked()), this, SLOT(buildVisu()));
-    connect(UI.checkBoxSkeleton, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    //connect(UI.checkBoxManip, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    //connect(UI.checkBoxSkeleton, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxLines, SIGNAL(clicked()), this, SLOT(buildVisu()));
-    connect(UI.checkBoxSegment, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    //connect(UI.checkBoxSegment, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxSkeletonPoint, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.radioButtonFullModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.radioButtonColModel, SIGNAL(clicked()), this, SLOT(colModel()));
@@ -112,6 +112,14 @@ void ObjectSegmentationSkeletonWindow::setupUI()
     connect(UI.pushButtonScreenshot, SIGNAL(clicked()), this, SLOT(screenshot()));
     connect(UI.comboBoxSegmentation, SIGNAL(currentIndexChanged(int)), this, SLOT(buildVisu()));
     connect(UI.spinBoxSkeletonPoint, SIGNAL(valueChanged(int)), this, SLOT(buildVisu()));
+
+    connect(UI.radioButtonObjectNo, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.radioButtonObjectOrig, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.radioButtonObjectSeg, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.radioButtonSkelNo, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.radioButtonSkel, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.radioButtonSkelSeg, SIGNAL(clicked()), this, SLOT(buildVisu()));
+
 }
 
 
@@ -133,7 +141,7 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
 
     ///////////// OBJECT
     objectSep->removeAllChildren();
-    if (manipObject && UI.checkBoxManip->isChecked())
+    if (manipObject && UI.radioButtonObjectOrig->isChecked())
     {
         SoNode* n = CoinVisualizationFactory::getCoinVisualization(manipObject, colModel);
         //visualizationObject = manipObject->getVisualization<CoinVisualization>();
@@ -153,24 +161,15 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
 
     }
 
-    int number_segmentation = UI.comboBoxSegmentation->count();
-    int index_segmentation = UI.comboBoxSegmentation->currentIndex();
-    std::vector<ObjectPartPtr> members;
-    if (segSkeleton && segSkeleton->getSegmentedObject())
-        members = segSkeleton->getSegmentedObject()->getObjectParts();
-    bool colorizeOneSegment = (size_t(index_segmentation) < members.size());
-    bool colorizeAllSegments = (size_t(index_segmentation) == members.size());
+
 
     ////////////////// SKELETON
     skeletonSep->removeAllChildren();
-    if (skeleton && UI.radioButtonFullModel->isChecked() && !colorizeAllSegments)
+    if (skeleton && UI.radioButtonSkel->isChecked())
     {
-        if (UI.checkBoxSkeleton->isChecked())
-        {
-            SoSeparator* s = new SoSeparator();
-            s->addChild(CGALCoinVisualization::CreateSkeletonVisualization(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.checkBoxLines->isChecked()));
-            skeletonSep->addChild(s);
-        }
+        SoSeparator* s = new SoSeparator();
+        s->addChild(CGALCoinVisualization::CreateSkeletonVisualization(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.checkBoxLines->isChecked()));
+        skeletonSep->addChild(s);
 
         if (UI.checkBoxSkeletonPoint->isChecked())
         {
@@ -185,13 +184,16 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
     segmentationSep->removeAllChildren();
 
     bool lines = UI.checkBoxLines->isChecked();
-    bool pigment = UI.checkBoxSegment->isChecked();
+    //bool pigment = UI.checkBoxSegment->isChecked();
 
     SoMaterial* partColor = new SoMaterial;
     partColor->diffuseColor.setValue(1.f, 0.f, 0.f);
 
-    if (skeleton && segSkeleton && (number_segmentation != 0) && UI.checkBoxSkeleton->isChecked())
+    if (skeleton && segSkeleton && UI.radioButtonSkelSeg->isChecked())
     {
+        std::vector<ObjectPartPtr> members;
+        if (segSkeleton->getSegmentedObject())
+            members = segSkeleton->getSegmentedObject()->getObjectParts();
 
         SoSeparator* s2 = new SoSeparator;
         segmentationSep->addChild(s2);
@@ -199,7 +201,7 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
 
         SkeletonPtr s = skeleton->getSkeleton();
 
-        if (colorizeOneSegment)
+        /*if (colorizeOneSegment)
         {
             s2->addChild(partColor);
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(members.at(index_segmentation));
@@ -207,19 +209,32 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
             s2->addChild(segment);
 
         } else if (colorizeAllSegments)
-        {
+        {*/
 
             SoSeparator* all = CGALCoinVisualization::CreateSegmentationVisualization(s, surfaceMesh->getMesh(), members, lines, 0.8f, 13.0f);
             s2->addChild(all);
+        //}
+
+        if (UI.checkBoxSkeletonPoint->isChecked())
+        {
+            s2->addChild(CGALCoinVisualization::ShowSkeletonPoint(skeleton->getSkeleton(), surfaceMesh->getMesh(), UI.spinBoxSkeletonPoint->value()));
         }
     }
 
     /////////////////// SEGMENTATION (SURFACE)
+
     surfaceSep->removeAllChildren();
-    if (pigment && skeleton)
+    if (UI.radioButtonObjectSeg->isChecked() && skeleton && segSkeleton)
     {
+        int number_segmentation = UI.comboBoxSegmentation->count();
+        int index_segmentation = UI.comboBoxSegmentation->currentIndex();
+        std::vector<ObjectPartPtr> members;
+        if (segSkeleton->getSegmentedObject())
+            members = segSkeleton->getSegmentedObject()->getObjectParts();
+        bool colorizeOneSegment = (size_t(index_segmentation) < members.size());
+        bool colorizeAllSegments = (size_t(index_segmentation) == members.size());
+
         SkeletonPtr s = skeleton->getSkeleton();
-        std::vector<ObjectPartPtr> members = segSkeleton->getSegmentedObject()->getObjectParts();
 
         if (colorizeOneSegment)
         {

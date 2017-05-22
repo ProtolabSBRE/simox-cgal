@@ -1,0 +1,8 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>it_388g-poisson.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>it_388g-poisson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

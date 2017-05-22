@@ -1,0 +1,8 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>dark_red_foam_block_with_three_holes-poisson.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>dark_red_foam_block_with_three_holes-poisson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

@@ -1,0 +1,8 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>red_metal_bowl_white_speckles-poisson.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>red_metal_bowl_white_speckles-poisson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

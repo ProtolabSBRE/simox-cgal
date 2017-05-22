@@ -1,0 +1,8 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>block_of_wood_12in-poisson.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>block_of_wood_12in-poisson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

@@ -1,4 +1,4 @@
-<ManipulationObject name="apple">
+<ManipulationObject name="small_black_spring_clamp">
     <Visualization>
         <File type="inventor">small_black_spring_clamp.wrl</File>
     </Visualization>

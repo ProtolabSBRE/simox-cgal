@@ -1,4 +1,4 @@
-<ManipulationObject name="apple">
+<ManipulationObject name="stainless_steel_spatula">
     <Visualization>
         <File type="inventor">stainless_steel_spatula.wrl</File>
     </Visualization>

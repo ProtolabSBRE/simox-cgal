@@ -1,4 +1,4 @@
-<ManipulationObject name="apple">
+<ManipulationObject name="white_rope">
     <Visualization>
         <File type="inventor">white_rope.wrl</File>
     </Visualization>

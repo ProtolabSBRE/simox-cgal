@@ -1,4 +1,4 @@
-<ManipulationObject name='Flashlight'>
+<ManipulationObject name='Flashlight-poisson'>
 	<Visualization>
 		<File type='inventor'>Flashlight-poisson.stl</File>
 	</Visualization>

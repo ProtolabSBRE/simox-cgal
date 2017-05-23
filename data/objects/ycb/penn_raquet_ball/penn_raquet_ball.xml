@@ -1,4 +1,4 @@
-<ManipulationObject name="apple">
+<ManipulationObject name="penn_raquet_ball">
     <Visualization>
         <File type="inventor">penn_raquet_ball.wrl</File>
     </Visualization>

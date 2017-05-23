@@ -1,4 +1,4 @@
-<ManipulationObject name='Phillips'>
+<ManipulationObject name='pliers'>
 	<Visualization>
 		<File type='inventor'>pliers.wrl</File>
 		<UseAsCollisionModel/>

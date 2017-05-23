@@ -1,0 +1,8 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>wilson_100_tennis_ball.wrl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>wilson_100_tennis_ball-poisson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

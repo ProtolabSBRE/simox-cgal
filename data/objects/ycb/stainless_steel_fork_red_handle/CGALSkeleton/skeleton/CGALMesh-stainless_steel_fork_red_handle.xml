@@ -1,0 +1,899 @@
+<CGAL-Skeleton>
+	<NumberOfVertices vertices='47'/>
+	<NumberOfEdges edges='46'/>
+	<Parameters>
+		<MaxTriangleAngle value='1.91986'/>
+		<QualitySpeedTradeOff value='0.1'/>
+		<MediallyCenteredSpeedTradeOff value='0.2'/>
+		<AreaVariationFactor value='0.0001'/>
+		<MaxIterations value='500'/>
+		<IsMediallyCentered bool='1'/>
+		<MinEdgeLength value='0'/>
+	</Parameters>
+	<Vertices>
+		<Point index='0'>
+			<Coordinate x='-1.10769' y='2.22797' z='37.1371'/>
+			<IndexToMesh>
+				<Index index='86'/>
+				<Index index='284'/>
+				<Index index='281'/>
+				<Index index='280'/>
+				<Index index='101'/>
+				<Index index='100'/>
+				<Index index='99'/>
+				<Index index='98'/>
+				<Index index='88'/>
+				<Index index='87'/>
+				<Index index='92'/>
+				<Index index='558'/>
+				<Index index='286'/>
+				<Index index='91'/>
+				<Index index='93'/>
+				<Index index='430'/>
+				<Index index='431'/>
+				<Index index='85'/>
+				<Index index='97'/>
+				<Index index='76'/>
+				<Index index='75'/>
+				<Index index='81'/>
+				<Index index='80'/>
+				<Index index='432'/>
+				<Index index='435'/>
+				<Index index='437'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='1'>
+			<Coordinate x='-0.553344' y='2.59456' z='22.3072'/>
+			<IndexToMesh>
+				<Index index='233'/>
+				<Index index='236'/>
+				<Index index='232'/>
+				<Index index='377'/>
+				<Index index='378'/>
+				<Index index='376'/>
+				<Index index='361'/>
+				<Index index='364'/>
+				<Index index='4'/>
+				<Index index='9'/>
+				<Index index='27'/>
+				<Index index='2'/>
+				<Index index='1'/>
+				<Index index='0'/>
+				<Index index='3'/>
+				<Index index='359'/>
+				<Index index='358'/>
+				<Index index='357'/>
+				<Index index='6'/>
+				<Index index='514'/>
+				<Index index='515'/>
+				<Index index='513'/>
+				<Index index='519'/>
+				<Index index='518'/>
+				<Index index='229'/>
+				<Index index='225'/>
+				<Index index='222'/>
+				<Index index='360'/>
+				<Index index='10'/>
+				<Index index='8'/>
+				<Index index='365'/>
+				<Index index='363'/>
+				<Index index='508'/>
+				<Index index='512'/>
+				<Index index='507'/>
+				<Index index='362'/>
+				<Index index='12'/>
+				<Index index='506'/>
+				<Index index='218'/>
+				<Index index='510'/>
+				<Index index='509'/>
+				<Index index='511'/>
+				<Index index='221'/>
+				<Index index='11'/>
+				<Index index='216'/>
+				<Index index='220'/>
+				<Index index='219'/>
+				<Index index='230'/>
+				<Index index='217'/>
+				<Index index='224'/>
+				<Index index='215'/>
+				<Index index='5'/>
+				<Index index='7'/>
+				<Index index='223'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='2'>
+			<Coordinate x='-0.755718' y='2.44792' z='27.6556'/>
+			<IndexToMesh>
+				<Index index='414'/>
+				<Index index='267'/>
+				<Index index='253'/>
+				<Index index='252'/>
+				<Index index='58'/>
+				<Index index='57'/>
+				<Index index='48'/>
+				<Index index='47'/>
+				<Index index='53'/>
+				<Index index='52'/>
+				<Index index='258'/>
+				<Index index='396'/>
+				<Index index='397'/>
+				<Index index='255'/>
+				<Index index='55'/>
+				<Index index='250'/>
+				<Index index='56'/>
+				<Index index='415'/>
+				<Index index='544'/>
+				<Index index='541'/>
+				<Index index='540'/>
+				<Index index='546'/>
+				<Index index='54'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='3'>
+			<Coordinate x='-1.27504' y='2.13005' z='41.6548'/>
+			<IndexToMesh>
+				<Index index='446'/>
+				<Index index='296'/>
+				<Index index='107'/>
+				<Index index='294'/>
+				<Index index='291'/>
+				<Index index='290'/>
+				<Index index='119'/>
+				<Index index='118'/>
+				<Index index='117'/>
+				<Index index='116'/>
+				<Index index='567'/>
+				<Index index='571'/>
+				<Index index='297'/>
+				<Index index='106'/>
+				<Index index='111'/>
+				<Index index='566'/>
+				<Index index='565'/>
+				<Index index='110'/>
+				<Index index='444'/>
+				<Index index='449'/>
+				<Index index='451'/>
+				<Index index='452'/>
+				<Index index='288'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='4'>
+			<Coordinate x='-2.0192' y='1.7173' z='61.6578'/>
+			<IndexToMesh>
+				<Index index='484'/>
+				<Index index='485'/>
+				<Index index='166'/>
+				<Index index='168'/>
+				<Index index='327'/>
+				<Index index='174'/>
+				<Index index='179'/>
+				<Index index='181'/>
+				<Index index='491'/>
+				<Index index='492'/>
+				<Index index='493'/>
+				<Index index='496'/>
+				<Index index='497'/>
+				<Index index='595'/>
+				<Index index='596'/>
+				<Index index='346'/>
+				<Index index='338'/>
+				<Index index='344'/>
+				<Index index='343'/>
+				<Index index='162'/>
+				<Index index='167'/>
+				<Index index='173'/>
+				<Index index='172'/>
+				<Index index='163'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='5'>
+			<Coordinate x='-2.39818' y='1.52033' z='71.6553'/>
+			<IndexToMesh>
+				<Index index='504'/>
+				<Index index='503'/>
+				<Index index='500'/>
+				<Index index='600'/>
+				<Index index='353'/>
+				<Index index='352'/>
+				<Index index='199'/>
+				<Index index='198'/>
+				<Index index='196'/>
+				<Index index='195'/>
+				<Index index='194'/>
+				<Index index='351'/>
+				<Index index='350'/>
+				<Index index='203'/>
+				<Index index='202'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='6'>
+			<Coordinate x='-0.572985' y='2.57997' z='22.8215'/>
+			<IndexToMesh>
+				<Index index='523'/>
+				<Index index='387'/>
+				<Index index='389'/>
+				<Index index='390'/>
+				<Index index='528'/>
+				<Index index='525'/>
+				<Index index='524'/>
+				<Index index='530'/>
+				<Index index='25'/>
+				<Index index='370'/>
+				<Index index='372'/>
+				<Index index='30'/>
+				<Index index='29'/>
+				<Index index='17'/>
+				<Index index='16'/>
+				<Index index='22'/>
+				<Index index='28'/>
+				<Index index='26'/>
+				<Index index='15'/>
+				<Index index='14'/>
+				<Index index='13'/>
+				<Index index='21'/>
+				<Index index='371'/>
+				<Index index='24'/>
+				<Index index='23'/>
+				<Index index='246'/>
+				<Index index='226'/>
+				<Index index='239'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='7'>
+			<Coordinate x='-0.603225' y='2.55767' z='23.6159'/>
+			<IndexToMesh>
+				<Index index='531'/>
+				<Index index='386'/>
+				<Index index='388'/>
+				<Index index='391'/>
+				<Index index='392'/>
+				<Index index='529'/>
+				<Index index='527'/>
+				<Index index='526'/>
+				<Index index='245'/>
+				<Index index='243'/>
+				<Index index='240'/>
+				<Index index='238'/>
+				<Index index='42'/>
+				<Index index='41'/>
+				<Index index='32'/>
+				<Index index='31'/>
+				<Index index='36'/>
+				<Index index='35'/>
+				<Index index='37'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='8'>
+			<Coordinate x='-1.33791' y='2.09345' z='43.3519'/>
+			<IndexToMesh>
+				<Index index='299'/>
+				<Index index='298'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='9'>
+			<Coordinate x='-0.697313' y='2.48955' z='26.1039'/>
+			<IndexToMesh>
+				<Index index='251'/>
+				<Index index='256'/>
+				<Index index='254'/>
+				<Index index='399'/>
+				<Index index='49'/>
+				<Index index='51'/>
+				<Index index='50'/>
+				<Index index='46'/>
+				<Index index='45'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='10'>
+			<Coordinate x='-0.913133' y='2.3426' z='31.8847'/>
+			<IndexToMesh>
+				<Index index='270'/>
+				<Index index='271'/>
+				<Index index='79'/>
+				<Index index='277'/>
+				<Index index='274'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='11'>
+			<Coordinate x='-2.4175' y='1.51646' z='72.1042'/>
+			<IndexToMesh>
+				<Index index='201'/>
+				<Index index='502'/>
+				<Index index='505'/>
+				<Index index='200'/>
+				<Index index='211'/>
+				<Index index='212'/>
+				<Index index='205'/>
+				<Index index='354'/>
+				<Index index='356'/>
+				<Index index='204'/>
+				<Index index='209'/>
+				<Index index='208'/>
+				<Index index='213'/>
+				<Index index='355'/>
+				<Index index='210'/>
+				<Index index='214'/>
+				<Index index='207'/>
+				<Index index='206'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='12'>
+			<Coordinate x='-2.38126' y='1.53543' z='71.2478'/>
+			<IndexToMesh>
+				<Index index='349'/>
+				<Index index='197'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='13'>
+			<Coordinate x='-2.24814' y='1.60425' z='67.7311'/>
+			<IndexToMesh>
+				<Index index='347'/>
+				<Index index='345'/>
+				<Index index='340'/>
+				<Index index='498'/>
+				<Index index='499'/>
+				<Index index='599'/>
+				<Index index='598'/>
+				<Index index='339'/>
+				<Index index='193'/>
+				<Index index='191'/>
+				<Index index='190'/>
+				<Index index='178'/>
+				<Index index='177'/>
+				<Index index='183'/>
+				<Index index='182'/>
+				<Index index='501'/>
+				<Index index='186'/>
+				<Index index='185'/>
+				<Index index='184'/>
+				<Index index='494'/>
+				<Index index='495'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='14'>
+			<Coordinate x='-1.69549' y='1.88659' z='53.0002'/>
+			<IndexToMesh>
+				<Index index='143'/>
+				<Index index='142'/>
+				<Index index='477'/>
+				<Index index='476'/>
+				<Index index='148'/>
+				<Index index='471'/>
+				<Index index='320'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='15'>
+			<Coordinate x='-1.05532' y='2.25868' z='35.7233'/>
+			<IndexToMesh>
+				<Index index='438'/>
+				<Index index='287'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='16'>
+			<Coordinate x='-1.17519' y='2.18841' z='38.9595'/>
+			<IndexToMesh>
+				<Index index='440'/>
+				<Index index='560'/>
+				<Index index='559'/>
+				<Index index='561'/>
+				<Index index='564'/>
+				<Index index='433'/>
+				<Index index='434'/>
+				<Index index='436'/>
+				<Index index='439'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='17'>
+			<Coordinate x='-0.558774' y='2.59053' z='22.4494'/>
+			<IndexToMesh>
+				<Index index='20'/>
+				<Index index='19'/>
+				<Index index='366'/>
+				<Index index='18'/>
+				<Index index='367'/>
+				<Index index='374'/>
+				<Index index='368'/>
+				<Index index='369'/>
+				<Index index='373'/>
+				<Index index='375'/>
+				<Index index='379'/>
+				<Index index='380'/>
+				<Index index='516'/>
+				<Index index='517'/>
+				<Index index='522'/>
+				<Index index='521'/>
+				<Index index='520'/>
+				<Index index='227'/>
+				<Index index='237'/>
+				<Index index='235'/>
+				<Index index='234'/>
+				<Index index='231'/>
+				<Index index='228'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='18'>
+			<Coordinate x='-0.716491' y='2.47567' z='26.6111'/>
+			<IndexToMesh>
+				<Index index='398'/>
+				<Index index='401'/>
+				<Index index='404'/>
+				<Index index='405'/>
+				<Index index='537'/>
+				<Index index='535'/>
+				<Index index='534'/>
+				<Index index='539'/>
+				<Index index='259'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='19'>
+			<Coordinate x='-0.824872' y='2.40132' z='29.5119'/>
+			<IndexToMesh>
+				<Index index='416'/>
+				<Index index='65'/>
+				<Index index='264'/>
+				<Index index='261'/>
+				<Index index='260'/>
+				<Index index='70'/>
+				<Index index='69'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='20'>
+			<Coordinate x='-2.14103' y='1.6571' z='64.8905'/>
+			<IndexToMesh>
+				<Index index='337'/>
+				<Index index='336'/>
+				<Index index='189'/>
+				<Index index='188'/>
+				<Index index='187'/>
+				<Index index='176'/>
+				<Index index='175'/>
+				<Index index='180'/>
+				<Index index='597'/>
+				<Index index='192'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='21'>
+			<Coordinate x='-0.661757' y='2.51528' z='25.1635'/>
+			<IndexToMesh>
+				<Index index='393'/>
+				<Index index='394'/>
+				<Index index='395'/>
+				<Index index='400'/>
+				<Index index='402'/>
+				<Index index='403'/>
+				<Index index='536'/>
+				<Index index='533'/>
+				<Index index='532'/>
+				<Index index='244'/>
+				<Index index='242'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='22'>
+			<Coordinate x='-1.38756' y='2.06459' z='44.6917'/>
+			<IndexToMesh>
+				<Index index='569'/>
+				<Index index='568'/>
+				<Index index='570'/>
+				<Index index='572'/>
+				<Index index='115'/>
+				<Index index='445'/>
+				<Index index='447'/>
+				<Index index='295'/>
+				<Index index='293'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='23'>
+			<Coordinate x='-1.59046' y='1.94713' z='50.1667'/>
+			<IndexToMesh>
+				<Index index='583'/>
+				<Index index='310'/>
+				<Index index='458'/>
+				<Index index='459'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='24'>
+			<Coordinate x='-1.75893' y='1.85012' z='54.7114'/>
+			<IndexToMesh>
+				<Index index='473'/>
+				<Index index='475'/>
+				<Index index='478'/>
+				<Index index='586'/>
+				<Index index='318'/>
+				<Index index='314'/>
+				<Index index='313'/>
+				<Index index='312'/>
+				<Index index='154'/>
+				<Index index='153'/>
+				<Index index='588'/>
+				<Index index='587'/>
+				<Index index='151'/>
+				<Index index='470'/>
+				<Index index='472'/>
+				<Index index='152'/>
+				<Index index='144'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='25'>
+			<Coordinate x='-1.93569' y='1.75955' z='59.4304'/>
+			<IndexToMesh>
+				<Index index='592'/>
+				<Index index='331'/>
+				<Index index='329'/>
+				<Index index='334'/>
+				<Index index='324'/>
+				<Index index='171'/>
+				<Index index='170'/>
+				<Index index='169'/>
+				<Index index='160'/>
+				<Index index='159'/>
+				<Index index='158'/>
+				<Index index='164'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='26'>
+			<Coordinate x='-0.620262' y='2.54531' z='24.0661'/>
+			<IndexToMesh>
+				<Index index='249'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='27'>
+			<Coordinate x='-0.88186' y='2.36326' z='31.0437'/>
+			<IndexToMesh>
+				<Index index='276'/>
+				<Index index='418'/>
+				<Index index='419'/>
+				<Index index='420'/>
+				<Index index='424'/>
+				<Index index='426'/>
+				<Index index='72'/>
+				<Index index='71'/>
+				<Index index='62'/>
+				<Index index='61'/>
+				<Index index='67'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='28'>
+			<Coordinate x='-1.52677' y='1.98391' z='48.4484'/>
+			<IndexToMesh>
+				<Index index='460'/>
+				<Index index='462'/>
+				<Index index='465'/>
+				<Index index='301'/>
+				<Index index='300'/>
+				<Index index='138'/>
+				<Index index='136'/>
+				<Index index='135'/>
+				<Index index='132'/>
+				<Index index='311'/>
+				<Index index='455'/>
+				<Index index='456'/>
+				<Index index='576'/>
+				<Index index='306'/>
+				<Index index='302'/>
+				<Index index='466'/>
+				<Index index='577'/>
+				<Index index='137'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='29'>
+			<Coordinate x='-0.634404' y='2.53508' z='24.4401'/>
+			<IndexToMesh>
+			</IndexToMesh>
+		</Point>
+		<Point index='30'>
+			<Coordinate x='-1.83286' y='1.81156' z='56.688'/>
+			<IndexToMesh>
+				<Index index='591'/>
+				<Index index='590'/>
+				<Index index='322'/>
+				<Index index='319'/>
+				<Index index='317'/>
+				<Index index='316'/>
+				<Index index='315'/>
+				<Index index='157'/>
+				<Index index='156'/>
+				<Index index='155'/>
+				<Index index='147'/>
+				<Index index='146'/>
+				<Index index='145'/>
+				<Index index='150'/>
+				<Index index='323'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='31'>
+			<Coordinate x='-0.801347' y='2.41703' z='28.8795'/>
+			<IndexToMesh>
+				<Index index='406'/>
+				<Index index='407'/>
+				<Index index='417'/>
+				<Index index='545'/>
+				<Index index='543'/>
+				<Index index='542'/>
+				<Index index='547'/>
+				<Index index='269'/>
+				<Index index='408'/>
+				<Index index='412'/>
+				<Index index='266'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='32'>
+			<Coordinate x='-1.6371' y='1.92022' z='51.4251'/>
+			<IndexToMesh>
+				<Index index='134'/>
+				<Index index='125'/>
+				<Index index='124'/>
+				<Index index='131'/>
+				<Index index='130'/>
+				<Index index='304'/>
+				<Index index='303'/>
+				<Index index='141'/>
+				<Index index='140'/>
+				<Index index='139'/>
+				<Index index='129'/>
+				<Index index='128'/>
+				<Index index='127'/>
+				<Index index='149'/>
+				<Index index='467'/>
+				<Index index='468'/>
+				<Index index='469'/>
+				<Index index='474'/>
+				<Index index='479'/>
+				<Index index='480'/>
+				<Index index='582'/>
+				<Index index='581'/>
+				<Index index='585'/>
+				<Index index='584'/>
+				<Index index='321'/>
+				<Index index='126'/>
+				<Index index='307'/>
+				<Index index='305'/>
+				<Index index='133'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='33'>
+			<Coordinate x='-0.675613' y='2.50525' z='25.5299'/>
+			<IndexToMesh>
+				<Index index='538'/>
+				<Index index='257'/>
+				<Index index='241'/>
+				<Index index='44'/>
+				<Index index='43'/>
+				<Index index='34'/>
+				<Index index='33'/>
+				<Index index='39'/>
+				<Index index='38'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='34'>
+			<Coordinate x='-1.0212' y='2.2787' z='34.802'/>
+			<IndexToMesh>
+				<Index index='562'/>
+				<Index index='557'/>
+				<Index index='556'/>
+				<Index index='563'/>
+				<Index index='82'/>
+				<Index index='275'/>
+				<Index index='273'/>
+				<Index index='421'/>
+				<Index index='422'/>
+				<Index index='272'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='35'>
+			<Coordinate x='-1.464' y='2.02024' z='46.7548'/>
+			<IndexToMesh>
+				<Index index='123'/>
+				<Index index='122'/>
+				<Index index='121'/>
+				<Index index='120'/>
+				<Index index='109'/>
+				<Index index='108'/>
+				<Index index='114'/>
+				<Index index='457'/>
+				<Index index='578'/>
+				<Index index='580'/>
+				<Index index='308'/>
+				<Index index='461'/>
+				<Index index='463'/>
+				<Index index='464'/>
+				<Index index='574'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='36'>
+			<Coordinate x='-1.90397' y='1.7756' z='58.5844'/>
+			<IndexToMesh>
+				<Index index='330'/>
+				<Index index='326'/>
+				<Index index='325'/>
+				<Index index='594'/>
+				<Index index='593'/>
+				<Index index='335'/>
+				<Index index='165'/>
+				<Index index='333'/>
+				<Index index='332'/>
+				<Index index='481'/>
+				<Index index='482'/>
+				<Index index='483'/>
+				<Index index='487'/>
+				<Index index='488'/>
+				<Index index='589'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='37'>
+			<Coordinate x='-1.98673' y='1.73374' z='60.7916'/>
+			<IndexToMesh>
+				<Index index='489'/>
+				<Index index='342'/>
+				<Index index='348'/>
+				<Index index='341'/>
+				<Index index='328'/>
+				<Index index='486'/>
+				<Index index='161'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='38'>
+			<Coordinate x='-0.842067' y='2.38985' z='29.9741'/>
+			<IndexToMesh>
+				<Index index='268'/>
+				<Index index='265'/>
+				<Index index='60'/>
+				<Index index='59'/>
+				<Index index='64'/>
+				<Index index='63'/>
+				<Index index='263'/>
+				<Index index='411'/>
+				<Index index='413'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='39'>
+			<Coordinate x='-0.685477' y='2.49812' z='25.7908'/>
+			<IndexToMesh>
+			</IndexToMesh>
+		</Point>
+		<Point index='40'>
+			<Coordinate x='-0.948538' y='2.3216' z='32.8403'/>
+			<IndexToMesh>
+				<Index index='279'/>
+				<Index index='278'/>
+				<Index index='84'/>
+				<Index index='423'/>
+				<Index index='425'/>
+				<Index index='428'/>
+				<Index index='429'/>
+				<Index index='553'/>
+				<Index index='551'/>
+				<Index index='550'/>
+				<Index index='555'/>
+				<Index index='83'/>
+				<Index index='74'/>
+				<Index index='73'/>
+				<Index index='78'/>
+				<Index index='77'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='41'>
+			<Coordinate x='-1.96315' y='1.74567' z='60.1627'/>
+			<IndexToMesh>
+				<Index index='490'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='42'>
+			<Coordinate x='-1.42429' y='2.04326' z='45.6831'/>
+			<IndexToMesh>
+				<Index index='573'/>
+				<Index index='292'/>
+				<Index index='113'/>
+				<Index index='575'/>
+				<Index index='579'/>
+				<Index index='309'/>
+				<Index index='448'/>
+				<Index index='450'/>
+				<Index index='453'/>
+				<Index index='454'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='43'>
+			<Coordinate x='-0.864405' y='2.37495' z='30.5746'/>
+			<IndexToMesh>
+				<Index index='548'/>
+				<Index index='554'/>
+				<Index index='427'/>
+				<Index index='552'/>
+				<Index index='549'/>
+				<Index index='262'/>
+				<Index index='66'/>
+				<Index index='68'/>
+				<Index index='409'/>
+				<Index index='410'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='44'>
+			<Coordinate x='-0.65002' y='2.52377' z='24.8531'/>
+			<IndexToMesh>
+				<Index index='248'/>
+				<Index index='40'/>
+				<Index index='384'/>
+				<Index index='385'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='45'>
+			<Coordinate x='-0.589025' y='2.56811' z='23.2424'/>
+			<IndexToMesh>
+				<Index index='247'/>
+				<Index index='381'/>
+				<Index index='382'/>
+				<Index index='383'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='46'>
+			<Coordinate x='-1.22794' y='2.15755' z='40.3835'/>
+			<IndexToMesh>
+				<Index index='89'/>
+				<Index index='95'/>
+				<Index index='94'/>
+				<Index index='96'/>
+				<Index index='442'/>
+				<Index index='289'/>
+				<Index index='285'/>
+				<Index index='283'/>
+				<Index index='282'/>
+				<Index index='105'/>
+				<Index index='104'/>
+				<Index index='103'/>
+				<Index index='102'/>
+				<Index index='90'/>
+				<Index index='112'/>
+				<Index index='441'/>
+				<Index index='443'/>
+			</IndexToMesh>
+		</Point>
+	</Vertices>
+	<Edges>
+		<Edge from='2' to='18'/>
+		<Edge from='2' to='31'/>
+		<Edge from='10' to='40'/>
+		<Edge from='40' to='34'/>
+		<Edge from='3' to='8'/>
+		<Edge from='35' to='28'/>
+		<Edge from='30' to='24'/>
+		<Edge from='36' to='25'/>
+		<Edge from='13' to='12'/>
+		<Edge from='17' to='6'/>
+		<Edge from='6' to='45'/>
+		<Edge from='19' to='38'/>
+		<Edge from='43' to='27'/>
+		<Edge from='23' to='28'/>
+		<Edge from='5' to='12'/>
+		<Edge from='9' to='18'/>
+		<Edge from='43' to='38'/>
+		<Edge from='46' to='16'/>
+		<Edge from='42' to='35'/>
+		<Edge from='4' to='37'/>
+		<Edge from='4' to='20'/>
+		<Edge from='14' to='32'/>
+		<Edge from='33' to='21'/>
+		<Edge from='0' to='15'/>
+		<Edge from='42' to='22'/>
+		<Edge from='17' to='1'/>
+		<Edge from='7' to='45'/>
+		<Edge from='33' to='39'/>
+		<Edge from='32' to='23'/>
+		<Edge from='25' to='41'/>
+		<Edge from='5' to='11'/>
+		<Edge from='13' to='20'/>
+		<Edge from='24' to='14'/>
+		<Edge from='22' to='8'/>
+		<Edge from='29' to='26'/>
+		<Edge from='30' to='36'/>
+		<Edge from='10' to='27'/>
+		<Edge from='7' to='26'/>
+		<Edge from='44' to='21'/>
+		<Edge from='19' to='31'/>
+		<Edge from='0' to='16'/>
+		<Edge from='9' to='39'/>
+		<Edge from='44' to='29'/>
+		<Edge from='15' to='34'/>
+		<Edge from='46' to='3'/>
+		<Edge from='41' to='37'/>
+	</Edges>
+</CGAL-Skeleton>

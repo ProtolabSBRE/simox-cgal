@@ -1,0 +1,8 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>rubbermaid_ice_guard_pitcher_blue.wrl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>rubbermaid_ice_guard_pitcher_blue-poisson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

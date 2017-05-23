@@ -1,0 +1,8 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>sponge_with_textured_cover.wrl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>sponge_with_textured_cover-poisson.stl</File>
+	</CollisionModel>
+</ManipulationObject>

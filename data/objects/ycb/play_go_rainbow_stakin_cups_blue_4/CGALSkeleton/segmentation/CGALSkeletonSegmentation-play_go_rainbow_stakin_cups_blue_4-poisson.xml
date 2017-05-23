@@ -1,0 +1,191 @@
+<SimoxCGAL-SegmentedObject>
+	<Method method='skeleton'/>
+	<SkeletonPart name='G0'>
+		<SegmentNumber number='0'/>
+		<Palpable bool='1'/>
+		<NumberOfSkeletonPoints number='20'/>
+		<LengthOfSegment length='10.4703'/>
+		<SortedSkeletonSegmentIndex>
+			<Vertex value='9'/>
+			<Vertex value='0'/>
+			<Vertex value='12'/>
+			<Vertex value='1'/>
+			<Vertex value='15'/>
+			<Vertex value='16'/>
+			<Vertex value='7'/>
+			<Vertex value='10'/>
+			<Vertex value='4'/>
+			<Vertex value='6'/>
+			<Vertex value='18'/>
+			<Vertex value='5'/>
+			<Vertex value='2'/>
+			<Vertex value='14'/>
+			<Vertex value='3'/>
+			<Vertex value='17'/>
+			<Vertex value='19'/>
+			<Vertex value='11'/>
+			<Vertex value='8'/>
+			<Vertex value='13'/>
+		</SortedSkeletonSegmentIndex>
+		<SkeletonSegment>
+			<SkeletonPoint vertex='0'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='9'/>
+					<Vertex value='12'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='1'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='12'/>
+					<Vertex value='15'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='2'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='14'/>
+					<Vertex value='5'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='3'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='17'/>
+					<Vertex value='14'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='4'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='6'/>
+					<Vertex value='10'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='5'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='2'/>
+					<Vertex value='18'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='6'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='18'/>
+					<Vertex value='4'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='7'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='16'/>
+					<Vertex value='10'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='8'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='13'/>
+					<Vertex value='11'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='9'>
+				<Endpoint value='1'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='0'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='10'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='7'/>
+					<Vertex value='4'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='11'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='19'/>
+					<Vertex value='8'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='12'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='1'/>
+					<Vertex value='0'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='13'>
+				<Endpoint value='1'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='8'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='14'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='2'/>
+					<Vertex value='3'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='15'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='16'/>
+					<Vertex value='1'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='16'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='15'/>
+					<Vertex value='7'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='17'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='3'/>
+					<Vertex value='19'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='18'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='6'/>
+					<Vertex value='5'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='19'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='11'/>
+					<Vertex value='17'/>
+				</Neighbor>
+			</SkeletonPoint>
+		</SkeletonSegment>
+	</SkeletonPart>
+</SimoxCGAL-SegmentedObject>

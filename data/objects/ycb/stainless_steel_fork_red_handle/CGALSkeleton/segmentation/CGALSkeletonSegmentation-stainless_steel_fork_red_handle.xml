@@ -1,0 +1,434 @@
+<SimoxCGAL-SegmentedObject>
+	<Method method='skeleton'/>
+	<SkeletonPart name='G0'>
+		<SegmentNumber number='0'/>
+		<Palpable bool='1'/>
+		<NumberOfSkeletonPoints number='47'/>
+		<LengthOfSegment length='49.8438'/>
+		<SortedSkeletonSegmentIndex>
+			<Vertex value='1'/>
+			<Vertex value='17'/>
+			<Vertex value='6'/>
+			<Vertex value='45'/>
+			<Vertex value='7'/>
+			<Vertex value='26'/>
+			<Vertex value='29'/>
+			<Vertex value='44'/>
+			<Vertex value='21'/>
+			<Vertex value='33'/>
+			<Vertex value='39'/>
+			<Vertex value='9'/>
+			<Vertex value='18'/>
+			<Vertex value='2'/>
+			<Vertex value='31'/>
+			<Vertex value='19'/>
+			<Vertex value='38'/>
+			<Vertex value='43'/>
+			<Vertex value='27'/>
+			<Vertex value='10'/>
+			<Vertex value='40'/>
+			<Vertex value='34'/>
+			<Vertex value='15'/>
+			<Vertex value='0'/>
+			<Vertex value='16'/>
+			<Vertex value='46'/>
+			<Vertex value='3'/>
+			<Vertex value='8'/>
+			<Vertex value='22'/>
+			<Vertex value='42'/>
+			<Vertex value='35'/>
+			<Vertex value='28'/>
+			<Vertex value='23'/>
+			<Vertex value='32'/>
+			<Vertex value='14'/>
+			<Vertex value='24'/>
+			<Vertex value='30'/>
+			<Vertex value='36'/>
+			<Vertex value='25'/>
+			<Vertex value='41'/>
+			<Vertex value='37'/>
+			<Vertex value='4'/>
+			<Vertex value='20'/>
+			<Vertex value='13'/>
+			<Vertex value='12'/>
+			<Vertex value='5'/>
+			<Vertex value='11'/>
+		</SortedSkeletonSegmentIndex>
+		<SkeletonSegment>
+			<SkeletonPoint vertex='0'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='15'/>
+					<Vertex value='16'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='1'>
+				<Endpoint value='1'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='17'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='2'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='18'/>
+					<Vertex value='31'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='3'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='8'/>
+					<Vertex value='46'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='4'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='37'/>
+					<Vertex value='20'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='5'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='12'/>
+					<Vertex value='11'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='6'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='17'/>
+					<Vertex value='45'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='7'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='45'/>
+					<Vertex value='26'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='8'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='3'/>
+					<Vertex value='22'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='9'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='18'/>
+					<Vertex value='39'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='10'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='40'/>
+					<Vertex value='27'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='11'>
+				<Endpoint value='1'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='5'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='12'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='13'/>
+					<Vertex value='5'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='13'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='12'/>
+					<Vertex value='20'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='14'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='32'/>
+					<Vertex value='24'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='15'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='0'/>
+					<Vertex value='34'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='16'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='46'/>
+					<Vertex value='0'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='17'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='6'/>
+					<Vertex value='1'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='18'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='2'/>
+					<Vertex value='9'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='19'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='38'/>
+					<Vertex value='31'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='20'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='4'/>
+					<Vertex value='13'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='21'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='33'/>
+					<Vertex value='44'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='22'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='42'/>
+					<Vertex value='8'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='23'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='28'/>
+					<Vertex value='32'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='24'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='30'/>
+					<Vertex value='14'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='25'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='36'/>
+					<Vertex value='41'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='26'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='29'/>
+					<Vertex value='7'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='27'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='43'/>
+					<Vertex value='10'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='28'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='35'/>
+					<Vertex value='23'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='29'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='26'/>
+					<Vertex value='44'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='30'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='24'/>
+					<Vertex value='36'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='31'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='2'/>
+					<Vertex value='19'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='32'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='14'/>
+					<Vertex value='23'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='33'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='21'/>
+					<Vertex value='39'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='34'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='40'/>
+					<Vertex value='15'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='35'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='28'/>
+					<Vertex value='42'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='36'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='25'/>
+					<Vertex value='30'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='37'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='4'/>
+					<Vertex value='41'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='38'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='19'/>
+					<Vertex value='43'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='39'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='33'/>
+					<Vertex value='9'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='40'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='10'/>
+					<Vertex value='34'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='41'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='25'/>
+					<Vertex value='37'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='42'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='35'/>
+					<Vertex value='22'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='43'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='27'/>
+					<Vertex value='38'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='44'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='21'/>
+					<Vertex value='29'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='45'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='6'/>
+					<Vertex value='7'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='46'>
+				<Endpoint value='0'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='16'/>
+					<Vertex value='3'/>
+				</Neighbor>
+			</SkeletonPoint>
+		</SkeletonSegment>
+	</SkeletonPart>
+</SimoxCGAL-SegmentedObject>

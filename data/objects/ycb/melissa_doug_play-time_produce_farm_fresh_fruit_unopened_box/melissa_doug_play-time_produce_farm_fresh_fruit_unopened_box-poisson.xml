@@ -1,0 +1,8 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>melissa_doug_play-time_produce_farm_fresh_fruit_unopened_box.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>melissa_doug_play-time_produce_farm_fresh_fruit_unopened_box.stl</File>
+	</CollisionModel>
+</ManipulationObject>

@@ -1,6 +1,6 @@
 <ManipulationObject name='Spraybottle'>
 	<Visualization>
-		<File type='inventor'>Spraybottle-posson.stl</File>
+		<File type='inventor'>spraybottle.wrl</File>
 	</Visualization>
 	<CollisionModel>
 		<File type='inventor'>Spraybottle-posson.stl</File>

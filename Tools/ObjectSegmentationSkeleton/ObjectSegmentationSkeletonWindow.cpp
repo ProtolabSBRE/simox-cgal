@@ -101,7 +101,7 @@ void ObjectSegmentationSkeletonWindow::setupUI()
     //connect(UI.checkBoxManip, SIGNAL(clicked()), this, SLOT(buildVisu()));
     //connect(UI.checkBoxSkeleton, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.checkBoxLines, SIGNAL(clicked()), this, SLOT(buildVisu()));
-    //connect(UI.checkBoxSegment, SIGNAL(clicked()), this, SLOT(buildVisu()));
+    connect(UI.horizontalSliderTr, SIGNAL(valueChanged(int)), this, SLOT(buildVisu()));
     connect(UI.checkBoxSkeletonPoint, SIGNAL(clicked()), this, SLOT(buildVisu()));
     connect(UI.radioButtonFullModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.radioButtonColModel, SIGNAL(clicked()), this, SLOT(colModel()));
@@ -151,7 +151,8 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
         if (n)
         {
             SoMaterial* color = new SoMaterial();
-            color->transparency = 0.7f;
+            //color->transparency = 0.7f;
+            color->transparency = UI.horizontalSliderTr->value()/100.0f;
             color->diffuseColor.setIgnored(TRUE);
             color->setOverride(TRUE);
             objectSep->addChild(color);

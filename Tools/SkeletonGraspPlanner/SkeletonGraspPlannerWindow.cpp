@@ -167,6 +167,7 @@ void SkeletonGraspPlannerWindow::setupUI()
     connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.checkBoxCones, SIGNAL(clicked()), this, SLOT(frictionConeVisu()));
     connect(UI.checkBoxGrasps, SIGNAL(clicked()), this, SLOT(showGrasps()));
+    connect(UI.horizontalSliderTr, SIGNAL(valueChanged(int)), this, SLOT(buildVisu()));
 }
 
 void SkeletonGraspPlannerWindow::updateSkeletonInfo()

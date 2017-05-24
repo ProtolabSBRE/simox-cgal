@@ -52,8 +52,6 @@ SkeletonPtr SkeletonIO::createSkeletonObject(rapidxml::xml_node<char> *skeletonN
 
     std::map<int, Skeleton::vertex_descriptor> id_vertices;
 
-    cout << "\tSkeleton" << endl;
-
     //vertices
     rapidxml::xml_node<>* tmp_number_vertices_node = skeletonNode->first_node("NumberOfVertices", 0, false);
     rapidxml::xml_attribute<>* tmp_number_vertices = tmp_number_vertices_node->first_attribute();
@@ -126,10 +124,6 @@ SkeletonPtr SkeletonIO::createSkeletonObject(rapidxml::xml_node<char> *skeletonN
         boost::add_edge(from, to, skeleton);
 
     }
-
-    cout << "\tvertices_number: should be ( " << number_of_vertices << " ), actual : " << boost::num_vertices(skeleton) << endl;
-    cout << "\tedges_number: should be (" << number_of_edges << "), actual: " << boost::num_edges(skeleton) << endl;
-    cout << "\n";
 
     return SkeletonPtr(new Skeleton(skeleton));
 }

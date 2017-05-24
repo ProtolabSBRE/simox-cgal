@@ -109,6 +109,7 @@ bool ApproachMovementSkeleton::createNewApproachPose(Eigen::Matrix4f &poseResult
     approachDirs.pop_back();
 
     Eigen::Vector3f dirY = currentVertexResult.graspingPlane.n;
+
     if (currentVertexResult.endpoint)
     {
         Eigen::Vector3f tmp = dirY;
@@ -223,12 +224,18 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
     currentVertexResult.valid = false;
 
     SkeletonVertexResult resultPre = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Precision],verbose);
+    SkeletonVertexResult resultPower = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Power],verbose);
     bool valid = resultPre.valid;
-    bool preshapeOK = false;
-    if (valid)
-        preshapeOK = decider->decidePrecisionPreshape(resultPre.pca.t1, resultPre.pca.t2);
+    bool preshapePrecisionOK = false;
+    bool preshapePowerOK = false;
 
-    if (valid && preshapeOK)
+    if (valid)
+    {
+        preshapePrecisionOK = decider->decidePrecisionPreshape(resultPre.pca.t1, resultPre.pca.t2);
+        preshapePowerOK = decider->decidePowerPreshape(resultPower.pca.t1, resultPower.pca.t2);
+    }
+
+    if (valid && preshapePrecisionOK && !preshapePowerOK)
     {
         if (verbose)
         {
@@ -249,13 +256,13 @@ bool ApproachMovementSkeleton::calculateApproachDirection()
         return true;
     }
 
-    SkeletonVertexResult resultPower = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Power],verbose);
+//    SkeletonVertexResult resultPower = SkeletonVertexAnalyzer::calculatePCA(skeleton, mesh, currentSkeletonVertex, subpart, approachMovementParameters.interval[PlanningParameters::Power],verbose);
     valid = resultPower.valid;
-    preshapeOK = false;
-    if (valid)
-        preshapeOK = decider->decidePowerPreshape(resultPower.pca.t1, resultPower.pca.t2);
 
-    if (valid && preshapeOK)
+//    if (valid)
+//        preshapeOK = decider->decidePowerPreshape(resultPower.pca.t1, resultPower.pca.t2);
+
+    if (valid && preshapePowerOK)
     {
         if (verbose)
         {
@@ -353,7 +360,7 @@ bool ApproachMovementSkeleton::moveEEFAway(const Eigen::Vector3f& approachDir, f
     return true;
 }
 
-void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &pca, bool /*endpoint*/)
+void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &pca, bool endpoint)
 {
 
     if (verbose)
@@ -368,13 +375,17 @@ void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &
     Eigen::Vector3f b2 = pca.pca2 * (-1);
 
     approachDirs.push_back(a1);
-    approachDirs.push_back(a1);
-    approachDirs.push_back(a2);
     approachDirs.push_back(a2);
     approachDirs.push_back(b1);
-    approachDirs.push_back(b1);
     approachDirs.push_back(b2);
-    approachDirs.push_back(b2);
+
+    if (!endpoint)
+    {
+        approachDirs.push_back(a1);
+        approachDirs.push_back(a2);
+        approachDirs.push_back(b1);
+        approachDirs.push_back(b2);
+    }
 
     Eigen::Vector3f a = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2);
     Eigen::Vector3f b = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2);
@@ -393,16 +404,20 @@ void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &
     }
 
     approachDirs.push_back(a);
-    approachDirs.push_back(a);
-    approachDirs.push_back(b);
     approachDirs.push_back(b);
     approachDirs.push_back(c);
-    approachDirs.push_back(c);
     approachDirs.push_back(d);
-    approachDirs.push_back(d);
+
+    if (!endpoint)
+    {
+        approachDirs.push_back(a);
+        approachDirs.push_back(b);
+        approachDirs.push_back(c);
+        approachDirs.push_back(d);
+    }
 }
 
-void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool /*endpoint*/)
+void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool endpoint)
 {
     if (verbose)
     {
@@ -410,11 +425,21 @@ void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAx
     }
 
     approachDirs.push_back(pca.pca1);
-    approachDirs.push_back(pca.pca1);
+
+    if(!endpoint)
+    {
+        approachDirs.push_back(pca.pca1);
+    }
 
     Eigen::Vector3f approach = pca.pca1 * (-1);
     approachDirs.push_back(approach);
-    approachDirs.push_back(approach);
+
+    if (!endpoint)
+    {
+        approachDirs.push_back(approach);
+
+    }
+
     if (verbose)
     {
         VR_INFO << "pca1:" << pca.pca1.transpose() << endl;

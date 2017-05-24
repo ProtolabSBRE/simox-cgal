@@ -246,8 +246,6 @@ bool SkeletonPart::fillIntervalEndpoint(SkeletonPtr skeleton, SkeletonVertex &ce
     SkeletonVertex nextNeighbor;
     int test = 0;
 
-    cout << "begin" << endl;
-
     //eig immer nur neighbor == 2 -> vlt if-else?
     std::list<SkeletonVertex>::iterator vd;
     for (vd = point->neighbor.begin(); vd != point->neighbor.end(); vd++)

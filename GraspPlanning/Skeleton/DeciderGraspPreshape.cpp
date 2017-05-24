@@ -1,5 +1,7 @@
 #include "DeciderGraspPreshape.h"
 
+using namespace std;
+
 namespace SimoxCGAL
 {
 
@@ -7,6 +9,8 @@ DeciderGraspPreshape::DeciderGraspPreshape()
 {
     minThicknessPower = 20.f;
     maxThicknessPower = 60.f;
+    minLengthPower = 20.f;
+
     minThicknessPrecision = 1.f;
     maxThicknessPrecision = 20.f;
 }
@@ -31,10 +35,8 @@ void DeciderGraspPreshape::setThicknessPower(float minThickness, float maxThickn
 
 bool DeciderGraspPreshape::decidePowerPreshape(float length, float thickness)
 {
-    //float minLengthPower = 30.f;
-    //float maxLengthPower = 150.f;
 
-    if (thickness >= minThicknessPower && thickness <= maxThicknessPower /*&& length >= minLengthPower && length <= maxLengthPower*/)
+    if ((thickness >= minThicknessPower && thickness <= maxThicknessPower) || length >= minLengthPower)
     {
         return true;
     }

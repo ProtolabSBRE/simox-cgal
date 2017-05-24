@@ -25,9 +25,11 @@ public:
     bool decidePrecisionPreshape(float length, float thickness);
 protected:
     float minThicknessPrecision;
-    float minThicknessPower;
     float maxThicknessPrecision;
+
+    float minThicknessPower;
     float maxThicknessPower;
+    float minLengthPower;
 };
 
 typedef boost::shared_ptr<DeciderGraspPreshape> DeciderGraspPreshapePtr;

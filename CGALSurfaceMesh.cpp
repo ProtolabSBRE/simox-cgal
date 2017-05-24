@@ -224,12 +224,6 @@ boost::shared_ptr<CGALSurfaceMesh> CGALSurfaceMesh::fromXML(const std::string &x
         }
 
 
-
-        cout << "\tTriangle_mesh" << endl;
-        cout << "\tvertices_number: should be ( " << number_of_vertices << " ), actual : " << mesh->number_of_vertices() << endl;
-        cout << "\tfaces_number: should be (" << number_of_faces << "), actual: " << mesh->number_of_faces() << endl;
-        cout << "\n";
-
         delete[] y;
 
     }catch (VirtualRobot::VirtualRobotException&)

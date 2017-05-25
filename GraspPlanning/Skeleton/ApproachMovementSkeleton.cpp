@@ -108,6 +108,10 @@ bool ApproachMovementSkeleton::createNewApproachPose(Eigen::Matrix4f &poseResult
     Eigen::Vector3f approachDir = approachDirs.back();
     approachDirs.pop_back();
 
+
+    if (verbose)
+        VR_INFO << "Approaches left: " << approachDirs.size() << endl;
+
     Eigen::Vector3f dirY = currentVertexResult.graspingPlane.n;
 
     if (currentVertexResult.endpoint)
@@ -121,6 +125,7 @@ bool ApproachMovementSkeleton::createNewApproachPose(Eigen::Matrix4f &poseResult
     {
         dirY *= -1;
     }
+
     if (verbose)
     {
         VR_INFO << "Approach pose, position:" << position.transpose() << ", approach dir: " << approachDir.transpose() << endl;
@@ -315,6 +320,19 @@ bool ApproachMovementSkeleton::setEEFToApproachPose(const Eigen::Vector3f &posit
     x.normalize();
 
 
+
+//    SoSeparator* sep = new SoSeparator;
+//    sep->ref();
+
+//    SoTransform* trans = new SoTransform;
+//    trans->translation.setValue(position[0], position[1], position[2]);
+//    sep->addChild(trans);
+
+//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateArrow(z, 20.f, 2.f, VirtualRobot::CoinVisualizationFactory::Color::Blue()));
+//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateArrow(y, 20.f, 2.f, VirtualRobot::CoinVisualizationFactory::Color::Green()));
+//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateArrow(x, 20.f, 2.f, VirtualRobot::CoinVisualizationFactory::Color::Red()));
+
+
     poseFinal.block(0, 0, 3, 1) = x;
     poseFinal.block(0, 1, 3, 1) = y;
     poseFinal.block(0, 2, 3, 1) = z;
@@ -366,17 +384,23 @@ void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &
     if (verbose)
     {
         VR_INFO << "Round approach dirs:\n";
+        VR_INFO << "Current approches: " << approachDirs.size() << endl;
     }
 
 
     Eigen::Vector3f a1 = pca.pca1;
-    Eigen::Vector3f a2 = pca.pca1 * (-1);
     Eigen::Vector3f b1 = pca.pca2;
+    Eigen::Vector3f a2 = pca.pca1 * (-1);
     Eigen::Vector3f b2 = pca.pca2 * (-1);
 
+    Eigen::Vector3f a = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2);
+    Eigen::Vector3f b = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2);
+    Eigen::Vector3f c = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2 * (-1));
+    Eigen::Vector3f d = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2 * (-1));
+
     approachDirs.push_back(a1);
-    approachDirs.push_back(a2);
     approachDirs.push_back(b1);
+    approachDirs.push_back(a2);
     approachDirs.push_back(b2);
 
     if (!endpoint)
@@ -385,12 +409,9 @@ void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &
         approachDirs.push_back(a2);
         approachDirs.push_back(b1);
         approachDirs.push_back(b2);
+
     }
 
-    Eigen::Vector3f a = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2);
-    Eigen::Vector3f b = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2);
-    Eigen::Vector3f c = SkeletonVertexAnalyzer::createMidVector(pca.pca1  * (-1), pca.pca2 * (-1));
-    Eigen::Vector3f d = SkeletonVertexAnalyzer::createMidVector(pca.pca1, pca.pca2 * (-1));
     if (verbose)
     {
         VR_INFO << "a1:" << a1.transpose() << endl;
@@ -415,6 +436,12 @@ void ApproachMovementSkeleton::calculateApproachDirRound(const PrincipalAxis3D &
         approachDirs.push_back(c);
         approachDirs.push_back(d);
     }
+
+    if (verbose)
+    {
+        VR_INFO << "---Approches: " << approachDirs.size() << endl;
+    }
+
 }
 
 void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAxis3D &pca, bool endpoint)
@@ -425,19 +452,16 @@ void ApproachMovementSkeleton::calculateApproachDirRectangular(const PrincipalAx
     }
 
     approachDirs.push_back(pca.pca1);
+    approachDirs.push_back(pca.pca1);
 
-    if(!endpoint)
-    {
-        approachDirs.push_back(pca.pca1);
-    }
 
     Eigen::Vector3f approach = pca.pca1 * (-1);
-    approachDirs.push_back(approach);
+
 
     if (!endpoint)
     {
         approachDirs.push_back(approach);
-
+        approachDirs.push_back(approach);
     }
 
     if (verbose)

@@ -41,9 +41,7 @@ bool SkeletonVertexAnalyzer::calculateApproachPlane(Eigen::Vector3f &pos, Eigen:
 
     if (mid.norm() < 0.001f)
     {
-//        std::cout << "Math//approachPlane->Punkte liegen annährend in einer Linie. Nehme einfach den ersten Vektor.\n";
         result = d1;
-        //sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, result, 20.f, 0.5f, false, 1.f, 0.f, 0.f));
         return true;
     }
 
@@ -51,14 +49,7 @@ bool SkeletonVertexAnalyzer::calculateApproachPlane(Eigen::Vector3f &pos, Eigen:
 
     result = (line.d).cross(mid);
     result.normalize();
-
-//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, d1, 40.f, 0.5f, false, 0.f, 0.f, 1.f));
-//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, d2, 40.f, 0.5f, false, 0.f, 0.f, 1.f));
-//    sep->addChild(VirtualRobot::CoinVisualizationFactory::CreatePlaneVisualization(pos, result, 50.f, 0.5f, false, 1.f, 0.f, 0.f));
-
     return true;
-
-
 }
 
 std::vector<Eigen::Vector3f> SkeletonVertexAnalyzer::projectPointsToPlane(std::vector<VirtualRobot::MathTools::Plane> v_planes, std::vector<std::vector<Eigen::Vector3f> > v_points)
@@ -140,7 +131,9 @@ SkeletonVertexResult SkeletonVertexAnalyzer::calculatePCA(SkeletonPtr skeleton, 
         return result;
     }
 
-    int nrPoints = (int)points.size(); // -1?
+    int nrPoints = (int)points.size() - 1; // -1?
+
+
 
 
     Eigen::Vector3f mean(0.f, 0.f, 0.f);
@@ -156,16 +149,13 @@ SkeletonVertexResult SkeletonVertexAnalyzer::calculatePCA(SkeletonPtr skeleton, 
 
     for (size_t i  = 0; i < points.size(); i++)
     {
-//        sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(points.at(i), 0.5f, 0.f, 1.f, 1.f, 0.f));
         points.at(i) -= mean;
         matrix.block(i, 0, 1, 3) = points.at(i).transpose();
     }
 
+
     Eigen::JacobiSVD<Eigen::MatrixXf> svd(matrix, Eigen::ComputeThinU | Eigen::ComputeThinV);
     Eigen::Vector3f eigenvalues = svd.singularValues();
-
-//    cout << "Its singular values are:" << svd.singularValues().transpose() << endl;
-//    cout << "Its right singular vectors are the columns of the thin V matrix:" << endl << svd.matrixV() << endl;
 
     result.pca.pca1 = svd.matrixV().col(0);
     result.pca.pca2 = svd.matrixV().col(1);
@@ -175,22 +165,8 @@ SkeletonVertexResult SkeletonVertexAnalyzer::calculatePCA(SkeletonPtr skeleton, 
     result.pca.eigenvalue2 = eigenvalues[1];
     result.pca.eigenvalue3 = eigenvalues[2];
 
-
-    float ev1 = (result.pca.eigenvalue1 * result.pca.eigenvalue1) / nrPoints;
-    float ev2 = (result.pca.eigenvalue2 * result.pca.eigenvalue2) / nrPoints;
-
-    Eigen::Vector3f t = result.pca.pca1 * std::sqrt(ev1);
-    Eigen::Vector3f x = result.pca.pca2 * std::sqrt(ev2);
-
-    result.pca.t1 = t.norm();
-    result.pca.t2 = x.norm();
-
-//    std::cout << "t: " << t.norm() << std::endl;
-//    std::cout << "x: " << x.norm() << std::endl;
-
-
-//     sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(t, 3.5f, 0.f, 0.f, 1.f, 0.f));
-//     sep->addChild(VirtualRobot::CoinVisualizationFactory::CreateVertexVisualization(x, 3.5f, 0.f, 0.f, 1.f, 0.f));
+    result.pca.t1 = ((result.pca.pca1 * result.pca.eigenvalue1) / std::sqrt(nrPoints - 1)).norm();
+    result.pca.t2 = ((result.pca.pca2 * result.pca.eigenvalue2) / std::sqrt(nrPoints - 1)).norm();
 
     result.valid = true;
     return result;

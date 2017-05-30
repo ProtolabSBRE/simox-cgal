@@ -155,6 +155,7 @@ protected:
 
     //test
     SoSeparator* test;
+    size_t robustnessEvaluationGraspTrialCount = 0;
 };
 
 #endif

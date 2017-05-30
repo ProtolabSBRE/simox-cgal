@@ -269,6 +269,7 @@ void SkeletonGraspPlannerWindow::plannerOptions()
     UICreate.dsbPo_MaxThick->setValue(p.maxThickness[ApproachMovementSkeleton::PlanningParameters::Power]);
     UICreate.dsbPo_IntervalWidth->setValue(p.interval[ApproachMovementSkeleton::PlanningParameters::Power]);
     UICreate.dsbPo_RetreatDistance->setValue(p.retreatDistance[ApproachMovementSkeleton::PlanningParameters::Power]);
+    UICreate.sBRobustnessEval_Grasps->setValue(robustnessEvaluationGraspTrialCount);
 
     if (diag.exec())
     {
@@ -282,7 +283,7 @@ void SkeletonGraspPlannerWindow::plannerOptions()
         p.interval[ApproachMovementSkeleton::PlanningParameters::Power] = UICreate.dsbPo_IntervalWidth->value();
         p.retreatDistance[ApproachMovementSkeleton::PlanningParameters::Power] = UICreate.dsbPo_RetreatDistance->value();
         p.skeletonSamplingLength = UICreate.dsb_SkeletonDist->value();
-
+        robustnessEvaluationGraspTrialCount = UICreate.sBRobustnessEval_Grasps->value();
         approach->setParameters(p);
     }
 }
@@ -904,34 +905,38 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                 size_t graspSum = 0;
                 std::vector<double> histogramFC(bins,0.0);
                 std::vector<double> histogramFCWithCollisions(bins,0.0);
-
-                for(VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
+                fs << object->getName() << "," << planner->getEvaluation().toCSVString();
+                if(robustnessEvaluationGraspTrialCount > 0)
                 {
-                    GraspEvaluationPoseUncertainty::PoseEvalResults result;
-                    if (!evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, result))
-                        continue;
-                    VR_INFO << "Grasp " << graspSum << "/" << planner->getPlannedGrasps().size() << std::endl;
-                    histogramFC.at(std::min<int>((int)(result.forceClosureRate * bins), bins-1))++;
-                    histogramFCWithCollisions.at(std::min<int>((int)((double)(result.numForceClosurePoses)/result.numPosesTested * bins), bins-1))++;
-                    avgRate += result.avgQuality;
-                    avgForceClosureRate += result.forceClosureRate;
-                    graspSum++;
-//                    if(graspSum > 10)
-//                        break;
-                }
-                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << "," << (avgRate/planner->getPlannedGrasps().size()) << "," << (avgForceClosureRate/planner->getPlannedGrasps().size());
-                int i = 0;
-                for(auto bin : histogramFC)
-                {
-                    fs  <<  ", " << (double)(bin)/graspSum;
-                    cout << i << ": " << bin << ", " << graspSum << ", " <<  (double)(bin)/graspSum << std::endl;
-                    i++;
-                }
-                for(auto bin : histogramFCWithCollisions)
-                {
-                    fs  <<  ", " << (double)(bin)/graspSum;
+                    for(VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
+                    {
+                        GraspEvaluationPoseUncertainty::PoseEvalResults result;
+                        if (!evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), robustnessEvaluationGraspTrialCount, result))
+                            continue;
+                        VR_INFO << "Grasp " << graspSum << "/" << planner->getPlannedGrasps().size() << std::endl;
+                        histogramFC.at(std::min<int>((int)(result.forceClosureRate * bins), bins-1))++;
+                        histogramFCWithCollisions.at(std::min<int>((int)((double)(result.numForceClosurePoses)/result.numPosesTested * bins), bins-1))++;
+                        avgRate += result.avgQuality;
+                        avgForceClosureRate += result.forceClosureRate;
+                        graspSum++;
+                        //                    if(graspSum > 10)
+                        //                        break;
+                    }
+                    fs << "," << (avgRate/planner->getPlannedGrasps().size()) << "," << (avgForceClosureRate/planner->getPlannedGrasps().size());
+                    int i = 0;
+                    for(auto bin : histogramFC)
+                    {
+                        fs  <<  ", " << (double)(bin)/graspSum;
+                        cout << i << ": " << bin << ", " << graspSum << ", " <<  (double)(bin)/graspSum << std::endl;
+                        i++;
+                    }
+                    for(auto bin : histogramFCWithCollisions)
+                    {
+                        fs  <<  ", " << (double)(bin)/graspSum;
+                    }
                 }
                 fs << std::endl;
+
             }
         }
         catch(std::exception & e)

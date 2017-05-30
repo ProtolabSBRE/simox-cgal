@@ -35,6 +35,7 @@
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/nodes/SoSeparator.h>
+#include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
 
 #include <boost/foreach.hpp>
 
@@ -103,7 +104,7 @@ protected:
 
     void updateSkeletonInfo();
 
-    bool evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, float &storeAvgRate, float &storeAvgForceClosureRate);
+    bool evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, GraspStudio::GraspEvaluationPoseUncertainty::PoseEvalResults& results);
     void applyGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef);
 
     static void timerCB(void* data, SoSensor* sensor);

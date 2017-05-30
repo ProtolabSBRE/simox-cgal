@@ -458,7 +458,7 @@ void SkeletonGraspPlannerWindow::loadData()
     QStringList nameFilters;
     nameFilters << "Segmented Object XML Files (*.soxml)"
                 << "XML Files (*.xml)"
-                   "All Files (*.*)";
+                << "All Files (*.*)";
     dialog.setNameFilters(nameFilters);
 
     if (dialog.exec())
@@ -761,7 +761,7 @@ void SkeletonGraspPlannerWindow::saveToFile(std::string filepath)
         return;
     }
 
-    ManipulationObjectPtr objectM(new ManipulationObject(object->getName(), object->getVisualization()->clone(), object->getCollisionModel()->clone()));
+    ManipulationObjectPtr objectM(new ManipulationObject(object->getName(), object->getVisualization(), object->getCollisionModel()));
     objectM->addGraspSet(grasps);
     std::string objectFile = filepath;
     bool ok = false;
@@ -799,10 +799,10 @@ void SkeletonGraspPlannerWindow::selectGrasp()
         applyGrasp(g, eefCloned, eefCloned->getEndEffector(eefName));
         if (UI.checkBoxEvaluateGrasps->isChecked())
         {
-            float a,b;
-            evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b);
-            VR_INFO << "Robustness: avg quality:" << a << endl;
-            VR_INFO << "Robustness: avg fc rate:" << b << endl;
+            GraspEvaluationPoseUncertainty::PoseEvalResults result;
+            evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, result);
+            VR_INFO << "Robustness: avg quality:" << result.avgQuality << endl;
+            VR_INFO << "Robustness: avg fc rate:" << result.forceClosureRate << endl;
         }
     } else
     {
@@ -810,19 +810,14 @@ void SkeletonGraspPlannerWindow::selectGrasp()
     }
 }
 
-bool SkeletonGraspPlannerWindow::evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, float &storeAvgRate, float &storeAvgForceClosureRate)
+bool SkeletonGraspPlannerWindow::evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, GraspEvaluationPoseUncertainty::PoseEvalResults &results)
 {
     if (!g || !eefRobot || !eef)
         return false;
 
-    storeAvgRate = 0;
-    storeAvgForceClosureRate = 0;
-
     GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
 
-    auto poseevalresult = eval->evaluateGrasp(g, eef, object, qualityMeasure, nrEvalLoops);
-    storeAvgRate = poseevalresult.avgQuality;
-    storeAvgForceClosureRate = poseevalresult.forceClosureRate;
+    results = eval->evaluateGrasp(g, eef, object, qualityMeasure, nrEvalLoops);
 
     return true;
 }
@@ -860,7 +855,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
         return;
     }
     QStringList paths;
-    for (boost::filesystem::recursive_directory_iterator end, dir(fi.toUtf8().data());
+    for (boost::filesystem::recursive_directory_iterator end, dir(fi.toUtf8().data(), boost::filesystem::symlink_option::recurse);
          dir != end ; ++dir)
     {
         std::string path(dir->path().c_str());
@@ -877,13 +872,24 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     boost::filesystem::path resultsCSVPath("graspplanningresults-" + robot->getName() + ".csv");
     resultsCSVPath = boost::filesystem::absolute(resultsCSVPath);
     std::ofstream fs(resultsCSVPath.string().c_str(), std::ofstream::out);
-    fs << "object," << planner->getEvaluation().GetCSVHeader() << "RobustnessAvgQuality,RobustnessAvgForceClosureRate" << std::endl;
+    fs << "object," << planner->getEvaluation().GetCSVHeader() << ",RobustnessAvgQuality,RobustnessAvgForceClosureRate";
     QProgressDialog progress("Calculating grasps...", "Abort", 0, paths.size(), this);
     progress.setWindowModality(Qt::WindowModal);
     progress.show();
     int i = 0;
     progress.setValue(0);
     qApp->processEvents();
+    size_t bins = 20;
+    for (size_t i = 0; i < bins; ++i)
+    {
+        fs  << "," << "HistogramBin" << i;
+    }
+    for (size_t i = 0; i < bins; ++i)
+    {
+        fs   << "," << "HistogramWithCollisionBin" << i;
+    }
+    fs << std::endl;
+
     for(auto& path :  paths)
     {
         try
@@ -895,15 +901,37 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                 saveToFile(boost::filesystem::path(path.toStdString()).replace_extension(".moxml").string());
                 float avgRate = 0;
                 float avgForceClosureRate = 0;
+                size_t graspSum = 0;
+                std::vector<double> histogramFC(bins,0.0);
+                std::vector<double> histogramFCWithCollisions(bins,0.0);
+
                 for(VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
                 {
-                    float a,b;
-                    if (!evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, a, b))
+                    GraspEvaluationPoseUncertainty::PoseEvalResults result;
+                    if (!evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, result))
                         continue;
-                    avgRate += a;
-                    avgForceClosureRate += b;
+                    VR_INFO << "Grasp " << graspSum << "/" << planner->getPlannedGrasps().size() << std::endl;
+                    histogramFC.at(std::min<int>((int)(result.forceClosureRate * bins), bins-1))++;
+                    histogramFCWithCollisions.at(std::min<int>((int)((double)(result.numForceClosurePoses)/result.numPosesTested * bins), bins-1))++;
+                    avgRate += result.avgQuality;
+                    avgForceClosureRate += result.forceClosureRate;
+                    graspSum++;
+//                    if(graspSum > 10)
+//                        break;
                 }
-                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << "," << (avgRate/planner->getPlannedGrasps().size()) << "," << (avgForceClosureRate/planner->getPlannedGrasps().size()) << std::endl;
+                fs << object->getName() << "," << planner->getEvaluation().toCSVString() << "," << (avgRate/planner->getPlannedGrasps().size()) << "," << (avgForceClosureRate/planner->getPlannedGrasps().size());
+                int i = 0;
+                for(auto bin : histogramFC)
+                {
+                    fs  <<  ", " << (double)(bin)/graspSum;
+                    cout << i << ": " << bin << ", " << graspSum << ", " <<  (double)(bin)/graspSum << std::endl;
+                    i++;
+                }
+                for(auto bin : histogramFCWithCollisions)
+                {
+                    fs  <<  ", " << (double)(bin)/graspSum;
+                }
+                fs << std::endl;
             }
         }
         catch(std::exception & e)

@@ -120,7 +120,7 @@ GraspPtr SkeletonGraspPlanner::planGrasp(VirtualRobot::SceneObjectSetPtr obstacl
         VR_WARNING << "Obstacles are not considered yet..." << endl;
     }
 
-    string sGraspPlanner("Simox - GraspStudio - ");
+    string sGraspPlanner("Simox - SkeletonGraspPlanner - ");
     sGraspPlanner += graspQuality->getName();
     string sGraspNameBase = "Grasp ";
 

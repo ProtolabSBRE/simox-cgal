@@ -67,9 +67,9 @@ int main(int argc, char* argv[])
         eef = eefname;
     }
 
-    cout << "Robot file: " << robot << endl;
-    cout << "End effector: " << eef << endl;
-    cout << "Object file: " << object << endl;
+    cout << "Robot file (--robot <filename>): " << robot << endl;
+    cout << "End effector (--endeffector <eef-name>): " << eef << endl;
+    cout << "Object file (--object <object-file>: " << object << endl;
     cout << "-----------------" << endl;
 
     SkeletonGraspPlannerWindow rw(robot, eef, object);

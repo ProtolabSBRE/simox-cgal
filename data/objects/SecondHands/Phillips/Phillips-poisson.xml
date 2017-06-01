@@ -1,6 +1,6 @@
 <ManipulationObject name='Phillips-poisson'>
 	<Visualization>
-		<File type='inventor'>Phillips-poisson.stl</File>
+		<File type='inventor'>phillips.wrl</File>
 	</Visualization>
 	<CollisionModel>
 		<File type='inventor'>Phillips-poisson.stl</File>

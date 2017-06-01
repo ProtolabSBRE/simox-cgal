@@ -1,6 +1,6 @@
 <ManipulationObject name='Slotted_Screwdriver-poisson'>
 	<Visualization>
-		<File type='inventor'>Slotted_Screwdriver-poisson.stl</File>
+		<File type='inventor'>slotted_screwdriver.wrl</File>
 	</Visualization>
 	<CollisionModel>
 		<File type='inventor'>Slotted_Screwdriver-poisson.stl</File>

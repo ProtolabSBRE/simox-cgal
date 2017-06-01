@@ -1,6 +1,6 @@
 <ManipulationObject name='Stanley-Extension-Short-poisson'>
 	<Visualization>
-		<File type='inventor'>Stanley_Extenstion_Short-poisson.stl</File>
+		<File type='inventor'>stanley_extenstion_short.wrl</File>
 	</Visualization>
 	<CollisionModel>
 		<File type='inventor'>Stanley_Extenstion_Short-poisson.stl</File>

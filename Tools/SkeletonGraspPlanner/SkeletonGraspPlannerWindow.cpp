@@ -802,8 +802,10 @@ void SkeletonGraspPlannerWindow::selectGrasp()
         {
             GraspEvaluationPoseUncertainty::PoseEvalResults result;
             evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, result);
-            VR_INFO << "Robustness: avg quality:" << result.avgQuality << endl;
-            VR_INFO << "Robustness: avg fc rate:" << result.forceClosureRate << endl;
+            VR_INFO << "Robustness: avg quality no col:" << result.avgQuality << endl;
+            VR_INFO << "Robustness: avg fc rate no col:" << result.forceClosureRate << endl;
+            VR_INFO << "Robustness: avg quality col:" << result.avgQualityCol << endl;
+            VR_INFO << "Robustness: avg fc rate col:" << result.forceClosureRateCol << endl;
         }
     } else
     {

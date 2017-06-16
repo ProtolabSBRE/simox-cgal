@@ -875,7 +875,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     boost::filesystem::path resultsCSVPath("graspplanningresults-" + robot->getName() + ".csv");
     resultsCSVPath = boost::filesystem::absolute(resultsCSVPath);
     std::ofstream fs(resultsCSVPath.string().c_str(), std::ofstream::out);
-    fs << "object," << planner->getEvaluation().GetCSVHeader() << ",RobustnessAvgQuality,RobustnessAvgForceClosureRate";
+    fs << "object," << planner->getEvaluation().GetCSVHeader() << ",RobustnessAvgQualityNoCol,RobustnessAvgForceClosureRateNoCol,RobustnessAvgQualityCol,RobustnessAvgForceClosureRateCol";
     QProgressDialog progress("Calculating grasps...", "Abort", 0, paths.size(), this);
     progress.setWindowModality(Qt::WindowModal);
     progress.show();
@@ -905,6 +905,8 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                 float avgRate = 0;
                 float avgForceClosureRate = 0;
                 size_t graspSum = 0;
+                float avgRateCol = 0;
+                float avgForceClosureRateCol = 0;
                 std::vector<double> histogramFC(bins,0.0);
                 std::vector<double> histogramFCWithCollisions(bins,0.0);
                 fs << object->getName() << "," << planner->getEvaluation().toCSVString();
@@ -920,11 +922,20 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                         histogramFCWithCollisions.at(std::min<int>((int)((double)(result.numForceClosurePoses)/result.numPosesTested * bins), bins-1))++;
                         avgRate += result.avgQuality;
                         avgForceClosureRate += result.forceClosureRate;
+                        avgRateCol += result.avgQualityCol;
+                        avgForceClosureRateCol += result.forceClosureRateCol;
                         graspSum++;
                         //                    if(graspSum > 10)
                         //                        break;
                     }
-                    fs << "," << (avgRate/planner->getPlannedGrasps().size()) << "," << (avgForceClosureRate/planner->getPlannedGrasps().size());
+                    if (graspSum>0)
+                    {
+                        avgRate /= planner->getPlannedGrasps().size();
+                        avgForceClosureRate /= planner->getPlannedGrasps().size();
+                        avgRateCol /= planner->getPlannedGrasps().size();
+                        avgForceClosureRateCol /= planner->getPlannedGrasps().size();
+                    }
+                    fs << "," << avgRate << "," << avgForceClosureRate << "," << avgRateCol << "," << avgForceClosureRateCol;
                     int i = 0;
                     for(auto bin : histogramFC)
                     {

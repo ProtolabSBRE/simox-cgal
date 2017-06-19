@@ -21,7 +21,6 @@ int main(int argc, char* argv[])
     // --robot robots/iCub/iCub.xml --endeffector "Left Hand" --preshape "Grasp Preshape"
     std::string robot;
 
-    //robot = "robots/ArmarIII/ArmarIII.xml";
     robot = "robots/ArmarIII/ArmarIII.xml";
 
 //    std::string robot("robots/Shadow_Dexterous_Hand/shadowhand.xml");
@@ -33,7 +32,7 @@ int main(int argc, char* argv[])
     //std::string object("objects/riceBox.xml");
     //std::string object("objects/screwdriver/screwdriver01.xml");
     //std::string object("segmented-objects/flashlight/flashlight1.soxml");
-    std::string object("segmented-objects/airplane/airplane0.soxml");
+    std::string object("objects/similar-objects/airplane/airplane0.soxml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
     //std::string preshape("");
 

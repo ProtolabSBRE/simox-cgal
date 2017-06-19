@@ -1,8 +1,0 @@
-<ManipulationObject name="banana">
-    <Visualization>
-        <File type="inventor">optimized_poisson_texture_mapped_mesh.wrl</File>
-    </Visualization>
-    <CollisionModel>
-        <File type="inventor">poisson_mesh2.stl</File>
-    </CollisionModel>
-</ManipulationObject>

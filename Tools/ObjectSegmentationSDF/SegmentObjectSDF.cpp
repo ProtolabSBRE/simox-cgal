@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     RuntimeEnvironment::addDataPath(std::string(Simox_CGAL_DATA_PATH));
 
 
-    std::string object("objects/screwdriver/screwdriver01.xml");
+    std::string object("objects/similar-objects/screwdriver/screwdriver01.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
   
     VirtualRobot::RuntimeEnvironment::considerKey("object");

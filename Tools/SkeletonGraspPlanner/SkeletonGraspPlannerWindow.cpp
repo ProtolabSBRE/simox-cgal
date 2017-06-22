@@ -327,7 +327,7 @@ void SkeletonGraspPlannerWindow::buildVisu()
         if (visualisationNode)
         {
             robotSep->addChild(visualisationNode);
-            visualizationRobot->highlight(UI.checkBoxHighlight->isChecked());
+            //visualizationRobot->highlight(UI.checkBoxHighlight->isChecked());
         }
     }
 
@@ -400,7 +400,7 @@ void SkeletonGraspPlannerWindow::buildVisu()
     }
 
 
-    if (UI.groupBoxSkeleton->isEnabled())
+    if (UI.frameSkeleton->isEnabled())
     {
         skeletonSep->removeAllChildren();
         sceneSep->addChild(skeletonSep);
@@ -504,7 +504,7 @@ bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filenam
 
     initPlanner();
 
-    UI.groupBoxSkeleton->setEnabled(true);
+    UI.frameSkeleton->setEnabled(true);
     UI.radioButtonNothing->setChecked(true);
 
     graspsSep->removeAllChildren();

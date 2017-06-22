@@ -227,7 +227,7 @@ void ObjectSegmentationSkeletonWindow::buildVisu()
     surfaceSep->removeAllChildren();
     if (UI.radioButtonObjectSeg->isChecked() && skeleton && segSkeleton)
     {
-        int number_segmentation = UI.comboBoxSegmentation->count();
+        //int number_segmentation = UI.comboBoxSegmentation->count();
         int index_segmentation = UI.comboBoxSegmentation->currentIndex();
         std::vector<ObjectPartPtr> members;
         if (segSkeleton->getSegmentedObject())

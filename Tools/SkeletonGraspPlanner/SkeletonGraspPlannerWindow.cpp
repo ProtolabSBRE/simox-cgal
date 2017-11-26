@@ -327,7 +327,7 @@ void SkeletonGraspPlannerWindow::buildVisu()
         if (visualisationNode)
         {
             robotSep->addChild(visualisationNode);
-            visualizationRobot->highlight(UI.checkBoxHighlight->isChecked());
+            //visualizationRobot->highlight(UI.checkBoxHighlight->isChecked());
         }
     }
 
@@ -400,7 +400,7 @@ void SkeletonGraspPlannerWindow::buildVisu()
     }
 
 
-    if (UI.groupBoxSkeleton->isEnabled())
+    if (UI.frameSkeleton->isEnabled())
     {
         skeletonSep->removeAllChildren();
         sceneSep->addChild(skeletonSep);
@@ -504,7 +504,7 @@ bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filenam
 
     initPlanner();
 
-    UI.groupBoxSkeleton->setEnabled(true);
+    UI.frameSkeleton->setEnabled(true);
     UI.radioButtonNothing->setChecked(true);
 
     graspsSep->removeAllChildren();
@@ -802,8 +802,10 @@ void SkeletonGraspPlannerWindow::selectGrasp()
         {
             GraspEvaluationPoseUncertainty::PoseEvalResults result;
             evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), 100, result);
-            VR_INFO << "Robustness: avg quality:" << result.avgQuality << endl;
-            VR_INFO << "Robustness: avg fc rate:" << result.forceClosureRate << endl;
+            VR_INFO << "Robustness: avg quality no col:" << result.avgQuality << endl;
+            VR_INFO << "Robustness: avg fc rate no col:" << result.forceClosureRate << endl;
+            VR_INFO << "Robustness: avg quality col:" << result.avgQualityCol << endl;
+            VR_INFO << "Robustness: avg fc rate col:" << result.forceClosureRateCol << endl;
         }
     } else
     {
@@ -873,7 +875,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     boost::filesystem::path resultsCSVPath("graspplanningresults-" + robot->getName() + ".csv");
     resultsCSVPath = boost::filesystem::absolute(resultsCSVPath);
     std::ofstream fs(resultsCSVPath.string().c_str(), std::ofstream::out);
-    fs << "object," << planner->getEvaluation().GetCSVHeader() << ",RobustnessAvgQuality,RobustnessAvgForceClosureRate,testedGrasps,validGrasps,collisionGrasps";
+    fs << "object," << planner->getEvaluation().GetCSVHeader() << ",RobustnessAvgQualityNoCol,RobustnessAvgForceClosureRateNoCol,RobustnessAvgQualityCol,RobustnessAvgForceClosureRateCol,testedGrasps,validGrasps,collisionGrasps";
     QProgressDialog progress("Calculating grasps...", "Abort", 0, paths.size(), this);
     progress.setWindowModality(Qt::WindowModal);
     progress.show();
@@ -903,6 +905,8 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                 float avgRate = 0;
                 float avgForceClosureRate = 0;
                 size_t graspSum = 0;
+                float avgRateCol = 0;
+                float avgForceClosureRateCol = 0;
                 std::vector<double> histogramFC(bins,0.0);
                 std::vector<double> histogramFCWithCollisions(bins,0.0);
                 fs << object->getName() << "," << planner->getEvaluation().toCSVString();
@@ -922,12 +926,20 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                         histogramFCWithCollisions.at(std::min<int>((int)((double)(result.numForceClosurePoses)/result.numPosesTested * bins), bins-1))++;
                         avgRate += result.avgQuality;
                         avgForceClosureRate += result.forceClosureRate;
+                        avgRateCol += result.avgQualityCol;
+                        avgForceClosureRateCol += result.forceClosureRateCol;
                         graspSum++;
                         //                    if(graspSum > 10)
                         //                        break;
                     }
-                    fs  << "," << (avgRate/planner->getPlannedGrasps().size()) << "," << (avgForceClosureRate/planner->getPlannedGrasps().size())
-                         << "," << testedGraspSum << "," << validGraspSum << "," << collisionGraspSum;
+                    if (graspSum>0)
+                    {
+                        avgRate /= planner->getPlannedGrasps().size();
+                        avgForceClosureRate /= planner->getPlannedGrasps().size();
+                        avgRateCol /= planner->getPlannedGrasps().size();
+                        avgForceClosureRateCol /= planner->getPlannedGrasps().size();
+                    }
+                    fs << "," << avgRate << "," << avgForceClosureRate << "," << avgRateCol << "," << avgForceClosureRateCol << "," << testedGraspSum << "," << validGraspSum << "," << collisionGraspSum;
                     int i = 0;
                     for(auto bin : histogramFC)
                     {

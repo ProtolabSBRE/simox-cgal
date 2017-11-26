@@ -19,8 +19,8 @@ int main(int argc, char* argv[])
     SimoxCGAL::init(argc, argv, "MeshReconstruction");
 
 
-    //std::string object("objects/airplane/airplane0.xml");
-    std::string object("objects/flashlight/flashlight1.xml");
+    //std::string object("objects/similar-objects/airplane/airplane0.xml");
+    std::string object("objects/similar-objects/flashlight/flashlight1.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
 
     VirtualRobot::RuntimeEnvironment::considerKey("object");

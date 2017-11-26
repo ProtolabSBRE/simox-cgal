@@ -1,0 +1,379 @@
+<ManipulationObject name='wilson_100_tennis_ball-poisson'>
+	<Visualization>
+		<File type='inventor'>wilson_100_tennis_ball.wrl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>wilson_100_tennis_ball-poisson.stl</File>
+	</CollisionModel>
+	<GraspSet name='Grasp Planner - Hand R' RobotType='Armar3' EndEffector='Hand R'>
+		<Grasp name='Grasp 1' quality='0.137352' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.644374' c2='0.470738' c3='0.602651' c4='-111.079'/>
+					<row2 c1='0.0264765' c2='0.773872' c3='-0.632789' c4='13.6506'/>
+					<row3 c1='-0.764252' c2='0.423708' c3='0.486199' c4='-1.09814'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 1'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.42'/>
+				<Node name='Index R J1' unit='radian' value='0.42'/>
+				<Node name='Middle R J0' unit='radian' value='0.42'/>
+				<Node name='Middle R J1' unit='radian' value='0.4'/>
+				<Node name='Pinky R J0' unit='radian' value='1.6'/>
+				<Node name='Pinky R J1' unit='radian' value='2.58'/>
+				<Node name='Ring R J0' unit='radian' value='1.22'/>
+				<Node name='Ring R J1' unit='radian' value='2.2'/>
+				<Node name='Thumb R J0' unit='radian' value='0.44'/>
+				<Node name='Thumb R J1' unit='radian' value='0.46'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 2' quality='0.117851' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.723035' c2='0.570724' c3='-0.389224' c4='-80.3382'/>
+					<row2 c1='0.084767' c2='-0.632469' c3='-0.769934' c4='29.824'/>
+					<row3 c1='-0.685591' c2='0.523696' c3='-0.505675' c4='29.6431'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 2'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.4'/>
+				<Node name='Index R J1' unit='radian' value='0.42'/>
+				<Node name='Middle R J0' unit='radian' value='0.42'/>
+				<Node name='Middle R J1' unit='radian' value='0.4'/>
+				<Node name='Pinky R J0' unit='radian' value='1.6'/>
+				<Node name='Pinky R J1' unit='radian' value='2.58'/>
+				<Node name='Ring R J0' unit='radian' value='1.22'/>
+				<Node name='Ring R J1' unit='radian' value='2.2'/>
+				<Node name='Thumb R J0' unit='radian' value='0.44'/>
+				<Node name='Thumb R J1' unit='radian' value='0.42'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 3' quality='0.10542' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.764252' c2='-0.423708' c3='-0.486199' c4='-68.9019'/>
+					<row2 c1='-0.0264765' c2='-0.773872' c3='0.632789' c4='-13.6506'/>
+					<row3 c1='-0.644374' c2='-0.470738' c3='-0.602652' c4='41.0794'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 3'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.42'/>
+				<Node name='Index R J1' unit='radian' value='0.42'/>
+				<Node name='Middle R J0' unit='radian' value='0.4'/>
+				<Node name='Middle R J1' unit='radian' value='0.42'/>
+				<Node name='Pinky R J0' unit='radian' value='1.6'/>
+				<Node name='Pinky R J1' unit='radian' value='2.58'/>
+				<Node name='Ring R J0' unit='radian' value='1.22'/>
+				<Node name='Ring R J1' unit='radian' value='2.2'/>
+				<Node name='Thumb R J0' unit='radian' value='0.44'/>
+				<Node name='Thumb R J1' unit='radian' value='0.46'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 4' quality='0.112523' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.685591' c2='-0.523696' c3='0.505675' c4='-99.6431'/>
+					<row2 c1='-0.084767' c2='0.632469' c3='0.769934' c4='-29.824'/>
+					<row3 c1='-0.723035' c2='-0.570724' c3='0.389224' c4='10.3382'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 4'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.4'/>
+				<Node name='Index R J1' unit='radian' value='0.4'/>
+				<Node name='Middle R J0' unit='radian' value='0.42'/>
+				<Node name='Middle R J1' unit='radian' value='0.42'/>
+				<Node name='Pinky R J0' unit='radian' value='1.6'/>
+				<Node name='Pinky R J1' unit='radian' value='2.58'/>
+				<Node name='Ring R J0' unit='radian' value='1.22'/>
+				<Node name='Ring R J1' unit='radian' value='2.2'/>
+				<Node name='Thumb R J0' unit='radian' value='0.44'/>
+				<Node name='Thumb R J1' unit='radian' value='0.46'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 5' quality='0.113821' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.648691' c2='-0.0471875' c3='0.759587' c4='-111.728'/>
+					<row2 c1='-0.0412176' c2='0.994433' c3='0.0969762' c4='-11.4363'/>
+					<row3 c1='-0.759935' c2='-0.0942155' c3='0.643135' c4='-1.74672'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 5'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.42'/>
+				<Node name='Index R J1' unit='radian' value='0.44'/>
+				<Node name='Middle R J0' unit='radian' value='0.44'/>
+				<Node name='Middle R J1' unit='radian' value='0.42'/>
+				<Node name='Pinky R J0' unit='radian' value='1.6'/>
+				<Node name='Pinky R J1' unit='radian' value='2.58'/>
+				<Node name='Ring R J0' unit='radian' value='1.22'/>
+				<Node name='Ring R J1' unit='radian' value='2.2'/>
+				<Node name='Thumb R J0' unit='radian' value='0.46'/>
+				<Node name='Thumb R J1' unit='radian' value='0.46'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 6' quality='0.117791' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.675168' c2='0.726685' c3='0.126798' c4='-98.0773'/>
+					<row2 c1='0.078661' c2='0.0999869' c3='-0.991874' c4='30.7412'/>
+					<row3 c1='-0.733458' c2='0.679656' c3='0.0103471' c4='11.9039'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 6'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.4'/>
+				<Node name='Index R J1' unit='radian' value='0.42'/>
+				<Node name='Middle R J0' unit='radian' value='0.4'/>
+				<Node name='Middle R J1' unit='radian' value='0.4'/>
+				<Node name='Pinky R J0' unit='radian' value='1.6'/>
+				<Node name='Pinky R J1' unit='radian' value='2.58'/>
+				<Node name='Ring R J0' unit='radian' value='1.22'/>
+				<Node name='Ring R J1' unit='radian' value='2.2'/>
+				<Node name='Thumb R J0' unit='radian' value='0.44'/>
+				<Node name='Thumb R J1' unit='radian' value='0.44'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 7' quality='0.152502' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.759935' c2='0.0942154' c3='-0.643135' c4='-68.2533'/>
+					<row2 c1='0.0412176' c2='-0.994433' c3='-0.0969761' c4='11.4363'/>
+					<row3 c1='-0.648691' c2='0.0471875' c3='-0.759587' c4='41.728'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 7'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.42'/>
+				<Node name='Index R J1' unit='radian' value='0.42'/>
+				<Node name='Middle R J0' unit='radian' value='0.44'/>
+				<Node name='Middle R J1' unit='radian' value='0.44'/>
+				<Node name='Pinky R J0' unit='radian' value='1.6'/>
+				<Node name='Pinky R J1' unit='radian' value='2.58'/>
+				<Node name='Ring R J0' unit='radian' value='1.22'/>
+				<Node name='Ring R J1' unit='radian' value='2.2'/>
+				<Node name='Thumb R J0' unit='radian' value='0.46'/>
+				<Node name='Thumb R J1' unit='radian' value='0.46'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 8' quality='0.116761' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.733458' c2='-0.679656' c3='-0.0103471' c4='-81.9039'/>
+					<row2 c1='-0.0786609' c2='-0.0999869' c3='0.991874' c4='-30.7412'/>
+					<row3 c1='-0.675168' c2='-0.726685' c3='-0.126798' c4='28.0773'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 8'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.42'/>
+				<Node name='Index R J1' unit='radian' value='0.4'/>
+				<Node name='Middle R J0' unit='radian' value='0.4'/>
+				<Node name='Middle R J1' unit='radian' value='0.42'/>
+				<Node name='Pinky R J0' unit='radian' value='1.6'/>
+				<Node name='Pinky R J1' unit='radian' value='2.58'/>
+				<Node name='Ring R J0' unit='radian' value='1.22'/>
+				<Node name='Ring R J1' unit='radian' value='2.2'/>
+				<Node name='Thumb R J0' unit='radian' value='0.44'/>
+				<Node name='Thumb R J1' unit='radian' value='0.42'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 9' quality='0.37357' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Power Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.763356' c2='0.447711' c3='0.465663' c4='-75.2533'/>
+					<row2 c1='-0.0302374' c2='-0.74484' c3='0.666558' c4='1.03046'/>
+					<row3 c1='0.64527' c2='0.49474' c3='0.582115' c4='-31.0196'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 9'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.48'/>
+				<Node name='Index R J1' unit='radian' value='0.5'/>
+				<Node name='Middle R J0' unit='radian' value='0.38'/>
+				<Node name='Middle R J1' unit='radian' value='0.38'/>
+				<Node name='Pinky R J0' unit='radian' value='0.82'/>
+				<Node name='Pinky R J1' unit='radian' value='0.8'/>
+				<Node name='Ring R J0' unit='radian' value='0.44'/>
+				<Node name='Ring R J1' unit='radian' value='0.48'/>
+				<Node name='Thumb R J0' unit='radian' value='0.56'/>
+				<Node name='Thumb R J1' unit='radian' value='0.56'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 10' quality='0.403782' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Power Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.725694' c2='-0.550195' c3='0.413101' c4='-65.2019'/>
+					<row2 c1='0.0834993' c2='-0.666414' c3='-0.740891' c4='45.1843'/>
+					<row3 c1='0.682932' c2='-0.503167' c3='0.529554' c4='-20.9682'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 10'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.54'/>
+				<Node name='Index R J1' unit='radian' value='0.52'/>
+				<Node name='Middle R J0' unit='radian' value='0.36'/>
+				<Node name='Middle R J1' unit='radian' value='0.38'/>
+				<Node name='Pinky R J0' unit='radian' value='0.74'/>
+				<Node name='Pinky R J1' unit='radian' value='0.76'/>
+				<Node name='Ring R J0' unit='radian' value='0.42'/>
+				<Node name='Ring R J1' unit='radian' value='0.4'/>
+				<Node name='Thumb R J0' unit='radian' value='0.54'/>
+				<Node name='Thumb R J1' unit='radian' value='0.54'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 11' quality='0.448577' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Power Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.64527' c2='-0.49474' c3='-0.582115' c4='-33.9804'/>
+					<row2 c1='0.0302375' c2='0.74484' c3='-0.666558' c4='30.9695'/>
+					<row3 c1='0.763356' c2='-0.447711' c3='-0.465663' c4='10.2533'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 11'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.5'/>
+				<Node name='Index R J1' unit='radian' value='0.5'/>
+				<Node name='Middle R J0' unit='radian' value='0.36'/>
+				<Node name='Middle R J1' unit='radian' value='0.42'/>
+				<Node name='Pinky R J0' unit='radian' value='0.76'/>
+				<Node name='Pinky R J1' unit='radian' value='0.76'/>
+				<Node name='Ring R J0' unit='radian' value='0.44'/>
+				<Node name='Ring R J1' unit='radian' value='0.46'/>
+				<Node name='Thumb R J0' unit='radian' value='0.56'/>
+				<Node name='Thumb R J1' unit='radian' value='0.58'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 12' quality='0.407492' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Power Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.682932' c2='0.503167' c3='-0.529553' c4='-44.0318'/>
+					<row2 c1='-0.0834992' c2='0.666414' c3='0.740891' c4='-13.1843'/>
+					<row3 c1='0.725694' c2='0.550195' c3='-0.413101' c4='0.201899'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 12'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.5'/>
+				<Node name='Index R J1' unit='radian' value='0.52'/>
+				<Node name='Middle R J0' unit='radian' value='0.38'/>
+				<Node name='Middle R J1' unit='radian' value='0.38'/>
+				<Node name='Pinky R J0' unit='radian' value='0.76'/>
+				<Node name='Pinky R J1' unit='radian' value='0.78'/>
+				<Node name='Ring R J0' unit='radian' value='0.4'/>
+				<Node name='Ring R J1' unit='radian' value='0.44'/>
+				<Node name='Thumb R J0' unit='radian' value='0.54'/>
+				<Node name='Thumb R J1' unit='radian' value='0.52'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 13' quality='0.320621' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Power Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.730944' c2='0.682112' c3='-0.0210591' c4='-61.7242'/>
+					<row2 c1='-0.080424' c2='-0.0554553' c3='0.995217' c4='-15.2215'/>
+					<row3 c1='0.677682' c2='0.729141' c3='0.0953926' c4='-17.4905'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 13'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.5'/>
+				<Node name='Index R J1' unit='radian' value='0.48'/>
+				<Node name='Middle R J0' unit='radian' value='0.36'/>
+				<Node name='Middle R J1' unit='radian' value='0.34'/>
+				<Node name='Pinky R J0' unit='radian' value='1.8'/>
+				<Node name='Pinky R J1' unit='radian' value='1.78'/>
+				<Node name='Ring R J0' unit='radian' value='0.4'/>
+				<Node name='Ring R J1' unit='radian' value='0.44'/>
+				<Node name='Thumb R J0' unit='radian' value='0.54'/>
+				<Node name='Thumb R J1' unit='radian' value='0.56'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 14' quality='0.341086' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Power Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.761182' c2='-0.0627272' c3='0.645498' c4='-76.6938'/>
+					<row2 c1='0.0376618' c2='-0.997907' c3='-0.0525618' c4='26.0514'/>
+					<row3 c1='0.647445' c2='-0.0156985' c3='0.761951' c4='-32.4601'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 14'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.5'/>
+				<Node name='Index R J1' unit='radian' value='0.54'/>
+				<Node name='Middle R J0' unit='radian' value='0.4'/>
+				<Node name='Middle R J1' unit='radian' value='0.44'/>
+				<Node name='Pinky R J0' unit='radian' value='0.76'/>
+				<Node name='Pinky R J1' unit='radian' value='0.78'/>
+				<Node name='Ring R J0' unit='radian' value='0.44'/>
+				<Node name='Ring R J1' unit='radian' value='0.46'/>
+				<Node name='Thumb R J0' unit='radian' value='0.54'/>
+				<Node name='Thumb R J1' unit='radian' value='0.56'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 15' quality='0.301993' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Power Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.677682' c2='-0.729141' c3='-0.0953926' c4='-47.5095'/>
+					<row2 c1='0.080424' c2='0.0554553' c3='-0.995217' c4='47.2215'/>
+					<row3 c1='0.730944' c2='-0.682112' c3='0.0210591' c4='-3.27578'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 15'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.48'/>
+				<Node name='Index R J1' unit='radian' value='0.46'/>
+				<Node name='Middle R J0' unit='radian' value='0.36'/>
+				<Node name='Middle R J1' unit='radian' value='0.38'/>
+				<Node name='Pinky R J0' unit='radian' value='1.8'/>
+				<Node name='Pinky R J1' unit='radian' value='1.78'/>
+				<Node name='Ring R J0' unit='radian' value='0.42'/>
+				<Node name='Ring R J1' unit='radian' value='0.42'/>
+				<Node name='Thumb R J0' unit='radian' value='0.54'/>
+				<Node name='Thumb R J1' unit='radian' value='0.54'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 16' quality='0.411082' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Power Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.647444' c2='0.0156985' c3='-0.761951' c4='-32.5399'/>
+					<row2 c1='-0.0376618' c2='0.997907' c3='0.0525617' c4='5.94865'/>
+					<row3 c1='0.761181' c2='0.0627272' c3='-0.645498' c4='11.6938'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 16'>
+				<Node name='Hand Palm 2 R' unit='radian' value='0'/>
+				<Node name='Index R J0' unit='radian' value='0.5'/>
+				<Node name='Index R J1' unit='radian' value='0.52'/>
+				<Node name='Middle R J0' unit='radian' value='0.4'/>
+				<Node name='Middle R J1' unit='radian' value='0.42'/>
+				<Node name='Pinky R J0' unit='radian' value='0.74'/>
+				<Node name='Pinky R J1' unit='radian' value='0.72'/>
+				<Node name='Ring R J0' unit='radian' value='0.4'/>
+				<Node name='Ring R J1' unit='radian' value='0.44'/>
+				<Node name='Thumb R J0' unit='radian' value='0.56'/>
+				<Node name='Thumb R J1' unit='radian' value='0.58'/>
+			</Configuration>
+		</Grasp>
+	</GraspSet>
+
+</ManipulationObject>

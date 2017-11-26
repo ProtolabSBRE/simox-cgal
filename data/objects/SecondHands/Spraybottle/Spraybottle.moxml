@@ -1,0 +1,8 @@
+<ManipulationObject name='Spraybottle'>
+	<Visualization>
+		<File type='inventor'>Spraybottle.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>Spraybottle.stl</File>
+	</CollisionModel>
+</ManipulationObject>

@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     SimoxCGAL::init(argc, argv, "ObjectSegmentationSkeleton");
     cout << " --- START --- " << endl;
 
-    std::string object("objects/flashlight/flashlight1.xml");
+    std::string object("objects/similar-objects/flashlight/flashlight1.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
   
     VirtualRobot::RuntimeEnvironment::considerKey("object");

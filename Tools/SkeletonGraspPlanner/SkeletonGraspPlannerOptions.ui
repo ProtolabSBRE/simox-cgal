@@ -374,7 +374,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="sBRobustnessEval_Grasps"/>
+       <widget class="QSpinBox" name="sBRobustnessEval_Grasps">
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

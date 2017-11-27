@@ -90,6 +90,13 @@ bool ApproachMovementSkeleton::init()
     return true;
 }
 
+
+void ApproachMovementSkeleton::reset()
+{
+    init();
+}
+
+
 bool ApproachMovementSkeleton::createNewApproachPose(Eigen::Matrix4f &poseResult)
 {
     if (!currentVertexResult.valid)

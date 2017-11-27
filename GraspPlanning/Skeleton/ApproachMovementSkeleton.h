@@ -152,6 +152,8 @@ public:
 
     SimoxCGAL::SkeletonVertexResult getInterval();
 
+    void reset();
+
 protected:
 
     std::vector<Eigen::Vector3f> approachDirs;

@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Skeleton Grasp Planner</string>
   </property>
+  <property name="toolTip">
+   <string>Plan grasps for a batch of models</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -154,8 +157,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>196</height>
+            <width>276</width>
+            <height>206</height>
            </rect>
           </property>
           <attribute name="label">
@@ -275,8 +278,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>196</height>
+            <width>276</width>
+            <height>206</height>
            </rect>
           </property>
           <attribute name="label">
@@ -381,8 +384,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>196</height>
+            <width>276</width>
+            <height>206</height>
            </rect>
           </property>
           <attribute name="label">
@@ -470,6 +473,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="pushButtonPlanAll">
+               <property name="toolTip">
+                <string/>
+               </property>
                <property name="text">
                 <string>plan all</string>
                </property>
@@ -565,7 +571,7 @@
      <x>0</x>
      <y>0</y>
      <width>1079</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

@@ -285,6 +285,7 @@ void SkeletonGraspPlannerWindow::plannerOptions()
         p.skeletonSamplingLength = UICreate.dsb_SkeletonDist->value();
         robustnessEvaluationGraspTrialCount = UICreate.sBRobustnessEval_Grasps->value();
         approach->setParameters(p);
+        approach->reset();
     }
 }
 
@@ -561,6 +562,10 @@ void SkeletonGraspPlannerWindow::initPlanner()
 
     planner.reset(new SkeletonGraspPlanner(grasps, qualityMeasure, approach));
     planner->setVerbose(verbose);
+
+    UI.pushButtonPlanAll->setEnabled(true);
+    UI.pushButtonPlanAll->setToolTip("Plan all grasps for the loaded object");
+
 }
 
 void SkeletonGraspPlannerWindow::loadRobot()
@@ -590,6 +595,9 @@ void SkeletonGraspPlannerWindow::planAll()
     int nrGrasps = 1e8; // all grasps
 
     planGrasps(timeout, forceClosure, quality, nrGrasps);
+    UI.pushButtonPlanAll->setEnabled(false);
+    UI.pushButtonPlanAll->setToolTip("Press reset to reset planner");
+
 }
 
 void SkeletonGraspPlannerWindow::plan()

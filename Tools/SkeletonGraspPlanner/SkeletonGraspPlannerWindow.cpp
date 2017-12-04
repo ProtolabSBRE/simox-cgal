@@ -763,15 +763,56 @@ void SkeletonGraspPlannerWindow::save()
     saveToFile(fi.toStdString());
 }
 
-void SkeletonGraspPlannerWindow::saveToFile(std::string filepath)
+void SkeletonGraspPlannerWindow::saveToFile(std::string filepath, boost::optional<bool> appendToExistingManipulationObject)
 {
     if (!object)
     {
         return;
     }
 
-    ManipulationObjectPtr objectM(new ManipulationObject(object->getName(), object->getVisualization(), object->getCollisionModel()));
+    ManipulationObjectPtr oldMO;
+    if(boost::filesystem::exists(filepath) && (!appendToExistingManipulationObject.is_initialized() || appendToExistingManipulationObject.get() == true))
+    {
+        oldMO = ObjectIO::loadManipulationObject(filepath);
+        int answer;
+        if(!appendToExistingManipulationObject.is_initialized())
+            answer = QMessageBox::question(0, "Append or overwrite?",
+                                            "Do you want to append the new grasps to the existing grasps of other hands in the selected file?\n(Otherwise only the new grasps will be saved)",
+                                            QMessageBox::Yes, QMessageBox::No);
+        else if(appendToExistingManipulationObject)
+            answer = QMessageBox::Yes;
+        else
+            answer = QMessageBox::No;
+
+        if(answer == QMessageBox::Yes)
+        {
+            oldMO = ObjectIO::loadManipulationObject(filepath);
+            VR_INFO << "Appending new grasps to file..." << std::endl;
+            if(object->getName() != oldMO->getName())
+            {
+                QMessageBox::warning(0,"Error", "Object names do not match: " + QString::fromStdString(object->getName()) + " and " + QString::fromStdString(oldMO->getName()));
+                return;
+            }
+        }
+        else if(answer == QMessageBox::NoButton)
+        {
+            return;
+        }
+
+    }
+    ManipulationObjectPtr objectM;
+    objectM.reset(new ManipulationObject(object->getName(), object->getVisualization(), object->getCollisionModel()));
     objectM->addGraspSet(grasps);
+    if(oldMO)
+    {
+        for(auto & set : oldMO->getAllGraspSets())
+        {
+            if(grasps->getName() != set->getName() ||
+                    grasps->getEndEffector() != set->getEndEffector() ||
+                     grasps->getRobotType() != set->getRobotType())
+                objectM->addGraspSet(set);
+        }
+    }
     std::string objectFile = filepath;
     bool ok = false;
 
@@ -909,7 +950,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
             if(loadSegmentedObject(path.toStdString()))
             {
                 planAll();
-                saveToFile(boost::filesystem::path(path.toStdString()).replace_extension(".moxml").string());
+                saveToFile(boost::filesystem::path(path.toStdString()).replace_extension(".moxml").string(), true);
                 float avgRate = 0;
                 float avgForceClosureRate = 0;
                 size_t graspSum = 0;

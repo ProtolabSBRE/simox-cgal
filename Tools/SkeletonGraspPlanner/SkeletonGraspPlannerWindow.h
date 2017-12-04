@@ -40,6 +40,7 @@
 #include <boost/foreach.hpp>
 
 #include <vector>
+#include <boost/optional.hpp>
 
 #include "ui_SkeletonGraspPlanner.h"
 
@@ -61,7 +62,7 @@ public:
     /*!< Executes the SoQt mainLoop. You need to call this in order to execute the application. */
     int main();
 
-    void saveToFile(std::string filepath);
+    void saveToFile(std::string filepath, boost::optional<bool> appendToExistingManipulationObject = boost::optional<bool>());
 public slots:
     /*! Closes the window and exits SoQt runloop. */
     void quit();

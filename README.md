@@ -22,7 +22,7 @@ Contact
 Nikolaus Vahrenkamp  
 vahrenkamp at kit dot edu
 
-Repostory:  
+Repository:  
 https://gitlab.com/Simox/simox
 https://gitlab.com/Simox/simox-cgal
 

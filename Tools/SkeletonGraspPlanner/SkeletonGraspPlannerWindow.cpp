@@ -18,6 +18,7 @@
 #include <VirtualRobot/RuntimeEnvironment.h>
 #include <QFileDialog>
 #include <QObject>
+#include <QMessageBox>
 #include <Eigen/Geometry>
 
 #include <time.h>

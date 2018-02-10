@@ -15,6 +15,7 @@ SET (Boost_TEST_LIB "${Boost_LIBRARIES}")
 
 setupSimoxExternalLibraries()
 include(${CGAL_USE_FILE})
+include_directories (SYSTEM ${CGAL_INCLUDE_DIRS})
 
 set (SimoxCGAL_BUILD_Tests TRUE CACHE BOOL "Build tests")
 set (SimoxCGAL_BUILD_Tools TRUE CACHE BOOL "Build tools")

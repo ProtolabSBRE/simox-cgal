@@ -477,7 +477,7 @@ void SkeletonGraspPlannerWindow::loadData()
         return;
     }
 
-    string file = std::string(fi.toAscii());
+    string file = std::string(fi.toLatin1());
     if (file.empty())
         return;
 

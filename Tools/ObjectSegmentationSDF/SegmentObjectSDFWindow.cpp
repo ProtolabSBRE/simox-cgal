@@ -286,7 +286,7 @@ void SegmentObjectSDFWindow::reloadObject()
         return;
     }
 
-    objectFilename = std::string(fi.toAscii());
+    objectFilename = std::string(fi.toLatin1());
     if (objectFilename.empty())
     {
         return;
@@ -332,7 +332,7 @@ void SegmentObjectSDFWindow::screenshot()
     //viewer->viewAll();
 
     QString fi = QFileDialog::getSaveFileName(this, tr("Save Screenshot"));
-    std::string buffer = std::string(fi.toAscii());
+    std::string buffer = std::string(fi.toLatin1());
     if (buffer.empty())
     {
         return;

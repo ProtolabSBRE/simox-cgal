@@ -783,7 +783,6 @@ bool CGALCoinVisualization::getIntersectionLocalZ(RobotNodePtr tcp, PolyTree &po
 
     typedef KernelPolyhedron::Segment_3 SegmentPoly;
     typedef boost::optional< PolyTree::Intersection_and_primitive_id<SegmentPoly>::Type > Segment_intersection;
-    typedef PolyTree::Primitive_id Primitive_id;
 
     // construct segment
     PointPoly a(p0(0,3), p0(1,3), p0(2,3));

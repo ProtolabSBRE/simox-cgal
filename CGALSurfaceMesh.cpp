@@ -166,8 +166,6 @@ boost::shared_ptr<CGALSurfaceMesh> CGALSurfaceMesh::fromXML(const std::string &x
     CGALSurfaceMeshPtr res(new CGALSurfaceMesh(SurfaceMeshPtr(new SurfaceMesh())));
     SurfaceMeshPtr mesh = res->getMesh();
 
-    int number_of_vertices = 0;
-    int number_of_faces = 0;
 
     char* y = new char[xml.size() + 1];
     strncpy(y, xml.c_str(), xml.size() + 1);
@@ -182,12 +180,12 @@ boost::shared_ptr<CGALSurfaceMesh> CGALSurfaceMesh::fromXML(const std::string &x
         //vertices
         rapidxml::xml_node<>* tmp_number_vertices_node = xml->first_node("NumberOfVertices", 0, false);
         rapidxml::xml_attribute<>* tmp_number_vertices = tmp_number_vertices_node->first_attribute();
-        number_of_vertices = BaseIO::convertToInt(tmp_number_vertices->value());
+        /*number_of_vertices =*/ BaseIO::convertToInt(tmp_number_vertices->value());
 
         //faces
         rapidxml::xml_node<>* tmp_number_faces_node = xml->first_node("NumberOfFaces", 0, false);
         rapidxml::xml_attribute<>* tmp_number_faces = tmp_number_faces_node->first_attribute();
-        number_of_faces = BaseIO::convertToInt(tmp_number_faces->value());
+        /*number_of_faces =*/ BaseIO::convertToInt(tmp_number_faces->value());
 
         rapidxml::xml_node<>* node = xml->first_node("Vertices", 0, false);
 

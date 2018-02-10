@@ -47,20 +47,18 @@ SkeletonPtr SkeletonIO::createSkeletonObject(rapidxml::xml_node<char> *skeletonN
 {
 
     std::map<Skeleton::vertex_descriptor, Point> debug_vertices;
-    int number_of_vertices = 0;
-    int number_of_edges = 0;
 
     std::map<int, Skeleton::vertex_descriptor> id_vertices;
 
     //vertices
     rapidxml::xml_node<>* tmp_number_vertices_node = skeletonNode->first_node("NumberOfVertices", 0, false);
     rapidxml::xml_attribute<>* tmp_number_vertices = tmp_number_vertices_node->first_attribute();
-    number_of_vertices = BaseIO::convertToInt(tmp_number_vertices->value());
+    /*number_of_vertices =*/ BaseIO::convertToInt(tmp_number_vertices->value());
 
     //edges
     rapidxml::xml_node<>* tmp_number_edges_node = skeletonNode->first_node("NumberOfEdges", 0, false);
     rapidxml::xml_attribute<>* tmp_number_edges = tmp_number_edges_node->first_attribute("edges", 0, false);
-    number_of_edges = BaseIO::convertToInt(tmp_number_edges->value());
+    /*number_of_edges =*/ BaseIO::convertToInt(tmp_number_edges->value());
 
 
     Skeleton skeleton;

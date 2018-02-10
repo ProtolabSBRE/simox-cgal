@@ -159,8 +159,6 @@ boost::shared_ptr<CGALPolyhedronMesh> CGALPolyhedronMesh::fromXML(const std::str
     CGALPolyhedronMeshPtr res(new CGALPolyhedronMesh(PolyhedronMeshPtr(new PolyhedronMesh())));
     VirtualRobot::TriMeshModelPtr tm(new VirtualRobot::TriMeshModel());
 
-    int number_of_vertices;
-    int number_of_faces;
 
     char* y = new char[xml.size() + 1];
     strncpy(y, xml.c_str(), xml.size() + 1);
@@ -175,12 +173,12 @@ boost::shared_ptr<CGALPolyhedronMesh> CGALPolyhedronMesh::fromXML(const std::str
         //vertices
         rapidxml::xml_node<>* tmp_number_vertices_node = xml->first_node("NumberOfVertices", 0, false);
         rapidxml::xml_attribute<>* tmp_number_vertices = tmp_number_vertices_node->first_attribute();
-        number_of_vertices = BaseIO::convertToInt(tmp_number_vertices->value());
+        /*number_of_vertices =*/ BaseIO::convertToInt(tmp_number_vertices->value());
 
         //faces
         rapidxml::xml_node<>* tmp_number_faces_node = xml->first_node("NumberOfFaces", 0, false);
         rapidxml::xml_attribute<>* tmp_number_faces = tmp_number_faces_node->first_attribute();
-        number_of_faces = BaseIO::convertToInt(tmp_number_faces->value());
+        /*number_of_faces =*/ BaseIO::convertToInt(tmp_number_faces->value());
 
         rapidxml::xml_node<>* node = xml->first_node("Vertices", 0, false);
 

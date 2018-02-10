@@ -44,7 +44,7 @@ bool DeciderGraspPreshape::decidePowerPreshape(float length, float thickness)
     return false;
 }
 
-bool DeciderGraspPreshape::decidePrecisionPreshape(float length, float thickness)
+bool DeciderGraspPreshape::decidePrecisionPreshape(float /*length*/, float thickness)
 {
     //float minLengthPrecision = 1.0f;
     //float maxLengthPrecision = 30.0f;

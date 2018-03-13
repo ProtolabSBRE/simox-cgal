@@ -207,11 +207,11 @@ export(TARGETS ${PROJECT_NAME} FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}Targets.
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
 
-#configure_file(
-#    ${CMAKE_MODULE_PATH}/simox-cgalConfig.cmake
-#    ${CMAKE_BINARY_DIR}/simox-cgalConfig.cmake
-#    COPYONLY
-#)
+configure_file(
+    CMakeModules/${PROJECT_NAME}Config.cmake
+    ${CMAKE_BINARY_DIR}/simox-cgalConfig.cmake
+    COPYONLY
+)
 
 
 ########################################

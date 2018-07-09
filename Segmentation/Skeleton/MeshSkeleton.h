@@ -27,7 +27,7 @@
 #include "SimoxCGAL.h"
 #include "CGALSurfaceMesh.h"
 #include "SkeletonPoint.h"
-#include "../SegmentedObject.h"
+#include "../../SegmentedObject.h"
 #include "SkeletonPart.h"
 
 namespace SimoxCGAL

@@ -26,8 +26,9 @@
 #include <VirtualRobot/Visualization/TriMeshModel.h>
 #include <VirtualRobot/EndEffector/EndEffector.h>
 #include <VirtualRobot/Grasping/GraspSet.h>
-
+#ifndef Q_MOC_RUN
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
+#endif
 #include <CGAL/AABB_face_graph_triangle_primitive.h>
 
 using namespace std;

@@ -37,10 +37,12 @@
 #include <Inventor/nodes/SoSeparator.h>
 #include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
 
+#ifndef Q_MOC_RUN
 #include <boost/foreach.hpp>
+#include <boost/optional.hpp>
+#endif
 
 #include <vector>
-#include <boost/optional.hpp>
 
 #include "ui_SkeletonGraspPlanner.h"
 

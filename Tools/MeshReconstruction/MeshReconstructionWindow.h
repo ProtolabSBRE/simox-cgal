@@ -31,7 +31,9 @@
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/nodes/SoSeparator.h>
 
+#ifndef Q_MOC_RUN
 #include <boost/foreach.hpp>
+#endif
 
 #include <vector>
 

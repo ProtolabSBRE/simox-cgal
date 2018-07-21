@@ -26,8 +26,10 @@
 
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Surface_mesh.h>
+#ifndef Q_MOC_RUN
 #include <CGAL/boost/graph/graph_traits_Surface_mesh.h>
 #include <CGAL/boost/graph/properties_Surface_mesh.h>
+#endif
 #include <CGAL/Mean_curvature_flow_skeletonization.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Polyhedron_items_with_id_3.h>

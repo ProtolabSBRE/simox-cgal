@@ -4,13 +4,13 @@
 #include <CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h>
 #include <CGAL/Polygon_mesh_processing/orientation.h>
 
-
+#ifndef Q_MOC_RUN
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/properties.hpp>
-
 #include <boost/iterator/transform_iterator.hpp>
 
 #include <CGAL/boost/graph/helpers.h>
+#endif
 
 using namespace VirtualRobot;
 

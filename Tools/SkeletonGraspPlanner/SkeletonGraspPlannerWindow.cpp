@@ -159,6 +159,7 @@ void SkeletonGraspPlannerWindow::setupUI()
     connect(UI.pushButtonPlan, SIGNAL(clicked()), this, SLOT(plan()));
     connect(UI.pushButtonPlanAll, SIGNAL(clicked()), this, SLOT(planAll()));
     connect(UI.pushButtonPlanBatch, SIGNAL(clicked()), this, SLOT(planObjectBatch()));
+    connect(UI.pushButtonRender, SIGNAL(clicked()), this, SLOT(generateSkeletonImagesForObjectBatch()));
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(save()));
     connect(UI.pushButtonOpen, SIGNAL(clicked()), this, SLOT(openEEF()));
     connect(UI.pushButtonClose, SIGNAL(clicked()), this, SLOT(closeEEF()));
@@ -411,7 +412,7 @@ void SkeletonGraspPlannerWindow::buildVisu()
 
         if(UI.radioButtonSkeleton->isChecked())
         {
-            SoNode* s = CGALCoinVisualization::CreateSkeletonVisualization(skeleton, mesh->getMesh(), false);
+            SoNode* s = CGALCoinVisualization::CreateSkeletonVisualization(skeleton, mesh->getMesh(), false, 2.0);
             skeletonSep->addChild(s);
 
         } else if (UI.radioButtonSegmentation->isChecked())
@@ -1016,4 +1017,199 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
             break;
     }
     VR_INFO << "Saving CSV results to " << resultsCSVPath.string() << std::endl;
+}
+
+void SkeletonGraspPlannerWindow::generateSkeletonImagesForObjectBatch()
+{
+    QString fi = QFileDialog::getExistingDirectory(this, tr("Select Base Directory"), QString());
+    qApp->processEvents();
+    VR_INFO << "Searching for all .soxml files in " << fi.toStdString() << std::endl;
+    if (fi.isEmpty())
+    {
+        return;
+    }
+    QStringList paths;
+    for (boost::filesystem::recursive_directory_iterator end, dir(fi.toUtf8().data(), boost::filesystem::symlink_option::recurse);
+         dir != end ; ++dir)
+    {
+        std::string path(dir->path().c_str());
+
+        // search for all statechart group xml files
+        if (dir->path().extension() == ".soxml")
+        {
+            paths << dir->path().c_str();
+        }
+
+    }
+    paths.removeDuplicates();
+    VR_INFO << "Found (" << paths.size() << "): " << paths.join(", ").toStdString() << std::endl;
+    QProgressDialog progress("Rendering skeletons...", "Abort", 0, paths.size(), this);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.show();
+    int i = 0;
+    progress.setValue(0);
+    qApp->processEvents();
+
+
+    VirtualRobot::RobotPtr robot;
+    std::string robotFilename("robots/ArmarIII/ArmarIII.xml");
+    VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robotFilename);
+
+    QFileInfo fileInfo(robotFilename.c_str());
+    std::string suffix(fileInfo.suffix().toLatin1());
+    RobotImporterFactoryPtr importer = RobotImporterFactory::fromFileExtension(suffix, NULL);
+
+    if (!importer)
+    {
+        cout << " ERROR while grabbing importer" << endl;
+        return;
+    }
+    const int width = 640;
+    const int height = 480;
+    robot = importer->loadFromFile(robotFilename, RobotIO::eStructure);
+    Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
+    VirtualRobot::MathTools::rpy2eigen4f(1.0,0,0,pose);
+//    pose.block<3,1>(0,3) =  Eigen::Vector3f(46, -500, -1667);
+//    robot->setGlobalPose(pose);
+    robot->setJointValue("VirtualCentralGaze", 700);
+
+    robot->setGlobalPoseForRobotNode(robot->getRobotNode("VirtualCentralGaze"), pose);
+    auto cam = robot->getRobotNode("EyeLeftCamera");
+
+    auto rendererCam = CoinVisualizationFactory::createOffscreenRenderer(width, height);
+    rendererCam->getGLRenderAction()->setNumPasses(2);
+    float fov = M_PI/4;
+
+    auto saveDepthImage = [&](QString& path, SoSeparator* separator, float maxZCut = 1200)
+    {
+        std::vector<unsigned char> rgbImage, greyscale;
+        std::vector<float> depthImage;
+        std::vector<Eigen::Vector3f> pointcloud;
+        VirtualRobot::CoinVisualizationFactory::renderOffscreenRgbDepthPointcloud(rendererCam, cam, separator,
+                                                                                  width, height, true, rgbImage, true, depthImage, false, pointcloud,
+                                                                                  10, 10000, fov);
+        greyscale.resize(height*width*3);
+        for(std::size_t index = 0; index < static_cast<std::size_t>(width*height); ++index)
+        {
+            const float distance = depthImage.at(index);
+            const unsigned char value = (distance>=maxZCut)?255:distance/maxZCut*255.f;
+
+            greyscale.at(3 * index    ) = value;
+            greyscale.at(3 * index + 1) = value;
+            greyscale.at(3 * index + 2) = value;
+        }
+
+
+        QImage i(greyscale.data(), width, height, QImage::Format_RGB888);
+
+        bool bRes = i.save(path, "PNG");
+        if (bRes)
+        {
+            cout << "wrote image " << path.toStdString() << endl;
+        }
+        else
+        {
+            cout << "failed writing image " << path.toStdString() << endl;
+        }
+    };
+
+    UI.horizontalSliderTr->setValue(0);
+    UI.frameSkeleton->setEnabled(true);
+    UI.radioButtonSkeleton->setChecked(true);
+    QString basedir = "/tmp/skeleton_images/";
+    boost::filesystem::create_directories(basedir.toStdString());
+    std::ofstream fs((basedir.toStdString() + "/configs.csv").c_str(), std::ofstream::out);
+    VR_ASSERT(fs.is_open());
+    for(auto& path :  paths)
+    {
+
+        try
+        {
+            //resetSceneryAll();
+            if(loadSegmentedObject(path.toStdString()))
+            {
+                QString objectDir = QString::fromStdString(boost::filesystem::path(segmentedObjectFile).stem().string());
+                Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
+//                pose.block<3,1>(0,3) =  Eigen::Vector3f(46, 0, 100);
+
+                object->setGlobalPose(pose);
+                VR_INFO << "Object: " << object->getName() << " pose: " << object->getGlobalPose() << std::endl;
+
+                QString basePath = basedir + objectDir + "/";
+                boost::filesystem::create_directories(basePath.toStdString());
+                if(!boost::filesystem::exists(basePath.toStdString()))
+                {
+                    VR_WARNING << "Could not create " << basePath.toStdString() << std::endl;
+                    continue;
+                }
+                SoSeparator* tempSep = new SoSeparator();
+                tempSep->ref();
+                SoNode* s = CGALCoinVisualization::CreateSkeletonVisualization(skeleton, mesh->getMesh(), false, 1, 0.5);
+
+                s->ref();
+                tempSep->addChild(s);
+                Eigen::Vector3f bbSize = object->getCollisionModel()->getBoundingBox().getMax() - object->getCollisionModel()->getBoundingBox().getMin();
+                float maxWidth = bbSize.maxCoeff();
+                float averageDistance = maxWidth * 2 / tan(fov);
+                VR_INFO << "Average distance to fit in view: " << averageDistance << std::endl;
+                for (int i = 0; i < 1000; ++i) {
+                    QString numberStr = QString("%1").arg(i,5, 10, QChar('0'));
+                    QString skeletonImagePath = basePath + QString::fromStdString(object->getName()) + "-" + numberStr + "-skeleton.png";
+                    QString meshImagePath = basePath + QString::fromStdString(object->getName()) + "-" + numberStr + "-mesh.png";
+                    std::vector<std::string> csvValues;
+                    csvValues.push_back(skeletonImagePath.toStdString());
+                    csvValues.push_back(meshImagePath.toStdString());
+
+                    Eigen::Vector3f translationOffset;
+                    float maxOffset = maxWidth/2;
+                    translationOffset << rand()*maxOffset/RAND_MAX-maxOffset/2,
+                            rand()*maxOffset/RAND_MAX-maxOffset/2,
+                            rand()*maxOffset/RAND_MAX-maxOffset/2;
+                    int roll = rand()*M_PI*2/RAND_MAX, pitch = rand()*M_PI*2/RAND_MAX, yaw = rand()*M_PI*2/RAND_MAX;
+                    VirtualRobot::MathTools::rpy2eigen4f(roll,
+                                                         pitch,
+                                                         yaw,
+                                                         pose);
+//                    VR_INFO << "offset: \n" << translationOffset << std::endl;
+//                    VR_INFO << "pose before: \n" << pose << std::endl;
+                    pose.block<3,1>(0,3) += translationOffset;
+//                    VR_INFO << "pose after: \n" << pose << std::endl;
+                //    pose.block<3,1>(0,3) =  Eigen::Vector3f(46, -500, -1667);
+                //    robot->setGlobalPose(pose);
+                    robot->setJointValue("VirtualCentralGaze", averageDistance);
+
+                    auto gazeNode = robot->getRobotNode("VirtualCentralGaze");
+                    robot->setGlobalPoseForRobotNode(gazeNode, pose);
+                    Eigen::Matrix4f relativeObjectPose = cam->toLocalCoordinateSystem(Eigen::Matrix4f::Identity());
+                    Eigen::Vector3f relativeObjectPosition = relativeObjectPose.block<3,1>(0,3);
+                    Eigen::Quaternionf quat(relativeObjectPose.block<3,3>(0, 0));
+                    csvValues.push_back(std::to_string(relativeObjectPosition(0)));
+                    csvValues.push_back(std::to_string(relativeObjectPosition(1)));
+                    csvValues.push_back(std::to_string(relativeObjectPosition(2)));
+                    csvValues.push_back(std::to_string(quat.w()));
+                    csvValues.push_back(std::to_string(quat.x()));
+                    csvValues.push_back(std::to_string(quat.y()));
+                    csvValues.push_back(std::to_string(quat.z()));
+
+
+//                    VR_INFO << "robot pose:\n" << robot->getGlobalPose() << std::endl;
+                    VR_INFO << "object pose in camera frame: \n" << relativeObjectPose << std::endl;
+                    saveDepthImage(skeletonImagePath, tempSep, averageDistance*2);
+                    saveDepthImage(meshImagePath, objectSep, averageDistance*2);
+                    fs << boost::algorithm::join(csvValues, ",") << std::endl;
+                }
+                s->unref();
+                tempSep->unref();
+
+            }
+        }
+        catch(std::exception & e)
+        {
+            VR_ERROR << "Failed to render for " << path.toStdString() << "\nReason: \n" << e.what() << std::endl;
+        }
+        progress.setValue(++i);
+        qApp->processEvents();
+        if (progress.wasCanceled())
+            break;
+    }
 }

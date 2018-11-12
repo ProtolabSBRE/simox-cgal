@@ -6,6 +6,8 @@
 #include <VirtualRobot/XML/rapidxml.hpp>
 #include <VirtualRobot/Visualization/CoinVisualization/CoinVisualizationFactory.h>
 #include <VirtualRobot/Visualization/TriMeshModel.h>
+#include <VirtualRobot/RuntimeEnvironment.h>
+#include <VirtualRobot/Import/RobotImporterFactory.h>
 #include <GraspPlanning/MeshConverter.h>
 #include <QFileDialog>
 #include <QInputDialog>
@@ -36,6 +38,7 @@
 #include "IO/CGALMeshIO.h"
 //#include "ObjectSegmentationSkeletonWindowIO.h"
 
+#include <QImage>
 #include <sstream>
 using namespace std;
 using namespace VirtualRobot;
@@ -107,6 +110,7 @@ void ObjectSegmentationSkeletonWindow::setupUI()
     connect(UI.radioButtonColModel, SIGNAL(clicked()), this, SLOT(colModel()));
     connect(UI.pushButtonLoadObject, SIGNAL(clicked()), this, SLOT(reloadObject()));
     connect(UI.pushButtonBuild, SIGNAL(clicked()), this, SLOT(buildObject()));
+
     connect(UI.pushButtonSave, SIGNAL(clicked()), this, SLOT(saveSegmentedObject()));
     connect(UI.pushButtonLoad, SIGNAL(clicked()), this, SLOT(loadData()));
     connect(UI.pushButtonScreenshot, SIGNAL(clicked()), this, SLOT(screenshot()));
@@ -548,6 +552,74 @@ void ObjectSegmentationSkeletonWindow::buildObject()
     UI.comboBoxSegmentation->addItem(QString("No segment"));
 
     UI.comboBoxSegmentation->setCurrentIndex(segSkeleton->getSegmentedObject()->getObjectParts().size() + 1);
+}
+
+void ObjectSegmentationSkeletonWindow::renderDepthSkeletonImage()
+{
+    VirtualRobot::RobotPtr robot;
+    std::string robotFilename("robots/ArmarIII/ArmarIII.xml");
+    VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robotFilename);
+
+    QFileInfo fileInfo(robotFilename.c_str());
+    std::string suffix(fileInfo.suffix().toLatin1());
+    RobotImporterFactoryPtr importer = RobotImporterFactory::fromFileExtension(suffix, NULL);
+
+    if (!importer)
+    {
+        cout << " ERROR while grabbing importer" << endl;
+        return;
+    }
+    const int width = 640;
+    const int height = 480;
+    robot = importer->loadFromFile(robotFilename, RobotIO::eStructure);
+    Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
+    pose.block<3,1>(0,3) =  Eigen::Vector3f(0, -500, -1700);
+    robot->setGlobalPose(pose);
+    auto cam = robot->getRobotNode("EyeLeftCamera");
+
+    auto rendererCam = CoinVisualizationFactory::createOffscreenRenderer(width, height);
+
+
+    auto saveDepthImage = [&](QString& path, SoSeparator* separator)
+    {
+        std::vector<unsigned char> rgbImage, greyscale;
+        std::vector<float> depthImage;
+        std::vector<Eigen::Vector3f> pointcloud;
+        VirtualRobot::CoinVisualizationFactory::renderOffscreenRgbDepthPointcloud(rendererCam, cam, separator,
+                                                                                  width, height, true, rgbImage, true, depthImage, false, pointcloud);
+        float maxZCut = 700;
+        greyscale.resize(height*width*3);
+        for(std::size_t index = 0; index < static_cast<std::size_t>(width*height); ++index)
+        {
+            const float distance = depthImage.at(index);
+            const unsigned char value = (distance>=maxZCut)?255:distance/maxZCut*255.f;
+
+            greyscale.at(3 * index    ) = value;
+            greyscale.at(3 * index + 1) = value;
+            greyscale.at(3 * index + 2) = value;
+        }
+
+
+        QImage i(greyscale.data(), width, height, QImage::Format_RGB888);
+
+        bool bRes = i.save(path, "PNG");
+        if (bRes)
+        {
+            cout << "wrote image " << path.toStdString() << endl;
+        }
+        else
+        {
+            cout << "failed writing image " << path.toStdString() << endl;
+        }
+    };
+
+    QString path = "/tmp/object.png";
+    QString pathSkeleton = "/tmp/skeleton.png";
+    saveDepthImage(path, objectSep);
+    saveDepthImage(pathSkeleton, skeletonSep);
+
+    delete rendererCam;
+
 }
 
 void ObjectSegmentationSkeletonWindow::screenshot()

@@ -63,6 +63,8 @@ public slots:
 
     void buildObject();
 
+    void renderDepthSkeletonImage();
+
 protected:
 
     void loadObject();

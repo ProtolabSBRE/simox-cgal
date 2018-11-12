@@ -94,6 +94,7 @@ public slots:
 
     void setVerbose();
     void planObjectBatch();
+    void generateSkeletonImagesForObjectBatch();
 
 protected:
 

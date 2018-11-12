@@ -284,11 +284,14 @@ SoSeparator* CGALCoinVisualization::CreateSkeletonVisualization(SkeletonPtr skel
             p_lineSet->addChild(color);
             visu->addChild(p_lineSet);
         }
-
-        SoSeparator* lineSet = CreatePolylinesVisualization(center, lines, lineWidth);
-        lineSet->addChild(color);
-        visu->addChild(lineSet);
-        lines.clear();
+        if(lineWidth >= 0)
+        {
+            VR_INFO << "Linewidth: " << lineWidth << std::endl;
+            SoSeparator* lineSet = CreatePolylinesVisualization(center, lines, lineWidth);
+            lineSet->addChild(color);
+            visu->addChild(lineSet);
+            lines.clear();
+        }
 
     }
 

@@ -147,8 +147,9 @@ VirtualRobot::TriMeshModelPtr MeshReconstruction::reconstructMeshScaleSpace(std:
         VR_INFO << "Converting " << points.size() << " points to cgal data structure" << endl;
 
     typedef CGAL::Scale_space_surface_reconstruction_3< KernelPolyhedron >    Reconstruction;
+    typedef CGAL::Scale_space_reconstruction_3::Weighted_PCA_smoother< KernelPolyhedron > Smoother;
+    typedef CGAL::Scale_space_reconstruction_3::Alpha_shape_mesher< KernelPolyhedron >    Mesher;
     typedef Reconstruction::Point                                   Point;
-    typedef Reconstruction::Triple_const_iterator                   Triple_iterator;
     typedef CGAL::Timer Timer;
 
     // construct the data.
@@ -163,25 +164,27 @@ VirtualRobot::TriMeshModelPtr MeshReconstruction::reconstructMeshScaleSpace(std:
     Timer t;
     t.start();
     // Construct the mesh in a scale space.
-    Reconstruction reconstruct( 20, 800 );
+    Reconstruction reconstruct;
     reconstruct.insert( pointsC.begin(), pointsC.end() );
     //reconstruct.increase_scale( 2 );
-    reconstruct.reconstruct_surface(4, true, false);//, false, true );
+    Smoother smoother( 20, 800 );
+    Mesher mesher (smoother.squared_radius(), true, false, 4);
+    reconstruct.reconstruct_surface(mesher);
     //reconstruct.increase_scale( 4 );
     //reconstruct.reconstruct_surface(8, true, false);//, false, true );
     if (verbose)
     {
         VR_INFO << "Reconstruction done in " << t.time() << " sec." << std::endl;
-        VR_INFO << "Number of shells: " << reconstruct.number_of_shells() << std::endl;
-        VR_INFO << "Neighborhood radius^2: " << reconstruct.neighborhood_squared_radius() << std::endl;
+        VR_INFO << "Number of shells: " << mesher.number_of_shells() << std::endl;
+        VR_INFO << "Neighborhood radius^2: " << smoother.squared_radius() << std::endl;
     }
     t.reset();
 
     // Convert the reconstruction.
     TriMeshModelPtr tm(new TriMeshModel());
 
-    for( std::size_t shell = 0; shell < reconstruct.number_of_shells(); ++shell ) {
-        for( Triple_iterator it = reconstruct.shell_begin( shell ); it != reconstruct.shell_end( shell ); ++it )
+    for( std::size_t shell = 0; shell < mesher.number_of_shells(); ++shell ) {
+        for( auto it = mesher.shell_begin( shell ); it != mesher.shell_end( shell ); ++it )
         {
             if (it->at(0)>points.size())
             {
@@ -266,7 +269,7 @@ PolyhedronMeshPtr MeshReconstruction::reconstructMeshPoisson(std::vector<PointNo
     // + property maps to access each point's position and normal.
     // The position property map can be omitted here as we use iterators over Point_3 elements.
     CGAL::Poisson_reconstruction_function<KernelPolyhedron> function(points.begin(), points.end(),
-                                             CGAL::make_normal_of_point_with_normal_pmap(std::vector<PointNormalPoly>::value_type()) );
+                                             CGAL::make_normal_of_point_with_normal_map(std::vector<PointNormalPoly>::value_type()) );
     // Computes the Poisson indicator function f()
     // at each vertex of the triangulation.
     if ( ! function.compute_implicit_function(parameterFillHoles) )

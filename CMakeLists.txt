@@ -13,9 +13,8 @@ FIND_PACKAGE(Boost 1.46.0 COMPONENTS unit_test_framework REQUIRED)
 SET (Boost_TEST_LIB "${Boost_LIBRARIES}")
 # disable boost auto linking
 
-setupSimoxExternalLibraries()
+
 include(${CGAL_USE_FILE})
-include_directories (SYSTEM ${CGAL_INCLUDE_DIRS})
 
 set (SimoxCGAL_BUILD_Tests TRUE CACHE BOOL "Build tests")
 set (SimoxCGAL_BUILD_Tools TRUE CACHE BOOL "Build tools")
@@ -87,9 +86,6 @@ ELSE(UNIX)
     # We are on Windows
     SET(SimoxCGAL_TEST_DIR ${CMAKE_BINARY_DIR})
     # On MSVC we compile with /MP flag (use multiple threads)
-    IF(MSVC)
-        ADD_DEFINITIONS(/MP)
-    ENDIF(MSVC)
 ENDIF(UNIX)
 
 #######################################################################
@@ -98,19 +94,16 @@ ENDIF(UNIX)
 ENABLE_TESTING()
 INCLUDE(CTest)
 MESSAGE(STATUS "** Test output directory: ${SimoxCGAL_TEST_DIR}")
-#ADD_DEFINITIONS(-DSimoxCGAL_TEST_DIR=\"${SimoxCGAL_TEST_DIR}/\")
 MACRO(ADD_SIMOX_CGAL_TEST TEST_NAME)
-    INCLUDE_DIRECTORIES(${Simox_EXTERNAL_INCLUDE_DIRS})
-    INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
+    ADD_EXECUTABLE(${TEST_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}.cpp)
+    TARGET_INCLUDE_DIRECTORIES(${TEST_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 
     if (NOT Boost_USE_STATIC_LIBS)
         # enable dynamic linking for boost test libraries
-        ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
+        target_compile_definitions(${TEST_NAME} PRIVATE -DBOOST_TEST_DYN_LINK)
     endif ()
-    ADD_DEFINITIONS(${Simox_EXTERNAL_LIBRARY_FLAGS})
-    add_definitions(-DCGAL_EIGEN3_ENABLED)
-    ADD_EXECUTABLE(${TEST_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}.cpp)
-    TARGET_LINK_LIBRARIES(${TEST_NAME} VirtualRobot simox-cgal ${Simox_EXTERNAL_LIBRARIES} ${CGAL_LIBRARIES} ${Boost_TEST_LIB})
+    target_compile_definitions(${TEST_NAME} PRIVATE -DCGAL_EIGEN3_ENABLED)
+    TARGET_LINK_LIBRARIES(${TEST_NAME} simox-cgal ${Boost_TEST_LIB})
     SET_TARGET_PROPERTIES(${TEST_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${SimoxCGAL_TEST_DIR})
     SET_TARGET_PROPERTIES(${TEST_NAME} PROPERTIES FOLDER "SimoxCGAL Tests")
     ADD_TEST(NAME SimoxCGAL_${TEST_NAME}
@@ -135,13 +128,11 @@ SET(Simox-CGAL_BIN_DIR ${Simox-CGAL_BUILD_DIRECTORY}/${BIN_DIR})
 # todo: installation data dir
 GET_FILENAME_COMPONENT (CurrentSimoxCGALPath ${CMAKE_CURRENT_LIST_FILE} PATH)
 SET(Simox-CGAL_DATA_DIR ${CurrentSimoxCGALPath}/data)
-ADD_DEFINITIONS("-DSimox_CGAL_DATA_PATH=\"${Simox-CGAL_DATA_DIR}\"")
 
 MESSAGE (STATUS "** SIMOX-CGAL DIR: ${CurrentSimoxCGALPath}")
 MESSAGE (STATUS "** SIMOX-CGAL LIB DIR: ${Simox-CGAL_LIB_DIR}")
 MESSAGE (STATUS "** SIMOX-CGAL BIN DIR: ${Simox-CGAL_BIN_DIR}")
 MESSAGE (STATUS "** SIMOX-CGAL DATA DIR: ${Simox-CGAL_DATA_DIR}")
-
 
 ########################################
 ###           Setup build            ###
@@ -151,6 +142,9 @@ MESSAGE (STATUS "** SIMOX-CGAL DATA DIR: ${Simox-CGAL_DATA_DIR}")
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${HEADER_FILES})
 target_link_libraries(${PROJECT_NAME} VirtualRobot GraspStudio ${CGAL_LIBRARIES})
 
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${CGAL_INCLUDE_DIRS})
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC "-DSimox_CGAL_DATA_PATH=\"${Simox-CGAL_DATA_DIR}\"")
 # .DLL path
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${Simox-CGAL_BIN_DIR})
 # .so path
@@ -159,7 +153,7 @@ SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${Simo
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${Simox-CGAL_LIB_DIR})
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON) # enable -fPIC
-add_definitions(-DCGAL_EIGEN3_ENABLED)
+target_compile_definitions(${PROJECT_NAME} PUBLIC -DCGAL_EIGEN3_ENABLED)
 
 # Enables C++11 and additional warnings (if desired, you can customize this)
 target_compile_options(${PROJECT_NAME} PUBLIC "-std=c++11" "-Wall" "-Wextra" "-Wno-long-long") #"-pedantic"
@@ -170,6 +164,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+IF(NOT UNIX AND MSVC)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC /MP)
+ENDIF()
 
 ########################################
 ###           Setup tools            ###

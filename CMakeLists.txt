@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.10.2)
 project(simox-cgal)
 
 
+# cmake 3.10 does not understand c++2a, so we tell it we will handle the standard flag
+set(CMAKE_CXX_STANDARD_DEFAULT)
 ########################################
 ###          Find packages           ###
 ########################################
@@ -155,8 +157,8 @@ SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${Simo
 set(CMAKE_POSITION_INDEPENDENT_CODE ON) # enable -fPIC
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DCGAL_EIGEN3_ENABLED)
 
-# Enables C++11 and additional warnings (if desired, you can customize this)
-target_compile_options(${PROJECT_NAME} PUBLIC "-std=c++11" "-Wall" "-Wextra" "-Wno-long-long") #"-pedantic"
+# Enables C++2a and additional warnings (if desired, you can customize this)
+target_compile_options(${PROJECT_NAME} PUBLIC "-std=c++2a" "-Wall" "-Wextra" "-Wno-long-long") #"-pedantic"
 
 # Automatically put include path for dependant projects that are linked against this lib
 target_include_directories(${PROJECT_NAME} PUBLIC

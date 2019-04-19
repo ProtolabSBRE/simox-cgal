@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.10.2)
 
 project(simox-cgal)
 
@@ -13,8 +13,8 @@ FIND_PACKAGE(Boost 1.46.0 COMPONENTS unit_test_framework REQUIRED)
 SET (Boost_TEST_LIB "${Boost_LIBRARIES}")
 # disable boost auto linking
 
-
 include(${CGAL_USE_FILE})
+include_directories (SYSTEM ${CGAL_INCLUDE_DIRS})
 
 set (SimoxCGAL_BUILD_Tests TRUE CACHE BOOL "Build tests")
 set (SimoxCGAL_BUILD_Tools TRUE CACHE BOOL "Build tools")
@@ -140,7 +140,7 @@ MESSAGE (STATUS "** SIMOX-CGAL DATA DIR: ${Simox-CGAL_DATA_DIR}")
 
 # Setup build
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(${PROJECT_NAME} VirtualRobot GraspStudio ${CGAL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC VirtualRobot GraspStudio ${CGAL_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${CGAL_INCLUDE_DIRS})
 
@@ -164,9 +164,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-IF(NOT UNIX AND MSVC)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC /MP)
-ENDIF()
 
 ########################################
 ###           Setup tools            ###

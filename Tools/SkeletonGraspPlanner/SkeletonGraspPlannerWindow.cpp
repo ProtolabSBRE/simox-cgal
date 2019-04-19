@@ -182,13 +182,13 @@ void SkeletonGraspPlannerWindow::updateSkeletonInfo()
         nrSegments = int(segmentation->getObjectParts().size());
         // get vertex count
         nrVertices = 0;
-        for (int i=0; i<nrSegments; i++)
+        for (int i = 0; i < nrSegments; i++)
         {
             SkeletonPartPtr subpart = boost::static_pointer_cast<SkeletonPart>(segmentation->getObjectParts().at(i));
             nrVertices += (int)subpart->sortedSkeletonPartIndex.size();
         }
     }
-    ss << "Segments: " << nrSegments << "\nSkeleton Vertices: " << nrVertices <<"\n";
+    ss << "Segments: " << nrSegments << "\nSkeleton Vertices: " << nrVertices << "\n";
     int curSeg = -1;
     int curVert = -1;
 
@@ -198,7 +198,7 @@ void SkeletonGraspPlannerWindow::updateSkeletonInfo()
         curVert = approach->getCurrentVertex();
     }
 
-    ss << "Current Segment: " << curSeg << "\nCurrent Vertex: " << curVert <<"\n";
+    ss << "Current Segment: " << curSeg << "\nCurrent Vertex: " << curVert << "\n";
 
     UI.labelSkeleton->setText(QString(ss.str().c_str()));
 }
@@ -254,7 +254,9 @@ void SkeletonGraspPlannerWindow::plannerOptions()
         eefS = eef->getName();
         RobotNodePtr tcpNode = eef->getTcp();
         if (tcpNode)
+        {
             tcp = tcpNode->getName();
+        }
     }
     UICreate.labelEEF->setText(QString("End Effector: ") + QString(eefS.c_str()));
     UICreate.labelTCP->setText(QString("TCP: ") + QString(tcp.c_str()));
@@ -301,18 +303,22 @@ void SkeletonGraspPlannerWindow::buildVisu()
     if (eefCloned && UI.checkBoxHand->isChecked())
     {
         // disable all other preshape GCP nodes
-        for (std::string &preshapeName : eefCloned->getEndEffector(eefName)->getPreshapes())
+        for (std::string& preshapeName : eefCloned->getEndEffector(eefName)->getPreshapes())
         {
             RobotConfigPtr config = eefCloned->getEndEffector(eefName)->getPreshape(preshapeName);
             if (config->getTCP())
+            {
                 config->getTCP()->showCoordinateSystem(false);
+            }
         }
         if (eefCloned->getEndEffector(eefName)->hasPreshape(currentPreshape))
         {
             RobotConfigPtr config = eefCloned->getEndEffector(eefName)->getPreshape(currentPreshape);
             std::string gcp = "GCP";
             if (config->getTCP())
+            {
                 config->getTCP()->showCoordinateSystem(UI.checkBoxGCP->isChecked(), 0.5f, &gcp);
+            }
         }
 
         visualizationRobot = eefCloned->getVisualization<CoinVisualization>(colModel);
@@ -323,7 +329,9 @@ void SkeletonGraspPlannerWindow::buildVisu()
         {
             CGALPolyhedronMeshPtr poly = CGALMeshConverter::convertSurface2PolyhedronMesh(mesh);
             if (poly)
+            {
                 surfaceGrasp->addChild(CGALCoinVisualization::CreateGraspOnSurfaceVisualization(currentGrasp, eefCloned->getEndEffector(eefName), object, poly));
+            }
         }
 
         if (visualisationNode)
@@ -337,12 +345,12 @@ void SkeletonGraspPlannerWindow::buildVisu()
 
     if (object)
     {
-        SceneObject::VisualizationType colModel2 = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;       
+        SceneObject::VisualizationType colModel2 = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
         SoNode* n = CoinVisualizationFactory::getCoinVisualization(object, colModel2);
         if (n)
         {
             SoMaterial* color = new SoMaterial();
-            color->transparency = UI.horizontalSliderTr->value()/100.0f;
+            color->transparency = UI.horizontalSliderTr->value() / 100.0f;
             color->diffuseColor.setIgnored(TRUE);
             color->setOverride(TRUE);
             objectSep->addChild(color);
@@ -409,12 +417,13 @@ void SkeletonGraspPlannerWindow::buildVisu()
 
         vector<ObjectPartPtr> members = segmentation->getObjectParts();
 
-        if(UI.radioButtonSkeleton->isChecked())
+        if (UI.radioButtonSkeleton->isChecked())
         {
             SoNode* s = CGALCoinVisualization::CreateSkeletonVisualization(skeleton, mesh->getMesh(), false);
             skeletonSep->addChild(s);
 
-        } else if (UI.radioButtonSegmentation->isChecked())
+        }
+        else if (UI.radioButtonSegmentation->isChecked())
         {
             SoNode* s = CGALCoinVisualization::CreateSegmentationVisualization(skeleton, mesh->getMesh(), members, false);
             skeletonSep->addChild(s);
@@ -467,7 +476,9 @@ void SkeletonGraspPlannerWindow::loadData()
     if (dialog.exec())
     {
         if (dialog.selectedFiles().size() == 0)
+        {
             return;
+        }
 
         fi = dialog.selectedFiles()[0];
     }
@@ -479,12 +490,14 @@ void SkeletonGraspPlannerWindow::loadData()
 
     string file = std::string(fi.toLatin1());
     if (file.empty())
+    {
         return;
+    }
 
     loadSegmentedObject(file);
 }
 
-bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filename)
+bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string& filename)
 {
     segmentedObjectFile = filename;
     VR_INFO << "Loading segmented object from " << filename << std::endl;
@@ -498,7 +511,8 @@ bool SkeletonGraspPlannerWindow::loadSegmentedObject(const std::string & filenam
             skeleton = data->skeleton->getSkeleton();
             segmentation = data->segSkeleton->getSegmentedObject();
         }
-    } catch (...)
+    }
+    catch (...)
     {
         VR_ERROR << "could not load file " << segmentedObjectFile << endl;
         return false;
@@ -539,7 +553,9 @@ void SkeletonGraspPlannerWindow::initPlanner()
     approach.reset(new ApproachMovementSkeleton(object, skeleton, mesh->getMesh(), segmentation, eef, currentPreshape));
     approach->setVerbose(verbose);
     if (oldValues)
+    {
         approach->setParameters(p);
+    }
     eefCloned = approach->getEEFRobotClone();
 
     if (robot && eef)
@@ -552,12 +568,14 @@ void SkeletonGraspPlannerWindow::initPlanner()
     std::string preshapeNamePrecision = approach->getParameters().preshapeName[ApproachMovementSkeleton::PlanningParameters::Precision];
     std::string preshapeNamePower = approach->getParameters().preshapeName[ApproachMovementSkeleton::PlanningParameters::Power];
 
-    if (!eef->hasPreshape(preshapeNamePower)) {
+    if (!eef->hasPreshape(preshapeNamePower))
+    {
         VR_ERROR << "no power preshape (" << preshapeNamePower << ") defined in endeffector: " << eef->getName() << " of robot: " << robot->getName() << endl;
     }
 
 
-    if (!eef->hasPreshape(preshapeNamePrecision)) {
+    if (!eef->hasPreshape(preshapeNamePrecision))
+    {
         VR_ERROR << "no precision preshape (" << preshapeNamePrecision << ") defined in endeffector: " << eef->getName() << " of robot: " << robot->getName() << endl;
     }
 
@@ -621,7 +639,8 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
     {
         planner.reset(new SkeletonGraspPlanner(grasps, qualityMeasure, approach, quality, forceClosure));
         planner->setVerbose(UI.checkBoxVerbose->isChecked());
-    } else
+    }
+    else
     {
         planner->setParams(quality, forceClosure);
     }
@@ -629,7 +648,9 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
     int nr = planner->plan(nrGrasps, timeout);
     planner->getEvaluation().print();
     if (UI.checkBoxVerbose->isChecked())
+    {
         VR_INFO << " Grasp planned:" << nr << endl;
+    }
     int start = (int)grasps->getSize() - nrGrasps - 1;
 
     if (start < 0)
@@ -640,12 +661,15 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
     // just set to an initial value, finally updated in selectGrasp()
     currentPreshape = approach->getGraspPreshape();
 
-    if (nr != 0) {
+    if (nr != 0)
+    {
         // keine Griffe mehr möglich!
         VR_INFO << "Create visualization of all grasps..." << endl;
         CGALPolyhedronMeshPtr poly = CGALMeshConverter::convertSurface2PolyhedronMesh(mesh);
         if (poly)
-            graspsSep->addChild(CGALCoinVisualization::CreateGraspsOnSurfaceVisualization(grasps,eefCloned->getEndEffector(eefName),object,poly,2.0f,3.0f,20.0f));
+        {
+            graspsSep->addChild(CGALCoinVisualization::CreateGraspsOnSurfaceVisualization(grasps, eefCloned->getEndEffector(eefName), object, poly, 2.0f, 3.0f, 20.0f));
+        }
         VR_INFO << "Create visualization of all grasps... done" << endl;
 
         /*for (int i = start; i < (int)grasps->getSize() - 1; i++)
@@ -654,14 +678,16 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
         }*/
     }
 
-    if (grasps->getSize()<=0)
+    if (grasps->getSize() <= 0)
+    {
         UI.spinBoxGraspNumberPlanned->setEnabled(false);
+    }
     else
     {
         UI.spinBoxGraspNumberPlanned->setEnabled(true);
-        UI.spinBoxGraspNumberPlanned->setRange(0,grasps->getSize()-1);
+        UI.spinBoxGraspNumberPlanned->setRange(0, grasps->getSize() - 1);
         // set to last valid grasp
-        UI.spinBoxGraspNumberPlanned->setValue(grasps->getSize()-1);
+        UI.spinBoxGraspNumberPlanned->setValue(grasps->getSize() - 1);
         //selectGrasp();
     }
 
@@ -707,12 +733,14 @@ void SkeletonGraspPlannerWindow::openEEF()
     contacts.clear();
 
     if (eefCloned && eefCloned->getEndEffector(eefName))
-    {   
+    {
         VirtualRobot::EndEffectorPtr endeff = eefCloned->getEndEffector(eefName);
         if (endeff->hasPreshape(currentPreshape))
         {
             endeff->setPreshape(currentPreshape);
-        } else {
+        }
+        else
+        {
             endeff->openActors();
         }
     }
@@ -749,7 +777,9 @@ void SkeletonGraspPlannerWindow::save()
     if (dialog.exec())
     {
         if (dialog.selectedFiles().size() == 0)
+        {
             return;
+        }
 
         fi = dialog.selectedFiles()[0];
     }
@@ -758,8 +788,10 @@ void SkeletonGraspPlannerWindow::save()
         VR_INFO << "save dialog canceled" << std::endl;
         return;
     }
-    if(fi.isEmpty())
+    if (fi.isEmpty())
+    {
         return;
+    }
 
     saveToFile(fi.toStdString());
 }
@@ -772,30 +804,34 @@ void SkeletonGraspPlannerWindow::saveToFile(std::string filepath, boost::optiona
     }
 
     ManipulationObjectPtr oldMO;
-    if(boost::filesystem::exists(filepath) && (!appendToExistingManipulationObject.is_initialized() || appendToExistingManipulationObject.get() == true))
+    if (std::filesystem::exists(filepath) && (!appendToExistingManipulationObject.is_initialized() || appendToExistingManipulationObject.get() == true))
     {
         oldMO = ObjectIO::loadManipulationObject(filepath);
         int answer;
-        if(!appendToExistingManipulationObject.is_initialized())
+        if (!appendToExistingManipulationObject.is_initialized())
             answer = QMessageBox::question(0, "Append or overwrite?",
-                                            "Do you want to append the new grasps to the existing grasps of other hands in the selected file?\n(Otherwise only the new grasps will be saved)",
-                                            QMessageBox::Yes, QMessageBox::No);
-        else if(appendToExistingManipulationObject)
+                                           "Do you want to append the new grasps to the existing grasps of other hands in the selected file?\n(Otherwise only the new grasps will be saved)",
+                                           QMessageBox::Yes, QMessageBox::No);
+        else if (appendToExistingManipulationObject)
+        {
             answer = QMessageBox::Yes;
+        }
         else
+        {
             answer = QMessageBox::No;
+        }
 
-        if(answer == QMessageBox::Yes)
+        if (answer == QMessageBox::Yes)
         {
             oldMO = ObjectIO::loadManipulationObject(filepath);
             VR_INFO << "Appending new grasps to file..." << std::endl;
-            if(object->getName() != oldMO->getName())
+            if (object->getName() != oldMO->getName())
             {
-                QMessageBox::warning(0,"Error", "Object names do not match: " + QString::fromStdString(object->getName()) + " and " + QString::fromStdString(oldMO->getName()));
+                QMessageBox::warning(0, "Error", "Object names do not match: " + QString::fromStdString(object->getName()) + " and " + QString::fromStdString(oldMO->getName()));
                 return;
             }
         }
-        else if(answer == QMessageBox::NoButton)
+        else if (answer == QMessageBox::NoButton)
         {
             return;
         }
@@ -804,14 +840,16 @@ void SkeletonGraspPlannerWindow::saveToFile(std::string filepath, boost::optiona
     ManipulationObjectPtr objectM;
     objectM.reset(new ManipulationObject(object->getName(), object->getVisualization(), object->getCollisionModel()));
     objectM->addGraspSet(grasps);
-    if(oldMO)
+    if (oldMO)
     {
-        for(auto & set : oldMO->getAllGraspSets())
+        for (auto& set : oldMO->getAllGraspSets())
         {
-            if(grasps->getName() != set->getName() ||
-                    grasps->getEndEffector() != set->getEndEffector() ||
-                     grasps->getRobotType() != set->getRobotType())
+            if (grasps->getName() != set->getName() ||
+                grasps->getEndEffector() != set->getEndEffector() ||
+                grasps->getRobotType() != set->getRobotType())
+            {
                 objectM->addGraspSet(set);
+            }
         }
     }
     std::string objectFile = filepath;
@@ -839,11 +877,13 @@ void SkeletonGraspPlannerWindow::saveToFile(std::string filepath, boost::optiona
 void SkeletonGraspPlannerWindow::selectGrasp()
 {
     if (!grasps || !object)
+    {
         return;
+    }
 
     int currentGrasp = UI.spinBoxGraspNumberPlanned->value();
 
-    if (currentGrasp>=0 && currentGrasp<int(grasps->getSize()) && eefCloned && eefCloned->getEndEffector(eefName))
+    if (currentGrasp >= 0 && currentGrasp < int(grasps->getSize()) && eefCloned && eefCloned->getEndEffector(eefName))
     {
         VirtualRobot::GraspPtr g = grasps->getGrasp(currentGrasp);
         this->currentGrasp = g;
@@ -857,16 +897,19 @@ void SkeletonGraspPlannerWindow::selectGrasp()
             VR_INFO << "Robustness: avg quality col:" << result.avgQualityCol << endl;
             VR_INFO << "Robustness: avg fc rate col:" << result.forceClosureRateCol << endl;
         }
-    } else
+    }
+    else
     {
         openEEF();
     }
 }
 
-bool SkeletonGraspPlannerWindow::evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, GraspEvaluationPoseUncertainty::PoseEvalResults &results)
+bool SkeletonGraspPlannerWindow::evaluateGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef, int nrEvalLoops, GraspEvaluationPoseUncertainty::PoseEvalResults& results)
 {
     if (!g || !eefRobot || !eef)
+    {
         return false;
+    }
 
     GraspEvaluationPoseUncertaintyPtr eval(new GraspEvaluationPoseUncertainty(GraspEvaluationPoseUncertainty::PoseUncertaintyConfig()));
 
@@ -878,12 +921,16 @@ bool SkeletonGraspPlannerWindow::evaluateGrasp(VirtualRobot::GraspPtr g, Virtual
 void SkeletonGraspPlannerWindow::applyGrasp(VirtualRobot::GraspPtr g, VirtualRobot::RobotPtr eefRobot, VirtualRobot::EndEffectorPtr eef)
 {
     if (!g)
+    {
         return;
+    }
     currentPreshape = g->getPreshapeName();
     Eigen::Matrix4f mGrasp = g->getTcpPoseGlobal(object->getGlobalPose());
     //eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
     if (eefRobot && eef)
+    {
         eefRobot->setGlobalPoseForRobotNode(eef->getTcp(), mGrasp);
+    }
 
     openEEF();
     closeEEF();
@@ -893,9 +940,13 @@ void SkeletonGraspPlannerWindow::setVerbose()
 {
     bool v = UI.checkBoxVerbose->isChecked();
     if (approach)
+    {
         approach->setVerbose(v);
+    }
     if (planner)
+    {
         planner->setVerbose(v);
+    }
 }
 
 void SkeletonGraspPlannerWindow::planObjectBatch()
@@ -908,7 +959,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
         return;
     }
     QStringList paths;
-    for (boost::filesystem::recursive_directory_iterator end, dir(fi.toUtf8().data(), boost::filesystem::symlink_option::recurse);
+    for (std::filesystem::recursive_directory_iterator end, dir(fi.toUtf8().data(), std::filesystem::directory_options::follow_directory_symlink);
          dir != end ; ++dir)
     {
         std::string path(dir->path().c_str());
@@ -922,8 +973,8 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     }
     paths.removeDuplicates();
     VR_INFO << "Found:  " << paths.join(", ").toStdString() << std::endl;
-    boost::filesystem::path resultsCSVPath("graspplanningresults-" + robot->getName() + ".csv");
-    resultsCSVPath = boost::filesystem::absolute(resultsCSVPath);
+    std::filesystem::path resultsCSVPath("graspplanningresults-" + robot->getName() + ".csv");
+    resultsCSVPath = std::filesystem::absolute(resultsCSVPath);
     std::ofstream fs(resultsCSVPath.string().c_str(), std::ofstream::out);
     fs << "object," << planner->getEvaluation().GetCSVHeader() << ",RobustnessAvgQualityNoCol,RobustnessAvgForceClosureRateNoCol,RobustnessAvgQualityCol,RobustnessAvgForceClosureRateCol,testedGrasps,validGrasps,collisionGrasps";
     QProgressDialog progress("Calculating grasps...", "Abort", 0, paths.size(), this);
@@ -943,37 +994,39 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
     }
     fs << std::endl;
 
-    for(auto& path :  paths)
+    for (auto& path :  paths)
     {
         try
         {
             //resetSceneryAll();
-            if(loadSegmentedObject(path.toStdString()))
+            if (loadSegmentedObject(path.toStdString()))
             {
                 planAll();
-                saveToFile(boost::filesystem::path(path.toStdString()).replace_extension(".moxml").string(), true);
+                saveToFile(std::filesystem::path(path.toStdString()).replace_extension(".moxml").string(), true);
                 float avgRate = 0;
                 float avgForceClosureRate = 0;
                 size_t graspSum = 0;
                 float avgRateCol = 0;
                 float avgForceClosureRateCol = 0;
-                std::vector<double> histogramFC(bins,0.0);
-                std::vector<double> histogramFCWithCollisions(bins,0.0);
+                std::vector<double> histogramFC(bins, 0.0);
+                std::vector<double> histogramFCWithCollisions(bins, 0.0);
                 fs << object->getName() << "," << planner->getEvaluation().toCSVString();
-                if(robustnessEvaluationGraspTrialCount > 0)
+                if (robustnessEvaluationGraspTrialCount > 0)
                 {
                     size_t validGraspSum = 0, testedGraspSum = 0, collisionGraspSum = 0;
-                    for(VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
+                    for (VirtualRobot::GraspPtr& g : planner->getPlannedGrasps())
                     {
                         GraspEvaluationPoseUncertainty::PoseEvalResults result;
                         if (!evaluateGrasp(g, eefCloned, eefCloned->getEndEffector(eefName), robustnessEvaluationGraspTrialCount, result))
+                        {
                             continue;
+                        }
                         VR_INFO << "Grasp " << graspSum << "/" << planner->getPlannedGrasps().size() << std::endl;
                         validGraspSum += result.numForceClosurePoses;
                         testedGraspSum += result.numPosesTested;
                         collisionGraspSum += result.numColPoses;
-                        histogramFC.at(std::min<int>((int)(result.forceClosureRate * bins), bins-1))++;
-                        histogramFCWithCollisions.at(std::min<int>((int)((double)(result.numForceClosurePoses)/result.numPosesTested * bins), bins-1))++;
+                        histogramFC.at(std::min<int>((int)(result.forceClosureRate * bins), bins - 1))++;
+                        histogramFCWithCollisions.at(std::min<int>((int)((double)(result.numForceClosurePoses) / result.numPosesTested * bins), bins - 1))++;
                         avgRate += result.avgQuality;
                         avgForceClosureRate += result.forceClosureRate;
                         avgRateCol += result.avgQualityCol;
@@ -982,7 +1035,7 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                         //                    if(graspSum > 10)
                         //                        break;
                     }
-                    if (graspSum>0)
+                    if (graspSum > 0)
                     {
                         avgRate /= planner->getPlannedGrasps().size();
                         avgForceClosureRate /= planner->getPlannedGrasps().size();
@@ -991,29 +1044,31 @@ void SkeletonGraspPlannerWindow::planObjectBatch()
                     }
                     fs << "," << avgRate << "," << avgForceClosureRate << "," << avgRateCol << "," << avgForceClosureRateCol << "," << testedGraspSum << "," << validGraspSum << "," << collisionGraspSum;
                     int i = 0;
-                    for(auto bin : histogramFC)
+                    for (auto bin : histogramFC)
                     {
-                        fs  <<  ", " << (double)(bin)/graspSum;
-                        cout << i << ": " << bin << ", " << graspSum << ", " <<  (double)(bin)/graspSum << std::endl;
+                        fs  <<  ", " << (double)(bin) / graspSum;
+                        cout << i << ": " << bin << ", " << graspSum << ", " << (double)(bin) / graspSum << std::endl;
                         i++;
                     }
-                    for(auto bin : histogramFCWithCollisions)
+                    for (auto bin : histogramFCWithCollisions)
                     {
-                        fs  <<  ", " << (double)(bin)/graspSum;
+                        fs  <<  ", " << (double)(bin) / graspSum;
                     }
                 }
                 fs << std::endl;
 
             }
         }
-        catch(std::exception & e)
+        catch (std::exception& e)
         {
             VR_ERROR << "Failed to plan for " << path.toStdString() << "\nReason: \n" << e.what() << std::endl;
         }
         progress.setValue(++i);
         qApp->processEvents();
         if (progress.wasCanceled())
+        {
             break;
+        }
     }
     VR_INFO << "Saving CSV results to " << resultsCSVPath.string() << std::endl;
 }

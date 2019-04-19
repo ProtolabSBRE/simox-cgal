@@ -278,7 +278,7 @@ void ObjectSegmentationSkeletonWindow::saveSegmentedObject()
         return;
     }
 
-    boost::filesystem::path segmentedObjectFileDefaultName (objectFilename);
+    std::filesystem::path segmentedObjectFileDefaultName (objectFilename);
 
     segmentedObjectFileDefaultName.replace_extension(".soxml");
     cout << "manipObjectFile: " << objectFilename << endl;
@@ -310,7 +310,7 @@ void ObjectSegmentationSkeletonWindow::saveSegmentedObject()
         return;
     std::string segObjectFile = std::string(fi.toLatin1());
 
-    boost::filesystem::path segObjectFilePath(segObjectFile);
+    std::filesystem::path segObjectFilePath(segObjectFile);
     if(segObjectFilePath.extension().empty())
     {
         segObjectFilePath.replace_extension(".soxml");

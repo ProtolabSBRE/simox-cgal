@@ -566,10 +566,10 @@ void MeshReconstructionWindow::save()
 
     try
     {
-        boost::filesystem::path filenameBaseComplete(objectFile);
-        boost::filesystem::path filenameBasePath = filenameBaseComplete.branch_path();
+        std::filesystem::path filenameBaseComplete(objectFile);
+        std::filesystem::path filenameBasePath = filenameBaseComplete.parent_path();
         std::string basePath = filenameBasePath.string();
-        boost::filesystem::path filenameBase = filenameBaseComplete.leaf();
+        std::filesystem::path filenameBase = filenameBaseComplete.filename();
 
         std::string fnSTL = filenameBase.stem().string() + ".stl";
         std::string fn = basePath + "/" + fnSTL;

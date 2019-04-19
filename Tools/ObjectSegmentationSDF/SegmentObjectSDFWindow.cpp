@@ -38,7 +38,7 @@ SegmentObjectSDFWindow::SegmentObjectSDFWindow(const std::string& objFile)
 
     this->objectFilename = objFile;
 
-    //boost::filesystem::path p(objFile);
+    //std::filesystem::path p(objFile);
     //save_dir = p.parent_path().string();
 
     sceneSep = new SoSeparator;

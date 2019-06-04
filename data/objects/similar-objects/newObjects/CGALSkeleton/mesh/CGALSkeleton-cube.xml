@@ -1,0 +1,68 @@
+	<SimoxCGAL-SurfaceMesh>
+	<NumberOfVertices vertices='8'/>
+	<NumberOfFaces faces='12'/>
+	<Vertices>
+		<Vertex index='0'>
+			<Point x='454.344' y='-446.02' z='-330.099'/>
+		</Vertex>
+		<Vertex index='1'>
+			<Point x='-545.656' y='-446.02' z='-330.099'/>
+		</Vertex>
+		<Vertex index='2'>
+			<Point x='454.344' y='553.98' z='-330.099'/>
+		</Vertex>
+		<Vertex index='3'>
+			<Point x='-545.656' y='553.98' z='-330.099'/>
+		</Vertex>
+		<Vertex index='4'>
+			<Point x='454.345' y='553.98' z='669.901'/>
+		</Vertex>
+		<Vertex index='5'>
+			<Point x='-545.655' y='553.98' z='669.901'/>
+		</Vertex>
+		<Vertex index='6'>
+			<Point x='454.345' y='-446.02' z='669.901'/>
+		</Vertex>
+		<Vertex index='7'>
+			<Point x='-545.655' y='-446.02' z='669.901'/>
+		</Vertex>
+	</Vertices>
+	<Faces>
+		<Face index='0'>
+			<VerticesIndex index0='0' index1='1' index2='2' />
+		</Face>
+		<Face index='1'>
+			<VerticesIndex index0='2' index1='1' index2='3' />
+		</Face>
+		<Face index='2'>
+			<VerticesIndex index0='2' index1='3' index2='4' />
+		</Face>
+		<Face index='3'>
+			<VerticesIndex index0='4' index1='3' index2='5' />
+		</Face>
+		<Face index='4'>
+			<VerticesIndex index0='4' index1='5' index2='6' />
+		</Face>
+		<Face index='5'>
+			<VerticesIndex index0='6' index1='5' index2='7' />
+		</Face>
+		<Face index='6'>
+			<VerticesIndex index0='6' index1='7' index2='0' />
+		</Face>
+		<Face index='7'>
+			<VerticesIndex index0='0' index1='7' index2='1' />
+		</Face>
+		<Face index='8'>
+			<VerticesIndex index0='1' index1='7' index2='3' />
+		</Face>
+		<Face index='9'>
+			<VerticesIndex index0='3' index1='7' index2='5' />
+		</Face>
+		<Face index='10'>
+			<VerticesIndex index0='6' index1='0' index2='4' />
+		</Face>
+		<Face index='11'>
+			<VerticesIndex index0='4' index1='0' index2='2' />
+		</Face>
+		</Faces>
+	</SimoxCGAL-SurfaceMesh>

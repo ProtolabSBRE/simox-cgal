@@ -1,0 +1,29 @@
+<SimoxCGAL-SegmentedObject>
+	<Method method='skeleton'/>
+	<SkeletonPart name='G0'>
+		<SegmentNumber number='0'/>
+		<Palpable bool='1'/>
+		<NumberOfSkeletonPoints number='2'/>
+		<LengthOfSegment length='0.633777'/>
+		<SortedSkeletonSegmentIndex>
+			<Vertex value='0'/>
+			<Vertex value='1'/>
+		</SortedSkeletonSegmentIndex>
+		<SkeletonSegment>
+			<SkeletonPoint vertex='0'>
+				<Endpoint value='1'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='1'/>
+				</Neighbor>
+			</SkeletonPoint>
+			<SkeletonPoint vertex='1'>
+				<Endpoint value='1'/>
+				<Branch value='0'/>
+				<Neighbor>
+					<Vertex value='0'/>
+				</Neighbor>
+			</SkeletonPoint>
+		</SkeletonSegment>
+	</SkeletonPart>
+</SimoxCGAL-SegmentedObject>

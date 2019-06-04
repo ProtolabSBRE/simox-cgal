@@ -1,0 +1,8 @@
+<ManipulationObject name="cube6cm_1500v">
+    <Visualization>
+        <File type="inventor">wrl/cube6cm_1500v.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">wrl/cube6cm_1500v.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

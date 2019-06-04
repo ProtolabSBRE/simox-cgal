@@ -337,7 +337,7 @@ void SkeletonGraspPlannerWindow::buildVisu()
 
     if (object)
     {
-        SceneObject::VisualizationType colModel2 = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;       
+        SceneObject::VisualizationType colModel2 = (UI.checkBoxColModel->isChecked()) ? SceneObject::Collision : SceneObject::Full;
         SoNode* n = CoinVisualizationFactory::getCoinVisualization(object, colModel2);
         if (n)
         {
@@ -525,6 +525,10 @@ void SkeletonGraspPlannerWindow::initPlanner()
     }
     bool verbose = UI.checkBoxVerbose->isChecked();
 
+    // Force the endeffector to be in preshape PowerGrasp
+    VirtualRobot::RobotConfigPtr c = eef->getPreshape(eef->getPreshapes().at(0));
+    robot->setConfig(c);
+
     qualityMeasure.reset(new GraspQualityMeasureWrenchSpace(object));
     qualityMeasure->calculateObjectProperties();
 
@@ -603,10 +607,12 @@ void SkeletonGraspPlannerWindow::planAll()
 
 void SkeletonGraspPlannerWindow::plan()
 {
+
     float timeout = UI.spinBoxTimeOut->value() * 1000.0f;
     bool forceClosure = UI.checkBoxFoceClosure->isChecked();
     float quality = (float)UI.doubleSpinBoxQuality->value();
     int nrGrasps = UI.spinBoxGraspNumber->value();
+
     planGrasps(timeout, forceClosure, quality, nrGrasps);
 }
 
@@ -614,11 +620,13 @@ void SkeletonGraspPlannerWindow::planGrasps(float timeout, bool forceClosure, fl
 {
     if (!mesh || !skeleton || !segmentation)
     {
+      VR_ERROR << "Error in planGrasps: no mesh, skeleton or segmentation)" << endl;
         return;
     }
 
     if (!planner)
     {
+        VR_ERROR << "Error in planGrasps: no planner" << endl;
         planner.reset(new SkeletonGraspPlanner(grasps, qualityMeasure, approach, quality, forceClosure));
         planner->setVerbose(UI.checkBoxVerbose->isChecked());
     } else
@@ -707,7 +715,7 @@ void SkeletonGraspPlannerWindow::openEEF()
     contacts.clear();
 
     if (eefCloned && eefCloned->getEndEffector(eefName))
-    {   
+    {
         VirtualRobot::EndEffectorPtr endeff = eefCloned->getEndEffector(eefName);
         if (endeff->hasPreshape(currentPreshape))
         {

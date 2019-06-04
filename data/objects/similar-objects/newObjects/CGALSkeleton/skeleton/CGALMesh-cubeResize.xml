@@ -1,0 +1,36 @@
+<CGAL-Skeleton>
+	<NumberOfVertices vertices='2'/>
+	<NumberOfEdges edges='1'/>
+	<Parameters>
+		<MaxTriangleAngle value='1.91986'/>
+		<QualitySpeedTradeOff value='0.1'/>
+		<MediallyCenteredSpeedTradeOff value='0.2'/>
+		<AreaVariationFactor value='0.0001'/>
+		<MaxIterations value='500'/>
+		<IsMediallyCentered bool='1'/>
+		<MinEdgeLength value='0'/>
+	</Parameters>
+	<Vertices>
+		<Point index='0'>
+			<Coordinate x='-6.68885' y='-0.941002' z='14.0238'/>
+			<IndexToMesh>
+				<Index index='0'/>
+				<Index index='2'/>
+			</IndexToMesh>
+		</Point>
+		<Point index='1'>
+			<Coordinate x='-6.73038' y='-0.930618' z='14.0602'/>
+			<IndexToMesh>
+				<Index index='6'/>
+				<Index index='1'/>
+				<Index index='7'/>
+				<Index index='4'/>
+				<Index index='5'/>
+				<Index index='3'/>
+			</IndexToMesh>
+		</Point>
+	</Vertices>
+	<Edges>
+		<Edge from='0' to='1'/>
+	</Edges>
+</CGAL-Skeleton>

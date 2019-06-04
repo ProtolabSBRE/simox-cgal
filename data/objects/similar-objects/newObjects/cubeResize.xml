@@ -1,0 +1,8 @@
+<ManipulationObject name="cubeResize">
+    <Visualization>
+        <File type="inventor">wrl/cubeResize.wrl</File>
+    </Visualization>
+    <CollisionModel>
+        <File type="inventor">wrl/cubeResize.wrl</File>
+    </CollisionModel>
+</ManipulationObject>

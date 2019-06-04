@@ -21,18 +21,28 @@ int main(int argc, char* argv[])
     // --robot robots/iCub/iCub.xml --endeffector "Left Hand" --preshape "Grasp Preshape"
     std::string robot;
 
-    robot = "robots/ArmarIII/ArmarIII.xml";
+    robot = "robots/Pepper/TestParameters/pepperLastVersion.xml";
+    std::string eef("RGripper");
+
+    // robot = "robots/Pepper/LastVersion/pepperLastVersion.xml";
+    // std::string eef("RGripper");
+
+    // robot = "robots/ArmarIII/ArmarIII.xml";
+    // std::string eef("Hand R");
 
 //    std::string robot("robots/Shadow_Dexterous_Hand/shadowhand.xml");
-//    std::string robot("robots/iCub/iCub.xml");
+      // robot = "robots/iCub/iCub.xml";
 //    std::string robot("robots/SAH_RightHand/SAH_RightHand.xml");
 //    VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robot);
-    std::string eef("Hand R");
+
+
+
     //std::string object("objects/wok.xml");
     //std::string object("objects/riceBox.xml");
     //std::string object("objects/screwdriver/screwdriver01.xml");
-    //std::string object("segmented-objects/flashlight/flashlight1.soxml");
-    std::string object("objects/similar-objects/airplane/airplane0.soxml");
+    // std::string object("segmented-objects/flashlight/flashlight1.soxml");
+    // std::string object("objects/similar-objects/airplane/airplane0.soxml");
+    std::string object("objects/similar-objects/newObjects/cube6cm_6146v.soxml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object);
     //std::string preshape("");
 

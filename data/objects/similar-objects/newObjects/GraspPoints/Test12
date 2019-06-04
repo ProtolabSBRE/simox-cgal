@@ -1,0 +1,1838 @@
+<ManipulationObject name='cube6cm_6146v'>
+	<Visualization>
+		<File type='inventor'>../wrl/cube6cm_6146v.wrl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>../wrl/cube6cm_6146v.wrl</File>
+	</CollisionModel>
+	<GraspSet name='Grasp Planner - RGripper' RobotType='JulietteY20MP' EndEffector='RGripper'>
+		<Grasp name='Grasp 1' quality='0.508458' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.372482' c2='0.86554' c3='0.334808' c4='-3.26597'/>
+					<row2 c1='-0.708556' c2='0.0322493' c3='0.704917' c4='-0.783504'/>
+					<row3 c1='0.599337' c2='-0.499799' c3='0.625296' c4='42.0589'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 1'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.552665'/>
+				<Node name='RFinger13' unit='radian' value='-0.552665'/>
+				<Node name='RFinger21' unit='radian' value='-0.552665'/>
+				<Node name='RFinger22' unit='radian' value='-0.572665'/>
+				<Node name='RFinger23' unit='radian' value='-0.512665'/>
+				<Node name='RFinger31' unit='radian' value='-0.592665'/>
+				<Node name='RFinger32' unit='radian' value='-0.592665'/>
+				<Node name='RFinger33' unit='radian' value='-0.612665'/>
+				<Node name='RFinger41' unit='radian' value='-0.612665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.492665'/>
+				<Node name='RThumb2' unit='radian' value='-0.452665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 2' quality='0.486769' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.708555' c2='0.0322485' c3='0.704918' c4='-0.784174'/>
+					<row2 c1='-0.37248' c2='-0.865543' c3='-0.334805' c4='3.26631'/>
+					<row3 c1='0.599339' c2='-0.499796' c3='0.625297' c4='43.0584'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 2'>
+				<Node name='RFinger11' unit='radian' value='-0.612665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.232665'/>
+				<Node name='RFinger21' unit='radian' value='-0.592665'/>
+				<Node name='RFinger22' unit='radian' value='-0.592665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.692665'/>
+				<Node name='RFinger41' unit='radian' value='-0.612665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.632665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.272665'/>
+				<Node name='RThumb2' unit='radian' value='-0.272665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 3' quality='0.492348' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.372482' c2='-0.865541' c3='-0.334808' c4='3.26475'/>
+					<row2 c1='0.708557' c2='-0.0322488' c3='-0.704917' c4='0.783596'/>
+					<row3 c1='0.599337' c2='-0.499799' c3='0.625296' c4='43.0584'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 3'>
+				<Node name='RFinger11' unit='radian' value='-0.632665'/>
+				<Node name='RFinger12' unit='radian' value='-0.632665'/>
+				<Node name='RFinger13' unit='radian' value='-0.612665'/>
+				<Node name='RFinger21' unit='radian' value='-0.672665'/>
+				<Node name='RFinger22' unit='radian' value='-0.692665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0726652'/>
+				<Node name='RFinger31' unit='radian' value='-0.752665'/>
+				<Node name='RFinger32' unit='radian' value='-0.772665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.672665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.672665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.612665'/>
+				<Node name='RThumb2' unit='radian' value='-0.572665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 4' quality='0.526802' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.708555' c2='-0.0322486' c3='-0.704918' c4='0.782801'/>
+					<row2 c1='0.37248' c2='0.865543' c3='0.334806' c4='-3.26644'/>
+					<row3 c1='0.599339' c2='-0.499796' c3='0.625297' c4='43.0585'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 4'>
+				<Node name='RFinger11' unit='radian' value='-0.612665'/>
+				<Node name='RFinger12' unit='radian' value='-0.632665'/>
+				<Node name='RFinger13' unit='radian' value='-0.572665'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.652665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.652665'/>
+				<Node name='RFinger33' unit='radian' value='-0.572665'/>
+				<Node name='RFinger41' unit='radian' value='-0.632665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.812665'/>
+				<Node name='RThumb2' unit='radian' value='-0.792665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 5' quality='0.465102' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.764409' c2='0.589226' c3='-0.261707' c4='-1.7559'/>
+					<row2 c1='-0.237642' c2='0.634835' c3='0.735195' c4='-2.86363'/>
+					<row3 c1='0.599337' c2='-0.499797' c3='0.625298' c4='42.0587'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 5'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.592665'/>
+				<Node name='RFinger21' unit='radian' value='-0.672665'/>
+				<Node name='RFinger22' unit='radian' value='-0.632665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0326652'/>
+				<Node name='RFinger31' unit='radian' value='-0.652665'/>
+				<Node name='RFinger32' unit='radian' value='-0.652665'/>
+				<Node name='RFinger33' unit='radian' value='-0.632665'/>
+				<Node name='RFinger41' unit='radian' value='-0.452665'/>
+				<Node name='RFinger42' unit='radian' value='-0.272665'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.572665'/>
+				<Node name='RThumb2' unit='radian' value='-0.592665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 6' quality='0.38882' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.23764' c2='0.634833' c3='0.735197' c4='-2.86363'/>
+					<row2 c1='-0.764408' c2='-0.589227' c3='0.261709' c4='1.75553'/>
+					<row3 c1='0.599339' c2='-0.499798' c3='0.625295' c4='42.0587'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 6'>
+				<Node name='RFinger11' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger12' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.592665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.592665'/>
+				<Node name='RFinger31' unit='radian' value='-0.752665'/>
+				<Node name='RFinger32' unit='radian' value='-0.772665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.632665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.812665'/>
+				<Node name='RThumb2' unit='radian' value='-0.792665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 7' quality='0.474871' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.764409' c2='-0.589227' c3='0.261707' c4='1.75438'/>
+					<row2 c1='0.237642' c2='-0.634834' c3='-0.735195' c4='2.86345'/>
+					<row3 c1='0.599337' c2='-0.499797' c3='0.625297' c4='43.0582'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 7'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.572665'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.712665'/>
+				<Node name='RFinger33' unit='radian' value='-0.712665'/>
+				<Node name='RFinger41' unit='radian' value='-0.752665'/>
+				<Node name='RFinger42' unit='radian' value='-0.752665'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.432665'/>
+				<Node name='RThumb2' unit='radian' value='-0.372665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 8' quality='0.47752' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.237639' c2='-0.634833' c3='-0.735197' c4='2.86223'/>
+					<row2 c1='0.764408' c2='0.589228' c3='-0.261709' c4='-1.75575'/>
+					<row3 c1='0.59934' c2='-0.499798' c3='0.625295' c4='43.0583'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 8'>
+				<Node name='RFinger11' unit='radian' value='-0.612665'/>
+				<Node name='RFinger12' unit='radian' value='-0.632665'/>
+				<Node name='RFinger13' unit='radian' value='-0.112665'/>
+				<Node name='RFinger21' unit='radian' value='-0.672665'/>
+				<Node name='RFinger22' unit='radian' value='-0.692665'/>
+				<Node name='RFinger23' unit='radian' value='-0.672665'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.652665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.392665'/>
+				<Node name='RThumb2' unit='radian' value='-0.412665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 9' quality='0.48769' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.52004' c2='0.29374' c3='0.802044' c4='0.129913'/>
+					<row2 c1='-0.604829' c2='0.789672' c3='0.102958' c4='-1.83701'/>
+					<row3 c1='-0.603108' c2='-0.538642' c3='0.588323' c4='42.7125'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 9'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.552665'/>
+				<Node name='RFinger21' unit='radian' value='-0.612665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.772665'/>
+				<Node name='RFinger32' unit='radian' value='-0.792665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.552665'/>
+				<Node name='RFinger42' unit='radian' value='-0.532665'/>
+				<Node name='RFinger43' unit='radian' value='-0.432665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.812665'/>
+				<Node name='RThumb2' unit='radian' value='-0.772665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 10' quality='0.411361' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.604831' c2='0.789669' c3='0.10296' c4='-1.83687'/>
+					<row2 c1='-0.52004' c2='-0.293741' c3='-0.802044' c4='-0.130521'/>
+					<row3 c1='-0.603106' c2='-0.538645' c3='0.588323' c4='42.7122'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 10'>
+				<Node name='RFinger11' unit='radian' value='-0.532665'/>
+				<Node name='RFinger12' unit='radian' value='-0.532665'/>
+				<Node name='RFinger13' unit='radian' value='-0.472665'/>
+				<Node name='RFinger21' unit='radian' value='-0.592665'/>
+				<Node name='RFinger22' unit='radian' value='-0.592665'/>
+				<Node name='RFinger23' unit='radian' value='-0.532665'/>
+				<Node name='RFinger31' unit='radian' value='-0.652665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.632665'/>
+				<Node name='RFinger41' unit='radian' value='-0.692665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.292665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.632665'/>
+				<Node name='RThumb2' unit='radian' value='-0.652665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 11' quality='0.408529' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.52004' c2='-0.29374' c3='-0.802044' c4='-0.131061'/>
+					<row2 c1='0.60483' c2='-0.789672' c3='-0.102959' c4='1.83684'/>
+					<row3 c1='-0.603108' c2='-0.538642' c3='0.588323' c4='42.7126'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 11'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.532665'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.652665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.652665'/>
+				<Node name='RFinger42' unit='radian' value='-0.672665'/>
+				<Node name='RFinger43' unit='radian' value='-0.632665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.332665'/>
+				<Node name='RThumb2' unit='radian' value='-0.332665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 12' quality='0.355591' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.604831' c2='-0.78967' c3='-0.102961' c4='1.83559'/>
+					<row2 c1='0.520041' c2='0.29374' c3='0.802045' c4='0.130364'/>
+					<row3 c1='-0.603106' c2='-0.538645' c3='0.588323' c4='42.7125'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 12'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.372665'/>
+				<Node name='RFinger21' unit='radian' value='-0.672665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0526652'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.692665'/>
+				<Node name='RFinger41' unit='radian' value='-0.592665'/>
+				<Node name='RFinger42' unit='radian' value='-0.612665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.412665'/>
+				<Node name='RThumb2' unit='radian' value='-0.392665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 13' quality='0.405336' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.795404' c2='-0.350675' c3='0.494326' c4='1.3898'/>
+					<row2 c1='-0.0599546' c2='0.766088' c3='0.639934' c4='-1.20651'/>
+					<row3 c1='-0.603106' c2='-0.538643' c3='0.588324' c4='42.7122'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 13'>
+				<Node name='RFinger11' unit='radian' value='-0.612665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.612665'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.652665'/>
+				<Node name='RFinger31' unit='radian' value='-0.692665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.712665'/>
+				<Node name='RFinger41' unit='radian' value='-0.652665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.572665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.492665'/>
+				<Node name='RThumb2' unit='radian' value='-0.452665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 14' quality='0.403969' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.0599563' c2='0.766086' c3='0.639935' c4='-1.20678'/>
+					<row2 c1='-0.795403' c2='0.350677' c3='-0.494328' c4='-1.39094'/>
+					<row3 c1='-0.603108' c2='-0.538644' c3='0.588322' c4='42.7123'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 14'>
+				<Node name='RFinger11' unit='radian' value='-0.632665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.0526652'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.612665'/>
+				<Node name='RFinger32' unit='radian' value='-0.632665'/>
+				<Node name='RFinger33' unit='radian' value='-0.632665'/>
+				<Node name='RFinger41' unit='radian' value='-0.572665'/>
+				<Node name='RFinger42' unit='radian' value='-0.572665'/>
+				<Node name='RFinger43' unit='radian' value='-0.592665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.412665'/>
+				<Node name='RThumb2' unit='radian' value='-0.372665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 15' quality='0.476776' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.795404' c2='0.350675' c3='-0.494327' c4='-1.39094'/>
+					<row2 c1='0.0599551' c2='-0.766088' c3='-0.639934' c4='1.20648'/>
+					<row3 c1='-0.603106' c2='-0.538643' c3='0.588324' c4='42.7125'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 15'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.552665'/>
+				<Node name='RFinger13' unit='radian' value='-0.512665'/>
+				<Node name='RFinger21' unit='radian' value='-0.672665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger31' unit='radian' value='-0.652665'/>
+				<Node name='RFinger32' unit='radian' value='-0.652665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.572665'/>
+				<Node name='RFinger42' unit='radian' value='-0.552665'/>
+				<Node name='RFinger43' unit='radian' value='-0.572665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.512665'/>
+				<Node name='RThumb2' unit='radian' value='-0.452665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 16' quality='0.362537' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.0599563' c2='-0.766086' c3='-0.639935' c4='1.20567'/>
+					<row2 c1='0.795403' c2='-0.350677' c3='0.494328' c4='1.39116'/>
+					<row3 c1='-0.603108' c2='-0.538644' c3='0.588321' c4='42.7125'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 16'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.552665'/>
+				<Node name='RFinger13' unit='radian' value='-0.492665'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.652665'/>
+				<Node name='RFinger31' unit='radian' value='-0.752665'/>
+				<Node name='RFinger32' unit='radian' value='-0.732665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.652665'/>
+				<Node name='RFinger42' unit='radian' value='-0.672665'/>
+				<Node name='RFinger43' unit='radian' value='-0.652665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.812665'/>
+				<Node name='RThumb2' unit='radian' value='-0.772665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 17' quality='0.405055' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.853826' c2='-0.383638' c3='-0.351856' c4='2.50155'/>
+					<row2 c1='0.0743312' c2='-0.758846' c3='0.647014' c4='-3.99689'/>
+					<row3 c1='-0.515224' c2='0.526284' c3='0.676438' c4='42.4514'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 17'>
+				<Node name='RFinger11' unit='radian' value='-0.632665'/>
+				<Node name='RFinger12' unit='radian' value='-0.652665'/>
+				<Node name='RFinger13' unit='radian' value='-0.592665'/>
+				<Node name='RFinger21' unit='radian' value='-0.712665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.612665'/>
+				<Node name='RFinger41' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger42' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.732665'/>
+				<Node name='RThumb2' unit='radian' value='-0.712665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 18' quality='0.407579' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.0743291' c2='0.758843' c3='-0.647017' c4='3.99528'/>
+					<row2 c1='-0.853828' c2='-0.383637' c3='-0.351854' c4='2.50261'/>
+					<row3 c1='-0.515221' c2='0.526288' c3='0.676437' c4='42.4514'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 18'>
+				<Node name='RFinger11' unit='radian' value='-0.652665'/>
+				<Node name='RFinger12' unit='radian' value='-0.672665'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.352665'/>
+				<Node name='RFinger31' unit='radian' value='-0.752665'/>
+				<Node name='RFinger32' unit='radian' value='-0.752665'/>
+				<Node name='RFinger33' unit='radian' value='-0.752665'/>
+				<Node name='RFinger41' unit='radian' value='-0.712665'/>
+				<Node name='RFinger42' unit='radian' value='-0.712665'/>
+				<Node name='RFinger43' unit='radian' value='-0.712665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.292665'/>
+				<Node name='RThumb2' unit='radian' value='-0.192665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 19' quality='0.412456' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.853826' c2='0.383637' c3='0.351856' c4='-2.50243'/>
+					<row2 c1='-0.0743312' c2='0.758846' c3='-0.647014' c4='3.99695'/>
+					<row3 c1='-0.515224' c2='0.526283' c3='0.676439' c4='42.4514'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 19'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.532665'/>
+				<Node name='RFinger13' unit='radian' value='-0.532665'/>
+				<Node name='RFinger21' unit='radian' value='-0.552665'/>
+				<Node name='RFinger22' unit='radian' value='-0.552665'/>
+				<Node name='RFinger23' unit='radian' value='-0.572665'/>
+				<Node name='RFinger31' unit='radian' value='-0.632665'/>
+				<Node name='RFinger32' unit='radian' value='-0.632665'/>
+				<Node name='RFinger33' unit='radian' value='-0.592665'/>
+				<Node name='RFinger41' unit='radian' value='-0.652665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.672665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.352665'/>
+				<Node name='RThumb2' unit='radian' value='-0.292665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 20' quality='0.382768' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.0743288' c2='-0.758843' c3='0.647018' c4='-3.99671'/>
+					<row2 c1='0.853828' c2='0.383636' c3='0.351855' c4='-2.50274'/>
+					<row3 c1='-0.515222' c2='0.526288' c3='0.676436' c4='44.4509'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 20'>
+				<Node name='RFinger11' unit='radian' value='-0.472665'/>
+				<Node name='RFinger12' unit='radian' value='-0.452665'/>
+				<Node name='RFinger13' unit='radian' value='-0.472665'/>
+				<Node name='RFinger21' unit='radian' value='-0.572665'/>
+				<Node name='RFinger22' unit='radian' value='-0.572665'/>
+				<Node name='RFinger23' unit='radian' value='-0.512665'/>
+				<Node name='RFinger31' unit='radian' value='-0.652665'/>
+				<Node name='RFinger32' unit='radian' value='-0.652665'/>
+				<Node name='RFinger33' unit='radian' value='-0.632665'/>
+				<Node name='RFinger41' unit='radian' value='-0.592665'/>
+				<Node name='RFinger42' unit='radian' value='-0.612665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.872665'/>
+				<Node name='RThumb2' unit='radian' value='-0.852665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 21' quality='0.43291' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.551188' c2='-0.807856' c3='0.20871' c4='-1.05698'/>
+					<row2 c1='0.656308' c2='-0.265313' c3='0.706307' c4='-4.59577'/>
+					<row3 c1='-0.515221' c2='0.526286' c3='0.676439' c4='42.4513'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 21'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.552665'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.592665'/>
+				<Node name='RFinger32' unit='radian' value='-0.612665'/>
+				<Node name='RFinger33' unit='radian' value='-0.592665'/>
+				<Node name='RFinger41' unit='radian' value='-0.592665'/>
+				<Node name='RFinger42' unit='radian' value='-0.572665'/>
+				<Node name='RFinger43' unit='radian' value='-0.572665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.532665'/>
+				<Node name='RThumb2' unit='radian' value='-0.512665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 22' quality='0.438638' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.656305' c2='0.26531' c3='-0.70631' c4='4.59426'/>
+					<row2 c1='-0.551187' c2='-0.807857' c3='0.20871' c4='-1.05648'/>
+					<row3 c1='-0.515225' c2='0.526286' c3='0.676436' c4='42.4516'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 22'>
+				<Node name='RFinger11' unit='radian' value='-0.672665'/>
+				<Node name='RFinger12' unit='radian' value='-0.652665'/>
+				<Node name='RFinger13' unit='radian' value='-0.672665'/>
+				<Node name='RFinger21' unit='radian' value='-0.732665'/>
+				<Node name='RFinger22' unit='radian' value='-0.752665'/>
+				<Node name='RFinger23' unit='radian' value='-0.732665'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.712665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.792665'/>
+				<Node name='RFinger42' unit='radian' value='-0.812665'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.532665'/>
+				<Node name='RThumb2' unit='radian' value='-0.512665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 23' quality='0.452645' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.551187' c2='0.807856' c3='-0.20871' c4='1.05582'/>
+					<row2 c1='-0.656308' c2='0.265313' c3='-0.706307' c4='4.59587'/>
+					<row3 c1='-0.515221' c2='0.526286' c3='0.676439' c4='42.4514'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 23'>
+				<Node name='RFinger11' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger12' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.632665'/>
+				<Node name='RFinger23' unit='radian' value='-0.652665'/>
+				<Node name='RFinger31' unit='radian' value='-0.852665'/>
+				<Node name='RFinger32' unit='radian' value='-0.812665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.692665'/>
+				<Node name='RFinger42' unit='radian' value='-0.692665'/>
+				<Node name='RFinger43' unit='radian' value='-0.632665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.692665'/>
+				<Node name='RThumb2' unit='radian' value='-0.652665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 24' quality='0.442386' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.656305' c2='-0.26531' c3='0.70631' c4='-4.59521'/>
+					<row2 c1='0.551187' c2='0.807858' c3='-0.20871' c4='1.05659'/>
+					<row3 c1='-0.515225' c2='0.526286' c3='0.676436' c4='42.4515'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 24'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.552665'/>
+				<Node name='RFinger13' unit='radian' value='-0.512665'/>
+				<Node name='RFinger21' unit='radian' value='-0.592665'/>
+				<Node name='RFinger22' unit='radian' value='-0.592665'/>
+				<Node name='RFinger23' unit='radian' value='-0.452665'/>
+				<Node name='RFinger31' unit='radian' value='-0.632665'/>
+				<Node name='RFinger32' unit='radian' value='-0.612665'/>
+				<Node name='RFinger33' unit='radian' value='-0.632665'/>
+				<Node name='RFinger41' unit='radian' value='-0.492665'/>
+				<Node name='RFinger42' unit='radian' value='-0.472665'/>
+				<Node name='RFinger43' unit='radian' value='-0.492665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.432665'/>
+				<Node name='RThumb2' unit='radian' value='-0.332665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 25' quality='0.401723' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.0197342' c2='0.753486' c3='0.657167' c4='2.6206'/>
+					<row2 c1='0.833589' c2='0.375319' c3='-0.405297' c4='-1.11574'/>
+					<row3 c1='-0.552033' c2='0.539809' c3='-0.635504' c4='42.9971'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 25'>
+				<Node name='RFinger11' unit='radian' value='-0.632665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.592665'/>
+				<Node name='RFinger21' unit='radian' value='-0.672665'/>
+				<Node name='RFinger22' unit='radian' value='-0.692665'/>
+				<Node name='RFinger23' unit='radian' value='-0.672665'/>
+				<Node name='RFinger31' unit='radian' value='-0.732665'/>
+				<Node name='RFinger32' unit='radian' value='-0.752665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0726652'/>
+				<Node name='RFinger41' unit='radian' value='-0.672665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.752665'/>
+				<Node name='RThumb2' unit='radian' value='-0.772665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 26' quality='0.434516' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.833588' c2='0.375319' c3='-0.405297' c4='-1.11594'/>
+					<row2 c1='0.019741' c2='-0.753493' c3='-0.65716' c4='-2.6232'/>
+					<row3 c1='-0.552033' c2='0.5398' c3='-0.635512' c4='42.9968'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 26'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.572665'/>
+				<Node name='RFinger21' unit='radian' value='-0.612665'/>
+				<Node name='RFinger22' unit='radian' value='-0.592665'/>
+				<Node name='RFinger23' unit='radian' value='-0.552665'/>
+				<Node name='RFinger31' unit='radian' value='-0.632665'/>
+				<Node name='RFinger32' unit='radian' value='-0.652665'/>
+				<Node name='RFinger33' unit='radian' value='-0.632665'/>
+				<Node name='RFinger41' unit='radian' value='-0.632665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.632665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.532665'/>
+				<Node name='RThumb2' unit='radian' value='-0.472665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 27' quality='0.400941' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.0197345' c2='-0.753486' c3='-0.657167' c4='-2.62106'/>
+					<row2 c1='-0.833589' c2='-0.375319' c3='0.405297' c4='1.11576'/>
+					<row3 c1='-0.552033' c2='0.539809' c3='-0.635504' c4='42.9968'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 27'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.332665'/>
+				<Node name='RFinger21' unit='radian' value='-0.592665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.612665'/>
+				<Node name='RFinger32' unit='radian' value='-0.632665'/>
+				<Node name='RFinger33' unit='radian' value='-0.612665'/>
+				<Node name='RFinger41' unit='radian' value='-0.552665'/>
+				<Node name='RFinger42' unit='radian' value='-0.572665'/>
+				<Node name='RFinger43' unit='radian' value='-0.572665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.332665'/>
+				<Node name='RThumb2' unit='radian' value='-0.332665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 28' quality='0.387111' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.833588' c2='-0.375319' c3='0.405296' c4='1.11541'/>
+					<row2 c1='-0.0197409' c2='0.753493' c3='0.65716' c4='2.62317'/>
+					<row3 c1='-0.552033' c2='0.5398' c3='-0.635512' c4='42.9969'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 28'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.512665'/>
+				<Node name='RFinger13' unit='radian' value='-0.532665'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.112665'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.732665'/>
+				<Node name='RFinger33' unit='radian' value='-0.172665'/>
+				<Node name='RFinger41' unit='radian' value='-0.652665'/>
+				<Node name='RFinger42' unit='radian' value='-0.672665'/>
+				<Node name='RFinger43' unit='radian' value='-0.652665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.512665'/>
+				<Node name='RThumb2' unit='radian' value='-0.512665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 29' quality='0.403927' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.60339' c2='0.267404' c3='0.751275' c4='2.6418'/>
+					<row2 c1='0.575477' c2='0.798191' c3='0.178094' c4='1.06593'/>
+					<row3 c1='-0.552038' c2='0.539802' c3='-0.635505' c4='42.9968'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 29'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.432665'/>
+				<Node name='RFinger21' unit='radian' value='-0.672665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.632665'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.712665'/>
+				<Node name='RFinger33' unit='radian' value='-0.712665'/>
+				<Node name='RFinger41' unit='radian' value='-0.672665'/>
+				<Node name='RFinger42' unit='radian' value='-0.672665'/>
+				<Node name='RFinger43' unit='radian' value='-0.692665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.332665'/>
+				<Node name='RThumb2' unit='radian' value='-0.252665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 30' quality='0.367117' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.575481' c2='0.798186' c3='0.178099' c4='1.06387'/>
+					<row2 c1='0.603395' c2='-0.267409' c3='-0.75127' c4='-2.64386'/>
+					<row3 c1='-0.552028' c2='0.539806' c3='-0.63551' c4='42.9967'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 30'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.452665'/>
+				<Node name='RFinger21' unit='radian' value='-0.672665'/>
+				<Node name='RFinger22' unit='radian' value='-0.692665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger31' unit='radian' value='-0.692665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.512665'/>
+				<Node name='RFinger42' unit='radian' value='-0.532665'/>
+				<Node name='RFinger43' unit='radian' value='-0.472665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.532665'/>
+				<Node name='RThumb2' unit='radian' value='-0.492665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 31' quality='0.441388' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.60339' c2='-0.267404' c3='-0.751275' c4='-2.6423'/>
+					<row2 c1='-0.575478' c2='-0.798191' c3='-0.178094' c4='-1.06594'/>
+					<row3 c1='-0.552038' c2='0.539802' c3='-0.635505' c4='42.997'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 31'>
+				<Node name='RFinger11' unit='radian' value='-0.332665'/>
+				<Node name='RFinger12' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.612665'/>
+				<Node name='RFinger22' unit='radian' value='-0.592665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.752665'/>
+				<Node name='RFinger32' unit='radian' value='-0.712665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.552665'/>
+				<Node name='RFinger42' unit='radian' value='-0.532665'/>
+				<Node name='RFinger43' unit='radian' value='-0.552665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.832665'/>
+				<Node name='RThumb2' unit='radian' value='-0.852665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 32' quality='0.387399' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.575482' c2='-0.798186' c3='-0.178099' c4='-1.06454'/>
+					<row2 c1='-0.603395' c2='0.267409' c3='0.75127' c4='2.64378'/>
+					<row3 c1='-0.552028' c2='0.539807' c3='-0.63551' c4='42.9969'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 32'>
+				<Node name='RFinger11' unit='radian' value='-0.532665'/>
+				<Node name='RFinger12' unit='radian' value='-0.532665'/>
+				<Node name='RFinger13' unit='radian' value='-0.492665'/>
+				<Node name='RFinger21' unit='radian' value='-0.572665'/>
+				<Node name='RFinger22' unit='radian' value='-0.592665'/>
+				<Node name='RFinger23' unit='radian' value='-0.592665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.732665'/>
+				<Node name='RFinger42' unit='radian' value='-0.732665'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.492665'/>
+				<Node name='RThumb2' unit='radian' value='-0.492665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 33' quality='0.44163' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.766023' c2='-0.146852' c3='-0.625814' c4='-0.378191'/>
+					<row2 c1='-0.268792' c2='0.811181' c3='-0.519362' c4='0.370541'/>
+					<row3 c1='0.583917' c2='0.566057' c3='0.58191' c4='43.0003'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 33'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.572665'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.172665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.692665'/>
+				<Node name='RFinger41' unit='radian' value='-0.572665'/>
+				<Node name='RFinger42' unit='radian' value='-0.552665'/>
+				<Node name='RFinger43' unit='radian' value='-0.532665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.412665'/>
+				<Node name='RThumb2' unit='radian' value='-0.352665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 34' quality='0.494185' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.268792' c2='0.81118' c3='-0.519361' c4='0.370415'/>
+					<row2 c1='-0.766022' c2='0.146852' c3='0.625815' c4='0.378347'/>
+					<row3 c1='0.583918' c2='0.566056' c3='0.58191' c4='43.0004'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 34'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.552665'/>
+				<Node name='RFinger13' unit='radian' value='-0.512665'/>
+				<Node name='RFinger21' unit='radian' value='-0.612665'/>
+				<Node name='RFinger22' unit='radian' value='-0.632665'/>
+				<Node name='RFinger23' unit='radian' value='-0.592665'/>
+				<Node name='RFinger31' unit='radian' value='-0.792665'/>
+				<Node name='RFinger32' unit='radian' value='-0.812665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.632665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.632665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.752665'/>
+				<Node name='RThumb2' unit='radian' value='-0.712665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 35' quality='0.522796' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.766023' c2='0.146851' c3='0.625814' c4='0.377636'/>
+					<row2 c1='0.268792' c2='-0.811181' c3='0.519362' c4='-0.370646'/>
+					<row3 c1='0.583917' c2='0.566056' c3='0.581911' c4='43'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 35'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.572665'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.632665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.692665'/>
+				<Node name='RFinger41' unit='radian' value='-0.752665'/>
+				<Node name='RFinger42' unit='radian' value='-0.732665'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.612665'/>
+				<Node name='RThumb2' unit='radian' value='-0.572665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 36' quality='0.525607' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.268792' c2='-0.811181' c3='0.519361' c4='-0.370929'/>
+					<row2 c1='0.766022' c2='-0.146852' c3='-0.625815' c4='-0.378321'/>
+					<row3 c1='0.583918' c2='0.566056' c3='0.58191' c4='43.0001'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 36'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.572665'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.632665'/>
+				<Node name='RFinger31' unit='radian' value='-0.632665'/>
+				<Node name='RFinger32' unit='radian' value='-0.652665'/>
+				<Node name='RFinger33' unit='radian' value='-0.632665'/>
+				<Node name='RFinger41' unit='radian' value='-0.632665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.652665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.392665'/>
+				<Node name='RThumb2' unit='radian' value='-0.392665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 37' quality='0.487646' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.731725' c2='-0.677431' c3='-0.0752732' c4='-0.529516'/>
+					<row2 c1='0.351595' c2='0.469751' c3='-0.809763' c4='-0.00558186'/>
+					<row3 c1='0.583918' c2='0.566057' c3='0.58191' c4='43.0002'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 37'>
+				<Node name='RFinger11' unit='radian' value='-0.532665'/>
+				<Node name='RFinger12' unit='radian' value='-0.512665'/>
+				<Node name='RFinger13' unit='radian' value='-0.492665'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.632665'/>
+				<Node name='RFinger23' unit='radian' value='-0.652665'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.232665'/>
+				<Node name='RFinger41' unit='radian' value='-0.652665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.632665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.832665'/>
+				<Node name='RThumb2' unit='radian' value='-0.852665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 38' quality='0.488727' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.351595' c2='0.469752' c3='-0.809761' c4='-0.00542831'/>
+					<row2 c1='-0.731724' c2='0.677432' c3='0.0752741' c4='0.529474'/>
+					<row3 c1='0.583918' c2='0.566056' c3='0.58191' c4='43.0004'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 38'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.592665'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.632665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.652665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.452665'/>
+				<Node name='RThumb2' unit='radian' value='-0.392665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 39' quality='0.475801' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.731724' c2='0.677431' c3='0.0752732' c4='0.529123'/>
+					<row2 c1='-0.351595' c2='-0.469751' c3='0.809762' c4='0.0054369'/>
+					<row3 c1='0.583917' c2='0.566057' c3='0.58191' c4='43.0001'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 39'>
+				<Node name='RFinger11' unit='radian' value='-0.652665'/>
+				<Node name='RFinger12' unit='radian' value='-0.632665'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.632665'/>
+				<Node name='RFinger22' unit='radian' value='-0.632665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.652665'/>
+				<Node name='RFinger41' unit='radian' value='-0.612665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.592665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.352665'/>
+				<Node name='RThumb2' unit='radian' value='-0.352665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 40' quality='0.463351' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.351595' c2='-0.469751' c3='0.809762' c4='0.00506496'/>
+					<row2 c1='0.731724' c2='-0.677432' c3='-0.0752736' c4='-0.529488'/>
+					<row3 c1='0.583918' c2='0.566056' c3='0.58191' c4='43.0001'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 40'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.592665'/>
+				<Node name='RFinger13' unit='radian' value='-0.612665'/>
+				<Node name='RFinger21' unit='radian' value='-0.712665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.632665'/>
+				<Node name='RFinger41' unit='radian' value='-0.532665'/>
+				<Node name='RFinger42' unit='radian' value='-0.552665'/>
+				<Node name='RFinger43' unit='radian' value='-0.552665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.572665'/>
+				<Node name='RThumb2' unit='radian' value='-0.552665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 41' quality='0.182747' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.808376' c2='0.081986' c3='0.582929' c4='3.48018'/>
+					<row2 c1='-0.221422' c2='0.875184' c3='-0.430147' c4='-5.25143'/>
+					<row3 c1='-0.545435' c2='-0.476794' c3='-0.689324' c4='49.5434'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 41'>
+				<Node name='RFinger11' unit='radian' value='-0.612665'/>
+				<Node name='RFinger12' unit='radian' value='-0.632665'/>
+				<Node name='RFinger13' unit='radian' value='-0.632665'/>
+				<Node name='RFinger21' unit='radian' value='-0.692665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.672665'/>
+				<Node name='RFinger31' unit='radian' value='-0.752665'/>
+				<Node name='RFinger32' unit='radian' value='-0.772665'/>
+				<Node name='RFinger33' unit='radian' value='-0.292665'/>
+				<Node name='RFinger41' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger42' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.852665'/>
+				<Node name='RThumb2' unit='radian' value='-0.872665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 42' quality='0.390046' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.221433' c2='0.875173' c3='-0.430161' c4='-5.24738'/>
+					<row2 c1='0.808386' c2='-0.0819782' c3='-0.582917' c4='-3.4846'/>
+					<row3 c1='-0.545417' c2='-0.476813' c3='-0.689325' c4='41.5447'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 42'>
+				<Node name='RFinger11' unit='radian' value='-0.532665'/>
+				<Node name='RFinger12' unit='radian' value='-0.552665'/>
+				<Node name='RFinger13' unit='radian' value='-0.512665'/>
+				<Node name='RFinger21' unit='radian' value='-0.512665'/>
+				<Node name='RFinger22' unit='radian' value='-0.512665'/>
+				<Node name='RFinger23' unit='radian' value='-0.512665'/>
+				<Node name='RFinger31' unit='radian' value='-0.592665'/>
+				<Node name='RFinger32' unit='radian' value='-0.592665'/>
+				<Node name='RFinger33' unit='radian' value='-0.572665'/>
+				<Node name='RFinger41' unit='radian' value='-0.612665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.572665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.672665'/>
+				<Node name='RThumb2' unit='radian' value='-0.652665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 43' quality='0.415185' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.808376' c2='-0.081986' c3='-0.582929' c4='-3.48151'/>
+					<row2 c1='0.221422' c2='-0.875183' c3='0.430148' c4='5.2513'/>
+					<row3 c1='-0.545435' c2='-0.476794' c3='-0.689324' c4='42.5444'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 43'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.552665'/>
+				<Node name='RFinger13' unit='radian' value='-0.512665'/>
+				<Node name='RFinger21' unit='radian' value='-0.592665'/>
+				<Node name='RFinger22' unit='radian' value='-0.572665'/>
+				<Node name='RFinger23' unit='radian' value='-0.592665'/>
+				<Node name='RFinger31' unit='radian' value='-0.612665'/>
+				<Node name='RFinger32' unit='radian' value='-0.612665'/>
+				<Node name='RFinger33' unit='radian' value='-0.612665'/>
+				<Node name='RFinger41' unit='radian' value='-0.612665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.212665'/>
+				<Node name='RThumb2' unit='radian' value='-0.172665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 44' quality='0.421423' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.221433' c2='-0.875173' c3='0.430161' c4='5.24702'/>
+					<row2 c1='-0.808386' c2='0.0819781' c3='0.582917' c4='3.48463'/>
+					<row3 c1='-0.545417' c2='-0.476813' c3='-0.689325' c4='42.5447'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 44'>
+				<Node name='RFinger11' unit='radian' value='-0.612665'/>
+				<Node name='RFinger12' unit='radian' value='-0.632665'/>
+				<Node name='RFinger13' unit='radian' value='-0.592665'/>
+				<Node name='RFinger21' unit='radian' value='-0.812665'/>
+				<Node name='RFinger22' unit='radian' value='-0.592665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger31' unit='radian' value='-0.752665'/>
+				<Node name='RFinger32' unit='radian' value='-0.772665'/>
+				<Node name='RFinger33' unit='radian' value='-0.212665'/>
+				<Node name='RFinger41' unit='radian' value='-0.732665'/>
+				<Node name='RFinger42' unit='radian' value='-0.752665'/>
+				<Node name='RFinger43' unit='radian' value='-0.712665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.412665'/>
+				<Node name='RThumb2' unit='radian' value='-0.372665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 45' quality='0.42191' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.415031' c2='-0.560868' c3='0.716363' c4='6.17169'/>
+					<row2 c1='-0.728184' c2='0.676815' c3='0.108025' c4='-1.24922'/>
+					<row3 c1='-0.545433' c2='-0.47681' c3='-0.689315' c4='42.5447'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 45'>
+				<Node name='RFinger11' unit='radian' value='-0.632665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.312665'/>
+				<Node name='RFinger21' unit='radian' value='-0.752665'/>
+				<Node name='RFinger22' unit='radian' value='-0.752665'/>
+				<Node name='RFinger23' unit='radian' value='-0.712665'/>
+				<Node name='RFinger31' unit='radian' value='-0.772665'/>
+				<Node name='RFinger32' unit='radian' value='-0.792665'/>
+				<Node name='RFinger33' unit='radian' value='-0.752665'/>
+				<Node name='RFinger41' unit='radian' value='-0.672665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.652665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.372665'/>
+				<Node name='RThumb2' unit='radian' value='-0.352665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 46' quality='0.486257' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.728185' c2='0.676814' c3='0.108023' c4='-1.24892'/>
+					<row2 c1='0.415046' c2='0.560881' c3='-0.716345' c4='-6.17703'/>
+					<row3 c1='-0.54542' c2='-0.476797' c3='-0.689334' c4='41.5447'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 46'>
+				<Node name='RFinger11' unit='radian' value='-0.652665'/>
+				<Node name='RFinger12' unit='radian' value='-0.652665'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.612665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.572665'/>
+				<Node name='RFinger31' unit='radian' value='-0.592665'/>
+				<Node name='RFinger32' unit='radian' value='-0.612665'/>
+				<Node name='RFinger33' unit='radian' value='-0.592665'/>
+				<Node name='RFinger41' unit='radian' value='-0.452665'/>
+				<Node name='RFinger42' unit='radian' value='-0.412665'/>
+				<Node name='RFinger43' unit='radian' value='-0.392665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.612665'/>
+				<Node name='RThumb2' unit='radian' value='-0.612665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 47' quality='0.381161' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.415031' c2='0.560868' c3='-0.716362' c4='-6.17197'/>
+					<row2 c1='0.728184' c2='-0.676815' c3='-0.108025' c4='1.24922'/>
+					<row3 c1='-0.545432' c2='-0.47681' c3='-0.689315' c4='41.5448'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 47'>
+				<Node name='RFinger11' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger12' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.572665'/>
+				<Node name='RFinger22' unit='radian' value='-0.572665'/>
+				<Node name='RFinger23' unit='radian' value='-0.552665'/>
+				<Node name='RFinger31' unit='radian' value='-0.652665'/>
+				<Node name='RFinger32' unit='radian' value='-0.632665'/>
+				<Node name='RFinger33' unit='radian' value='-0.412665'/>
+				<Node name='RFinger41' unit='radian' value='-0.272665'/>
+				<Node name='RFinger42' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.652665'/>
+				<Node name='RThumb2' unit='radian' value='-0.592665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 48' quality='0.427327' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.728185' c2='-0.676814' c3='-0.108023' c4='1.24844'/>
+					<row2 c1='-0.415046' c2='-0.560881' c3='0.716345' c4='6.17708'/>
+					<row3 c1='-0.54542' c2='-0.476797' c3='-0.689334' c4='42.5443'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 48'>
+				<Node name='RFinger11' unit='radian' value='-0.492665'/>
+				<Node name='RFinger12' unit='radian' value='-0.512665'/>
+				<Node name='RFinger13' unit='radian' value='-0.512665'/>
+				<Node name='RFinger21' unit='radian' value='-0.612665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.632665'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.712665'/>
+				<Node name='RFinger41' unit='radian' value='-0.852665'/>
+				<Node name='RFinger42' unit='radian' value='-0.832665'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.472665'/>
+				<Node name='RThumb2' unit='radian' value='-0.452665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 49' quality='0.26036' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.565182' c2='-0.0128154' c3='-0.824867' c4='6.51768'/>
+					<row2 c1='0.352006' c2='0.900542' c3='-0.255179' c4='-6.63373'/>
+					<row3 c1='0.746097' c2='-0.43458' c3='-0.504458' c4='45.9302'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 49'>
+				<Node name='RFinger11' unit='radian' value='-0.752665'/>
+				<Node name='RFinger12' unit='radian' value='-0.752665'/>
+				<Node name='RFinger13' unit='radian' value='-0.712665'/>
+				<Node name='RFinger21' unit='radian' value='-0.712665'/>
+				<Node name='RFinger22' unit='radian' value='-0.712665'/>
+				<Node name='RFinger23' unit='radian' value='-0.692665'/>
+				<Node name='RFinger31' unit='radian' value='-0.832665'/>
+				<Node name='RFinger32' unit='radian' value='-0.812665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger42' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.872665'/>
+				<Node name='RThumb2' unit='radian' value='-0.812665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 50' quality='0.433091' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.352022' c2='-0.900533' c3='0.255189' c4='6.62905'/>
+					<row2 c1='-0.565168' c2='-0.0128237' c3='-0.824876' c4='6.52208'/>
+					<row3 c1='0.7461' c2='-0.434599' c3='-0.504438' c4='42.9307'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 50'>
+				<Node name='RFinger11' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger12' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.852665'/>
+				<Node name='RFinger22' unit='radian' value='-0.412665'/>
+				<Node name='RFinger23' unit='radian' value='-0.272665'/>
+				<Node name='RFinger31' unit='radian' value='-0.832665'/>
+				<Node name='RFinger32' unit='radian' value='-0.812665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.792665'/>
+				<Node name='RFinger42' unit='radian' value='-0.792665'/>
+				<Node name='RFinger43' unit='radian' value='-0.772665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.352665'/>
+				<Node name='RThumb2' unit='radian' value='-0.292665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 51' quality='0.474416' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.565182' c2='0.0128154' c3='0.824867' c4='-6.51838'/>
+					<row2 c1='-0.352006' c2='-0.900542' c3='0.255179' c4='6.63362'/>
+					<row3 c1='0.746097' c2='-0.434581' c3='-0.504459' c4='40.931'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 51'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.532665'/>
+				<Node name='RFinger13' unit='radian' value='-0.552665'/>
+				<Node name='RFinger21' unit='radian' value='-0.552665'/>
+				<Node name='RFinger22' unit='radian' value='-0.552665'/>
+				<Node name='RFinger23' unit='radian' value='-0.572665'/>
+				<Node name='RFinger31' unit='radian' value='-0.572665'/>
+				<Node name='RFinger32' unit='radian' value='-0.572665'/>
+				<Node name='RFinger33' unit='radian' value='-0.592665'/>
+				<Node name='RFinger41' unit='radian' value='-0.572665'/>
+				<Node name='RFinger42' unit='radian' value='-0.592665'/>
+				<Node name='RFinger43' unit='radian' value='-0.532665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.212665'/>
+				<Node name='RThumb2' unit='radian' value='-0.0126652'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 52' quality='0.403749' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.352022' c2='0.900533' c3='-0.255189' c4='-6.62953'/>
+					<row2 c1='0.565168' c2='0.0128235' c3='0.824877' c4='-6.52204'/>
+					<row3 c1='0.7461' c2='-0.434599' c3='-0.504438' c4='40.931'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 52'>
+				<Node name='RFinger11' unit='radian' value='-0.552665'/>
+				<Node name='RFinger12' unit='radian' value='-0.532665'/>
+				<Node name='RFinger13' unit='radian' value='-0.552665'/>
+				<Node name='RFinger21' unit='radian' value='-0.472665'/>
+				<Node name='RFinger22' unit='radian' value='-0.492665'/>
+				<Node name='RFinger23' unit='radian' value='-0.492665'/>
+				<Node name='RFinger31' unit='radian' value='-0.532665'/>
+				<Node name='RFinger32' unit='radian' value='-0.532665'/>
+				<Node name='RFinger33' unit='radian' value='-0.532665'/>
+				<Node name='RFinger41' unit='radian' value='-0.592665'/>
+				<Node name='RFinger42' unit='radian' value='-0.572665'/>
+				<Node name='RFinger43' unit='radian' value='-0.592665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.732665'/>
+				<Node name='RThumb2' unit='radian' value='-0.752665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 53' quality='0.424245' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.150727' c2='0.627711' c3='-0.763715' c4='-0.0786855'/>
+					<row2 c1='0.64854' c2='0.645847' c3='0.402837' c4='-9.30237'/>
+					<row3 c1='0.746108' c2='-0.434581' c3='-0.504442' c4='40.9309'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 53'>
+				<Node name='RFinger11' unit='radian' value='-0.672665'/>
+				<Node name='RFinger12' unit='radian' value='-0.652665'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.612665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.592665'/>
+				<Node name='RFinger32' unit='radian' value='-0.592665'/>
+				<Node name='RFinger33' unit='radian' value='-0.552665'/>
+				<Node name='RFinger41' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger42' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.732665'/>
+				<Node name='RThumb2' unit='radian' value='-0.752665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 54' quality='0.492965' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.648561' c2='-0.645834' c3='-0.402823' c4='9.29639'/>
+					<row2 c1='-0.150728' c2='0.627711' c3='-0.763714' c4='-0.0788062'/>
+					<row3 c1='0.746089' c2='-0.434599' c3='-0.504454' c4='41.931'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 54'>
+				<Node name='RFinger11' unit='radian' value='-0.652665'/>
+				<Node name='RFinger12' unit='radian' value='-0.672665'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.752665'/>
+				<Node name='RFinger22' unit='radian' value='-0.752665'/>
+				<Node name='RFinger23' unit='radian' value='-0.732665'/>
+				<Node name='RFinger31' unit='radian' value='-0.852665'/>
+				<Node name='RFinger32' unit='radian' value='-0.852665'/>
+				<Node name='RFinger33' unit='radian' value='-0.832665'/>
+				<Node name='RFinger41' unit='radian' value='-0.692665'/>
+				<Node name='RFinger42' unit='radian' value='-0.712665'/>
+				<Node name='RFinger43' unit='radian' value='-0.672665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.312665'/>
+				<Node name='RThumb2' unit='radian' value='-0.252665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 55' quality='0.420012' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.150727' c2='-0.627711' c3='0.763715' c4='0.0782866'/>
+					<row2 c1='-0.64854' c2='-0.645847' c3='-0.402837' c4='9.30237'/>
+					<row3 c1='0.746107' c2='-0.434581' c3='-0.504442' c4='41.9307'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 55'>
+				<Node name='RFinger11' unit='radian' value='-0.372665'/>
+				<Node name='RFinger12' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.552665'/>
+				<Node name='RFinger22' unit='radian' value='-0.552665'/>
+				<Node name='RFinger23' unit='radian' value='-0.572665'/>
+				<Node name='RFinger31' unit='radian' value='-0.692665'/>
+				<Node name='RFinger32' unit='radian' value='-0.712665'/>
+				<Node name='RFinger33' unit='radian' value='-0.712665'/>
+				<Node name='RFinger41' unit='radian' value='-0.832665'/>
+				<Node name='RFinger42' unit='radian' value='-0.812665'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.352665'/>
+				<Node name='RThumb2' unit='radian' value='-0.332665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 56' quality='0.478804' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.152688' c2='-0.663451' c3='-0.732474' c4='-1.97456'/>
+					<row2 c1='-0.786946' c2='0.52997' c3='-0.315987' c4='1.17762'/>
+					<row3 c1='0.597831' c2='0.528171' c3='-0.60302' c4='42.3966'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 56'>
+				<Node name='RFinger11' unit='radian' value='-0.472665'/>
+				<Node name='RFinger12' unit='radian' value='-0.452665'/>
+				<Node name='RFinger13' unit='radian' value='-0.452665'/>
+				<Node name='RFinger21' unit='radian' value='-0.612665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.732665'/>
+				<Node name='RFinger32' unit='radian' value='-0.712665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0326652'/>
+				<Node name='RFinger41' unit='radian' value='-0.632665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.832665'/>
+				<Node name='RThumb2' unit='radian' value='-0.852665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 57' quality='0.500119' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.786947' c2='-0.529969' c3='0.315986' c4='-1.17789'/>
+					<row2 c1='-0.15269' c2='-0.663453' c3='-0.732472' c4='-1.97475'/>
+					<row3 c1='0.597829' c2='0.528169' c3='-0.603023' c4='42.3966'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 57'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.592665'/>
+				<Node name='RFinger13' unit='radian' value='-0.552665'/>
+				<Node name='RFinger21' unit='radian' value='-0.712665'/>
+				<Node name='RFinger22' unit='radian' value='-0.712665'/>
+				<Node name='RFinger23' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger31' unit='radian' value='-0.652665'/>
+				<Node name='RFinger32' unit='radian' value='-0.672665'/>
+				<Node name='RFinger33' unit='radian' value='-0.652665'/>
+				<Node name='RFinger41' unit='radian' value='-0.352665'/>
+				<Node name='RFinger42' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.592665'/>
+				<Node name='RThumb2' unit='radian' value='-0.552665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 58' quality='0.486504' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.152687' c2='0.663451' c3='0.732474' c4='1.97344'/>
+					<row2 c1='0.786946' c2='-0.52997' c3='0.315987' c4='-1.17775'/>
+					<row3 c1='0.597831' c2='0.52817' c3='-0.60302' c4='42.3965'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 58'>
+				<Node name='RFinger11' unit='radian' value='-0.632665'/>
+				<Node name='RFinger12' unit='radian' value='-0.632665'/>
+				<Node name='RFinger13' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.672665'/>
+				<Node name='RFinger31' unit='radian' value='-0.692665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.692665'/>
+				<Node name='RFinger41' unit='radian' value='-0.632665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.632665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.392665'/>
+				<Node name='RThumb2' unit='radian' value='-0.412665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 59' quality='0.529083' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.786947' c2='0.52997' c3='-0.315986' c4='1.17689'/>
+					<row2 c1='0.152691' c2='0.663453' c3='0.732473' c4='1.97471'/>
+					<row3 c1='0.597829' c2='0.528169' c3='-0.603023' c4='42.3966'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 59'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.592665'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.652665'/>
+				<Node name='RFinger23' unit='radian' value='-0.612665'/>
+				<Node name='RFinger31' unit='radian' value='-0.712665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.712665'/>
+				<Node name='RFinger41' unit='radian' value='-0.692665'/>
+				<Node name='RFinger42' unit='radian' value='-0.672665'/>
+				<Node name='RFinger43' unit='radian' value='-0.272665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.432665'/>
+				<Node name='RThumb2' unit='radian' value='-0.392665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 60' quality='0.46293' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.664422' c2='-0.0943862' c3='-0.741373' c4='-0.563943'/>
+					<row2 c1='-0.448487' c2='0.843878' c3='0.2945' c4='2.22919'/>
+					<row3 c1='0.597831' c2='0.528168' c3='-0.603022' c4='42.3965'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 60'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.552665'/>
+				<Node name='RFinger13' unit='radian' value='-0.532665'/>
+				<Node name='RFinger21' unit='radian' value='-0.592665'/>
+				<Node name='RFinger22' unit='radian' value='-0.592665'/>
+				<Node name='RFinger23' unit='radian' value='-0.472665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.692665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.612665'/>
+				<Node name='RFinger42' unit='radian' value='-0.592665'/>
+				<Node name='RFinger43' unit='radian' value='-0.612665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.332665'/>
+				<Node name='RThumb2' unit='radian' value='-0.352665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 61' quality='0.503149' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.448489' c2='-0.843875' c3='-0.294502' c4='-2.22902'/>
+					<row2 c1='-0.664423' c2='-0.0943871' c3='-0.741373' c4='-0.563592'/>
+					<row3 c1='0.597829' c2='0.528171' c3='-0.603021' c4='42.3964'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 61'>
+				<Node name='RFinger11' unit='radian' value='-0.572665'/>
+				<Node name='RFinger12' unit='radian' value='-0.572665'/>
+				<Node name='RFinger13' unit='radian' value='-0.552665'/>
+				<Node name='RFinger21' unit='radian' value='-0.592665'/>
+				<Node name='RFinger22' unit='radian' value='-0.612665'/>
+				<Node name='RFinger23' unit='radian' value='-0.572665'/>
+				<Node name='RFinger31' unit='radian' value='-0.612665'/>
+				<Node name='RFinger32' unit='radian' value='-0.592665'/>
+				<Node name='RFinger33' unit='radian' value='-0.612665'/>
+				<Node name='RFinger41' unit='radian' value='-0.612665'/>
+				<Node name='RFinger42' unit='radian' value='-0.632665'/>
+				<Node name='RFinger43' unit='radian' value='-0.632665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.452665'/>
+				<Node name='RThumb2' unit='radian' value='-0.372665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 62' quality='0.514108' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.664422' c2='0.0943858' c3='0.741373' c4='0.562871'/>
+					<row2 c1='0.448487' c2='-0.843878' c3='-0.2945' c4='-2.2292'/>
+					<row3 c1='0.597831' c2='0.528168' c3='-0.603022' c4='42.3967'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 62'>
+				<Node name='RFinger11' unit='radian' value='-0.612665'/>
+				<Node name='RFinger12' unit='radian' value='-0.612665'/>
+				<Node name='RFinger13' unit='radian' value='-0.532665'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.672665'/>
+				<Node name='RFinger23' unit='radian' value='-0.652665'/>
+				<Node name='RFinger31' unit='radian' value='-0.672665'/>
+				<Node name='RFinger32' unit='radian' value='-0.652665'/>
+				<Node name='RFinger33' unit='radian' value='-0.672665'/>
+				<Node name='RFinger41' unit='radian' value='-0.732665'/>
+				<Node name='RFinger42' unit='radian' value='-0.752665'/>
+				<Node name='RFinger43' unit='radian' value='-0.0126652'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.712665'/>
+				<Node name='RThumb2' unit='radian' value='-0.732665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 63' quality='0.488687' Creation='Simox - SkeletonGraspPlanner - GraspWrenchSpace' Preshape='Precision Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.448489' c2='0.843876' c3='0.294502' c4='2.22785'/>
+					<row2 c1='0.664423' c2='0.0943868' c3='0.741373' c4='0.563669'/>
+					<row3 c1='0.597829' c2='0.528171' c3='-0.603021' c4='43.3964'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 63'>
+				<Node name='RFinger11' unit='radian' value='-0.592665'/>
+				<Node name='RFinger12' unit='radian' value='-0.592665'/>
+				<Node name='RFinger13' unit='radian' value='-0.612665'/>
+				<Node name='RFinger21' unit='radian' value='-0.652665'/>
+				<Node name='RFinger22' unit='radian' value='-0.632665'/>
+				<Node name='RFinger23' unit='radian' value='-0.392665'/>
+				<Node name='RFinger31' unit='radian' value='-0.792665'/>
+				<Node name='RFinger32' unit='radian' value='-0.812665'/>
+				<Node name='RFinger33' unit='radian' value='-0.0126652'/>
+				<Node name='RFinger41' unit='radian' value='-0.652665'/>
+				<Node name='RFinger42' unit='radian' value='-0.652665'/>
+				<Node name='RFinger43' unit='radian' value='-0.652665'/>
+				<Node name='RHand' unit='radian' value='0'/>
+				<Node name='RHand/Touch/Back_sensor_fixedjoint' unit='radian' value='0'/>
+				<Node name='RThumb1' unit='radian' value='-0.672665'/>
+				<Node name='RThumb2' unit='radian' value='-0.672665'/>
+				<Node name='RWristYaw' unit='radian' value='0'/>
+			</Configuration>
+		</Grasp>
+	</GraspSet>
+
+</ManipulationObject>

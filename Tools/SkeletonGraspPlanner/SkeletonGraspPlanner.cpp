@@ -21,11 +21,9 @@ int main(int argc, char* argv[])
     // --robot robots/iCub/iCub.xml --endeffector "Left Hand" --preshape "Grasp Preshape"
     std::string robot;
 
-    robot = "robots/Pepper/TestParameters/pepperLastVersion.xml";
-    std::string eef("RGripper");
 
-    // robot = "robots/Pepper/LastVersion/pepperLastVersion.xml";
-    // std::string eef("RGripper");
+    robot = "robots/Pepper/qibullet/pepper_rGripper.xml";
+    std::string eef("RGripper");
 
     // robot = "robots/ArmarIII/ArmarIII.xml";
     // std::string eef("Hand R");

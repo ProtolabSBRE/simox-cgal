@@ -20,9 +20,11 @@ int main(int argc, char* argv[])
     std::string robot;
 
     //Gripper's path file
-    robot = "robots/Pepper/qibullet/pepper_rGripper.xml";
+    std::string end_effector;
+    end_effector = "LGripper";
+    robot = "robots/Pepper/LastVersion/" + end_effector + ".xml";
     //Name of the end effector
-    std::string eef("RGripper");
+    std::string eef(end_effector);
     //Object path file
     std::string object("objects/similar-objects/newObjects/cube6cm_6146v.soxml");
 

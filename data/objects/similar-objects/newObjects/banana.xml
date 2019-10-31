@@ -1,8 +1,0 @@
-<ManipulationObject name="banana">
-    <Visualization>
-        <File type="inventor">wrl/banana.wrl</File>
-    </Visualization>
-    <CollisionModel>
-        <File type="inventor">wrl/banana.wrl</File>
-    </CollisionModel>
-</ManipulationObject>

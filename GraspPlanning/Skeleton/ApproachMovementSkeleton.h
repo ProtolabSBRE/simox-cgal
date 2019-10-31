@@ -48,9 +48,9 @@ public:
 
         PlanningParameters()
         {
-            // ARMAR-III parameters
+            // Pepper parameters
             interval[Power] = 94.0f;
-            interval[Precision] = 47.0f;
+            interval[Precision] = 10.0f;
             minThickness[Power] = 20.0f;
             maxThickness[Power] = 60.0f;
             minThickness[Precision] = 0.1f;
@@ -59,7 +59,7 @@ public:
             preshapeName[Precision] = "Precision Preshape";
 
             // pca ratio of first two eigenvalues to identify round vs rectangular objects
-            roundThreshold = 1.3f;
+            roundThreshold = 1.5f;
 
             // 0 -> chose next neighbor when going along the skeleton
             skeletonSamplingLength = 0.0f;

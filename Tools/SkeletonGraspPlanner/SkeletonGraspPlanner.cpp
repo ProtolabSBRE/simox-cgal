@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     //Gripper's path file
     std::string end_effector;
     end_effector = "RGripper";
-    robot = "robots/Pepper/qibullet/" + end_effector + ".xml";
+    robot = "robots/Pepper/" + end_effector + ".xml";
     //Name of the end effector
     std::string eef(end_effector);
     //Object path file

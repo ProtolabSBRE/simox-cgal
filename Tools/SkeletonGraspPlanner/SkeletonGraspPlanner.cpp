@@ -21,12 +21,12 @@ int main(int argc, char* argv[])
 
     //Gripper's path file
     std::string end_effector;
-    end_effector = "LGripper";
-    robot = "robots/Pepper/LastVersion/" + end_effector + ".xml";
+    end_effector = "RGripper";
+    robot = "robots/Pepper/qibullet/" + end_effector + ".xml";
     //Name of the end effector
     std::string eef(end_effector);
     //Object path file
-    std::string object("objects/similar-objects/newObjects/cube6cm_6146v.soxml");
+    std::string object("objects/similar-objects/cube/cube.soxml");
 
     // robot = "robots/ArmarIII/ArmarIII.xml";
     // std::string eef("Hand R");
@@ -84,6 +84,13 @@ int main(int argc, char* argv[])
     SkeletonGraspPlannerWindow rw(robot, eef, object);
 
     rw.main();
+    // float timeout = 0.0f;
+    // bool forceClosure = true;
+    // float quality = 0.0f;
+    // int nrGrasps = 1e8; // all grasps
+
+    // rw.planGrasps(timeout, forceClosure, quality, nrGrasps);
+    // rw.saveToFile("lol.moxml");
 
     return 0;
 }

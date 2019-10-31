@@ -94,13 +94,14 @@ public slots:
 
     void setVerbose();
     void planObjectBatch();
+    void planGrasps(float timeout, bool forceClosure, float quality, int nrGrasps);
+
 
 protected:
 
     void loadRobot();
     bool loadSegmentedObject(const std::string & filename);
 
-    void planGrasps(float timeout, bool forceClosure, float quality, int nrGrasps);
     void initPlanner();
 
     void setupUI();
